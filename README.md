@@ -1,2 +1,2 @@
 # LearningNotes
-NotesHub Notebook
+[数学](Maths)
