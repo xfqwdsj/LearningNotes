@@ -1,0 +1,19 @@
+name: 更新网站
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 触发网站更新
+        uses: benc-uk/workflow-dispatch@v1 
+        with:
+          token: ${{ secrets.SITE_PAT }}
+          repo: xfqwdsj/LearningNotes-Site
+          workflow: merge.yaml
+          ref: main
+          inputs: '{"sha": "${{ github.sha }}"}'
