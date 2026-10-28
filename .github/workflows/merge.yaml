@@ -52,7 +52,7 @@ jobs:
 
       - name: 设置Pages
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: 设置Hugo
         uses: peaceiris/actions-hugo@v3
