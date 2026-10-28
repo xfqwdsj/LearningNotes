@@ -25,12 +25,12 @@ jobs:
           echo "内容源码SHA: ${{ github.event.inputs.sha }}"
 
       - name: 提取
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 提取内容源码
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           repository: xfqwdsj/LearningNotes
           token: ${{ secrets.SOURCE_PAT }}
