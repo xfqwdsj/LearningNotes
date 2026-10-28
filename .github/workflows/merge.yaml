@@ -61,7 +61,7 @@ jobs:
           extended: true
 
       - name: 设置缓存
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.HUGO_CACHEDIR }}
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
