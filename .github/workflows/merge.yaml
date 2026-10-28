@@ -72,7 +72,7 @@ jobs:
         run: hugo --minify
 
       - name: 上传产物
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./public
 
