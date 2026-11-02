@@ -1,0 +1,53 @@
+---
+title: 11.3格林公式及其应用
+description: 记录格林公式的教材位置、边界方向约定，以及路径无关判定的使用顺序。
+---
+
+## 阅读入口
+
+- [格林公式](/knowledge/maths/line-integrals/greens-theorem/)
+- [平面区域的正向边界](/knowledge/maths/line-integrals/boundary-orientation/)
+- [曲线积分与路径无关](/knowledge/maths/line-integrals/path-independence/)
+- [对坐标的曲线积分](/knowledge/maths/line-integrals/line-integral-coordinates/)
+
+## 学习安排
+
+教材先用单连通与复连通区分区域，再叙述格林公式，最后给出两个应用：用第二类曲线积分计算平面图形面积，以及由格林公式推出曲线积分与路径无关的判定。路径无关的四个等价条件集中放在本节末尾，和格林公式共用同一个“边界积分等于内部积分”的思路。
+
+阅读顺序建议是：区域与边界方向、格林公式本身、面积公式、路径无关的等价条件与判定定理。面积公式和路径无关判定都是格林公式的推论，先把公式的条件记清，后面的结论才不会混用。
+
+## 区域与边界方向
+
+::knowledge{path="maths/line-integrals/boundary-orientation" slot="definition"}
+
+区域的分类与正向边界定好，公式才有明确的使用范围。
+
+## 格林公式
+
+::knowledge{path="maths/line-integrals/greens-theorem" slot="definition"}
+
+公式把边界积分与区域积分放在等号两边，两个应用分别从这两边读出来。
+
+## 路径无关
+
+::knowledge{path="maths/line-integrals/path-independence" slot="definition"}
+
+格林公式与两个应用都齐了；课程约定把正向边界与原函数的写法收在一起。
+
+## 课程约定
+
+- **正向边界**：沿边界行走时区域$D$始终位于左侧。单连通区域取逆时针；复连通区域的外边界取逆时针，内边界取顺时针。
+- 复连通区域的$L$指**全部边界**，不是只指外边界；挖去的洞的边界也要计入，并取负向。
+- 教材用$\oint_L$表示沿闭曲线$L$的积分，用$A$表示平面区域$D$的面积。
+- 路径无关时，教材把从定点到动点的积分记作$u(x,y)$，并称它是$P\,\mathrm{d}x+Q\,\mathrm{d}y$的原函数。
+
+## 重点与易错点
+
+- 格林公式要求$P$、$Q$在$D$上有一阶连续偏导数，并且$L$取正向。两个条件缺一不可，方向反了结果差一个负号。
+- 区域内有奇点时不能直接套格林公式；要先挖去奇点，再在剩下的复连通区域上使用，并把新增边界计入$L$。
+- 复连通区域中，$\dfrac{\partial P}{\partial y}=\dfrac{\partial Q}{\partial x}$不能保证路径无关，绕洞的闭曲线积分可能不为零。判断路径无关的顺序是：先看区域是否单连通，再验证偏导数相等。
+- 面积公式的系数是$\dfrac12$。若改用$A=\oint_L x\,\mathrm{d}y$或$A=-\oint_L y\,\mathrm{d}x$，边界仍须取正向，且不要再乘$\dfrac12$。
+
+## 复习要点
+
+复习时把三个结论放在一起对照：格林公式是母公式，面积公式是取$P=-y$、$Q=x$的特例，路径无关判定是闭曲线积分取零的情形。做题先画区域、标出边界方向，再决定用哪一个。

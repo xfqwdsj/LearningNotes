@@ -1,0 +1,234 @@
+---
+title: 常用分布与统计公式速查
+description: 把常见分布的数字特征、常用求和与积分、标准正态分位点、统计推断选用表和解题路线汇总在一页，供按条件查阅。
+---
+
+本页集中列出结论和适用参数。查表前先确认两件事：题目用的是哪一套参数化，公式要求的条件是否成立。
+
+下文记$q=1-p$，$\nu$为自由度。出现的分位点$z_\alpha$、$\chi^2_\alpha(\nu)$、$t_\alpha(\nu)$、$F_\alpha(\nu_1,\nu_2)$都按上侧定义，即右侧尾概率恰为$\alpha$的点；定义、对称性与换算规则见[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+## 常见分布的数字特征
+
+::section{#moments slot="knowledge.properties"}
+
+下表中几何分布计数从$1$开始，指数分布使用率参数$\lambda$。
+
+| 分布 | 参数范围或约定 | 期望 | 方差 |
+| :--- | :--- | :--- | :--- |
+| $B(1,p)$ | $0\le p\le1$ | $p$ | $p(1-p)$ |
+| $B(n,p)$ | $n$为正整数 | $np$ | $np(1-p)$ |
+| $P(\lambda)$ | $\lambda>0$ | $\lambda$ | $\lambda$ |
+| 几何分布 | 首次成功总次数，$0<p<1$ | $1/p$ | $(1-p)/p^2$ |
+| 超几何分布 | 总数$N>1$，目标数$M$，抽取数$n$ | $nM/N$ | $n\frac MN(1-\frac MN)\frac{N-n}{N-1}$ |
+| $U[a,b]$ | $a<b$ | $(a+b)/2$ | $(b-a)^2/12$ |
+| $E(\lambda)$ | 率参数 | $1/\lambda$ | $1/\lambda^2$ |
+| $N(\mu,\sigma^2)$ | $\sigma^2>0$ | $\mu$ | $\sigma^2$ |
+| $\chi^2(\nu)$ | $\nu>0$ | $\nu$ | $2\nu$ |
+| $t(\nu)$ | 期望需$\nu>1$，方差需$\nu>2$ | $0$ | $\nu/(\nu-2)$ |
+| $F(\nu_1,\nu_2)$ | 期望需$\nu_2>2$，方差需$\nu_2>4$ | $\nu_2/(\nu_2-2)$ | $\dfrac{2\nu_2^2(\nu_1+\nu_2-2)}{\nu_1(\nu_2-2)^2(\nu_2-4)}$ |
+
+分布律与密度分别见[离散型随机变量](/knowledge/maths/probability/discrete-distributions/)和[连续型随机变量](/knowledge/maths/probability/continuous-distributions/)。常用模型可参阅[二项分布](/knowledge/maths/probability/binomial-distribution/)、[泊松分布](/knowledge/maths/probability/poisson-distribution/)与[正态分布](/knowledge/maths/probability/normal-distribution/)；卡方、t、F三种分布见[抽样分布](/knowledge/maths/statistics/sampling-distributions/)。
+
+> [!TIP]
+> **先识别模型**
+>
+> 固定试验次数、只数成功次数，选二项；固定目标数、不放回抽取，选超几何；稀少事件计数考虑泊松；等待首次成功选几何；连续且失效率恒定的等待时间考虑指数。是否满足模型条件要先判断，再看表取数字特征。
+
+## 常见积分与求和
+
+::section{#sums-and-integrals}
+
+下面三组恒等式分别是二项式定理、$e^\lambda$的展开与等比级数、以及一个伽马型积分：
+
+$$
+\sum_{k=0}^{n}C_n^k p^k q^{n-k}=(p+q)^n,
+$$
+
+$$
+\sum_{k=0}^{\infty}\frac{\lambda^k}{k!}=e^\lambda,\qquad
+\sum_{k=0}^{\infty}q^k=\frac{1}{1-q}\quad(|q|<1).
+$$
+
+$$
+\int_0^{\infty}x^m e^{-\lambda x}\,\mathrm dx=\frac{m!}{\lambda^{m+1}},\qquad m=0,1,\ldots,\ \lambda>0.
+$$
+
+这些恒等式常用于验证分布归一化，以及求泊松、几何、指数分布的矩。用等比级数时注意$|q|<1$；二项分布的归一化就是把$p+q=1$代入二项式定理。
+
+## 标准正态与查表
+
+::section{#normal-quantiles}
+
+标准正态的分布函数记作$\Phi$，密度关于零对称，因此
+
+$$
+\Phi(-z)=1-\Phi(z),\qquad P\{|Z|>c\}=2[1-\Phi(c)]\quad(c\ge0).
+$$
+
+上$\alpha$分位点$z_\alpha$满足$P\{Z>z_\alpha\}=\alpha$，等价于$\Phi(z_\alpha)=1-\alpha$。常用取值如下：
+
+| 上侧尾概率$\alpha$ | $z_\alpha$近似值 | 常见用途 |
+| :--- | :--- | :--- |
+| $0.10$ | $1.282$ | $90\%$单侧界 |
+| $0.05$ | $1.645$ | $90\%$双侧区间、$95\%$单侧界 |
+| $0.025$ | $1.960$ | $95\%$双侧区间 |
+| $0.01$ | $2.326$ | $99\%$单侧界 |
+| $0.005$ | $2.576$ | $99\%$双侧区间 |
+
+查表顺序是先确定单侧或双侧，再确定每侧尾概率，最后按表头读取对应数值。
+
+> [!WARNING]
+> **看清表头**
+>
+> 标准正态表可能列$\Phi(z)$、$\Phi(z)-1/2$或上尾概率；泊松表可能列单点概率，也可能列累积概率。数表不通用，不能只按行列读数而不看定义。
+
+### 卡方、t与F表
+
+卡方、t、F表须先确定分位数定义、自由度、单侧或双侧。F分位点满足倒数关系
+
+$$
+F_\alpha(\nu_1,\nu_2)=1/F_{1-\alpha}(\nu_2,\nu_1),
+$$
+
+换算时两个自由度同时交换位置。卡方与$F$分布不对称，不能用$z_{1-\alpha}=-z_\alpha$那样的对称性换算。
+
+## 统计推断选用表
+
+::section{#inference-table}
+
+下表中的精确分布均需相应的正态与独立条件；记$\nu=n-1$，$S_p$为合并标准差，$S_D$为配对差值的样本标准差。
+
+| 目标 | 统计量或枢轴量 | 分布 |
+| :--- | :--- | :--- |
+| 单均值，方差已知 | $(\bar X-\mu)/(\sigma/\sqrt n)$ | $N(0,1)$ |
+| 单均值，方差未知 | $(\bar X-\mu)/(S/\sqrt n)$ | $t(n-1)$ |
+| 单方差，均值未知 | $(n-1)S^2/\sigma^2$ | $\chi^2(n-1)$ |
+| 独立两均值差，未知等方差 | $[\bar X-\bar Y-(\mu_1-\mu_2)]/[S_p\sqrt{1/n_1+1/n_2}]$ | $t(n_1+n_2-2)$ |
+| 独立两方差比 | $(S_1^2/S_2^2)/(\sigma_1^2/\sigma_2^2)$ | $F(n_1-1,n_2-1)$ |
+| 配对均值差 | $(\bar D-\mu_D)/(S_D/\sqrt n)$ | $t(n-1)$ |
+| 单因素均值比较 | $MS_A/MS_E$ | $F(k-1,N-k)$，原假设下 |
+| 多元回归整体检验 | $(SSR/p)/[SSE/(n-p-1)]$ | $F(p,n-p-1)$，原假设下 |
+
+这些统计量的推导与使用分别见[区间估计](/knowledge/maths/statistics/interval-estimation/)、[假设检验](/knowledge/maths/statistics/hypothesis-testing/)、[单样本检验](/knowledge/maths/statistics/one-sample-tests/)、[两样本检验](/knowledge/maths/statistics/two-sample-tests/)、[方差分析](/knowledge/maths/statistics/anova/)、[一元线性回归](/knowledge/maths/statistics/simple-linear-regression/)与[多元线性回归](/knowledge/maths/statistics/multiple-linear-regression/)。
+
+> [!TIP]
+> **自由度记忆**
+>
+> 样本方差扣掉一个估计均值；两样本合并方差扣两个均值；一元回归扣截距和斜率；含$p$个斜率的回归扣$p+1$个系数。
+
+## 常见解题路线
+
+::section{#solution-routes}
+
+:::steps
+
+1. **求概率**
+
+   先翻译事件，再选古典、条件、全概率、独立或分布计算。
+
+2. **求分布**
+
+   先范围，后分布函数；单调变换可用反函数，非单调分支需合并。
+
+3. **求数字特征**
+
+   优先用线性性、指示变量、函数期望公式；乘积或方差拆分要查独立或协方差条件。
+
+4. **求近似概率**
+
+   区分大数定律的界、中心极限定理的近似；离散到正态时考虑连续性修正。
+
+5. **求估计**
+
+   矩估计列总体矩方程；最大似然保留支持约束并检查边界。
+
+6. **做检验**
+
+   先模型与假设方向，再统计量、原假设分布、拒绝域、数据与结论。
+
+7. **做回归**
+
+   先模型条件，再系数、残差平方和、自由度、检验或预测区间。
+
+:::
+
+> [!IMPORTANT]
+> 使用每条公式前都要核对对应知识点中的完整条件与例题。
+
+## 练习
+
+::problems{#reference-check}
+
+1. ::question{#geometric-mean}
+
+   设$X$为首次成功所需的总试验次数，成功概率$p=0.25$，则$E(X)=$ :blank{#geometric-mean-value type="number"}。
+
+   :::reference
+   ::correct{blank="geometric-mean-value" value="4"}
+
+   几何分布的期望是$1/p=4$。同一行的方差是$(1-p)/p^2=12$，两个公式不要混用。
+   :::
+
+2. ::question{#chi-square-variance}
+
+   $\chi^2(6)$的方差为 :blank{#chi-square-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="chi-square-variance-value" value="12"}
+
+   $\chi^2(\nu)$的方差是$2\nu$，代入$\nu=6$得$12$。
+   :::
+
+3. ::question{#sum-series}
+
+   $\sum_{k=0}^{\infty}\left(\dfrac12\right)^k=$ :blank{#sum-series-value type="number"}。
+
+   :::reference
+   ::correct{blank="sum-series-value" value="2"}
+
+   等比级数$\sum_{k=0}^{\infty}q^k=\dfrac{1}{1-q}$，取$q=1/2$得$2$。
+   :::
+
+4. ::question{#pooled-df}
+
+   两个独立正态样本的样本量分别为$n_1=8$与$n_2=6$，方差未知但假定相等。检验均值差时，合并方差对应的$t$分布自由度是 :blank{#pooled-df-value type="number"}。
+
+   :::reference
+   ::correct{blank="pooled-df-value" value="12"}
+
+   自由度是$n_1+n_2-2=12$。
+   :::
+
+5. ::question{#two-sided-quantile}
+
+   正态总体、方差已知，求$\mu$的$95\%$双侧置信区间时应使用
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $z_{0.05}=1.645$
+   - :option[B]{#b} $z_{0.025}=1.960$
+   - :option[C]{#c} $z_{0.01}=2.326$
+   - :option[D]{#d} $z_{0.005}=2.576$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   双侧区间把$\alpha=0.05$分到两侧，每侧$0.025$，所以用上侧分位点$z_{0.025}=1.960$。
+   :::
+
+6. ::question{#f-reciprocal}
+
+   设$0<\alpha<1$。把左侧的F分位点用上侧分位点表示，正确的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $F_{1-\alpha}(\nu_1,\nu_2)=1/F_\alpha(\nu_2,\nu_1)$
+   - :option[B]{#b} $F_{1-\alpha}(\nu_1,\nu_2)=1/F_\alpha(\nu_1,\nu_2)$
+   - :option[C]{#c} $F_{1-\alpha}(\nu_1,\nu_2)=-F_\alpha(\nu_2,\nu_1)$
+   - :option[D]{#d} $F_{1-\alpha}(\nu_1,\nu_2)=F_\alpha(\nu_2,\nu_1)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由$F_\alpha(\nu_1,\nu_2)=1/F_{1-\alpha}(\nu_2,\nu_1)$反解，得$F_{1-\alpha}(\nu_1,\nu_2)=1/F_\alpha(\nu_2,\nu_1)$，两个自由度同时交换位置。
+   :::

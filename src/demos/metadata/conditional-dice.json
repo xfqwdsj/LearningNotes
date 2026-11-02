@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "已知条件怎样改变骰子概率？",
+      "description": "在一枚均匀骰子的样本空间上改变两个阈值，比较条件范围与交集的点数。",
+      "messages": {
+        "label": "骰子事件的条件概率",
+        "intro": "样本空间是一枚均匀骰子的六个点数。事件$A$表示点数不小于第一个阈值，条件$B$表示点数不小于第二个阈值。浅色区域不属于条件范围，深色区域同时满足两个事件。",
+        "a": "事件$A$的阈值",
+        "b": "条件$B$的阈值",
+        "result": "条件范围含{relevant}个等可能点数，其中{intersection}个属于$A$，条件概率约为{value}。",
+        "graph": "六个等可能骰子点数的条件概率图；A的阈值为{a}，B的阈值为{b}，条件范围有{relevant}个点，交集有{intersection}个点。",
+        "range": "六个样本点被分成{notCondition}个条件范围外、{conditionOnly}个只在$B$内和{intersection}个在交集中。"
+      },
+      "tags": ["概率论", "条件概率"]
+    }
+  }
+}

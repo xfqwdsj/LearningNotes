@@ -1,0 +1,162 @@
+---
+title: 复合函数的链式法则
+description: 用内外层导数的乘积求复合函数的导数，并说明多重复合与常见写法。
+---
+
+import ChainRuleDemo from "@/demos/chain-rule-demo";
+
+## 定理
+
+::section{#theorem slot="knowledge.definition"}
+
+设$u=g(x)$在$x$处可导，$y=f(u)$在$u=g(x)$处可导，则复合函数$y=f(g(x))$在$x$处可导，且
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{\mathrm{d}y}{\mathrm{d}u}\cdot\frac{\mathrm{d}u}{\mathrm{d}x},
+$$
+
+或写成
+
+$$
+[f(g(x))]'=f'(g(x))\cdot g'(x).
+$$
+
+{/* more */}
+
+也就是说，复合函数对自变量的导数，等于外层函数对内层函数的导数，乘以内层函数对自变量的导数。
+
+### 多重复合
+
+若$y=f(u)$、$u=g(v)$、$v=h(x)$，则
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{\mathrm{d}y}{\mathrm{d}u}
+\cdot\frac{\mathrm{d}u}{\mathrm{d}v}
+\cdot\frac{\mathrm{d}v}{\mathrm{d}x}.
+$$
+
+从最外层开始逐层求导，每穿过一层就乘上该层内层函数的导数。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+记$u_0=g(x_0)$，$\Delta u=g(x_0+\Delta x)-g(x_0)$，$\Delta y=f(u_0+\Delta u)-f(u_0)$。
+
+因为$f$在$u_0$处可导，定义
+
+$$
+\varepsilon(\Delta u)=
+\begin{cases}
+\dfrac{f(u_0+\Delta u)-f(u_0)}{\Delta u}-f'(u_0), & \Delta u\ne 0,\\[4pt]
+0, & \Delta u=0.
+\end{cases}
+$$
+
+则$\lim_{\Delta u\to 0}\varepsilon(\Delta u)=0$，并且对$\Delta u=0$也成立
+
+$$
+\Delta y=\bigl(f'(u_0)+\varepsilon(\Delta u)\bigr)\Delta u.
+$$
+
+两边除以$\Delta x\ne 0$：
+
+$$
+\frac{\Delta y}{\Delta x}
+=\bigl(f'(u_0)+\varepsilon(\Delta u)\bigr)\frac{\Delta u}{\Delta x}.
+$$
+
+由$g$在$x_0$处可导知$g$在$x_0$处连续，所以$\Delta x\to 0$时$\Delta u\to 0$，从而$\varepsilon(\Delta u)\to 0$。又$\dfrac{\Delta u}{\Delta x}\to g'(x_0)$，故
+
+$$
+\lim_{\Delta x\to 0}\frac{\Delta y}{\Delta x}
+=f'(u_0)g'(x_0).
+$$
+
+:::
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$y=\sin 2x$"}
+
+外层是$\sin u$，内层是$u=2x$：
+
+$$
+y'=\cos(2x)\cdot 2=2\cos 2x.
+$$
+
+:::
+
+:::example{title="$y=e^{x^2}$"}
+
+外层是$e^u$，内层是$u=x^2$：
+
+$$
+y'=e^{x^2}\cdot 2x=2xe^{x^2}.
+$$
+
+:::
+
+:::example{title="$y=\ln(\cos x)$"}
+
+外层是$\ln u$，内层是$u=\cos x$：
+
+$$
+y'=\frac{1}{\cos x}\cdot(-\sin x)=-\tan x.
+$$
+
+:::
+
+:::example{title="$y=(1+x^2)^{10}$"}
+
+外层是$u^{10}$，内层是$u=1+x^2$：
+
+$$
+y'=10(1+x^2)^9\cdot 2x=20x(1+x^2)^9.
+$$
+
+:::
+
+> [!TIP]
+> 求导前先分层：把复合函数写成$y=f(u)$、$u=g(x)$，再分别求$f'(u)$与$g'(x)$。熟练后可以跳过显式换元，但每一层的导数都不能漏乘。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ChainRuleDemo />
+
+## 练习
+
+::problems{#chain-rule-check}
+
+1. ::question{#sin-square}
+
+   $f(x)=\sin(x^2)$在$x=0$处的导数是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0"}
+
+   $f'(x)=\cos(x^2)\cdot 2x$，代入$x=0$得$0$。
+   :::
+
+2. ::question{#exp}
+
+   $f(x)=e^{2x}$的导数是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $e^{2x}$
+   - :option[B]{#b} $2e^{2x}$
+   - :option[C]{#c} $2xe^{2x}$
+   - :option[D]{#d} $e^{2}$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   外层导数为$e^{2x}$，内层导数为$2$，相乘得$2e^{2x}$。
+   :::

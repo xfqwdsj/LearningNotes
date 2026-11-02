@@ -1,0 +1,82 @@
+---
+title: 估计量的无偏性
+description: 用重复抽样下的期望和偏差评价估计量。
+---
+
+import EstimatorBiasDemo from "@/demos/estimator-bias-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$\hat\theta$是参数$\theta$的估计量，即由样本构造、用于估计$\theta$的统计量；估计量的构造方法见[点估计](/knowledge/maths/statistics/point-estimation/)。若相关期望存在，且对参数空间$\Theta$中的每个$\theta$都满足
+
+$$
+E_\theta(\hat\theta)=\theta,
+$$
+
+则称$\hat\theta$为$\theta$的**无偏估计量**。否则称它有偏，偏差定义为
+
+$$
+\operatorname{Bias}(\hat\theta)=E(\hat\theta)-\theta.
+$$
+
+无偏表示在重复抽样下，估计值的平均等于真值；它不表示每一次估计都准确，也不表示无偏估计一定优于所有有偏估计。无偏性是关于估计量抽样分布的性质，不是某一次观测到的估计值的性质。
+
+对独立同分布、方差有限的样本，记
+
+$$
+\bar X=\frac1n\sum_{i=1}^nX_i,\qquad
+S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2,
+$$
+
+则
+
+$$
+E(\bar X)=\mu,\qquad E(S^2)=\sigma^2.
+$$
+
+正态总体方差的最大似然估计是
+
+$$
+\hat\sigma^2_{\mathrm{ML}}=\frac{n-1}{n}S^2,
+$$
+
+于是
+
+$$
+E(\hat\sigma^2_{\mathrm{ML}})
+=\frac{n-1}{n}\sigma^2,
+$$
+
+所以它是有偏的；乘以$n/(n-1)$后得到的$S^2$才是无偏估计。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<EstimatorBiasDemo />
+
+## 练习
+
+::problems{#estimator-bias-practice}
+
+1. ::question{#bias-value}
+
+   设某个估计量满足$E(\hat\theta)=\theta+0.2$，则它的偏差为 :blank{#bias-value type="number"}。
+
+   :::reference
+   ::correct{blank="bias-value" value="0.2"}
+
+   偏差为$E(\hat\theta)-\theta=0.2$，所以该估计量有偏。
+   :::
+
+2. ::question{#uniform-correction}
+
+   设$X_1,\ldots,X_4$是来自$U[0,\theta]$的样本，样本最大值为$3$。用$\tilde\theta=\frac{n+1}{n}X_{(n)}$修正后，无偏估计值为 :blank{#uniform-correction-value type="number"}。
+
+   :::reference
+   ::correct{blank="uniform-correction-value" value="3.75"}
+
+   这里$n=4$，$X_{(n)}=3$，所以$\tilde\theta=\frac54\times3=3.75$。
+   :::

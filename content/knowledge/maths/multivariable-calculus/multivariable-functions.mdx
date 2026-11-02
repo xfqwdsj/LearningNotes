@@ -1,0 +1,81 @@
+---
+title: 多元函数
+description: 多元函数的定义与基本性质。
+---
+
+import MultivariableDomainDemo from "@/demos/multivariable-domain-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$D$是$\mathbb R^2$中的一个点集。若对$D$中每一点$P(x,y)$，按某个对应规则$f$都有唯一的实数$z$与之对应，则称$z$是自变量$x,y$的**二元函数**，记作
+
+$$
+z=f(x,y),\qquad (x,y)\in D.
+$$
+
+其中$x,y$是自变量，$z$是因变量，$D$是定义域，因变量的取值集合
+
+$$
+f(D)=\{f(x,y):(x,y)\in D\}
+$$
+
+是值域。自变量有 $n$ 个时，$u=f(x_1,x_2,\dots,x_n)$ 称为 **$n$ 元函数**。
+
+若函数没有特别指明定义域，则定义域取使算式有意义的自变量全体，称为**自然定义域**。求自然定义域就是解一组不等式：分母不为零、偶次根号下非负、对数的真数为正，等等。
+
+### 图形
+
+二元函数$z=f(x,y)$的图形是空间点集
+
+$$
+\{(x,y,z):(x,y)\in D,\ z=f(x,y)\},
+$$
+
+通常是一张曲面。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="自然定义域与图形：$z=\sqrt{1-x^2-y^2}$"}
+
+根号内非负，所以
+
+$$
+1-x^2-y^2\ge 0 \iff x^2+y^2\le 1.
+$$
+
+自然定义域是单位闭圆盘。对应的图形是上半球面：$z\ge 0$，在$x^2+y^2=1$处与$z=0$平面相接。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultivariableDomainDemo />
+
+## 练习
+
+::problems{#multivariable-domain-practice}
+
+1. ::question{#natural-domain}
+
+   $f(x,y)=\sqrt{1-x^2-y^2}+\ln(y-x)$的自然定义域是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $y>x$且$x^2+y^2\le 1$
+   - :option[B]{#b} $y\ge x$且$x^2+y^2\le 1$
+   - :option[C]{#c} $y>x$且$x^2+y^2<1$
+   - :option[D]{#d} $x^2+y^2\le 1$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   根号要求$x^2+y^2\le 1$，对数要求$y-x>0$，两个条件同时成立。
+   :::

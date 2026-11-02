@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "前缀长度怎样决定网络地址？",
+      "description": "调整IPv4前缀长度，计算掩码和网络地址。",
+      "messages": {
+        "label": "IPv4前缀与网络地址",
+        "intro": "固定地址192.168.1.101，调整前缀长度，逐字节比较地址、掩码与按位与后的网络地址。",
+        "prefix": "网络前缀长度",
+        "address": "地址",
+        "mask": "掩码",
+        "network": "网络",
+        "result": "掩码为{mask}，网络地址为{network}。"
+      },
+      "tags": ["计算机网络", "IPv4"]
+    }
+  }
+}

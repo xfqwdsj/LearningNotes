@@ -1,0 +1,101 @@
+---
+title: 自然常数的重要极限
+description: 自然常数的重要极限的结构、应用与证明。
+---
+
+import ExponentialLimitDemo from "@/demos/exponential-limit-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+当$x\to\infty$时，$\lim_{x\to\infty}\left(1+\dfrac1x\right)^x=e$。等价地，当$t\to0$时，$(1+t)^{1/t}\to e$，其中$t$取使表达式有实数意义的非零值。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+1. 极限类型：$1^\infty$型。$x\to\infty$时，底数$1+\dfrac{1}{x}\to 1$，指数$x\to\infty$。
+2. 结构要求：$\lim_{\square \to \infty}\left(1+\dfrac{1}{\square}\right)^\square=e$，或$\lim_{\triangle \to 0}(1+\triangle)^{\frac{1}{\triangle}}=e$，方框与三角各自代表同一个变量或表达式。
+
+**应用场景**
+
+- 直接套用：符合$\left(1+\dfrac{1}{\text{某式}}\right)^{\text{某式}}$且某式趋于$\infty$，或符合$(1+\text{某式})^{\frac{1}{\text{某式}}}$且某式趋于$0$时，结果为$e$。例如$\lim_{n \to \infty}\left(1+\dfrac{1}{n}\right)^n=e$（$n$为正整数）。
+- 变形后套用：通过调整指数与底数，把表达式转化成标准结构。例如
+
+  $$
+  \lim_{x \to \infty}\left(1+\frac{2}{x}\right)^x
+  =\lim_{x \to \infty}\left[\left(1+\frac{1}{x/2}\right)^{x/2}\right]^2
+  =e^2.
+  $$
+
+  令$\square=\dfrac{x}{2}$，$x\to\infty$时$\square\to\infty$，先凑出$\left(1+\dfrac{1}{\square}\right)^\square$，再用幂的运算法则。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+先看数列$a_n=\left(1+\dfrac{1}{n}\right)^n$。把$a_n$按二项式展开，并比较$a_n$与$a_{n+1}$的对应项，可得$a_n$单调递增；再由展开式放缩可得$a_n<3$。由单调有界准则，$a_n$收敛，把这个极限记作$e$。
+
+对实数$x\to+\infty$，取$n\le x<n+1$，由$\left(1+\dfrac{1}{n+1}\right)^n\le\left(1+\dfrac{1}{x}\right)^x\le\left(1+\dfrac{1}{n}\right)^{n+1}$及夹逼定理，函数极限也等于$e$。令$t=\dfrac{1}{x}$，即得$\lim_{t \to 0^+}(1+t)^{\frac{1}{t}}=e$。$t\to 0^-$时令$s=-t$，令$u=s/(1-s)$，则$(1-s)^{-1/s}=(1+u)^{(1+u)/u}$，由右侧极限得到同一结果，因此$\lim_{t \to 0}(1+t)^{\frac{1}{t}}=e$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="第二个重要极限的负指数情形"}
+令$u=-x$，把底数化成$1+\dfrac{1}{u}$的标准形式：
+
+$$
+\lim_{x \to \infty}\left(1-\frac{1}{x}\right)^x
+=\lim_{x \to \infty}\left[\left(1+\frac{1}{-x}\right)^{-x}\right]^{-1}
+=e^{-1}.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ExponentialLimitDemo />
+
+## 练习
+
+::problems{#exponential-limit-practice}
+
+1. ::question{#growth-three}
+
+   若$\lim_{x \to \infty}\left(1+\dfrac{3}{x}\right)^x=e^k$，则$k=$ :blank{#growth-three-value type="number"}。
+
+   :::reference
+   ::correct{blank="growth-three-value" value="3"}
+
+   令$\square=\dfrac{x}{3}$，原式$=\left[\left(1+\dfrac{1}{\square}\right)^\square\right]^3\to e^3$，所以$k=3$。
+   :::
+
+2. ::question{#growth-two-x}
+
+   若$\lim_{x \to 0}(1+2x)^{\frac{1}{x}}=e^k$，则$k=$ :blank{#growth-two-value type="number"}。
+
+   :::reference
+   ::correct{blank="growth-two-value" value="2"}
+
+   $(1+2x)^{\frac{1}{x}}=\left[(1+2x)^{\frac{1}{2x}}\right]^2\to e^2$，所以$k=2$。
+   :::
+
+3. ::question{#which-form}
+
+   下列极限中，属于$1^\infty$型的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\lim_{x \to 0}\dfrac{\sin x}{x}$
+   - :option[B]{#b} $\lim_{x \to \infty}\left(1+\dfrac{2}{x}\right)^x$
+   - :option[C]{#c} $\lim_{x \to 0}\dfrac{1-\cos x}{x^2}$
+   - :option[D]{#d} $\lim_{x \to \infty}\dfrac{x^2+1}{x^2}$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   底数$1+\dfrac{2}{x}\to 1$，指数$x\to\infty$，因而是$1^\infty$型。A、C都是$\dfrac{0}{0}$型，D是$\dfrac{\infty}{\infty}$型，极限为$1$。
+   :::

@@ -1,0 +1,121 @@
+---
+title: Python文件打开模式
+description: 区分Python文件打开的读取、截断、追加与独占创建模式。
+---
+
+import PythonOpenModeDemo from "@/demos/python-open-mode-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+Python的`open`使用模式字符串指定打开方式。以下基础模式互斥：
+
+| 模式 | 文件已存在 | 文件不存在 |
+| :--- | :--- | :--- |
+| `r` | 打开供读取 | 抛出异常 |
+| `w` | 打开时截断，供写入 | 创建文件 |
+| `a` | 写入追加到末尾 | 创建文件 |
+| `x` | 抛出异常，不覆盖 | 独占创建 |
+
+`+`增加读写能力；`b`指二进制模式，`t`指文本模式，二者互斥。文本模式处理字符串与编码，二进制模式处理字节。模式决定请求的操作，实际能否打开仍取决于路径、权限等条件。
+
+`r+`不会创建缺失文件；`w+`可以读写，但打开现有文件时仍会截断。`a+`支持读取和追加写入，写入仍发生在文件末尾；读取前按需要调整文件位置。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择文件状态和基础模式，比较打开时创建、截断、追加或报错的行为。演示只模拟规则。
+
+<PythonOpenModeDemo />
+
+## 练习
+
+::problems{#python-file-modes-practice}
+
+1. ::question{#truncate}
+
+   以`"w"`打开一个已有内容的文件，还没写入任何数据就关闭。
+
+   1. ::part{#content}
+
+      文件内容如何？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 保持原内容
+      - :option[B]{#b} 变为空文件
+      - :option[C]{#c} 末尾追加一行空行
+      - :option[D]{#d} 打开时直接报错
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      截断发生在打开时，不在第一次写入时；没有写入也不会恢复原内容。
+      :::
+
+   2. ::part{#length}
+
+      此时文件长度是 :blank{#bytes type="number"} 字节。
+
+      :::reference
+      ::correct{blank="bytes" value="0"}
+
+      `"w"`打开后文件被截断为0字节。
+      :::
+
+2. ::question{#create-missing}
+
+   在Python中，文件不存在时，下列哪些模式会创建文件？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `"r"`
+   - :option[B]{#b} `"w"`
+   - :option[C]{#c} `"a"`
+   - :option[D]{#d} `"x"`
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   ::correct{option="d"}
+
+   `"r"`和`"r+"`要求文件已经存在；`"w"`、`"a"`、`"x"`在文件不存在时都会创建，区别在于已有文件时是清空、追加还是报错。
+   :::
+
+3. ::question{#append-position}
+
+   以`"a+"`打开文件后，读写位置如何？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 读取和写入都从开头开始
+   - :option[B]{#b} 读取位置可移动，写入始终追加到末尾
+   - :option[C]{#c} 读取和写入都固定在末尾
+   - :option[D]{#d} 写入从开头开始，读取固定在末尾
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   `"a+"`增加的是读取能力；写入位置始终在文件末尾，读取位置可以自己移动。
+   :::
+
+4. ::question{#exclusive-create}
+
+   以`"x"`打开一个已存在的文件会怎样？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 清空文件后写入
+   - :option[B]{#b} 在末尾追加
+   - :option[C]{#c} 报错，不打开文件
+   - :option[D]{#d} 创建一份副本
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   `"x"`的语义是“只在不存在时创建”，已有文件时抛出`FileExistsError`，因此不会破坏原文件。
+   :::

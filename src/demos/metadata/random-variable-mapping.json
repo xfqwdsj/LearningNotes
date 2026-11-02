@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "骰子结果怎样映射为随机变量？",
+      "description": "调整阈值，查看骰子点数映射到零或一。",
+      "messages": {
+        "label": "随机变量的结果映射",
+        "intro": "掷一枚骰子，若点数不小于阈值则令$X=1$，否则令$X=0$。",
+        "threshold": "阈值",
+        "outcome": "样本点$\\omega$",
+        "variable": "对应的$X(\\omega)$",
+        "result": "共有{count}个样本点映射到$1$。"
+      },
+      "tags": ["概率论", "随机变量"]
+    }
+  }
+}

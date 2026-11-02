@@ -1,0 +1,40 @@
+---
+title: 9.4多元复合函数的求导法则
+description: 记录复合结构的三种情形、记号约定和画变量关系图的检查方法，并链接知识点。
+---
+## 阅读入口
+
+- [多元复合函数的求导法则](/knowledge/maths/multivariable-calculus/multivariable-chain-rule/)
+- [全微分](/knowledge/maths/multivariable-calculus/total-differential/)（形式不变性依赖全微分的定义）
+- [复合函数的链式法则](/knowledge/maths/derivatives/chain-rule/)（一元情形，用来对照）
+
+## 学习安排
+
+教材按中间变量与自变量的数量把复合关系分成三种：一元函数与多元函数复合（得到全导数）、多元函数与多元函数复合、自变量同时作为中间变量和显式自变量的混合复合。三种情形的结构相同：从$z$出发沿每个中间变量分支，路径上的偏导数相乘，同一自变量的各条路径相加。
+
+先练第一种，把$t$看成唯一的自变量；第二种只是对$x$或$y$分别做一次第一种；第三种多出的显式项放在最后。全微分形式不变性安排在最后，它把链式法则的结果写成与自变量身份无关的形式，下一节隐函数求导会直接使用。
+
+## 三种复合结构
+
+::knowledge{path="maths/multivariable-calculus/multivariable-chain-rule" slot="definition"}
+
+三种复合结构的公式到这里已经齐了，最后一段把它们的结论统一成与自变量无关的写法。
+
+## 全微分形式不变性
+
+::knowledge{path="maths/multivariable-calculus/multivariable-chain-rule" slot="properties"}
+
+形式不变性之后紧接下一节的隐函数求导，那里用的正是这个写法。
+
+## 课程约定
+
+- 最终自变量只有一个时，导数用$\dfrac{\mathrm{d}z}{\mathrm{d}t}$，称为全导数；有多个自变量时用$\dfrac{\partial z}{\partial x}$等偏导数记号。
+- 混合复合中，教材用$\dfrac{\partial f}{\partial u}$、$\dfrac{\partial f}{\partial x}$表示对$f$的某个自变量求偏导，用$\dfrac{\partial z}{\partial x}$表示复合后的总偏导数。两类符号不能混用。
+- 中间变量的个数不限于两个。多于两个时，公式按“每个中间变量一项”继续相加。
+
+## 易错点
+
+- 混合复合漏掉显式项$\dfrac{\partial f}{\partial x}$，或者把这一项误写成对$y$的偏导数。
+- 把全导数写成$\dfrac{\partial z}{\partial t}$；$z$只通过$t$变化时应该用$\mathrm{d}$。
+- 变量关系图上有几条从$z$到某个自变量的路径，公式里就要有几项。只画图不数路径，容易漏掉较隐蔽的那条。
+- 全微分形式不变性以$f$可微为前提，而且说的是$z=f(u,v)$的写法不变，不是$\mathrm{d}u$、$\mathrm{d}v$仍是自变量增量。

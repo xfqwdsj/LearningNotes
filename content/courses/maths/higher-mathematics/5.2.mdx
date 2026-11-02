@@ -1,0 +1,42 @@
+---
+title: 5.2微积分基本公式
+description: 从积分上限函数到牛顿-莱布尼茨公式，说明本节如何把定积分与求原函数连接起来。
+---
+## 阅读入口
+
+- [积分上限函数的导数](/knowledge/maths/integrals/fundamental-theorem-of-calculus/)
+- [牛顿–莱布尼茨公式](/knowledge/maths/integrals/newton-leibniz/)
+- [定积分的概念与性质](/knowledge/maths/integrals/definite-integral/)：本节证明要用到5.1的区间可加性与积分中值定理。
+
+## 微积分基本定理
+
+::knowledge{path="maths/integrals/fundamental-theorem-of-calculus" slot="properties"}
+
+这一段是5.2的枢纽；“易错点”里关于变限求导的两条，都要回到这里的公式再套一次。
+
+## 牛顿-莱布尼茨公式
+
+::knowledge{path="maths/integrals/newton-leibniz" slot="definition"}
+
+公式本身只用到端点值，所以“课程约定”里强调$F$不必带常数；真正要练的是代上下限的顺序。
+
+## 学习安排
+
+教材的顺序是：先定义积分上限函数$\Phi(x)=\int_a^x f(t)\,\mathrm{d}t$，再证明$\Phi'(x)=f(x)$，由此得到“连续函数存在原函数”；然后把积分上下限推广为函数，得到变限积分的求导公式；最后引出牛顿-莱布尼茨公式，把定积分的计算转化为求原函数。
+
+- 本节只解决“已知原函数怎么算定积分”。原函数怎么找，是第4章的内容：[基本积分公式](/knowledge/maths/integrals/integral-formulas/)、[换元积分法](/knowledge/maths/integrals/integration-by-substitution/)、[分部积分法](/knowledge/maths/integrals/integration-by-parts/)与[有理函数的积分](/knowledge/maths/integrals/rational-function-integration/)。5.3再把换元与分部直接用到定积分上，届时会多出“换元必换限”的步骤。
+- 阅读顺序建议：先只记$\Phi'(x)=f(x)$这一条，用它推变限求导；再用$\Phi$与任意原函数相差常数推出牛顿-莱布尼茨公式。两步都自己推一遍，比背公式可靠。
+
+## 课程约定
+
+- $[F(x)]_a^b$和$F(x)\big|_a^b$两种写法表示$F(b)-F(a)$，两者等价。写解答时先写出原函数，再依次代入上下限。
+- 被积函数用$t$、上限用$x$：$\int_a^x f(t)\,\mathrm{d}t$中的$t$是哑变量，求导时自变量是上限$x$。
+- 定积分的结果是数，不定积分的结果是函数族（含$+C$）。牛顿-莱布尼茨公式中的$F$只取一个原函数，常数在$F(b)-F(a)$中自动消去，不需要再写$+C$。
+- 上下限都是函数时按“上限项减下限项”写；拿不准就拆成两个积分上限函数分别求导，再相减。
+
+## 易错点
+
+- 公式的前提是$f$在$[a,b]$上连续。被积函数在区间内有瑕点时不能直接代原函数：例如$\int_{-1}^{1}\frac{1}{x^2}\,\mathrm{d}x$按公式会算出$-2$，但这个积分其实发散，要按5.4的反常积分处理。
+- 变限求导漏乘链式因子：上限是$\psi(x)$时，要乘$\psi'(x)$；只把$t$换成$\psi(x)$是最常见的错误。
+- 上下限都是函数时两项符号相反：上限项取$+$，下限项取$-$。少写一项或把下限项写成加号都错；不要直接对$\int_{\phi(x)}^{\psi(x)}$套$\Phi'(x)=f(x)$。
+- 交换上下限要变号：$\int_b^a f=-\int_a^b f$。代值前先确认哪个是上限。

@@ -1,0 +1,115 @@
+---
+title: 相关系数
+description: 用无量纲的相关系数衡量两个随机变量的线性关联。
+---
+
+import CorrelationCurveDemo from "@/demos/correlation-curve-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+当$D(X)>0$、$D(Y)>0$时，定义
+
+$$
+\rho_{XY}=\frac{\operatorname{Cov}(X,Y)}{\sqrt{D(X)D(Y)}}.
+$$
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+由柯西—施瓦茨不等式，
+
+$$
+|\operatorname{Cov}(X,Y)|\le\sqrt{D(X)D(Y)},
+$$
+
+所以
+
+$$
+-1\le\rho_{XY}\le1.
+$$
+
+:::proof
+设$D(Y)>0$。对任意实数$t$，
+
+$$
+D(X+tY)=D(X)+2t\operatorname{Cov}(X,Y)+t^2D(Y)\ge0.
+$$
+
+这是关于$t$的非负二次函数，判别式不大于零，即
+
+$$
+4\operatorname{Cov}(X,Y)^2-4D(X)D(Y)\le0,
+$$
+
+也就是$|\operatorname{Cov}(X,Y)|\le\sqrt{D(X)D(Y)}$。若$D(Y)=0$，则$Y$几乎必然是常数，协方差为零，不等式同样成立。
+:::
+
+$|\rho|$越接近$1$，线性关联越强；越接近$0$，线性关联越弱。$\rho=0$只说明不相关，不能据此排除曲线形式的关系。$|\rho|=1$当且仅当存在$a\ne0$与$b$，使
+
+$$
+P\{Y=aX+b\}=1,
+$$
+
+即两个变量以概率一落在一条非水平直线上；$a$的符号决定$\rho$的符号。理由是不等式取等号时判别式为零，存在$t_0$使$D(X+t_0Y)=0$，于是$X+t_0Y$几乎必然是常数，移项即得线性关系；反过来把$Y=aX+b$代入相关系数的定义，也能直接算出$|\rho|=1$。
+
+相关系数对平移和正数倍缩放不变，对负数倍缩放改变符号：
+
+$$
+\rho_{aX+b,cY+d}=\operatorname{sgn}(ac)\,\rho_{XY}\qquad(ac\ne0),
+$$
+
+其中$\operatorname{sgn}$是符号函数，取值为$1$、$-1$或$0$。
+
+若某个变量的方差为零，分母为零，相关系数没有定义，不能说它等于零。
+
+> [!WARNING]
+> **分母不能为零**
+>
+> 常数变量的方差为$0$，它与任何变量的协方差也为$0$。此时“不相关”有定义，但相关系数没有定义，不能写成$\rho=0$。
+
+### 相关不等于因果
+
+相关系数只衡量线性关联的强弱。它不能说明因果关系，也不保证线性模型合适：两个变量可能同时受第三个变量影响，也可能存在明显的曲线关系而相关系数接近零。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+若两个零一变量的边缘概率均为$1/2$，且$P(X=1,Y=1)=0.4$，则协方差为$0.4-0.25=0.15$，两个方差均为$0.25$，所以相关系数为$0.15/0.25=0.6$。
+
+:::example{title="仿射变换后的相关系数"}
+
+对上例的$X$、$Y$令$U=2X+1$，$V=-3Y+2$。这里$a=2$、$c=-3$，$ac=-6<0$，所以
+
+$$
+\rho_{UV}=\operatorname{sgn}(-6)\times0.6=-0.6.
+$$
+
+平移不改变相关程度，负倍数把关联方向反过来，相关系数只改变符号，绝对值仍为$0.6$。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+观察相关系数为零时仍可能存在确定的非线性关系。
+
+<CorrelationCurveDemo />
+
+## 练习
+
+::problems{#correlation-practice}
+
+1. ::question{#rho-value}
+
+   已知$\operatorname{Cov}(X,Y)=3$，$D(X)=4$，$D(Y)=9$，则$\rho_{XY}=$ :blank{#rho-value-blank type="number"}。
+
+   :::reference
+   ::correct{blank="rho-value-blank" value="0.5"}
+
+   分母为$\sqrt{4\times9}=6$，所以$\rho_{XY}=\dfrac{3}{6}=0.5$。
+   :::

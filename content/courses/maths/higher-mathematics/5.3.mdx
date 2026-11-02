@@ -1,0 +1,46 @@
+---
+title: 5.3定积分的计算
+description: 记录定积分计算的教材顺序、换元与分部积分的课程约定及常见错误。
+---
+## 阅读入口
+
+- [定积分的对称与周期性](/knowledge/maths/integrals/definite-integral-computation/)
+- [华里斯公式](/knowledge/maths/integrals/wallis-formula/)
+
+## 定积分换元
+
+::knowledge{path="maths/integrals/integration-by-substitution" slot="properties"}
+
+定积分换元要遵循“换元必换限”与“换元不回代”，并检查变换条件和积分方向。
+
+## 定积分的分部积分
+
+::knowledge{path="maths/integrals/integration-by-parts" slot="properties"}
+
+## 对称区间与周期性
+
+::knowledge{path="maths/integrals/definite-integral-computation" slot="properties"}
+
+::knowledge{path="maths/integrals/wallis-formula" slot="definition"}
+
+“偶倍奇零”只在积分收敛时成立；华里斯公式紧接在这一组之后，但对上下限另有要求，不要和奇偶性混用。
+
+## 学习安排
+
+本节的计算全部建立在5.2的牛顿-莱布尼茨公式上：先求原函数，再代入上下限。教材按“换元 → 分部 → 用函数性质化简”的顺序展开，前两条是把 [换元积分法](/knowledge/maths/integrals/integration-by-substitution/)与[分部积分法](/knowledge/maths/integrals/integration-by-parts/)搬到定积分上，最后一条才是定积分特有的化简手段。
+
+复习时先看被积函数的结构再选路线：能凑成$f[\varphi(t)]\varphi'(t)$的用换元，是两类函数乘积的用分部，区间对称、函数有周期或幂次为$\sin^n x$的先用性质化简。
+
+## 课程约定
+
+- 定积分换元要求端点对应与被积函数连续导数；换元后上下限随$t$一起换成$\alpha,\beta$，其中$\alpha$与$\beta$的顺序由变换确定。
+- 定积分换元后不再回代：算出关于$t$的原函数后直接代入$\alpha,\beta$。这是与第4章不定积分换元的主要区别。
+- 分部积分优先选求导后易化简的因子作$u$，并在边界项$[uv]_a^b$中代入上下限。
+- $\Gamma$函数放在5.4的反常积分中讨论。
+
+## 易错点
+
+- 只换被积函数不换限，或换限后仍把结果回代成$x$的函数。
+- 换元时漏乘$\varphi'(t)$，尤其是$\mathrm{d}x=\varphi'(t)\,\mathrm{d}t$中的导数。
+- 华里斯公式只适用于$\int_0^{\frac{\pi}{2}}\sin^nx\,\mathrm{d}x$与$\int_0^{\frac{\pi}{2}}\cos^nx\,\mathrm{d}x$；上下限一变，就不能直接套用。
+- 把“偶倍奇零”或分部积分直接用在反常积分上，却没有先检查积分收敛、边界项极限存在。

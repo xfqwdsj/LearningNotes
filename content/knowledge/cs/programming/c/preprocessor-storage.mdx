@@ -1,0 +1,161 @@
+---
+title: C预处理
+description: 理解宏替换、头文件包含和条件编译。
+---
+
+import CMacroGroupingDemo from "@/demos/c-macro-grouping-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+C的翻译过程包含预处理、编译和链接等阶段。**预处理器**处理包含、宏替换与条件编译。预处理指令以`#`开头、独占一行、不以分号结尾，常见的有三类：
+
+- `#include`：把头文件的内容原地插入；
+- `#define`：定义宏，编译前做文本替换；
+- `#if` / `#ifdef` / `#ifndef` / `#elif` / `#else` / `#endif`：条件编译，按条件保留或丢弃一段文本。
+
+宏替换按预处理记号进行，不执行C的类型检查。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 宏是文本替换
+
+函数式宏的每个参数、以及整个展开式都要加括号，否则运算符优先级会改变结果：
+
+```c title="宏的括号" showLineNumbers=false
+#define SQUARE_BAD(x) x*x          /* SQUARE_BAD(1 + 2) 展开为1 + 2*1 + 2，得5 */
+#define SQUARE_OK(x)  ((x)*(x))    /* SQUARE_OK(1 + 2)  展开为 ((1 + 2)*(1 + 2))，得9 */
+```
+
+宏参数可能在展开结果中出现多次，从而多次求值；`SQUARE(i++)`中对同一对象的多次修改没有规定求值次序，会产生未定义行为。宏也不进行函数参数式的类型检查。只做一次求值、又想要类型检查时，用`static inline`函数代替宏。
+
+`#define`定义的宏没有作用域，从定义处到文件末尾都有效，可以用`#undef`取消。宏名习惯全大写，以便和变量区分。
+
+### 头文件与包含
+
+- `#include <stdio.h>`：使用尖括号形式包含头文件。
+- `#include "myheader.h"`：使用引号形式包含头文件。具体查找位置由实现和构建配置决定。
+- 头文件里放声明（函数原型、类型定义、宏），需要外部链接的对象定义通常放在一个`.c`文件中；头文件中的类型定义和某些具有内部链接的定义则另有规则。
+
+包含是文本插入，同一个头文件被包含两次就会展开两次，因此需要包含守卫：
+
+```c title="point.h"
+#ifndef POINT_H
+#define POINT_H
+
+struct point {
+    int x;
+    int y;
+};
+
+int point_length_sq(const struct point *p);
+
+#endif
+```
+
+第一次包含时`POINT_H`未定义，内容被保留并定义该宏；再次包含时`#ifndef`条件不成立，整段被跳过。`#pragma once`是非标准但被广泛支持的等价写法。
+
+### 条件编译
+
+条件编译按宏的值决定保留哪一段文本，常用于调试开关和跨平台分支：
+
+```c title="条件编译开关"
+#define DEBUG 1
+
+#if DEBUG
+    printf("debug: n = %d\n", n);
+#endif
+
+#ifdef _WIN32
+    /* Windows专用代码 */
+#endif
+```
+
+- `#if`后跟常量表达式，值为0时丢弃该段；
+- `#ifdef NAME`判断宏是否已定义，`#ifndef`判断是否未定义；
+- `#elif`、`#else`、`#endif`必须配对，嵌套时逐层闭合。
+
+`#if 0 ... #endif`是暂时排除一段代码的常用写法，比整段注释安全，因为段内的注释符不会打断它。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="宏缺少括号的后果"}
+
+```c title="square-bug.c"
+#include <stdio.h>
+
+#define SQUARE_BAD(x) x*x
+#define SQUARE_OK(x) ((x)*(x))
+
+int main(void) {
+    printf("%d\n", SQUARE_BAD(1 + 2));   /* 1 + 2*1 + 2 = 5 */
+    printf("%d\n", SQUARE_OK(1 + 2));    /* (1+2)*(1+2) = 9 */
+    return 0;
+}
+```
+
+预处理器只做替换，替换后乘法先于加法，`SQUARE_BAD`得到5而不是9。
+
+:::
+
+:::example{title="用包含守卫避免重复定义"}
+
+```c title="twice.c"
+#include "point.h"
+#include "point.h"   /* 第二次包含会被守卫跳过 */
+
+int main(void) {
+    struct point p = {0, 0};
+    return point_length_sq(&p);
+}
+```
+
+如果`point.h`没有包含守卫，`struct point`会被定义两次，编译报重复定义。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变实参，比较未加括号的宏展开与预期的平方。
+
+<CMacroGroupingDemo />
+
+## 练习
+
+::problems{#c-preprocessor-practice}
+
+1. ::question{#macro-expand}
+
+   在`#define SQUARE(x) x*x`下，`SQUARE(1 + 2)`展开后的值是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="5"}
+
+   宏只做文本替换，得到`1 + 2*1 + 2`，乘法先算，结果是$1+2+2=5$。
+   :::
+
+2. ::question{#preprocessor-facts}
+
+   关于预处理与头文件，下列说法正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 包含守卫可以避免同一头文件被重复包含时重复定义
+   - :option[B]{#b} 两种`#include`形式可能使用不同的查找路径
+   - :option[C]{#c} 宏的参数在替换前会做类型检查
+   - :option[D]{#d} `#if 0 ... #endif`可以暂时排除一段代码
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="d"}
+
+   预处理器不理解类型，C错；其余三项都是预处理阶段的实际行为。
+   :::

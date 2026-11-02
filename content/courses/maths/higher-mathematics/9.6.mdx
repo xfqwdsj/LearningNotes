@@ -1,0 +1,57 @@
+---
+title: 9.6多元函数微分学的几何应用
+description: 记录曲线与曲面两类对象的求解顺序、课程记号，以及切线与法线方程中最常出的错。
+---
+## 阅读入口
+
+- [向量值函数与导向量](/knowledge/maths/multivariable-calculus/differential-geometry-applications/)
+- [空间曲线的切线与法平面](/knowledge/maths/multivariable-calculus/space-curve-tangent/)
+- [曲面的切平面与法线](/knowledge/maths/multivariable-calculus/surface-tangent-plane/)
+- [偏导数](/knowledge/maths/multivariable-calculus/partial-derivative/)（法向量的三个分量就是偏导数）
+- [全微分](/knowledge/maths/multivariable-calculus/total-differential/)（切平面是一次近似的几何版本）
+- [隐函数的求导公式](/knowledge/maths/multivariable-calculus/implicit-function-theorem/)（交线式曲线靠隐函数定理参数化）
+
+## 学习安排
+
+教材把这一节放在全微分之后、方向导数与梯度之前，顺序是有意的：本节只用偏导数拼出向量，到9.7才正式引入梯度。所以这里出现的“法向量”都可以直接读成$(F_x,F_y,F_z)$。
+
+内容分三块：一元向量值函数、空间曲线的切线与法平面、曲面的切平面与法线。第一块是工具，为参数曲线准备$\mathbf r'(t)$；后两块是同一件事的两面，曲线看切向量，曲面看法向量。复习时先确定对象是曲线还是曲面，再决定找切向量还是法向量。
+
+## 向量值函数与导向量
+
+::knowledge{path="maths/multivariable-calculus/differential-geometry-applications" slot="definition"}
+
+导向量准备好之后，曲线的切线就是它；下一段把这个向量放进直线方程。
+
+## 空间曲线的切线与法平面
+
+::knowledge{path="maths/multivariable-calculus/space-curve-tangent" slot="definition"}
+
+曲线用切向量，曲面换用法向量，两块内容是对称的。
+
+## 曲面的切平面与法线
+
+::knowledge{path="maths/multivariable-calculus/surface-tangent-plane" slot="definition"}
+
+两类对象的公式都齐了；课程约定把切向量与法向量的记号分开。
+
+## 课程约定
+
+- 切向量记$\mathbf T$，法向量记$\mathbf n$。曲线的法平面以$\mathbf T$为法向量，曲面的法线以$\mathbf n$为方向。
+- 参数方程情形直接用$\mathbf r'(t_0)$；交线式情形用两个曲面法向量的叉积。叉积方向可以差一个符号，代入方程前任取一个即可。
+- 显式曲面$z=f(x,y)$一律先改写成$F=f(x,y)-z=0$，再套隐式曲面的公式，避免记混$f_x,f_y$前的符号。
+- 方向数中出现$0$时，切线方程仍写成比例式，约定对应分子为$0$，即该坐标为常数。
+
+## 易错点
+
+- 把显式曲面的法向量写成$(f_x,f_y,1)$，正确结果是$(f_x,f_y,-1)$。
+- 交线式曲线忘记取叉积，把两个法向量直接相加，或把分量按$(F_x,G_x,\dots)$拼错。
+- 切线与法平面的方程代错点：$x_0,y_0,z_0$必须是曲线上的点，通常先由参数值算出。
+- 把曲线的法平面写成以$\mathbf r'(t_0)$为方向的直线方程，或者把曲面的法线写成平面方程。
+- 遇到$\mathbf r'(t_0)=\mathbf 0$仍直接拿它当切向量。
+
+## 复习要点
+
+所有题目都能归成“过点 + 方向”：曲线先求切向量，切线用对称式、法平面用点法式；曲面先求法向量，法线用对称式、切平面用点法式。两类对象只是交换了向量扮演的角色。
+
+判断该用哪套公式时，先看题目给的是参数方程、交线方程还是曲面方程；给交线就一定要先算两个法向量再叉积。

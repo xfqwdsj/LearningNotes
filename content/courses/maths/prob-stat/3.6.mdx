@@ -1,0 +1,63 @@
+---
+title: 3.6 n维随机变量
+description: 记录$n$维随机向量在教材中的位置、与二维情形的对照关系、记号约定与复习时的检查顺序。
+---
+## 阅读入口
+
+- [随机向量](/knowledge/maths/probability/random-vector/)
+- [二维联合分布函数](/knowledge/maths/probability/bivariate-random-variable/)
+- [分布函数](/knowledge/maths/probability/distribution-function/)
+
+## n维随机向量与联合分布
+
+::knowledge{path="maths/probability/random-vector" slot="definition"}
+
+::knowledge{path="maths/probability/joint-distribution-function" slot="definition"}
+
+教材把$\boldsymbol X$写成列向量；边缘密度通过对其余坐标积分得到，条件密度还需要用相应的边缘密度归一化。
+
+## 相互独立
+
+::knowledge{path="maths/probability/random-variable-independence" slot="definition"}
+
+这里的判定式与3.4完全同形，只是变量个数增加；连续型还要把密度写成$n$个边缘密度的乘积。
+
+## 多元正态分布
+
+::knowledge{path="maths/probability/multivariate-normal" slot="definition"}
+
+::knowledge{path="maths/probability/multivariate-normal" slot="properties"}
+
+3.6用$N_n(\boldsymbol\mu,\Sigma)$记多元正态，4.4再把$\Sigma$展开成协方差矩阵；两处记号从此统一，后面统计推断沿用同一写法。
+
+## 学习安排
+
+第3章先用一节建立二维随机变量，随后依次讨论边缘分布、条件分布、独立性，以及二维随机变量函数的分布，这些内容都在二维框架内展开。3.6把前面几节的结论推广到$n$维：联合分布、边缘分布、条件分布、独立性、独立变量和的分布逐项对应，多重积分和多变量求和替代二重情形。
+
+因此复习时按“二维结论 → n维写法”对照，比重新背一遍n维公式省力。多元正态是推广中最需要单独交代的对象：二维非退化时密度可以写出，n维时改用均值向量与协方差矩阵刻画。
+
+数字特征部分会把$N_n(\boldsymbol\mu,\Sigma)$中的$\Sigma$展开成协方差矩阵，后面的协方差与协方差矩阵沿用这里的记号。
+
+## 课程约定
+
+- 随机向量写成列向量$\boldsymbol X=(X_1,\ldots,X_n)^{\mathsf T}$；联合分布函数记$F(x_1,\ldots,x_n)$，边缘分布函数、边缘密度带下标，如$F_i$、$f_i$。
+- 教材以“联合分布函数等于各边缘分布函数之积”作为相互独立的定义，连续型再改写为密度几乎处处分解。
+- 多元正态记作$N_n(\boldsymbol\mu,\Sigma)$；只有$\sigma_1,\sigma_2>0$、$|\rho|<1$时才写出二维密度。
+
+## 重点
+
+- 独立变量和的三个结论（二项、泊松、正态的线性组合）在本章之后反复使用，其中正态的线性组合结论是后面极限定理计算的基础。
+- 判断n个变量是否相互独立，先看联合分布函数能否分解为各边缘分布函数之积；连续型再检查密度是否几乎处处分解。
+- 多元正态的两条性质要能复述：两两不相关即相互独立；边缘为正态不能推出联合正态。
+
+## 易错点
+
+- 两两独立不能推出相互独立。涉及多个变量的乘积分解、卷积或样本联合密度时，都要先确认相互独立。
+- 二项分布的可加性要求成功概率相同；$p$不同时和一般不再是二项分布，也不能把两个$p$取平均。
+- 正态变量的线性组合要求方差之和非零，否则和是常数；“两两不相关即独立”只在联合正态下成立。
+- $|\rho|=1$时协方差矩阵退化，$(X,Y)$落在一条直线上，二维密度与条件密度公式都不适用。
+- 密度比公式要求分母处的边缘密度为正；密度为零的点上不能直接使用这个比值。
+
+## 复习要点
+
+推广到n维时容易只抄公式而漏条件。复习时对每条结论都写出“独立性要求 + 参数条件”，再核对一遍：二项要同$p$，泊松只要求独立，正态要检查方差之和是否为零。

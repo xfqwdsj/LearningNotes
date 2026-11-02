@@ -1,0 +1,146 @@
+---
+title: 总体均值的置信区间
+description: 比较单个总体均值的正态精确区间、大样本近似与单侧界。
+---
+
+import MeanConfidenceIntervalDemo from "@/demos/mean-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设$X_1,\ldots,X_n$是来自均值为$\mu$、方差为$\sigma^2$的总体的简单随机样本，$n\ge2$，记
+
+$$
+\bar X=\frac1n\sum_{i=1}^nX_i,\qquad
+S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2,\qquad
+S=\sqrt{S^2}.
+$$
+
+除单侧界一节外，以下使用等尾双侧区间。
+
+### 正态总体均值
+
+本段假设总体服从$N(\mu,\sigma^2)$。
+
+方差$\sigma^2$已知时，$Z=\dfrac{\bar X-\mu}{\sigma/\sqrt n}\sim N(0,1)$，由$P\{-z_{\alpha/2}\le Z\le z_{\alpha/2}\}=1-\alpha$解出
+
+$$
+\mu\in\left[\bar X-z_{\alpha/2}\frac{\sigma}{\sqrt n},\ \bar X+z_{\alpha/2}\frac{\sigma}{\sqrt n}\right].
+$$
+
+方差未知时，用$S$代替$\sigma$，统计量$T=\dfrac{\bar X-\mu}{S/\sqrt n}\sim t(n-1)$，于是
+
+$$
+\mu\in\left[\bar X-t_{\alpha/2}(n-1)\frac{S}{\sqrt n},\ \bar X+t_{\alpha/2}(n-1)\frac{S}{\sqrt n}\right].
+$$
+
+两式的推导相同：先写出枢轴量落在两个分位点之间的概率，再对$\mu$解不等式。
+
+### 大样本近似
+
+对一般总体，只要方差有限、样本量足够大，就可由中心极限定理用
+
+$$
+\mu\in \bar X\pm z_{\alpha/2}\frac{S}{\sqrt n}
+$$
+
+近似，$S$为样本标准差。样本量多大算“足够大”取决于总体的偏斜程度与尾部；总体严重偏斜或样本很小时，这个近似不可靠。
+
+### 单侧界
+
+单侧问题只需要一个界限。正态总体、方差未知时，由$P\{T\le t_\alpha(n-1)\}=1-\alpha$得置信水平$1-\alpha$的置信下限
+
+$$
+\mu_L=\bar X-t_\alpha(n-1)\frac{S}{\sqrt n},
+$$
+
+即$\mu\in[\mu_L,+\infty)$；同理置信上限为
+
+$$
+\mu_U=\bar X+t_\alpha(n-1)\frac{S}{\sqrt n},
+$$
+
+对应$\mu\in(-\infty,\mu_U]$。方差已知时把$t_\alpha(n-1)$换成$z_\alpha$。单侧界使用上$\alpha$分位点，双侧区间使用上$\alpha/2$分位点：$1-\alpha$的把握全部放在一侧，尾概率就是$\alpha$，不需要再平分。
+
+### 样本量
+
+方差已知，要求双侧均值区间的半宽不超过$d$时，需要
+
+$$
+z_{\alpha/2}\frac{\sigma}{\sqrt n}\le d
+\quad\Longrightarrow\quad
+n\ge\left(\frac{z_{\alpha/2}\sigma}{d}\right)^2.
+$$
+
+计算结果向上取整：样本量是整数，而条件是“至少”。$\sigma$未知时只能先用估计值或预调查的$S$代替，得到的是近似样本量。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="方差已知的均值区间"}
+
+设总体为$N(\mu,10^2)$，$n=25$，$\bar x=104$，置信水平$95\%$，即$\alpha=0.05$，$z_{0.025}=1.96$。半宽为
+
+$$
+1.96\times\frac{10}{\sqrt{25}}=3.92,
+$$
+
+所以$\mu$的$95\%$置信区间为$[104-3.92,\ 104+3.92]=[100.08,\ 107.92]$。
+
+:::
+
+:::example{title="方差未知的均值区间"}
+
+$n=25$，$\bar x=10$，$s=2$，$\alpha=0.05$。自由度$24$，$t_{0.025}(24)=2.0639$，半宽为
+
+$$
+2.0639\times\frac{2}{5}=0.82556,
+$$
+
+区间约为$[9.174,\ 10.826]$。这里用$t(24)$而不是$z$：$\sigma$未知，用$S$代替后统计量服从$t$分布。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MeanConfidenceIntervalDemo />
+
+## 练习
+
+::problems{#mean-confidence-interval}
+
+1. ::question{#known-sigma-halfwidth}
+
+   设总体为$N(\mu,4^2)$，取$n=16$的样本，$\bar x=20$，$z_{0.025}=1.96$。$\mu$的$95\%$置信区间的半宽为 :blank{#halfwidth type="number"}。
+
+   :::reference
+   ::correct{blank="halfwidth" value="1.96"}
+
+   半宽为$z_{0.025}\sigma/\sqrt n=1.96\times4/4=1.96$，区间为$[18.04,\ 21.96]$。
+   :::
+
+2. ::question{#t-degrees}
+
+   正态总体、方差未知，样本量$n=20$，$\mu$的$95\%$置信区间使用$t$分布。自由度为 :blank{#t-df type="number"}。
+
+   :::reference
+   ::correct{blank="t-df" value="19"}
+
+   方差未知时统计量为$\dfrac{\bar X-\mu}{S/\sqrt n}\sim t(n-1)$，自由度为$n-1=19$。
+   :::
+
+3. ::question{#required-sample-size}
+
+   正态总体方差已知，$\sigma=2$，要求$\mu$的$95\%$双侧置信区间半宽不超过$0.5$。取$z_{0.025}=1.96$，所需的最小样本量为 :blank{#sample-size type="number"}。
+
+   :::reference
+   ::correct{blank="sample-size" value="62"}
+
+   $n\ge(1.96\times2/0.5)^2=61.4656$，向上取整得$62$。样本量必须是整数，不能四舍五入到$61$。
+   :::

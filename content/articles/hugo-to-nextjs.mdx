@@ -1,0 +1,219 @@
+---
+title: 从Hugo到Next.js：把学习站拆开重装
+description: 一次不追求兼容的站点重写记录：为什么离开Hugo，怎么重做内容、题目、索引和部署，以及哪些坑真的被填掉了。
+tags: [建站, Next.js, 迁移]
+---
+
+这更像搬完家之后坐下来写的一页工程手记，不是“照着做就能成功”的迁移教程。旧站用Hugo和Hextra，内容、主题、页面列表和部署都围着博客展开；新站则把知识点、课程笔记、学习任务和文章拆成不同的内容类型，再围绕这些类型重建页面。
+
+> [!NOTE]
+> **这次没有保留旧的写作方式**
+>
+> 新站没有为了省事去兼容旧短代码、旧路由或旧组件。迁移的是一次内容重组，不是把旧主题换一层皮。
+
+## 搬家先做什么
+
+:::steps
+
+1. **保留旧站**
+
+   把Hugo主线归档。它负责回看和回滚，新功能不在旧树里继续长。
+
+2. **拆开公开内容与私有内容**
+
+   公开内容进入主仓，私有内容留在独立的`LearningNotes-Private`仓库；两边使用同一套内容结构，构建产物分开。
+
+3. **重建内容管线**
+
+   页面渲染、摘要、搜索、目录索引和Markdown导出不再各写一套，而是共用从MDX展开出来的AST。
+
+4. **最后才是搬页面**
+
+   内容能生成、能搜索、能引用、能区分公开与私有之后，再补页面和交互；先把内容和展示绑死，问题只会被搬到新框架里。
+
+:::
+
+:::disclosure{icon="lightbulb" title="为什么不保留旧shortcode"}
+
+旧站的难点不是把Hugo shortcode换成同名函数，而是它隐含了“这段文字是什么”的判断。新站要求身份、槽位、语言和来源都能被生成器检查；一条兼容正则很容易让错误的内容悄悄通过。与其维护两套语法，不如把源内容一次性迁到明确的directive，让解析失败暴露出来。
+
+:::
+
+## 新地基
+
+应用层基本整套换掉了。框架是Next.js 16 App Router和React 19，语言用TypeScript 6，样式用Tailwind CSS 4和CSS变量。控件采用本地shadcn风格源码包住Radix Primitives，Motion负责状态驱动的动画，next-intl负责界面文案、ICU和语言回退。
+
+内容这边使用MDX、remark和项目自己的directive。公式统一到KaTeX 0.19，代码块交给Expressive Code，搜索使用FlexSearch，测试使用Vitest和Playwright。部署目标是Cloudflare Workers Static Assets，Wrangler负责发布静态资源。
+
+Next.js 16本身也不是“凭记忆就能写”的版本。项目把`node_modules/next/dist/docs/`作为版本匹配文档，`AGENTS.md`的托管规则由`next dev`维护。升级框架之后先读当前版本文档，比拿训练记忆猜API可靠得多。
+
+## 先把“文章”拆开
+
+现在的内容有四类：
+
+- `knowledge`：可以独立链接、引用和复用的知识点。
+- `courses`：某门课程如何使用这些知识点的课程笔记。
+- `tasks`：练习、考试、测验和作业。
+- `articles`：不属于前三类的普通文章。
+
+目录路径就是身份，标题只负责显示。每层目录都有一份`_index.mdx`，负责目录名称、描述和层级顺序：
+
+```text title="内容目录"
+content/
+├── knowledge/<学科>/<分类>/<名称>.mdx
+├── courses/<学科>/<课程>/<章节>.mdx
+├── tasks/<学科>/<课程>/<类型>/<任务ID>.mdx
+└── articles/<文章>.mdx
+```
+
+这种结构比“所有东西都是文章”啰嗦一点，但换来的是明确的身份。标题改了，永久链接不动；知识点被另一门课引用，也不需要复制正文。旧URL alias最终也没有保留，避免同一个内容长期拥有两套路由身份。
+
+## 让Markdown真的可复用
+
+知识点里的板块可以声明稳定的`section`，课程笔记再从其他页面引入：
+
+```mdx title="knowledge/.../continuity.mdx" {3,7}
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+这里写定义正文。
+
+::knowledge{path="maths/limits/continuity" slot="definition"}
+```
+
+:::example{title="指令不是作者侧的JSX"}
+
+定义、例子、证明和步骤以前可能各对应一个React组件。现在作者写directive，解析器再把它变成React组件。真正需要状态和交互的教学演示仍然保留为MDX客户端组件，普通排版不需要作者理解组件树。
+
+:::
+
+引入后的内容保留来源类型和语言，子标题相对于宿主重新分级，锚点和题集ID也会隔离。缺少目标、循环引入、重复身份和公开内容引用私有正文都会让构建失败。
+
+## 一份AST，多个出口
+
+旧站最麻烦的一类问题是同一段文字有好几种形态：标题、描述、摘要、正文、标签、选项和演示文案各自决定怎么处理Markdown和公式。表面上都能显示，实际经常出现一个地方渲染了KaTeX，另一个地方只剩`$x^2$`。
+
+现在内容字段统一成一份富文本对象：
+
+```ts title="MarkdownValue"
+interface MarkdownValue {
+  markdown: string;
+  text: string;
+  html: string;
+}
+```
+
+作者写源Markdown，生成器同时派生纯文本和HTML。页面、摘要、搜索、目录索引和Markdown导出共用展开后的AST；metadata、排序、ARIA和图片替代文字则使用纯文本。这样修一次解析规则，所有出口一起变，不靠每个组件自己“记得处理公式”。
+
+## 题目终于有身份
+
+题集、题目和小题都有独立的稳定ID。普通有序列表仍然是普通列表，只有显式`::question`才进入作答和判分流程：
+
+```mdx title="题目写法" {3,5}
+## 小测
+
+::problems{#migration-quiz}
+
+1. ::question{#question-1}
+
+   题干。
+
+   :::choices{#answer mode="single"}
+   - :option[A]{#a} 选项A
+   - :option[B]{#b} 选项B
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   参考解答。
+   :::
+```
+
+草稿按公开／私有范围、文档、语言、题目身份和题面revision保存。revision不一致的草稿直接丢弃，不把上一版题面的答案带进当前题。这里没有混用“显示编号”和“内部身份”，重排题目也不会破坏作答关联。
+
+## 公开和私有，不在一个产物里假装隔离
+
+私有内容仍在单独的`LearningNotes-Private`仓库。开发时两个Next进程分别运行，主地址通过`/private/`代理访问私有区；生产时生成两个独立静态产物：`dist/public`给公开Worker，`dist/private`挂载在`/private`。
+
+> [!WARNING]
+> **Access是部署前提**
+>
+> 私有Worker的入口和全部静态资源都要在Cloudflare Access覆盖范围内。构建检查和本地预览只能证明路由与产物结构，不能替代真实未登录访问测试。
+
+构建阶段还会检查公开产物不能出现私有文档或私有路由。公开和私有缓存也分开保存，避免两个模式共用同一个Next编译缓存后互相污染。
+
+## 搜索和Agent读同一份结构
+
+新站不只为页面服务。`/llms.txt`、`/index.json`、目录索引、页面和section Markdown组成一条可发现的静态索引链。目录索引只保留导航所需的轻量字段，完整的题集和section信息放进按文档key散列的entry资源；需要时请求对应分片，再在客户端或工具里合并。
+
+这样一来，直接请求结构化资源仍然能拿到完整信息，也不会因为打开一个目录就下载整棵内容树。搜索、首页统计和Markdown导出仍读取同一套生成数据，避免页面内容和索引内容各说各话。
+
+## 开发、构建和部署也没有原来那么直
+
+`pnpm dev`会监听正文、分类入口、演示元数据和内容生成器。修改后先在隔离目录完成生成，再原子同步到公开和私有开发区；失败时保留上一次成功结果。
+
+生产构建把公开和私有的缓存分开，静态导出完成后进入独立事务目录，最后整体替换`dist`。`pnpm verify:artifacts`检查内容隔离，`pnpm test:deployment`从真实构建产物动态发现页面与资源并检查响应头；浏览器测试使用合成fixture，不依赖当前文章标题或真实任务ID。
+
+## 顺手做几道题
+
+::problems{#migration-notes-check}
+
+下面这些不是装饰，它们就是站点现在支持的题目形态。
+
+1. ::question{#q1 number="1"}
+
+   这个站点包含哪些一级内容类型？
+
+   :::choices{#content-types mode="multiple"}
+   - :option[A]{#a} 知识点
+   - :option[B]{#b} 课程笔记
+   - :option[C]{#c} 学习任务
+   - :option[D]{#d} 普通文章
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+   ::correct{option="d"}
+
+   四类内容共用同一套构建与呈现管线，但各有自己的路径和元数据。
+   :::
+
+2. ::question{#q2 number="2"}
+
+   引用数学连续性知识点的定义时，`slot`填 :blank{#slot type="text"}。
+
+   :::reference
+   ::correct{blank="slot" value="definition"}
+
+   完整写法是`::knowledge{path="maths/limits/continuity" slot="definition"}`。
+   :::
+
+3. ::question{#q3 number="3"}
+
+   下列哪些消费者使用展开后的共享AST？
+
+   :::choices{#consumers mode="multiple"}
+   - :option[A]{#a} 页面渲染
+   - :option[B]{#b} 搜索索引
+   - :option[C]{#c} 目录索引
+   - :option[D]{#d} Markdown导出
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+   ::correct{option="d"}
+
+   共享AST是迁移里最值钱的一层：改一次解析，页面、搜索、索引和导出一起得到同一结果。
+   :::
+
+## 还没到“结束”
+
+站点已经能构建，公开和私有产物也能分别生成，但部署前的Access覆盖、域名路由和实际云端验收仍然要按环境逐项确认。测试也不能替代真实浏览器和真实访问链路。
+
+不过，和最初那套Hugo博客相比，现在至少有了一个能继续扩内容、加题型、换语言和调整部署的骨架。它不保证每次改动都简单，但每种变化终于有明确落点。

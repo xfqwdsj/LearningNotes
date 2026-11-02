@@ -1,0 +1,26 @@
+---
+title: IP路由
+description: 使用路由表选择目标地址的出口和下一跳。
+---
+
+import IpRoutingDemo from "@/demos/ip-routing-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+路由器根据目的IP地址查询路由表，选择匹配的路由和相应的出口或下一跳。多个前缀同时匹配时通常选择最长匹配前缀；每一跳独立作出转发决定。主机可直接发送到同一链路上的目标，也可通过网关发送到其他网络。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+路由表中的前缀指定一组目的地址。默认路由的前缀长度为$0$，可作为其他路由不匹配时的选择；更长的匹配前缀通常优先。选出的路由也可能表示目的地直接连接，而不是另一个路由器。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变目标地址，比较同时匹配的前缀与最终选中的下一跳。
+
+<IpRoutingDemo />

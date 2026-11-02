@@ -1,0 +1,104 @@
+---
+title: 反函数的导数
+description: 严格单调可导函数的反函数导数等于原函数导数在对应点的倒数。
+---
+
+import InverseDerivativeDemo from "@/demos/inverse-derivative-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$f:I\to J$在区间$I$上连续且严格单调，$J=f(I)$，其反函数记为$x=\varphi(y)$。在对应的内点$y_0=f(x_0)$处，若极限
+
+$$
+\varphi'(y_0)=\lim_{h\to0}\frac{\varphi(y_0+h)-\varphi(y_0)}{h}
+$$
+
+存在且有限，就称反函数在$y_0$处可导。这里$h$应使$y_0+h\in J$，原函数和反函数的自变量分别为$x$与$y$，不能把对应点混为同一个数。
+
+## 定理
+
+::section{#theorem slot="knowledge.properties"}
+
+设函数$y=f(x)$在区间$I$上严格单调、可导，且$f'(x)\ne 0$。则它的反函数$x=\varphi(y)$在对应点可导，且
+
+$$
+\frac{\mathrm{d}x}{\mathrm{d}y}
+=\frac{1}{\dfrac{\mathrm{d}y}{\mathrm{d}x}}.
+$$
+
+也就是说，反函数在$y$处的导数，等于原函数在对应点$x=\varphi(y)$处导数的倒数。
+
+{/* more */}
+
+几何上，原函数与反函数的图像关于直线$y=x$对称。若原函数在一点切线的斜率为$k\ne 0$，反函数在对称点切线的斜率就是$1/k$；原函数切线水平（$k=0$）时，对应反函数没有有限导数。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+取$y_0=f(x_0)$。由于$f$连续且严格单调，反函数连续；令$\Delta x=\varphi(y_0+\Delta y)-\varphi(y_0)$，则$\Delta y\to0$时$\Delta x\to0$，且$\Delta y\ne0$时$\Delta x\ne0$。于是
+
+$$
+\frac{\varphi(y_0+\Delta y)-\varphi(y_0)}{\Delta y}
+=\frac{\Delta x}{f(x_0+\Delta x)-f(x_0)}
+=\frac{1}{\dfrac{f(x_0+\Delta x)-f(x_0)}{\Delta x}}.
+$$
+
+分母趋于非零的$f'(x_0)$，所以差商极限存在，且
+
+$$
+\varphi'(y_0)=\frac{1}{f'(x_0)}.
+$$
+
+这个差商论证同时说明反函数可导并得到公式，无须预先假设反函数已经可导。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$y=x^3$的反函数"}
+
+$y=x^3$在$\mathbb{R}$上严格单调，$y'=3x^2$。在$x=2$处$y=8$，$y'=12$，所以反函数$x=\sqrt[3]{y}$在$y=8$处的导数为
+
+$$
+\left.\frac{\mathrm{d}x}{\mathrm{d}y}\right|_{y=8}=\frac{1}{12}.
+$$
+
+:::
+
+:::example{title="由$\sin$的导数得到$\arcsin$的导数"}
+
+$y=\sin x$在$\left(-\frac{\pi}{2},\frac{\pi}{2}\right)$上严格单调，$y'=\cos x$。其反函数$x=\arcsin y$满足
+
+$$
+(\arcsin y)'=\frac{1}{\cos x}=\frac{1}{\sqrt{1-y^2}},
+$$
+
+其中$\cos x>0$，所以取正根。这正是反正弦函数的导数公式。
+
+:::
+
+> [!NOTE]
+> 反函数求导公式里的两个导数取自互相对应的点：原函数在$x$处，反函数在$y=f(x)$处。不要把两个不同点的导数直接相除。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<InverseDerivativeDemo />
+
+## 练习
+
+::problems{#inverse-function-check}
+
+1. ::question{#cube-root}
+
+   $y=x^3$的反函数在$y=8$处的导数是 :blank{#value type="number"}
+
+   :::reference
+   ::correct{blank="value" value="0.0833333" tolerance="0.0001"}
+
+   原函数在$x=2$处导数为$12$，所以反函数导数为$1/12$。
+   :::

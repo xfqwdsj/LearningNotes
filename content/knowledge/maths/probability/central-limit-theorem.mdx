@@ -1,0 +1,243 @@
+---
+title: 中心极限定理
+description: 说明独立同分布随机变量之和的标准化极限，以及二项分布的正态近似、连续性修正和一般独立变量所需的条件。
+---
+
+import CentralLimitDemo from "@/demos/central-limit-demo";
+
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设 $Z_n$ 与 $Z$ 是随机变量，分布函数分别为 $F_n$ 与 $F$。若对 $F$ 的每个连续点 $x$ 都有 $F_n(x)\to F(x)$，则称 $Z_n$ **依分布收敛**于 $Z$，记作 $Z_n\xrightarrow{d}Z$。
+
+中心极限定理是一类结论：在适当条件下，独立随机变量之和经过中心化和标准化后，依分布收敛于标准正态分布$N(0,1)$。标准化指减去和的期望，再除以和的标准差。本页记$E(X)$与$D(X)$分别为随机变量的数学期望与方差，定义和性质见[数学期望](/knowledge/maths/probability/expectation/)。记标准正态分布的分布函数为
+
+$$
+\Phi(x)=P\{Z\le x\},\qquad Z\sim N(0,1),
+$$
+
+则结论可以写成：对每个实数$x$，
+
+$$
+P\{Z_n\le x\}\to\Phi(x).
+$$
+
+$\Phi$的密度、性质与查表方法见[正态分布](/knowledge/maths/probability/normal-distribution/)。
+
+> [!NOTE]
+> **依分布收敛看的是分布，不是取值**
+>
+> $Z_n\xrightarrow{d}N(0,1)$只说明$Z_n$落入各区间内的概率逐渐接近标准正态分布给出的概率。它不表示$Z_n$依概率收敛到某个固定值，也不说明原来的$X_i$服从正态分布。
+
+## 独立同分布中心极限定理
+
+::section{#iid-clt slot="knowledge.properties"}
+
+设$X_1,X_2,\ldots$独立同分布，$E(X_i)=\mu$，$D(X_i)=\sigma^2\in(0,\infty)$。记$S_n=\sum_{i=1}^nX_i$，$\bar X_n=S_n/n$，则
+
+$$
+Z_n=\frac{S_n-n\mu}{\sigma\sqrt n}
+=\frac{\bar X_n-\mu}{\sigma/\sqrt n}
+\xrightarrow{d}N(0,1).
+$$
+
+也就是对任意实数$x$，$P\{Z_n\le x\}\to\Phi(x)$。样本量较大时，可以把和与均值近似为正态变量：
+
+$$
+S_n\approx N(n\mu,n\sigma^2),\qquad
+\bar X_n\approx N\left(\mu,\frac{\sigma^2}{n}\right).
+$$
+
+若总体本身就是正态分布$N(\mu,\sigma^2)$，则对任意$n$，$S_n$与$\bar X_n$的上述正态分布精确成立，不需要“样本量较大”这个前提。
+
+> [!IMPORTANT]
+> **方差必须有限且为正**
+>
+> 定理要求$0<\sigma^2<\infty$。方差不存在（重尾分布）时不能使用这个版本；$\sigma^2=0$时$X_i$几乎必然等于常数$\mu$，标准化分母为零，也没有非退化的极限分布。
+
+### 与大数定律的分工
+
+大数定律说明样本均值靠近哪里：$\bar X_n\xrightarrow{P}\mu$。中心极限定理说明这个误差在适当缩放下服从什么分布：$\dfrac{\bar X_n-\mu}{\sigma/\sqrt n}$近似服从$N(0,1)$。前者给出位置，后者给出波动的形状，两者不能互相替代。大数定律的完整陈述见[大数定律](/knowledge/maths/probability/law-of-large-numbers/)。
+
+## 二项分布的正态近似
+
+::section{#binomial-normal}
+
+若$X\sim B(n,p)$（二项分布，见[二项分布](/knowledge/maths/probability/binomial-distribution/)），其中$0<p<1$固定，则二项变量是$n$个独立同分布的两点变量之和，每个两点变量的均值为$p$、方差为$p(1-p)$。由独立同分布中心极限定理，
+
+$$
+\frac{X-np}{\sqrt{np(1-p)}}\xrightarrow{d}N(0,1),
+$$
+
+即$X$近似服从$N\bigl(np,np(1-p)\bigr)$。
+
+由于$X$只取整数，计算$P\{a\le X\le b\}$（$a,b$为整数）时要做**连续性修正**：把区间端点各向外扩$0.5$，再标准化。于是
+
+$$
+P\{a\le X\le b\}\approx
+\Phi\left(\frac{b+0.5-np}{\sqrt{np(1-p)}}\right)
+-\Phi\left(\frac{a-0.5-np}{\sqrt{np(1-p)}}\right).
+$$
+
+:::steps
+
+1. **检查近似条件**：$np$与$n(1-p)$都应足够大；不满足时改用二项分布直接求和或泊松近似。
+
+2. **做连续性修正**：双侧区间$P\{a\le X\le b\}$的上下界分别改为$b+0.5$与$a-0.5$。单侧概率按同一原则处理：$P\{X\le k\}$的上界用$k+0.5$；$P\{X\ge k\}$的下界用$k-0.5$；$P\{X>k\}$先改成$P\{X\ge k+1\}$，下界再用$k+0.5$。
+
+3. **标准化**：用$z=\dfrac{x-np}{\sqrt{np(1-p)}}$把修正后的端点换成标准正态分位数。
+
+4. **查表作差**：计算$\Phi(z_{\text{上}})-\Phi(z_{\text{下}})$；单侧概率用$1-\Phi(z)$或$\Phi(z)$。
+
+:::
+
+近似条件只看$np$与$n(1-p)$的大小。常见的“不小于$5$或$10$”只是经验筛查：尾部概率、强偏斜（$p$接近$0$或$1$）时近似仍可能不准，不存在对所有总体都有效的固定样本量门槛。
+
+> [!CAUTION]
+> **分母是标准差，不是方差**
+>
+> 标准化时除的是$\sqrt{np(1-p)}$，不是方差$np(1-p)$。另外，双侧区间两端都要向外扩$0.5$；单侧概率只修正有限的那一端，否则概率会被系统性地高估或低估。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="公平硬币掷100次：$40\le X\le 60$的概率"}
+
+设$X\sim B(100,\frac12)$，则$np=50$，$\sqrt{np(1-p)}=5$。使用连续性修正，
+
+$$
+P\{40\le X\le 60\}
+\approx\Phi\left(\frac{60.5-50}{5}\right)-\Phi\left(\frac{39.5-50}{5}\right)
+=\Phi(2.1)-\Phi(-2.1)\approx0.9643.
+$$
+
+若不修正，直接代入端点会得到$\Phi(2)-\Phi(-2)\approx0.9545$；修正后的结果更接近二项分布的直接计算值。
+
+:::
+
+:::example{title="上界概率$P\{X\le45\}$"}
+
+仍取$X\sim B(100,\frac12)$。正态近似时上界用$45.5$：
+
+$$
+P\{X\le45\}\approx\Phi\left(\frac{45.5-50}{5}\right)=\Phi(-0.9)\approx0.1841.
+$$
+
+这里下界是$-\infty$，不需要修正；只把有限的上界向外扩$0.5$。
+
+:::
+
+:::example{title="近似条件不满足时"}
+
+设$X\sim B(100,0.01)$，则$np=1$，$n(1-p)=99$，$np$太小。若仍使用正态近似，取连续性修正后的下界$2.5$：
+
+$$
+P\{X\ge3\}\approx1-\Phi\left(\frac{2.5-1}{\sqrt{0.99}}\right)\approx0.0658,
+$$
+
+而二项分布直接计算得$P\{X\ge3\}\approx0.0794$。误差来自$np=1$太小，这种情形应改用二项分布直接求和或泊松近似。
+
+:::
+
+## 一般独立变量的条件
+
+::section{#general-independent}
+
+独立但不同分布时，不能直接套用同分布版本。令
+
+$$
+S_n=\sum_{i=1}^nX_i,\qquad s_n^2=\sum_{i=1}^nD(X_i)>0.
+$$
+
+常用的李雅普诺夫充分条件是：存在$\delta>0$，使
+
+$$
+\frac{\sum_{i=1}^nE|X_i-E(X_i)|^{2+\delta}}{s_n^{2+\delta}}\to0.
+$$
+
+此时中心化的和除以$s_n$趋于标准正态分布：
+
+$$
+\frac{S_n-E(S_n)}{s_n}\xrightarrow{d}N(0,1).
+$$
+
+条件限制了个别变量对总波动的支配程度：某个$X_i$的波动过大时，和的分布可能由它主导，标准正态近似失效。
+
+> [!WARNING]
+> **极限定理不保证有限样本的精度**
+>
+> 中心极限定理给出$n\to\infty$时的极限。有限$n$的近似精度取决于原分布的形状和尾部；使用有限方差版本需要总体方差有限，二项近似还受$np$与$n(1-p)$大小的影响。
+
+## 练习
+
+::problems{#central-limit-theorem-check}
+
+1. ::question{#coin-correction}
+
+   公平硬币掷$100$次，正面次数$X\sim B(100,\frac12)$。用正态近似计算$P\{40\le X\le60\}$时，做连续性修正后：
+
+   1. ::part{#upper}
+
+      标准化后的上界$z_{\text{上}}=$ :blank{#z-upper type="number"}。
+
+      :::reference
+      ::correct{blank="z-upper" value="2.1"}
+
+      上界为$60.5$，所以$z_{\text{上}}=\dfrac{60.5-50}{5}=2.1$。
+      :::
+
+   2. ::part{#lower}
+
+      标准化后的下界$z_{\text{下}}=$ :blank{#z-lower type="number"}。
+
+      :::reference
+      ::correct{blank="z-lower" value="-2.1"}
+
+      下界为$39.5$，所以$z_{\text{下}}=\dfrac{39.5-50}{5}=-2.1$。
+      :::
+
+2. ::question{#comparison}
+
+   关于大数定律与中心极限定理，下列哪些说法正确？
+
+   :::choices{#options-comparison mode="multiple"}
+   - :option[A]{#a} 大数定律说明样本均值依概率收敛于总体均值
+   - :option[B]{#b} 中心极限定理说明标准化后的样本均值依分布收敛于$N(0,1)$
+   - :option[C]{#c} 中心极限定理说明每个$X_i$近似服从正态分布
+   - :option[D]{#d} 当$X_i$独立同分布且总体为正态分布时，$\bar X_n$对任意$n$都精确服从$N\left(\mu,\frac{\sigma^2}{n}\right)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="d"}
+
+   中心极限定理讨论的是标准化和或标准化的样本均值，不是单个$X_i$的分布；其余三项分别是大数定律、中心极限定理的结论和正态总体的精确性质。
+   :::
+
+3. ::question{#correction-direction}
+
+   设$X$取整数值。用正态近似计算$P\{X\ge30\}$时，连续性修正后的下界应为多少？
+
+   :::choices{#options-direction mode="single"}
+   - :option[A]{#a} $30$
+   - :option[B]{#b} $29.5$
+   - :option[C]{#c} $30.5$
+   - :option[D]{#d} $29$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $P\{X\ge30\}$包含$30$，下界要向外扩$0.5$，取$30-0.5=29.5$。
+   :::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CentralLimitDemo />

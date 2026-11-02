@@ -1,0 +1,207 @@
+---
+title: 多元函数的局部极值
+description: 多元函数的局部极值的定义、判定与计算。
+---
+
+import LocalExtremaDemo from "@/demos/local-extrema-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$f$在$P_0(x_0,y_0)$的某邻域内有定义。若对该邻域内异于$P_0$的任一点$P(x,y)$，都有
+
+$$
+f(x,y)\le f(x_0,y_0),
+$$
+
+则称 $f$ 在 $P_0$ 处取得**极大值** $f(x_0,y_0)$，$P_0$ 称为**极大值点**。若都有
+
+$$
+f(x,y)\ge f(x_0,y_0),
+$$
+
+则称 $f$ 在 $P_0$ 处取得**极小值** $f(x_0,y_0)$，$P_0$ 称为**极小值点**。极大值与极小值统称**极值**，极大值点与极小值点统称**极值点**。
+
+若邻域内其他点均满足严格不等式，则分别称为严格极大值或严格极小值。极值是一个函数值，极值点是一个点，两个词不能混用。
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 必要条件与驻点
+
+设$f$在$P_0(x_0,y_0)$处具有偏导数，并在该点取得极值，则
+
+$$
+f_x(x_0,y_0)=0,\qquad f_y(x_0,y_0)=0 .
+$$
+
+一阶偏导数同时为零的点称为$f$的**驻点**。偏导数存在时，驻点就是梯度为零向量的点，梯度的定义见[梯度](/knowledge/maths/multivariable-calculus/gradient/)。
+
+:::proof
+
+只对$x$论证。固定$y=y_0$，令$g(x)=f(x,y_0)$。$g$在$x_0$处可导，且由$f$在$P_0$取得极值可知$x_0$是$g$的极值点。由一元函数的费马引理（见[费马引理](/knowledge/maths/derivatives/fermat-extremum/)），$g'(x_0)=0$，即
+
+$$
+f_x(x_0,y_0)=0 .
+$$
+
+对$y$的偏导数同理。
+
+:::
+
+> [!WARNING]
+> 驻点只是极值的必要条件。$f(x,y)=x^2-y^2$在原点两个偏导数都为零，但沿$x$轴$f>0$、沿$y$轴$f<0$，原点不是极值点，这类点称为鞍点。反过来，极值点也可能不是驻点：$f(x,y)=\sqrt{x^2+y^2}$在原点取得极小值，但两个偏导数都不存在。
+
+### 充分条件
+
+设$f$在驻点$P_0(x_0,y_0)$的某邻域内具有连续的二阶偏导数，记
+
+$$
+A=f_{xx}(x_0,y_0),\qquad
+B=f_{xy}(x_0,y_0),\qquad
+C=f_{yy}(x_0,y_0),
+$$
+
+$$
+\Delta=AC-B^2 .
+$$
+
+则：
+
+1. 当$\Delta>0$时，$f$在$P_0$取得极值；其中$A<0$时取极大值，$A>0$时取极小值。
+2. 当$\Delta<0$时，$f$在$P_0$不取得极值。
+3. 当$\Delta=0$时，本定理无法判定，需要另行讨论。
+
+:::proof
+
+把$P_0$处的函数值增量按二阶泰勒公式展开（见[泰勒公式](/knowledge/maths/derivatives/taylor-formula/)）。$P_0$是驻点，一阶项为零，所以
+
+$$
+\Delta z=f(P_0+\Delta P)-f(P_0)
+=\frac12\left(A\Delta x^2+2B\Delta x\Delta y+C\Delta y^2\right)
++o(\rho^2),
+$$
+
+其中$\rho=\sqrt{\Delta x^2+\Delta y^2}$。令$\Delta x=\rho\cos\theta$、$\Delta y=\rho\sin\theta$，则
+
+$$
+\Delta z=\frac{\rho^2}{2}\,g(\theta)+o(\rho^2),\qquad
+g(\theta)=A\cos^2\theta+2B\cos\theta\sin\theta+C\sin^2\theta .
+$$
+
+二次型$Q(h,k)=Ah^2+2Bhk+Ck^2$的矩阵行列式为$AC-B^2=\Delta$。
+
+- 当$\Delta>0$、$A>0$时，$Q$正定，$g(\theta)$在单位圆上有正的下界，于是$\rho$充分小时$\Delta z>0$，$P_0$是极小值点。
+- 当$\Delta>0$、$A<0$时，$Q$负定，同理$\Delta z<0$，$P_0$是极大值点。
+- 当$\Delta<0$时，$Q$不定，存在方向使$g(\theta)>0$，也存在方向使$g(\theta)<0$。在$P_0$的任意小邻域内，函数值既有大于$f(P_0)$的，也有小于$f(P_0)$的，所以$P_0$不是极值点。
+
+$\Delta=0$时$g(\theta)$可能非负、非正或恒为零，符号由$o(\rho^2)$决定，因此这个定理不能判定。
+
+:::
+
+> [!NOTE]
+> 判别式也可以写成$B^2-AC$，此时结论中的不等号方向相反。本页统一使用$\Delta=AC-B^2$，使用公式前先确认符号约定。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用充分条件判断：$f(x,y)=x^2+y^2-2x-4y+5$"}
+
+令
+
+$$
+f_x=2x-2=0,\qquad f_y=2y-4=0,
+$$
+
+得唯一驻点$(1,2)$。二阶偏导数为$f_{xx}=2$、$f_{xy}=0$、$f_{yy}=2$，所以
+
+$$
+A=2,\qquad B=0,\qquad C=2,\qquad \Delta=AC-B^2=4>0 .
+$$
+
+$\Delta>0$且$A>0$，函数在$(1,2)$取得极小值
+
+$$
+f(1,2)=1+4-2-8+5=0 .
+$$
+
+:::
+
+:::example{title="鞍点：$f(x,y)=x^2-y^2$在原点"}
+
+$f_x=2x$、$f_y=-2y$，驻点为$(0,0)$。$A=2$、$B=0$、$C=-2$，$\Delta=-4<0$，所以原点不是极值点。沿$x$轴$f=x^2>0$，沿$y$轴$f=-y^2<0$，原点附近两个方向的函数值分别大于和小于$f(0,0)=0$，曲面在原点呈马鞍形。
+
+:::
+
+:::example{title="$\Delta=0$时需另行讨论：$f(x,y)=x^4+y^4$"}
+
+$f_x=4x^3$、$f_y=4y^3$，驻点为$(0,0)$。$f_{xx}=12x^2$、$f_{xy}=0$、$f_{yy}=12y^2$，在原点$A=B=C=0$，$\Delta=0$，充分条件失效。但
+
+$$
+f(x,y)=x^4+y^4\ge 0=f(0,0),
+$$
+
+等号只在原点成立，所以原点确实是极小值点。这说明$\Delta=0$时定理失效，但仍可能取极值，必须回到定义或改用其他方法。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<LocalExtremaDemo />
+
+## 练习
+
+::problems{#local-extrema-practice}
+
+1. ::question{#stationary-point}
+
+   $f(x,y)=x^2+xy+y^2-3x$的驻点坐标为$x=$ :blank{#x type="number"}，$y=$ :blank{#y type="number"}。
+
+   :::reference
+   ::correct{blank="x" value="2"}
+   ::correct{blank="y" value="-1"}
+
+   令$f_x=2x+y-3=0$、$f_y=x+2y=0$。由第二式得$x=-2y$，代入第一式得$-4y+y-3=0$，即$y=-1$，从而$x=2$。
+   :::
+
+2. ::question{#saddle}
+
+   $f(x,y)=x^2-y^2$在原点处：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 取得极大值
+   - :option[B]{#b} 取得极小值
+   - :option[C]{#c} 不取得极值
+   - :option[D]{#d} 无法判断
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   $A=2$、$B=0$、$C=-2$，$\Delta=-4<0$，由充分条件知原点不是极值点。
+   :::
+
+3. ::question{#delta-zero}
+
+   设$f$在驻点$P_0$的某邻域内具有连续的二阶偏导数，且$\Delta=AC-B^2=0$。下列结论正确的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $P_0$一定不是极值点
+   - :option[B]{#b} $P_0$一定是极值点
+   - :option[C]{#c} 充分条件失效，需要另行判断
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   $f(x,y)=x^4+y^4$在原点$\Delta=0$且取得极小值，$f(x,y)=x^3+y^3$在原点$\Delta=0$且不取得极值，两种情形都可能，所以只能另行判断。
+   :::

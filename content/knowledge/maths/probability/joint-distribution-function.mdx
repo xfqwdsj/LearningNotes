@@ -1,0 +1,33 @@
+---
+title: 联合分布函数
+description: 用各分量同时不超过给定阈值的概率描述随机向量。
+---
+
+import JointCdfDemo from "@/demos/joint-cdf-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+对[随机向量](/knowledge/maths/probability/random-vector/) $\boldsymbol X=(X_1,\ldots,X_n)^{\mathsf T}$，定义其**联合分布函数**为
+
+$$
+F(x_1,\ldots,x_n)=P\{X_1\le x_1,\ldots,X_n\le x_n\},
+\qquad (x_1,\ldots,x_n)\in\mathbb R^n.
+$$
+
+右端是各分量同时满足阈值条件的概率。离散分布通过累加满足条件的联合概率求出；有联合密度时，对相应区域积分。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+$F$对每个坐标单调不减且右连续；任一坐标趋于$-\infty$时$F$趋于$0$，所有坐标同时趋于$+\infty$时趋于$1$。多维分布函数还要求各矩形的概率增量非负，不能只检查逐坐标单调性。二维写法与矩形概率见[二维联合分布函数](/knowledge/maths/probability/bivariate-random-variable/)。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变二维例子中的两个阈值，累加同时满足条件的联合概率。
+
+<JointCdfDemo />

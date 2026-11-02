@@ -1,0 +1,53 @@
+---
+title: 8.2数量积、向量积与混合积
+description: 记录三种向量乘积的教材顺序、行列式写法约定与判定时的易错点。
+---
+
+## 阅读入口
+
+- [向量及其线性运算](/knowledge/maths/analytic-geometry/vectors/)
+- [数量积](/knowledge/maths/analytic-geometry/dot-product/)
+- [向量积](/knowledge/maths/analytic-geometry/vector-products/)
+- [混合积](/knowledge/maths/analytic-geometry/mixed-product/)
+
+## 学习安排
+
+教材按结果的类型排列三节：数量积得到数，向量积得到向量，混合积又回到数。每节都按“定义 → 坐标运算 → 应用与几何意义”展开，可以对照着读，把几何条件和坐标公式一一对应起来。
+
+先修内容是坐标表示与模的算法，见[向量及其线性运算](/knowledge/maths/analytic-geometry/vectors/)。本章下一节求平面法向量时，用的就是这一节的向量积。
+
+## 三种乘积的定义
+
+::knowledge{path="maths/analytic-geometry/dot-product" slot="definition"}
+
+::knowledge{path="maths/analytic-geometry/vector-products" slot="definition"}
+
+::knowledge{path="maths/analytic-geometry/mixed-product" slot="definition"}
+
+三种乘积的公式都写在坐标里，遇到具体向量直接代分量，不必先求夹角。
+
+## 性质与选择
+
+::knowledge{path="maths/analytic-geometry/dot-product" slot="properties"}
+
+::knowledge{path="maths/analytic-geometry/vector-products" slot="properties"}
+
+::knowledge{path="maths/analytic-geometry/mixed-product" slot="properties"}
+
+公式到这里就齐了；写行列式时$\mathbf{a}$与$\mathbf{b}$的先后决定符号，课程约定里再固定这一点。
+
+## 课程约定
+
+- 夹角统一记作$\theta=(\widehat{\mathbf{a},\mathbf{b}})$，取值$[0,\pi]$。
+- 向量积的行列式第一行固定写$\mathbf{i},\mathbf{j},\mathbf{k}$，后两行依次是$\mathbf{a}$与$\mathbf{b}$的坐标。
+- 混合积记作$[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]$，与$(\mathbf{a}\times\mathbf{b})\cdot\mathbf{c}$是同一个数；写行列式时$\mathbf{a},\mathbf{b},\mathbf{c}$各占一行。
+
+## 重点
+
+本节被单独标出的是混合积为零判共面：它把前两种乘积串起来，先用向量积得到法方向，再用数量积判断这个法方向是否与第三个向量垂直。求夹角与投影用数量积，求法向量与面积用向量积，求体积与共面用混合积。
+
+## 易错点
+
+- 数量积为零判垂直，向量积为零判共线，两个判据不能互换。
+- 混合积是带符号的数，体积要取绝对值；交换任意两个向量，符号改变。
+- 向量积不满足交换律，$\mathbf{a}\times\mathbf{b}=-(\mathbf{b}\times\mathbf{a})$，写坐标时要保持因子的顺序。

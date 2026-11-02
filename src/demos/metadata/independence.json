@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "固定两个事件的概率，能判断独立吗？",
+      "description": "保持边缘概率不变，改变交集概率并检验独立性。",
+      "messages": {
+        "label": "事件独立性的面积模型",
+        "intro": "矩形上半为$B$，下半为$\\bar B$。每行左侧是$A$，深色区域是交集；保持$P(A)=P(B)=1/2$，改变交集概率。",
+        "intersection": "交集概率$P(AB)$",
+        "diagram": "两个事件的概率都是二分之一，交集概率为{value}",
+        "independent": "$P(AB)={value}=P(A)P(B)$，两个事件独立。",
+        "dependent": "$P(AB)={value}\\ne P(A)P(B)=0.25$，两个事件不独立。"
+      },
+      "tags": ["概率论", "独立性"]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+---
+title: IPv4数据包
+description: 认识IPv4首部中的地址、协议和生存时间字段。
+---
+
+import Ipv4TtlDemo from "@/demos/ipv4-ttl-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+IPv4头部通常为20字节，包含路由和处理所需的关键信息。
+
+| 字段 | 作用 |
+| :--- | :--- |
+| 版本 | 值为4，表示IPv4 |
+| 生存时间TTL | 防止数据包在网络环路中无限循环；每经过一个路由器减1，减到0时数据包被丢弃 |
+| 协议 | 指示数据部分使用哪个传输层协议，常见值6表示TCP、17表示UDP |
+| 源IP地址 | 发送方的32位地址 |
+| 目的IP地址 | 接收方的32位地址 |
+
+> [!WARNING]
+> 现代IPv4转发中，路由器转发时将TTL至少减一；TTL耗尽时丢弃分组。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="TTL逐跳递减"}
+
+一个数据包的TTL初始为64。经过3个路由器后，TTL变为61。若路径上存在路由环路，TTL每绕一圈就减1，最终减到0时被丢弃，从而避免数据包永远在网络中打转。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变初始TTL，逐跳转发并观察何时丢弃数据包。
+
+<Ipv4TtlDemo />
+
+## 练习
+
+::problems{#ipv4-packet-practice}
+
+1. ::question{#ttl-purpose}
+
+   IPv4头部中TTL字段的作用是什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 记录数据包已经传输的字节数
+   - :option[B]{#b} 防止数据包在网络环路中无限循环
+   - :option[C]{#c} 指示传输层使用TCP还是UDP
+   - :option[D]{#d} 标识发送方的IP地址
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   TTL每经过一个路由器减1，减到0时数据包被丢弃，从而防止它在环路中永远转发。
+   :::
+
+2. ::question{#protocol-field}
+
+   IPv4头部协议字段的值为17，表示数据部分使用哪个传输层协议？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} TCP
+   - :option[B]{#b} UDP
+   - :option[C]{#c} ICMP
+   - :option[D]{#d} HTTP
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   协议字段常见值6表示TCP，17表示UDP。
+   :::

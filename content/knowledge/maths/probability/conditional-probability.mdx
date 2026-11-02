@@ -1,0 +1,181 @@
+---
+title: 条件概率与乘法公式
+description: 在已知事件发生的条件下计算概率，说明条件概率的定义与性质，并给出乘法公式与多个事件依次发生的链式公式。
+---
+
+import ConditionalDiceDemo from "@/demos/conditional-dice-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$A$与$B$是样本空间$\Omega$中的事件，且$P(B)>0$。在已知$B$发生的条件下，$A$发生的**条件概率**定义为
+
+$$
+P(A\mid B)=\frac{P(AB)}{P(B)},
+$$
+
+其中$AB$表示交事件$A\cap B$。
+
+条件概率把参照范围从$\Omega$缩小到$B$：与$B$不相交的部分不再参与计算，$B$内的样本点按$P(B)$重新归一化。因此条件概率仍是概率，只是样本空间换成了$B$，它满足的公理与运算规律见[概率公理](/knowledge/maths/probability/probability-axioms/)。
+
+定义要求$P(B)>0$。$P(B)=0$时分式没有意义，不能直接对零概率事件取条件。
+
+$P(AB)$与$P(A\mid B)$不是同一个量：前者是$A$与$B$同时发生的概率，后者是已知$B$发生后$A$发生的概率。两者的联系由乘法公式给出。同样，$P(A\mid B)$与$P(B\mid A)$一般也不相等：它们分别以$B$和$A$为参照范围。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 固定条件下仍满足概率的运算规律
+
+固定事件$B$（$P(B)>0$）后，$P(\cdot\mid B)$仍满足概率的三条公理：
+
+- 非负性：$P(A\mid B)\ge 0$；
+- 规范性：$P(\Omega\mid B)=1$，$P(\varnothing\mid B)=0$；
+- 可列可加性：若$A_1,A_2,\ldots$两两互斥，则
+
+$$
+P\left(\bigcup_{i=1}^{\infty}A_i\mid B\right)=\sum_{i=1}^{\infty}P(A_i\mid B).
+$$
+
+由此得到常用关系
+
+$$
+P(\bar A\mid B)=1-P(A\mid B).
+$$
+
+若$AB=\varnothing$，则$P(A\mid B)=0$；若$B\subseteq A$，则$P(A\mid B)=1$。
+
+### 乘法公式
+
+把条件概率的定义式移项，得到**乘法公式**
+
+$$
+P(AB)=P(B)P(A\mid B)=P(A)P(B\mid A).
+$$
+
+第一个等号要求$P(B)>0$，第二个要求$P(A)>0$。乘法公式对任意满足条件的事件都成立，不要求$A$与$B$独立：它只是把交事件拆成“先发生一个事件，再在已知它发生的条件下发生另一个”。
+
+### 多个事件依次发生
+
+设各条件事件的概率都为正，则
+
+$$
+P(A_1A_2\cdots A_n)=P(A_1)P(A_2\mid A_1)P(A_3\mid A_1A_2)\cdots P(A_n\mid A_1\cdots A_{n-1}),
+$$
+
+其中$A_1\cdots A_k$表示前$k$个事件同时发生。第一个因子要求$P(A_1)>0$，第二个因子要求$P(A_1A_2)>0$，依次类推。
+
+> [!WARNING]
+> 不放回抽样时，后一步的分母与分子都要随已有结果更新：取走一个球后，总数和该类剩余个数都减少，条件概率不能沿用第一次的数值。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="掷一枚骰子：已知点数为偶数"}
+
+样本空间为$\Omega=\{1,2,3,4,5,6\}$。设$B=\{2,4,6\}$表示点数为偶数，$A=\{2\}$表示点数为$2$。则$P(B)=\dfrac{1}{2}$，$P(AB)=\dfrac{1}{6}$，所以
+
+$$
+P(A\mid B)=\frac{P(AB)}{P(B)}=\frac{1/6}{1/2}=\frac13.
+$$
+
+无条件概率$P(A)=\dfrac16$。已知点数为偶数后，样本空间缩成$B$，概率变为原来的两倍。
+
+:::
+
+:::example{title="不放回抽样中的乘法公式"}
+
+袋中有$3$个红球、$2$个白球，依次取出两个球，取后不放回。第一次取到红球的概率为$\dfrac35$；在第一次取到红球的条件下，袋中还剩$2$红$2$白，第二次取到红球的概率为$\dfrac24=\dfrac12$。由乘法公式，两次都取到红球的概率为
+
+$$
+P(\text{两次都红})=\frac35\times\frac12=\frac{3}{10}.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+用均匀骰子构造两个事件。固定条件后，条件概率的分母只计入满足条件的点数。
+
+<ConditionalDiceDemo />
+
+## 练习
+
+::problems{#conditional-probability-practice}
+
+1. ::question{#red-balls}
+
+   袋中有$3$个红球、$2$个白球，依次取出两个球，取后不放回。
+
+   1. ::part{#second-given-first}
+
+      已知第一次取到红球，第二次取到红球的概率为 :blank{#second-value type="number"}。
+
+      :::reference
+      ::correct{blank="second-value" value="0.5"}
+
+      已知第一次取到红球后，袋中还剩$2$红$2$白，共$4$个球，所以条件概率为$\dfrac{2}{4}=0.5$。
+      :::
+
+   2. ::part{#both-red}
+
+      两次都取到红球的概率为 :blank{#both-value type="number"}。
+
+      :::reference
+      ::correct{blank="both-value" value="0.3"}
+
+      第一次取到红球的概率为$3/5$，再乘以已知第一次为红时第二次也为红的条件概率$1/2$，得$3/5\times 1/2=0.3$。
+      :::
+
+2. ::question{#three-draws}
+
+   袋中有$4$个红球、$6$个白球，依次取出三个球，取后不放回。前两次取到红球、第三次取到白球的概率为 :blank{#draw-value type="number"}。
+
+   :::reference
+   ::correct{blank="draw-value" value="0.1"}
+
+   按链式乘法公式，概率为$\dfrac{4}{10}\times\dfrac{3}{9}\times\dfrac{6}{8}=\dfrac{1}{10}=0.1$。
+   :::
+
+3. ::question{#compare}
+
+   关于$P(A\mid B)$与$P(B\mid A)$，下列哪一条正确？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 当$P(AB)>0$时，两者相等等价于$P(A)=P(B)$
+   - :option[B]{#b} 对任意事件都成立$P(A\mid B)\ge P(A)$
+   - :option[C]{#c} 计算$P(A\mid B)$要求$P(A)>0$
+   - :option[D]{#d} 已知$B$发生不会改变计算概率时的参照范围
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由定义，$P(A\mid B)=P(AB)/P(B)$，$P(B\mid A)=P(AB)/P(A)$。当$P(AB)>0$时两者相等即$\dfrac{1}{P(B)}=\dfrac{1}{P(A)}$，也就是$P(A)=P(B)$。条件概率只要求条件事件的概率为正，不要求$P(A)>0$；已知条件把参照范围缩小到$B$。
+   :::
+
+4. ::question{#laws}
+
+   设$P(B)>0$。下列等式中恒成立的有哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $P(\varnothing\mid B)=0$
+   - :option[B]{#b} $P(\Omega\mid B)=1$
+   - :option[C]{#c} 若$A_1$与$A_2$互斥，则$P(A_1\cup A_2\mid B)=P(A_1\mid B)+P(A_2\mid B)$
+   - :option[D]{#d} $P(A\mid B)=P(A)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   固定$B$后，$P(\cdot\mid B)$仍是概率，因此规范性和互斥可加性都成立；$P(A\mid B)$一般不等于$P(A)$，只在特殊情形下相等。
+   :::

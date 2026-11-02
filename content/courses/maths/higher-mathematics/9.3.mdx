@@ -1,0 +1,38 @@
+---
+title: 9.3全微分
+description: 记录全微分在本章的编排位置、记号约定与可微判定的判断顺序，并给出知识点入口。
+---
+## 阅读入口
+
+- [全微分](/knowledge/maths/multivariable-calculus/total-differential/)
+- [微分与线性近似](/knowledge/maths/derivatives/differential/)（一元情形，用来对照）
+
+## 学习安排
+
+偏导数只描述沿坐标轴方向的变化；要刻画两个自变量同时变化时函数值的总改变量，就需要全微分。教材先复习单自变量变化时的偏增量与偏微分，再把两个自变量同时变化的情形归结为全增量，用它的线性主部定义全微分，接着讨论可微与连续、偏导数的关系，最后用叠加原理解释全微分的结构。
+
+这一节的判断顺序是：先确认偏导数在该点是否存在，再检查偏导数是否连续。偏导数连续可以直接判可微；不连续时才回到定义，验证$\Delta z-(f_x\Delta x+f_y\Delta y)$是否为$o(\rho)$。与一元函数相比，多元函数不再有“可导与可微等价”，这是本章最容易套错的地方。
+
+## 全微分的定义
+
+::knowledge{path="maths/multivariable-calculus/total-differential" slot="definition"}
+
+定义本身只是一个等式，判断某个函数可不可微时，要回到这个等式核对$\rho$的高阶项。
+
+## 可微、连续与偏导数
+
+::knowledge{path="maths/multivariable-calculus/total-differential" slot="properties"}
+
+可微与连续、偏导数的三种关系排完；课程约定把记号与判断顺序收在一起。
+
+## 课程约定
+
+- 教材用$\Delta_x z$、$\Delta_y z$记偏增量，用$\mathrm{d}_x z$、$\mathrm{d}_y z$记偏微分；全微分记作$\mathrm{d}z=f_x\,\mathrm{d}x+f_y\,\mathrm{d}y$。
+- $\rho=\sqrt{(\Delta x)^2+(\Delta y)^2}$，定义中的$o(\rho)$是对$\rho\to0$而言的高阶无穷小。
+- 一元与多元的三种关系要并排比较。记忆时只记一个方向：可微同时推出连续与偏导数存在；连续与偏导数存在之间互不蕴含。
+
+## 易错点
+
+- 全增量一般不等于两个偏增量之和，两者相差的高阶无穷小不能省掉。
+- 偏导数存在既不能推出连续，也不能推出可微。像$xy/(x^2+y^2)$这样的反例要会自己构造并复述。
+- 使用充分条件时，要求偏导数在该点的某邻域内存在，并且在该点连续；只说“偏导数存在”不够。

@@ -1,0 +1,129 @@
+---
+title: 角与三角函数
+description: 角度制与弧度制的换算、任意角六个三角函数的坐标定义，以及定义域、周期与符号规律。
+order: 1
+---
+import UnitCircleDemo from "@/demos/unit-circle-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### 角度与弧度
+
+角度制用$360^{\circ}$表示一整周。弧度制用弧长与半径之比度量角的大小，两种单位的换算关系为
+
+$$
+360^{\circ}=2\pi,\qquad 180^{\circ}=\pi.
+$$
+
+因此
+
+$$
+1^{\circ}=\frac{\pi}{180},\qquad 1\ \text{rad}=\frac{180^{\circ}}{\pi}\approx 57.3^{\circ}.
+$$
+
+### 六个三角函数
+
+设角$\alpha$的终边经过点$(x,y)$（$x$、$y$不同时为零），该点到原点的距离为
+
+$$
+r=\sqrt{x^{2}+y^{2}}>0.
+$$
+
+六个三角函数定义为：
+
+| 函数 | 定义 | 有定义的条件 |
+| :--- | :--- | :--- |
+| 正弦$\sin\alpha$ | $\dfrac{y}{r}$ | 对任意角有定义 |
+| 余弦$\cos\alpha$ | $\dfrac{x}{r}$ | 对任意角有定义 |
+| 正切$\tan\alpha$ | $\dfrac{y}{x}$ | $x\ne 0$，即$\cos\alpha\ne 0$ |
+| 余切$\cot\alpha$ | $\dfrac{x}{y}$ | $y\ne 0$，即$\sin\alpha\ne 0$ |
+| 正割$\sec\alpha$ | $\dfrac{r}{x}$ | $\cos\alpha\ne 0$ |
+| 余割$\csc\alpha$ | $\dfrac{r}{y}$ | $\sin\alpha\ne 0$ |
+
+其中正弦、余弦、正切是基础，正割、余割、余切分别是余弦、正弦、正切的倒数。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+六个函数的周期与奇偶性如下：
+
+| 函数 | 周期 | 奇偶性 |
+| :--- | :--- | :--- |
+| $\sin x$、$\cos x$、$\sec x$、$\csc x$ | $2\pi$ | $\sin x$、$\csc x$为奇函数；$\cos x$、$\sec x$为偶函数 |
+| $\tan x$、$\cot x$ | $\pi$ | 均为奇函数 |
+
+把角$\alpha$看作锐角时，终边所在象限决定各函数的符号：
+
+| 象限 | $\sin$、$\csc$ | $\cos$、$\sec$ | $\tan$、$\cot$ |
+| :--- | :---: | :---: | :---: |
+| 第一象限 | $+$ | $+$ | $+$ |
+| 第二象限 | $+$ | $-$ | $-$ |
+| 第三象限 | $-$ | $-$ | $+$ |
+| 第四象限 | $-$ | $+$ | $-$ |
+
+> [!TIP]
+> 记忆符号时先看终边所在象限，再分别看横、纵坐标的符号：正弦看纵坐标，余弦看横坐标，正切看两者之比。
+
+单位圆上的投影与定义域的关系见[交互探索](#exploration)；同角关系与诱导公式见[同角关系与诱导公式](/knowledge/maths/trigonometry/basic-identities/)；和差角等变形见[和差角与三角恒等变形](/knowledge/maths/trigonometry/angle-transformations/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="特殊角的正弦与余弦"}
+
+$\dfrac{\pi}{6}=30^{\circ}$，所以
+
+$$
+\sin\frac{\pi}{6}=\frac{1}{2},\qquad
+\cos\frac{\pi}{3}=\frac{1}{2}.
+$$
+
+这两个值也可以由单位圆上终边的坐标直接读出。
+
+:::
+
+## 练习
+
+::problems{#trigonometry-values}
+
+1. ::question{#special-angle}
+
+   $\sin\dfrac{\pi}{6}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0.5"}
+
+   $\dfrac{\pi}{6}=30^{\circ}$，所以$\sin\dfrac{\pi}{6}=\dfrac{1}{2}=0.5$。
+   :::
+
+2. ::question{#quadrant-sign}
+
+   若$\alpha$是第二象限角，下列函数值为正的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\sin\alpha$
+   - :option[B]{#b} $\cos\alpha$
+   - :option[C]{#c} $\tan\alpha$
+   - :option[D]{#d} $\cot\alpha$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   第二象限中纵坐标为正、横坐标为负，所以正弦为正，余弦为负，正切与余切都为负。
+   :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<UnitCircleDemo />
+
+> [!NOTE]
+> 观察什么
+>
+> 旋转终边，比较横坐标、纵坐标与$\cos\alpha$、$\sin\alpha$的符号；终边越过坐标轴时，两个投影的符号随之改变。

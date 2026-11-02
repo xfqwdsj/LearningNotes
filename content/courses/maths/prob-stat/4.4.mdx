@@ -1,0 +1,57 @@
+---
+title: 4.4矩与协方差矩阵
+description: 记录矩与协方差矩阵在数字特征一章中的位置、记号约定、矩阵运算的检查顺序与常见错误。
+---
+## 阅读入口
+
+- [矩](/knowledge/maths/probability/moments-covariance-matrix/)
+- [n维随机变量](/knowledge/maths/probability/random-vector/)
+- [协方差](/knowledge/maths/probability/covariance-correlation/)
+- [方差](/knowledge/maths/probability/variance/)
+
+## 原点矩与中心矩
+
+::knowledge{path="maths/probability/moments-covariance-matrix" slot="definition"}
+
+原点矩以$0$为基准，中心矩以$E(X)$为基准；二阶中心矩就是4.2的方差，所以4.2的公式在这里只是换了记号。
+
+## 协方差矩阵的性质
+
+::knowledge{path="maths/probability/covariance-matrix" slot="definition"}
+
+::knowledge{path="maths/probability/covariance-matrix" slot="properties"}
+
+这一节把$\mu_k'$、$\mu_k$与$\Sigma_{ij}$收进同一套记号；代矩阵公式前先核对$A$的列数与$\Sigma$的阶数，是本章最后一次集中检查。
+
+## 学习安排
+
+4.4是第4章的最后一节，把前面逐个定义的期望、方差、协方差收进同一套记号：一维用原点矩与中心矩，多维用均值向量与协方差矩阵。读完4.2、4.3再读这一节，重点是看清矩阵公式只是已有公式的紧凑写法，而不是新的计算规则。
+
+3.6已经用$N_n(\boldsymbol\mu,\Sigma)$记多元正态分布，这一节把$\boldsymbol\mu$和$\Sigma$展开成均值向量与协方差矩阵，两处的记号从此统一。后面统计推断中出现的协方差矩阵都沿用这里的定义。
+
+## 课程约定
+
+- 原点矩记$\mu_k'=E(X^k)$，中心矩记$\mu_k=E[(X-E(X))^k]$，两者用撇号区分，不能混写。
+- 偏度用$\gamma_1=\mu_3/\sigma^3$；超额峰度用$\gamma_2=\mu_4/\sigma^4-3$，正态分布的值为$0$。教材若直接称“峰度”，数值是超额峰度加$3$。
+- 随机向量写成列向量$\boldsymbol X=(X_1,\ldots,X_n)^{\mathsf T}$，均值向量记$\boldsymbol\mu$，协方差矩阵记$\Sigma$，$\Sigma_{ij}=\operatorname{Cov}(X_i,X_j)$。
+- 线性变换统一写成$\boldsymbol Y=A\boldsymbol X+\boldsymbol b$，协方差矩阵随之变为$A\Sigma_XA^{\mathsf T}$。
+
+## 重点
+
+- 二阶中心矩就是方差，三阶中心矩用$\mu_3'-3\mu_1'\mu_2'+2(\mu_1')^3$换算。
+- 混合矩必须回到联合分布计算，只有独立时才能把$E(X^kY^l)$拆开。
+- 协方差矩阵对角元是方差、非对角元是协方差；它对称且半正定，但不一定正定。
+- 线性组合的方差$\boldsymbol a^{\mathsf T}\Sigma\boldsymbol a$是代入计算时最常用的一条。
+
+## 易错点
+
+- 把$\mu_2$写成$\mu_2'$。二阶中心矩要减去期望的平方，$\mu_2=\mu_2'-(\mu_1')^2$。
+- 三阶中心矩换算时漏项或符号写错；按二项式展开逐项核对，最后一项系数是$2$。
+- 把“峰度”和“超额峰度”混用，导致正态分布一会儿是$0$、一会儿是$3$。
+- 认为协方差矩阵一定正定。只要存在非零方向上的方差为零，矩阵就退化，只能保证半正定。
+- 看到协方差矩阵是对角矩阵就断言各分量独立；对角只说明两两不相关。
+- 线性变换写成$A^{\mathsf T}\Sigma A$或漏掉转置。代入前先核对$A$的列数是否等于$\Sigma$的阶数。
+
+## 复习要点
+
+计算$\boldsymbol a^{\mathsf T}\Sigma\boldsymbol a$时按“对角项乘系数平方、交叉项乘$2a_ia_j$”展开，可以避免漏掉交叉项；得到结果后再用矩阵乘法复核一遍维数。复习这一节时把4.2的方差公式和4.3的协方差双线性展开并排对照，矩阵公式中的每一项都能对应回一维情形。

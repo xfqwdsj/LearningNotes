@@ -1,0 +1,61 @@
+---
+title: 绝对收敛与条件收敛
+description: 比较级数与其绝对值级数，区分绝对收敛和条件收敛。
+---
+
+import AbsoluteConvergenceDemo from "@/demos/absolute-convergence-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+对一般级数$\sum u_n$（$u_n$可正可负），考察各项取绝对值后得到的正项级数$\sum|u_n|$：
+
+- 若 $\sum|u_n|$ 收敛，则称 $\sum u_n$ **绝对收敛**；
+- 若 $\sum u_n$ 收敛，但 $\sum|u_n|$ 发散，则称 $\sum u_n$ **条件收敛**。
+
+**定理**：若级数$\sum u_n$绝对收敛，则$\sum u_n$必定收敛。
+
+:::proof
+
+令
+
+$$
+v_n=\frac12\bigl(u_n+|u_n|\bigr),
+$$
+
+则$0\le v_n\le|u_n|$。由$\sum|u_n|$收敛及比较审敛法，$\sum v_n$收敛。又$u_n=2v_n-|u_n|$，由收敛级数的线性性质，$\sum u_n$收敛。
+
+:::
+
+> [!WARNING]
+> 逆命题不成立：收敛不一定绝对收敛。$\sum\dfrac{(-1)^{n-1}}{n}$由莱布尼茨定理收敛，但$\sum\dfrac1n$是发散的调和级数，所以它只是条件收敛。
+
+例如，$\sum\dfrac{(-1)^{n-1}}{n^2}$绝对收敛，因为$\sum\dfrac1{n^2}$是$p=2$的收敛的$p$级数；$\sum\dfrac{(-1)^{n-1}}{n}$条件收敛。判断条件收敛要两步：先证原级数收敛，再证绝对值级数发散。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<AbsoluteConvergenceDemo />
+
+## 练习
+
+::problems{#absolute-convergence-practice}
+
+1. ::question{#conditional}
+
+   级数$\displaystyle\sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{n}$属于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 绝对收敛
+   - :option[B]{#b} 条件收敛
+   - :option[C]{#c} 发散
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $u_n=\dfrac1n$单调递减趋于$0$，由莱布尼茨定理级数收敛；但$\sum\dfrac1n$是调和级数，发散。所以是条件收敛。
+   :::

@@ -1,0 +1,173 @@
+---
+title: 曲面的切平面与法线
+description: 曲面的切平面与法线的定义、计算与几何意义。
+---
+
+import SurfaceTangentDemo from "@/demos/surface-tangent-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+过曲面上点$P_0$且在该点与曲面相切的平面，称为**切平面**；过$P_0$且垂直于切平面的直线，称为**法线**。切平面的法向量称为曲面在$P_0$处的**法向量**。
+
+### 隐式曲面
+
+设曲面由$F(x,y,z)=0$给出，$F$在$P_0$附近具有连续偏导数，且
+
+$$
+\nabla F(P_0)=(F_x(P_0),F_y(P_0),F_z(P_0))\ne\mathbf 0 .
+$$
+
+则曲面在$P_0$处的法向量为
+
+$$
+\mathbf n=(F_x,F_y,F_z)|_{P_0},
+$$
+
+切平面方程为
+
+$$
+F_x(P_0)(x-x_0)+F_y(P_0)(y-y_0)+F_z(P_0)(z-z_0)=0,
+$$
+
+法线方程为
+
+$$
+\frac{x-x_0}{F_x(P_0)}
+=\frac{y-y_0}{F_y(P_0)}
+=\frac{z-z_0}{F_z(P_0)}.
+$$
+
+这里的$\nabla F$就是$F$的梯度，由三个偏导数组成。当$\nabla F(P_0)=\mathbf 0$时，上述结论需要有额外的奇点分析，$P_0$可能是曲面上的奇点。
+
+### 显式曲面
+
+设曲面由$z=f(x,y)$给出。令
+
+$$
+F(x,y,z)=f(x,y)-z,
+$$
+
+就把显式曲面写成了隐式方程$F=0$。此时
+
+$$
+F_x=f_x,\qquad F_y=f_y,\qquad F_z=-1,
+$$
+
+所以法向量为
+
+$$
+\mathbf n=(f_x,f_y,-1)|_{P_0}.
+$$
+
+切平面方程为
+
+$$
+z-z_0=f_x(x_0,y_0)(x-x_0)+f_y(x_0,y_0)(y-y_0),
+$$
+
+法线方程为
+
+$$
+\frac{x-x_0}{f_x}
+=\frac{y-y_0}{f_y}
+=\frac{z-z_0}{-1}.
+$$
+
+> [!NOTE]
+> 切平面方程的右端正是全微分$f_x\,\Delta x+f_y\,\Delta y$。把$x-x_0$、$y-y_0$换成自变量的增量，切平面就是函数的一次近似，与[全微分](/knowledge/maths/multivariable-calculus/total-differential/)作为线性主部的含义一致。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="球面$x^2+y^2+z^2=14$在点$(1,2,3)$处"}
+
+取$F(x,y,z)=x^2+y^2+z^2-14$，则
+
+$$
+\mathbf n=(2x,2y,2z)|_{(1,2,3)}=(2,4,6),
+$$
+
+取与它平行的$(1,2,3)$作$\mathbf n$。切平面为
+
+$$
+1(x-1)+2(y-2)+3(z-3)=0,
+$$
+
+即$x+2y+3z=14$。法线为
+
+$$
+\frac{x-1}{1}=\frac{y-2}{2}=\frac{z-3}{3}.
+$$
+
+:::
+
+:::example{title="抛物面$z=x^2+y^2$在点$(1,1,2)$处"}
+
+$f_x=2x$、$f_y=2y$，在$(1,1)$处都等于$2$，所以法向量为
+
+$$
+\mathbf n=(2,2,-1).
+$$
+
+切平面为
+
+$$
+z-2=2(x-1)+2(y-1),
+$$
+
+即$2x+2y-z=2$。法线为
+
+$$
+\frac{x-1}{2}=\frac{y-1}{2}=\frac{z-2}{-1}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SurfaceTangentDemo />
+
+## 练习
+
+::problems{#surface-tangent-practice}
+
+1. ::question{#sphere-tangent}
+
+   球面$x^2+y^2+z^2=14$在点$(1,2,3)$处的切平面是：
+
+   :::choices{#sphere-choice mode="single"}
+   - :option[A]{#a} $x+2y+3z=14$
+   - :option[B]{#b} $x+2y+3z=7$
+   - :option[C]{#c} $x+y+z=6$
+   - :option[D]{#d} $2x+4y+6z=14$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   法向量为$(2,4,6)$，取与它平行的$(1,2,3)$作$\mathbf n$，切平面为$(x-1)+2(y-2)+3(z-3)=0$，即$x+2y+3z=14$。B与D表示同一个平面$x+2y+3z=7$，都不过点$(1,2,3)$。
+   :::
+
+2. ::question{#surface-normal}
+
+   曲面$z=x^2+y^2$在点$(1,1,2)$处的切平面是：
+
+   :::choices{#surface-choice mode="single"}
+   - :option[A]{#a} $2x+2y-z=2$
+   - :option[B]{#b} $2x+2y+z=2$
+   - :option[C]{#c} $2x-2y-z=2$
+   - :option[D]{#d} $x+y-z=0$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   令$F=x^2+y^2-z$，法向量为$(2,2,-1)$，切平面为$2(x-1)+2(y-1)-(z-2)=0$，化简得$2x+2y-z=2$。
+   :::

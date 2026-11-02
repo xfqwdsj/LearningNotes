@@ -1,0 +1,61 @@
+---
+title: 指数分布
+description: 指数分布的密度、尾概率与无记忆性。
+---
+
+import ExponentialTailDemo from "@/demos/exponential-tail-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X\sim E(\lambda)$，其中$\lambda>0$。密度与分布函数为
+
+$$
+f(x)=\begin{cases}\lambda e^{-\lambda x},&x\ge 0,\\0,&x<0,\end{cases}
+\qquad
+F(x)=\begin{cases}1-e^{-\lambda x},&x\ge 0,\\0,&x<0.\end{cases}
+$$
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+尾概率与数字特征为
+
+$$
+P\{X>x\}=e^{-\lambda x}\quad(x\ge 0),\qquad E(X)=\frac1\lambda,\qquad D(X)=\frac1{\lambda^2}.
+$$
+
+这里$\lambda$是率参数，$1/\lambda$才是平均等待时间；用于寿命模型时，$1/\lambda$是平均寿命。
+
+**无记忆性**：对$s,t\ge 0$，
+
+$$
+P\{X>s+t\mid X>s\}=P\{X>t\}.
+$$
+
+已经等待了$s$，剩余等待时间的分布与从零开始相同。恒定失效率的寿命、等待时间常用指数分布建模。
+
+:::proof
+
+由$P\{X>s\}=e^{-\lambda s}>0$以及$\{X>s+t\}\subseteq\{X>s\}$，得
+
+$$
+P\{X>s+t\mid X>s\}
+=\frac{P\{X>s+t\}}{P\{X>s\}}
+=\frac{e^{-\lambda(s+t)}}{e^{-\lambda s}}
+=e^{-\lambda t}
+=P\{X>t\}.
+$$
+
+:::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变速率$\lambda$与时间$t$，比较尾概率$P(X>t)$。
+
+<ExponentialTailDemo />

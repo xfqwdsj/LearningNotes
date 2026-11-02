@@ -1,0 +1,170 @@
+---
+title: 二重积分的直角坐标计算
+description: 把平面区域写成累次积分的积分限，并通过交换积分次序改写同一区域。
+---
+
+import CartesianRegionDemo from "@/demos/cartesian-region-demo";
+
+设$f(x,y)$在有界闭区域$D$上连续，以下讨论先对一个变量、再对另一个变量积分。
+
+## 直角坐标下的计算
+
+::section{#definition slot="knowledge.definition"}
+
+在直角坐标下$\mathrm d\sigma=\mathrm dx\,\mathrm dy$。把二重积分写成[累次积分](/knowledge/maths/multiple-integrals/iterated-integral/)时，哪一层在内、哪一层在外由区域的形状决定，按外层积分变量把区域分成两类。
+
+### X型区域
+
+若$D$可以表示为
+
+$$
+D=\{(x,y):a\le x\le b,\ \varphi_1(x)\le y\le\varphi_2(x)\},
+$$
+
+即左、右边界分别是竖直线$x=a$与$x=b$，下、上边界分别是连续曲线$y=\varphi_1(x)$与$y=\varphi_2(x)$，则
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\int_a^b\left[\int_{\varphi_1(x)}^{\varphi_2(x)}f(x,y)\,\mathrm dy\right]\mathrm dx .
+$$
+
+这是先对$y$、后对$x$的**累次积分**，也称二次积分。
+
+### Y型区域
+
+若$D$可以表示为
+
+$$
+D=\{(x,y):c\le y\le d,\ \psi_1(y)\le x\le\psi_2(y)\},
+$$
+
+即下、上边界分别是水平线$y=c$与$y=d$，左、右边界分别是连续曲线$x=\psi_1(y)$与$x=\psi_2(y)$，则
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\int_c^d\left[\int_{\psi_1(y)}^{\psi_2(y)}f(x,y)\,\mathrm dx\right]\mathrm dy .
+$$
+
+> [!NOTE]
+> **内层上下限可以是函数，外层必须是常数**
+>
+> 对固定积分区域，内层积分的上下限可以依赖外层变量；外层上下限不能依赖内层变量。若另有不参与积分的参数，上下限仍可依赖该参数。
+
+### 交换积分次序
+
+同一个二重积分可以按X型或Y型两种次序计算。有时某一次序下的内层积分积不出来（例如被积函数含$e^{-y^2}$），换一次序就能积。交换次序按下面的步骤进行：
+
+:::steps
+
+1. **由上下限还原区域**
+
+   从原来的累次积分读出$D$的不等式表示，画出$D$的图形。
+
+2. **改写为另一种类型**
+
+   把同一个$D$重新表示为新次序下的不等式组，得到新的上下限。
+
+3. **写出新次序的累次积分**
+
+   被积函数不变，按新次序安排内层与外层。
+
+:::
+
+> [!WARNING]
+> 交换次序不是把$\mathrm dx$与$\mathrm dy$对调就结束。区域没有变，每一层的上下限都要按新次序重新确定；只对调微分而沿用旧上下限，通常得到的是对另一个区域的积分。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="X型区域：$\displaystyle\iint_D(x+y)\,\mathrm d\sigma$"}
+
+取$D=\{(x,y):0\le x\le1,\ 0\le y\le x\}$。这是X型区域，$\varphi_1(x)=0$，$\varphi_2(x)=x$，所以
+
+$$
+\iint_D(x+y)\,\mathrm d\sigma
+=\int_0^1\left[\int_0^x(x+y)\,\mathrm dy\right]\mathrm dx
+=\int_0^1\left(x^2+\frac{x^2}{2}\right)\mathrm dx
+=\frac32\cdot\frac13=\frac12 .
+$$
+
+:::
+
+
+
+:::example{title="交换次序：$\displaystyle\int_0^1\mathrm dx\int_x^1e^{-y^2}\,\mathrm dy$"}
+
+内层$\int e^{-y^2}\,\mathrm dy$没有初等原函数，按原次序积不出来。由上下限读出区域
+
+$$
+D=\{(x,y):0\le x\le1,\ x\le y\le1\}=\{(x,y):0\le y\le1,\ 0\le x\le y\}.
+$$
+
+交换次序后内层变成对$x$的积分：
+
+$$
+\int_0^1\mathrm dx\int_x^1e^{-y^2}\,\mathrm dy
+=\int_0^1\mathrm dy\int_0^ye^{-y^2}\,\mathrm dx
+=\int_0^1ye^{-y^2}\,\mathrm dy
+=\frac12\left(1-\frac1e\right).
+$$
+
+:::
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CartesianRegionDemo />
+
+## 练习
+
+::problems{#double-integral-cartesian}
+
+1. ::question{#x-type-limits}
+
+   $D$由$y=x$、$y=0$、$x=1$围成，把$\displaystyle\iint_D f\,\mathrm d\sigma$化为先对$y$后对$x$的累次积分，结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\displaystyle\int_0^1\mathrm dx\int_0^xf\,\mathrm dy$
+   - :option[B]{#b} $\displaystyle\int_0^1\mathrm dx\int_x^1f\,\mathrm dy$
+   - :option[C]{#c} $\displaystyle\int_0^1\mathrm dy\int_0^{1-y}f\,\mathrm dx$
+   - :option[D]{#d} $\displaystyle\int_0^1\mathrm dy\int_y^1f\,\mathrm dx$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $D$是$0\le x\le1$、$0\le y\le x$的三角形，所以内层对$y$的积分限是$0$到$x$。
+   :::
+
+
+
+2. ::question{#swap-order}
+
+   交换次序：$\displaystyle\int_0^1\mathrm dy\int_y^1f(x,y)\,\mathrm dx$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\displaystyle\int_0^1\mathrm dx\int_0^xf\,\mathrm dy$
+   - :option[B]{#b} $\displaystyle\int_0^1\mathrm dx\int_x^1f\,\mathrm dy$
+   - :option[C]{#c} $\displaystyle\int_0^1\mathrm dx\int_0^{1-x}f\,\mathrm dy$
+   - :option[D]{#d} $\displaystyle\int_0^1\mathrm dy\int_0^yf\,\mathrm dx$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   原区域为$0\le y\le1$、$y\le x\le1$，等价于$0\le x\le1$、$0\le y\le x$。换成先对$y$后对$x$后，内层限是$0$到$x$。
+   :::
+
+
+
+3. ::question{#iterated-value}
+
+   $\displaystyle\int_0^1\mathrm dx\int_0^x(x+y)\,\mathrm dy=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0.5"}
+
+   内层积分为$\dfrac32x^2$，再对$x$从$0$到$1$积分得$\dfrac12$。
+   :::

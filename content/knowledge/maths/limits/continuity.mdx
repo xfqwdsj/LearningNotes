@@ -1,0 +1,171 @@
+---
+title: 函数在一点的连续性
+description: 用极限刻画函数在一点和区间上的连续性，并说明连续与可导的关系。
+---
+import ContinuityDemo from "@/demos/continuity-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设函数$f$在点$x_0$的某个邻域内有定义。若
+
+$$
+\lim_{x \to x_0} f(x)=f(x_0),
+$$
+
+则称$f$在$x_0$处**连续**。
+
+这个等式同时要求三件事：$f(x_0)$有定义，$\lim_{x \to x_0} f(x)$存在，并且极限值等于函数值。三者缺一不可。
+
+记$\Delta x=x-x_0$，$\Delta y=f(x_0+\Delta x)-f(x_0)$，则连续性也等价于
+
+$$
+\lim_{\Delta x \to 0}\Delta y=0.
+$$
+
+也就是说，自变量的微小变化只会引起函数值的微小变化。
+
+{/* more */}
+
+### 区间上的连续性
+
+若$f$在开区间$(a,b)$内每一点都连续，则称$f$在$(a,b)$内连续。
+
+若$f$在闭区间$[a,b]$上有定义，且满足
+
+1. $f$在$(a,b)$内连续；
+2. $\lim_{x \to a^+}f(x)=f(a)$（在左端点右连续）；
+3. $\lim_{x \to b^-}f(x)=f(b)$（在右端点左连续），
+
+则称$f$在$[a,b]$上连续。端点处只要求单侧连续，是因为函数在区间外可能没有定义。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 连续函数的运算
+
+若$f$与$g$都在$x_0$处连续，则$f\pm g$、$fg$以及$f/g$（要求$g(x_0)\ne 0$）都在$x_0$处连续；连续函数的复合在对应点也连续。
+
+因此初等函数在其定义区间内连续，求这类函数的极限时可以直接代入。
+
+### 可导必连续
+
+若$f$在$x_0$处可导，则$f$在$x_0$处连续。
+
+:::proof
+
+由导数定义，
+
+$$
+f'(x_0)=\lim_{\Delta x \to 0}\frac{f(x_0+\Delta x)-f(x_0)}{\Delta x}
+$$
+
+存在。于是
+
+$$
+\lim_{\Delta x \to 0}\Delta y
+=\lim_{\Delta x \to 0}\frac{\Delta y}{\Delta x}\cdot \Delta x
+=f'(x_0)\cdot 0=0,
+$$
+
+即$f$在$x_0$处连续。
+
+:::
+
+反过来不成立：连续只保证函数值贴近极限值，不保证差商的极限存在。例子见下节。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用定义验证$f(x)=x^2$在$x=1$处连续"}
+
+$f(1)=1$，且
+
+$$
+\lim_{x \to 1}x^2=1=f(1),
+$$
+
+所以$f$在$x=1$处连续。
+
+:::
+
+:::example{title="$f(x)=|x|$在$x=0$处连续但不可导"}
+
+连续性由$\lim_{x \to 0}|x|=0=|0|$得到。
+
+可导性要看左右导数：
+
+$$
+\lim_{x \to 0^-}\frac{|x|-0}{x-0}=-1,\qquad
+\lim_{x \to 0^+}\frac{|x|-0}{x-0}=1.
+$$
+
+左右导数不相等，所以$f$在$x=0$处不可导。几何上，图像在原点出现尖点，切线不存在。
+
+:::
+
+## 练习
+
+::problems{#continuity-check}
+
+1. ::question{#absolute}
+
+   对于函数$f(x)=|x|$，分别检查函数值与连续性。
+
+   1. ::part{#value}
+
+      $f(0)=$ :blank{#result type="number"}。
+
+      :::reference
+      ::correct{blank="result" value="0"}
+
+      将$x=0$代入，得到$|0|=0$。
+      :::
+
+   2. ::part{#continuity}
+
+      函数在$x=0$处是否连续？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 连续
+      - :option[B]{#b} 不连续
+      :::
+
+      :::reference
+      ::correct{option="a"}
+
+      左右极限与函数值都为$0$，符合连续性的定义。这里的连续性不能推出可导性。
+      :::
+
+   3. ::part{#properties}
+
+      关于函数在$x=0$处的性质，哪些叙述正确？
+
+      :::choices{#choice mode="multiple"}
+      - :option[A]{#a} 函数连续
+      - :option[B]{#b} 函数可导
+      - :option[C]{#c} 极限存在
+      - :option[D]{#d} 函数值不存在
+      :::
+
+      :::reference
+      ::correct{option="a"}
+
+      ::correct{option="c"}
+
+      极限与函数值均为$0$，所以连续；左右导数分别为$-1$和$1$，所以不可导。
+      :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ContinuityDemo />
+
+> [!NOTE]
+> **观察什么**
+>
+> 改变点上的函数值不会改变邻近点趋近时的极限。连续性要求这两个量相等。

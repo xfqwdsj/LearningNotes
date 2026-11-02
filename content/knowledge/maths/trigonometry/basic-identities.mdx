@@ -1,0 +1,71 @@
+---
+title: 同角三角函数关系
+description: 同角三角函数的倒数、平方与商数关系。
+order: 2
+---
+
+import TrigIdentityDemo from "@/demos/trig-identity-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+倒数关系：
+
+$$
+\csc\alpha=\frac{1}{\sin\alpha},\qquad
+\sec\alpha=\frac{1}{\cos\alpha},\qquad
+\cot\alpha=\frac{1}{\tan\alpha}.
+$$
+
+平方关系：
+
+$$
+\sin^{2}\alpha+\cos^{2}\alpha=1,\qquad
+\sec^{2}\alpha-\tan^{2}\alpha=1,\qquad
+\csc^{2}\alpha-\cot^{2}\alpha=1.
+$$
+
+后两式也常写成$1+\tan^{2}\alpha=\sec^{2}\alpha$与$1+\cot^{2}\alpha=\csc^{2}\alpha$。
+
+商数关系：
+
+$$
+\tan\alpha=\frac{\sin\alpha}{\cos\alpha},\qquad
+\cot\alpha=\frac{\cos\alpha}{\sin\alpha}.
+$$
+
+> [!NOTE]
+> $\sin^{2}\alpha+\cos^{2}\alpha=1$对任意角成立；$\sec^{2}\alpha-\tan^{2}\alpha=1$要求$\cos\alpha\ne 0$，$\csc^{2}\alpha-\cot^{2}\alpha=1$要求$\sin\alpha\ne 0$。两个商数关系也分别要求分母不为零。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TrigIdentityDemo />
+
+## 练习
+
+::problems{#trig-identity-practice}
+
+1. ::question{#pythagorean}
+
+   对任意角$\alpha$，下列等式在定义域内恒成立的有：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\sin^{2}\alpha+\cos^{2}\alpha=1$
+   - :option[B]{#b} $1+\tan^{2}\alpha=\sec^{2}\alpha$
+   - :option[C]{#c} $\tan\alpha=\dfrac{\sin\alpha}{\cos\alpha}$
+   - :option[D]{#d} $\sin^{2}\alpha-\cos^{2}\alpha=1$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   前三个是同角基本关系；第四个应为$\sin^{2}\alpha+\cos^{2}\alpha=1$。
+   :::

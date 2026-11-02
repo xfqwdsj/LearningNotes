@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "同为64位平台，`long`一定占八字节吗？",
+      "description": "比较两个常见数据模型中的类型大小。",
+      "messages": {
+        "label": "C数据模型的类型大小",
+        "intro": "这两个示例都假设`int`为4字节、指针为8字节；它们对`long`的选择不同。实际结果应以目标实现的`sizeof`为准。",
+        "choose": "选择数据模型",
+        "type": "类型",
+        "size": "字节数",
+        "pointer": "指针",
+        "result": "这个模型中`long`占{size}字节。"
+      },
+      "tags": ["C语言", "数据类型"]
+    }
+  }
+}

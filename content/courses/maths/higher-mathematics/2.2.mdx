@@ -1,0 +1,47 @@
+---
+title: 2.2函数的求导法则
+description: 按教材顺序整理求导公式与各类求导方法，并给出知识点入口和易错提醒。
+---
+## 阅读入口
+
+- [导数的定义与几何意义](/knowledge/maths/derivatives/derivative/)
+- [基本求导公式与四则运算法则](/knowledge/maths/derivatives/derivative-formulas/)
+- [复合函数的链式法则](/knowledge/maths/derivatives/chain-rule/)
+- [隐函数求导](/knowledge/maths/derivatives/implicit-differentiation/)
+- [反函数的导数](/knowledge/maths/derivatives/inverse-function-derivative/)
+- [参数方程所确定函数的导数](/knowledge/maths/derivatives/parametric-derivative/)
+- [幂指函数](/knowledge/maths/limits/power-exponential-function/)
+
+## 学习安排
+
+教材先列基本初等函数的导数公式，再讲四则运算法则，最后把复合、隐函数、反函数和参数方程作为“其他求导方法”集中处理。这样安排的用意是：先把公式表练熟，再把复杂函数拆成基本函数的组合。
+
+链式法则是本节的分水岭。后面的隐函数求导、反函数求导和参数方程求导都要用到它；如果这一节能把“分层—分别求导—相乘”练顺，后面的方法只是换一种书写形式。
+
+幂指函数$y=u(x)^{v(x)}$独立于基本初等函数，因此用对数求导法处理；更完整的讨论见[幂指函数](/knowledge/maths/limits/power-exponential-function/)。
+
+## 基本公式与四则运算
+
+::knowledge{path="maths/derivatives/derivative-formulas" slot="definition"}
+
+## 复合函数
+
+::knowledge{path="maths/derivatives/chain-rule" slot="definition"}
+
+## 记号约定
+
+- 本节同时使用$y'$、$f'(x)$和$\dfrac{\mathrm{d}y}{\mathrm{d}x}$。前两者强调函数关系，后者强调对自变量求导。
+- 对复合函数使用$\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}u}\cdot\dfrac{\mathrm{d}u}{\mathrm{d}x}$时，$\dfrac{\mathrm{d}y}{\mathrm{d}u}$中的$y$是外层函数，$\dfrac{\mathrm{d}u}{\mathrm{d}x}$中的$u$是内层函数。
+- 隐函数求导的结果允许同时含$x$和$y$，不需要先解出$y$。
+
+## 易错点
+
+- 基本公式的成立条件不能省略：$a^x$要求$a>0$且$a\ne 1$，$\ln x$要求$x>0$，商法则要求分母不为零。
+- 链式法则最常见的错误是漏乘内层导数。求导前先写出内外层，比直接心算更稳。
+- 隐函数求导时，对含$y$的项要乘$y'$，不能把$y$当常数。
+- 反函数求导的两个导数取自互相对应的点：原函数在$x$处，反函数在$y=f(x)$处。
+- 参数方程求导要求$\varphi'(t)\ne 0$；竖直切线处$\dfrac{\mathrm{d}y}{\mathrm{d}x}$不存在。
+
+## 复习要点
+
+这一节的方法可以统一成一句话：把陌生函数拆成已知函数的复合，再逐层乘上内层导数。隐函数、反函数、参数方程只是“拆”的方式不同。

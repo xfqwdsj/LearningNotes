@@ -1,0 +1,259 @@
+---
+title: Simple-MIPS教学指令集
+description: Simple-MIPS的教学定位与操作数约定，以及数据传送、算术与移位、控制流指令的语法、语义和使用例子。
+---
+
+import MipsBranchDemo from "@/demos/mips-branch-demo";
+
+## 定位与记号
+
+::section{#definition slot="knowledge.definition"}
+
+Simple-MIPS是为教学目的设计的简化指令集。它参考MIPS等真实架构，但并不完全等同于真实的MIPS指令集，目的是更直观地讲解计算机组成原理的核心概念。本页的指令都按Simple-MIPS的写法给出；PC、IR、ALU和寄存器组如何配合执行这些指令，见[CPU的核心部件](/knowledge/cs/computer-architecture/cpu-components/)。
+
+每条Simple-MIPS指令固定32位，每个通用寄存器也固定32位。常见指令的基本形式是
+
+```text
+操作码 目标, 源1, 源2
+```
+
+操作数按角色分为以下几类：
+
+| 记号 | 含义 |
+| :--- | :--- |
+| `$rd` | 目标寄存器，结果写在这里 |
+| `$rs` | 第一个源寄存器；访存时兼作基址寄存器 |
+| `$rt` | 第二个源寄存器；在load/store中承担另一角色 |
+| `offset` | 立即数偏移，与`$rs`中的地址相加 |
+| `shamt` | 移位位数，取0–31 |
+| `label` | 标签，代表一条指令的地址 |
+
+寄存器编号的具体分工（`$zero`、`$t0`–`$t9`、`$s0`–`$s7`等）由寄存器组的约定决定，不在指令本身的语义里体现。
+
+## 指令与共同约定
+
+::section{#properties slot="knowledge.properties"}
+
+### 指令总表
+
+| 指令 | 类别 | 语法 | 语义 |
+| :--- | :--- | :--- | :--- |
+| load | 数据加载 | `lw $rt, offset($rs)` | 从地址`$rs + offset`读出一个字，存入`$rt` |
+| store | 数据存储 | `sw $rt, offset($rs)` | 把`$rt`的一个字写到地址`$rs + offset` |
+| mov | 数据移动 | `move $rd, $rs` | `$rd = $rs` |
+| sub | 算术运算 | `sub $rd, $rs, $rt` | `$rd = $rs - $rt` |
+| shiftl | 逻辑左移 | `sll $rd, $rt, shamt` | `$rd = $rt << shamt`，右侧补0 |
+| shiftr | 逻辑右移 | `srl $rd, $rt, shamt` | `$rd = $rt >> shamt`，左侧补0 |
+| slt | 比较 | `slt $rd, $rs, $rt` | `$rs < $rt`时`$rd = 1`，否则`$rd = 0` |
+| sle | 比较（伪指令） | `sle $rd, $rs, $rt` | `$rs <= $rt`时`$rd = 1`，否则`$rd = 0` |
+| beqz | 条件分支 | `beqz $rs, label` | `$rs == 0`时转到`label` |
+| goto | 无条件跳转 | `goto label` | 直接转到`label` |
+
+表中的`mov`、`shiftl`、`shiftr`是教学指令集里的名称，汇编写法分别是`move`、`sll`、`srl`；`goto`对应真实MIPS的`j`。读真实MIPS汇编时按真实指令集的助记符理解，不要混用。
+
+### 访存指令的地址计算
+
+load与store都采用“基址寄存器加偏移”的寻址方式：`$rs`中存放基址，`offset`是立即数，实际访问的地址为两者之和。偏移可以为0，此时直接访问`$rs`指向的字。这两条指令一次都只移动一个32位的字。
+
+可以借助一个类比记住方向：寄存器像手边的工作台，内存像书架；load把数据从书架搬到工作台，store把工作台的内容放回书架。所以load的`$rt`是写入目标，store的`$rt`是数据来源。
+
+### 复制、减法与移位
+
+复制指令把源寄存器的值写到目标寄存器，两个寄存器此后的值相同。Simple-MIPS把复制视为一条基本指令；真实MIPS通常用`add`或`or`与`$zero`配合实现，例如`add $t0, $t1, $zero`。
+
+`sub`把`$rs`当作被减数、`$rt`当作减数，结果写入`$rd`。减法由ALU完成，操作数来自寄存器组，写法与`slt`一样是三个寄存器。例如`$t1`为10、`$t2`为3时，`sub $t0, $t1, $t2`使`$t0`等于7。
+
+`shamt`给出移动的位数。当左移结果未丢失高位时，左移`shamt`位相当于乘以$2^{shamt}$；对无符号数，右移`shamt`位相当于除以$2^{shamt}$并向下取整。这个“相当于除以”的结论只对非负整数成立：`srl`是逻辑右移，左侧补0，不能用它处理带符号数的除法。
+
+> [!WARNING]
+> 逻辑右移与算术右移不是同一条指令。`srl`在最高位补0，负数右移后会变成一个很大的正数，不能拿它代替除以2的幂。
+
+### 控制流指令的组合方式
+
+`slt`和`sle`不改变执行顺序，它们只把比较结果写成0或1；`beqz`检查一个寄存器是否为0，为0就转到标签；`goto`无条件转到标签，实质是把PC置为标签对应的地址，例如`goto Loop`回到循环开头。三者配合，才能让程序离开“顺序执行”：
+
+:::steps
+
+1. 用`slt`把条件变成0或1。
+
+2. 用`beqz`检查这个0或1，决定是否跳出。
+
+3. 用标签和`goto`回到循环开头。
+
+:::
+
+`sle`是伪指令，汇编器通常把它展开成与`slt`相关的指令序列。它的语义完整，可以直接在作业中使用，只是不要把它当成硬件直接实现的一条指令。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="load与store的地址计算"}
+
+设`$s1`中存放`0x1000`。
+
+```text title="memory.s"
+lw $t0, 4($s1)    # 读地址0x1004
+sw $t0, 8($s1)    # 写地址0x1008
+```
+
+`lw`把地址`0x1004`处的字读入`$t0`；随后`sw`把`$t0`的内容写到地址`0x1008`。两次访问的地址都由`$s1`加上偏移得到，`$s1`本身不变。
+
+:::
+
+:::example{title="复制寄存器：`move`与`add ... $zero`"}
+
+```text title="move.s"
+move $t0, $t1
+add  $t0, $t1, $zero
+```
+
+两条指令都把`$t1`的值复制到`$t0`。第二条利用`$zero`恒为0：`$t1 + 0`仍等于`$t1`，所以结果与`move`相同。
+
+:::
+
+:::example{title="移位代替乘除"}
+
+```text title="shift.s"
+sll $t0, $t1, 2   # $t1 = 5时，$t0 = 20
+srl $t0, $t2, 2   # $t2 = 13时，$t0 = 3
+```
+
+左移2位相当于乘以$2^2=4$，所以$5\times 4=20$；右移2位相当于除以4并向下取整，所以$13\div 4=3$。
+
+:::
+
+:::example{title="比较结果如何交给分支"}
+
+设`$s2`的值为5，依次考察`$s1`取不同值时的结果：
+
+| `$s1`的值 | `slt $t0, $s1, $s2` | `sle $t0, $s1, $s2` | `beqz`接在`slt`后 | `beqz`接在`sle`后 |
+| :---: | :---: | :---: | :--- | :--- |
+| 3 | 1 | 1 | 不跳转 | 不跳转 |
+| 5 | 0 | 1 | 跳转 | 不跳转 |
+| 7 | 0 | 0 | 跳转 | 跳转 |
+
+`slt`在相等时给出0，`sle`在相等时给出1，这是两条比较指令唯一的差别。`beqz`只看寄存器是不是0，所以它接在`slt`后面时，跳转的含义是“不小于”；若接在`sle`后面，跳转的含义变成“大于”。写循环时要先确定自己用的是哪一条。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MipsBranchDemo />
+
+## 练习
+
+::problems{#simple-mips-practice}
+
+1. ::question{#load-offset}
+
+   若`$s1`的值为4096，执行`lw $t0, 8($s1)`时读取的字节地址是多少？
+
+   地址是 :blank{#address type="number"}。
+
+   :::reference
+   ::correct{blank="address" value="4104"}
+
+   实际地址等于基址加偏移：$4096+8=4104$。
+   :::
+
+2. ::question{#memory-write}
+
+   下列哪条指令会把寄存器中的值写入内存？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `lw $t0, 0($s1)`
+   - :option[B]{#b} `sw $t0, 0($s1)`
+   - :option[C]{#c} `sub $t0, $t1, $t2`
+   - :option[D]{#d} `sll $t0, $t1, 2`
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   `sw`是store，把`$t0`写到内存；`lw`的方向相反，是从内存读入寄存器。
+   :::
+
+3. ::question{#shift-left}
+
+   设`$t1`的值为5，执行`sll $t0, $t1, 2`后`$t0`的值是多少？
+
+   `$t0`的值是 :blank{#left-value type="number"}。
+
+   :::reference
+   ::correct{blank="left-value" value="20"}
+
+   左移2位相当于乘以$2^2=4$，$5\times 4=20$。
+   :::
+
+4. ::question{#shift-right}
+
+   设`$t1`的值为13，执行`srl $t0, $t1, 2`后`$t0`的值是多少？
+
+   `$t0`的值是 :blank{#right-value type="number"}。
+
+   :::reference
+   ::correct{blank="right-value" value="3"}
+
+   右移2位相当于除以4并向下取整，$13\div 4=3.25$，取3。
+   :::
+
+5. ::question{#compare}
+
+   设`$s1`和`$s2`的值都为7。
+
+   1. ::part{#slt-value}
+
+      执行`slt $t0, $s1, $s2`后`$t0`的值是 :blank{#slt-result type="number"}。
+
+      :::reference
+      ::correct{blank="slt-result" value="0"}
+
+      `slt`判断第一个操作数是否严格小于第二个；两者相等，结果为0。
+      :::
+
+   2. ::part{#sle-value}
+
+      执行`sle $t0, $s1, $s2`后`$t0`的值是 :blank{#sle-result type="number"}。
+
+      :::reference
+      ::correct{blank="sle-result" value="1"}
+
+      `sle`判断是否小于或等于；两者相等，结果为1。
+      :::
+
+6. ::question{#branch}
+
+   设`$t0`的值为0，执行`beqz $t0, Loop`时会发生什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 跳转到`Loop`处继续执行
+   - :option[B]{#b} 不跳转，顺序执行下一条指令
+   - :option[C]{#c} 把`$t0`置为1
+   - :option[D]{#d} 结束程序
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `beqz`在寄存器等于0时跳转；`$t0`为0，所以转到标签`Loop`。
+   :::
+
+7. ::question{#copy}
+
+   要把`$t1`的值复制到`$t0`，下列哪条指令正确？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `move $t0, $t1`
+   - :option[B]{#b} `move $t1, $t0`
+   - :option[C]{#c} `lw $t0, 0($t1)`
+   - :option[D]{#d} `sub $t0, $t1, $t1`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `move $t0, $t1`把源寄存器`$t1`的值写到目标`$t0`；写成`move $t1, $t0`方向相反。`sub $t0, $t1, $t1`的两数相同，结果恒为0，不是复制。
+   :::

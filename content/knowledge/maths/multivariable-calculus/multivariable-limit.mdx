@@ -1,0 +1,89 @@
+---
+title: 多元函数的极限
+description: 多元函数的极限的定义与基本性质。
+---
+
+import MultivariableLimitDemo from "@/demos/multivariable-limit-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设二元函数$f(P)=f(x,y)$在点$P_0(x_0,y_0)$的某个去心邻域内有定义。若对任意给定的$\epsilon>0$，总存在$\delta>0$，使得当$P\in\mathring U(P_0,\delta)$时恒有
+
+$$
+|f(x,y)-A|<\epsilon,
+$$
+
+则称常数$A$为$f(x,y)$当$P\to P_0$时的极限，也称**二重极限**，记作
+
+$$
+\lim_{(x,y)\to(x_0,y_0)}f(x,y)=A,
+$$
+
+也写作$\lim_{P\to P_0}f(P)=A$。
+
+定义要求$P$以**任何方式**趋近$P_0$时函数值都趋于同一个$A$。平面上趋近一点的方式有无穷多种：沿直线、沿抛物线、绕着点转圈逼近，都算。因此只要找到两条路径给出不同的极限值，就能断定二重极限不存在。
+
+:::steps
+
+1. **选一条路径**
+
+   令$y=kx$或$y=kx^2$，代入$f$，把二元极限化成一元极限。
+
+2. **比较不同路径的结果**
+
+   若结果随$k$变化，或沿某条路径极限不存在，则二重极限不存在。
+
+3. **确认结论的适用范围**
+
+   各路径结果一致只说明暂时没有矛盾，仍需另行证明极限存在。
+
+:::
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="沿不同路径得到不同的值：$f(x,y)=\dfrac{xy}{x^2+y^2}$"}
+
+在$(0,0)$的去心邻域内$f$有定义。沿直线$y=kx$（$x\ne 0$）趋近：
+
+$$
+f(x,kx)=\frac{kx^2}{x^2+k^2x^2}=\frac{k}{1+k^2}.
+$$
+
+沿$x$轴（$k=0$）得到$0$，沿$y=x$（$k=1$）得到$1/2$。两条路径的极限不同，所以$\lim_{(x,y)\to(0,0)}f(x,y)$不存在。
+
+> [!WARNING]
+> 比较有限条路径可以否定极限存在，但不能单凭它们证明极限存在。即使所有直线路径都给出同一个值，也不能据此断言二重极限存在；证明存在要回到$\epsilon$-$\delta$定义，或用夹逼。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultivariableLimitDemo />
+
+## 练习
+
+::problems{#multivariable-limit-practice}
+
+1. ::question{#limit-zero}
+
+   $\displaystyle\lim_{(x,y)\to(0,0)}\frac{x^2y}{x^2+y^2}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0"}
+
+   当$(x,y)\ne(0,0)$时
+
+   $$
+   \left|\frac{x^2y}{x^2+y^2}\right|\le |y|,
+   $$
+
+   而$|y|\to 0$，由夹逼得极限为$0$。
+   :::

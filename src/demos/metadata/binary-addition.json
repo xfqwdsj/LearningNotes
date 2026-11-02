@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "四位无符号加法何时产生进位？",
+      "description": "改变两个四位数，比较完整结果和四位寄存结果。",
+      "messages": {
+        "label": "四位无符号加法",
+        "intro": "两个操作数均用四位表示。完整结果保留第五位；存入四位容器时只保留低四位。",
+        "first": "第一个加数",
+        "second": "第二个加数",
+        "stored": "低四位为{bits}",
+        "fits": "真实和为{sum}，最高位进位为{carry}，四位结果为{result}。",
+        "overflow": "真实和为{sum}，最高位进位为{carry}；四位结果回绕为{result}。"
+      },
+      "tags": ["二进制", "算术运算"]
+    }
+  }
+}

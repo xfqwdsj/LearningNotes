@@ -1,0 +1,62 @@
+---
+title: 简单随机样本
+description: 定义总体与简单随机样本，区分随机样本和观测值。
+---
+
+import SampleIndependenceDemo from "@/demos/sample-independence-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**总体**是研究对象的某个数量特征，用一个随机变量$X$的分布描述。总体的分布通常未知，但假定它有确定的分布函数$F$，并记其均值与方差为$\mu$与$\sigma^2$（方差在本页记作$D(X)$，有的书写作$\operatorname{Var}(X)$）。
+
+**简单随机样本**（简称样本）是一组随机变量$X_1,X_2,\ldots,X_n$，满足
+
+1. $X_1,X_2,\ldots,X_n$相互独立；
+2. 每个$X_i$都与总体$X$同分布。
+
+$n$称为样本容量。两条条件都不能省：同分布保证每个$X_i$携带的是关于同一个总体的信息，所以$E(X_i)=\mu$、$D(X_i)=\sigma^2$；独立性保证联合分布等于各边缘分布之积，当总体分布函数为$F$时
+
+$$
+F_{X_1,\ldots,X_n}(x_1,\ldots,x_n)=\prod_{i=1}^nF(x_i).
+$$
+
+试验完成后得到的具体数值$x_1,\ldots,x_n$称为**样本观测值**。样本是随机变量，观测值是数：抽样前$\bar X$与$S^2$是随机变量，可以求分布、求期望；抽样后$\bar x$与$s^2$是确定的数，是估计值。凡求分布、求期望都用大写记号，凡由数据算出的估计值都用小写记号。
+
+> [!WARNING]
+> **不放回抽样不满足独立性**
+>
+> 有限总体的不放回抽样中，各次抽到的结果彼此影响，$X_1,\ldots,X_n$不独立，未经说明不能直接套用要求独立性的公式。总体很大、样本容量相对很小时，常把不放回抽样近似当作独立样本处理，这是一个需要写明的近似。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SampleIndependenceDemo />
+
+## 练习
+
+::problems{#sample-independence-practice}
+
+1. ::question{#simple-random-sample}
+
+   关于简单随机样本$X_1,\ldots,X_n$，下列叙述正确的是
+
+   :::choices{#choice-sample-definition mode="multiple"}
+   - :option[A]{#a} $X_1,\ldots,X_n$相互独立
+   - :option[B]{#b} 每个$X_i$都与总体同分布
+   - :option[C]{#c} 样本容量必须不小于$30$
+   - :option[D]{#d} 每个$X_i$的期望都等于总体均值
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   简单随机样本由“相互独立”与“同分布”两条定义，与样本容量无关；同分布保证$E(X_i)=\mu$。容量$30$只是某些大样本近似中的经验门槛，不是样本的定义要求。
+   :::

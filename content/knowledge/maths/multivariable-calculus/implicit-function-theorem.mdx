@@ -1,0 +1,308 @@
+---
+title: 隐函数的求导公式
+description: 用隐函数存在定理判断方程能否局部确定隐函数，并给出一个方程与方程组三种情形下的求导公式。
+---
+
+import ImplicitSurfaceDemo from "@/demos/implicit-surface-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若方程$F(x,y)=0$在选定点$(x_0,y_0)$附近确定一个函数$y=f(x)$，使得$f(x_0)=y_0$，且邻域内恒有$F(x,f(x))=0$，就称这个函数为由该方程确定的**局部隐函数**。定义描述函数与方程的关系，不要求先把$y$显式解出来。
+
+一个方程可能有多个分支，因此必须说明研究的是哪个点附近的分支。类似地，$F(x,y,z)=0$可以局部确定$z=f(x,y)$；一组方程也可以同时确定多个未知函数。下方的定理给出局部存在、唯一及可微的一组充分条件。
+
+## 存在条件与求导公式
+
+::section{#conditions slot="knowledge.properties"}
+
+### 一个方程与一个自变量
+
+::section{#one-variable}
+
+设方程$F(x,y)=0$满足：
+
+1. 函数$F$在点$P_0(x_0,y_0)$的某个邻域内具有连续偏导数；
+2. $F(x_0,y_0)=0$；
+3. $F_y(x_0,y_0)\ne 0$。
+
+则方程$F(x,y)=0$在$x_0$的某个邻域内唯一确定一个具有连续导数的函数$y=f(x)$，它在$x_0$处取值$y_0$，且
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=-\frac{F_x(x,y)}{F_y(x,y)} .
+$$
+
+本页用$F_x$、$F_y$、$F_z$表示$F$对相应变量的偏导数。求某一点处的导数时，公式右端取该点的偏导数值。这个结论称为**隐函数存在定理**。
+
+三个条件各自排除一种失败：连续偏导数让$F$可以在$P_0$附近线性化；$F(x_0,y_0)=0$保证$P_0$确实在曲线上；$F_y(x_0,y_0)\ne 0$保证方程能对$y$解出，局部曲线的切线不竖直。第三条一旦不成立，公式的分母为零，结论本身也可能不再成立。
+
+### 一个方程与两个自变量
+
+::section{#two-variables}
+
+设方程$F(x,y,z)=0$满足：
+
+1. 函数$F$在点$P_0(x_0,y_0,z_0)$的某个邻域内具有连续偏导数；
+2. $F(x_0,y_0,z_0)=0$；
+3. $F_z(x_0,y_0,z_0)\ne 0$。
+
+则方程$F(x,y,z)=0$在点$(x_0,y_0)$的某个邻域内唯一确定一个具有连续偏导数的函数$z=f(x,y)$，它在$(x_0,y_0)$处取值$z_0$，且
+
+$$
+\frac{\partial z}{\partial x}=-\frac{F_x}{F_z},
+\qquad
+\frac{\partial z}{\partial y}=-\frac{F_y}{F_z}.
+$$
+
+与一元情形相比，$x$ 与 $y$ 都是自变量，因此要分别固定其中一个、对另一个求偏导；分母始终是对**被解出的变量** $z$ 的偏导数。
+
+### 方程组情形
+
+::section{#system}
+
+设方程组
+
+$$
+\begin{cases}
+F(x,y,u,v)=0,\\
+G(x,y,u,v)=0
+\end{cases}
+$$
+
+满足：
+
+1. $F$、$G$在点$P_0(x_0,y_0,u_0,v_0)$的某个邻域内对各变量具有连续偏导数；
+2. 在$P_0$处两式同时成立；
+3. 偏导数组成的雅可比行列式在$P_0$处不为零，即
+
+$$
+J=\frac{\partial(F,G)}{\partial(u,v)}
+=\begin{vmatrix}
+F_u & F_v\\
+G_u & G_v
+\end{vmatrix}\ne 0 .
+$$
+
+则方程组在点$(x_0,y_0)$的某个邻域内唯一确定一组连续且具有连续偏导数的函数$u=u(x,y)$、$v=v(x,y)$，它们在$(x_0,y_0)$处取值$u_0$、$v_0$。
+
+求$\dfrac{\partial u}{\partial x}$、$\dfrac{\partial v}{\partial x}$时，固定$y$，把$u$、$v$看成$x$的函数，对两个方程分别关于$x$求偏导：
+
+$$
+\begin{cases}
+F_x+F_u\dfrac{\partial u}{\partial x}+F_v\dfrac{\partial v}{\partial x}=0,\\[6pt]
+G_x+G_u\dfrac{\partial u}{\partial x}+G_v\dfrac{\partial v}{\partial x}=0 .
+\end{cases}
+$$
+
+这是关于$\dfrac{\partial u}{\partial x}$、$\dfrac{\partial v}{\partial x}$的线性方程组，系数行列式正是$J$。由$J\ne 0$可用克莱姆法则解出
+
+$$
+\frac{\partial u}{\partial x}
+=-\frac{1}{J}\frac{\partial(F,G)}{\partial(x,v)}
+=-\frac{1}{J}
+\begin{vmatrix}
+F_x & F_v\\
+G_x & G_v
+\end{vmatrix},
+$$
+
+$$
+\frac{\partial v}{\partial x}
+=-\frac{1}{J}\frac{\partial(F,G)}{\partial(u,x)}
+=-\frac{1}{J}
+\begin{vmatrix}
+F_u & F_x\\
+G_u & G_x
+\end{vmatrix}.
+$$
+
+把$x$换成$y$，就得到对$y$的偏导数：
+
+$$
+\frac{\partial u}{\partial y}
+=-\frac{1}{J}\frac{\partial(F,G)}{\partial(y,v)},
+\qquad
+\frac{\partial v}{\partial y}
+=-\frac{1}{J}\frac{\partial(F,G)}{\partial(u,y)}.
+$$
+
+记号$\dfrac{\partial(F,G)}{\partial(x,v)}$表示把$J$中对应变量所在的那一列换成$(F_x,G_x)$，列的顺序与分母一致。以$u_x$为例：分母是$\partial(u,v)$，$u$所在的第一列被替换，得到$\partial(x,v)$；$v_x$则替换第二列。
+
+## 公式的推导
+
+::section{#derivation slot="knowledge.proof"}
+
+一元情形可以直接从$F(x,f(x))=0$推出公式。
+
+:::proof
+
+设$y=f(x)$在$x_0$的邻域内满足$F(x,f(x))=0$。由于$F$具有连续偏导数、$f$可导，复合函数$F(x,f(x))$可导。对$x$求导得
+
+$$
+F_x(x,f(x))+F_y(x,f(x))\,f'(x)=0 .
+$$
+
+在$P_0$处$F_y\ne 0$，于是
+
+$$
+f'(x_0)
+=-\frac{F_x(x_0,y_0)}{F_y(x_0,y_0)} .
+$$
+
+:::
+
+两个自变量的情形来自全微分。若$z=f(x,y)$由$F(x,y,z)=0$确定，则恒有$F(x,y,f(x,y))=0$，两边求全微分：
+
+$$
+F_x\,\mathrm{d}x+F_y\,\mathrm{d}y+F_z\,\mathrm{d}z=0 .
+$$
+
+另一方面$\mathrm{d}z=z_x\,\mathrm{d}x+z_y\,\mathrm{d}y$。因为$x$、$y$是自变量，$\mathrm{d}x$、$\mathrm{d}y$可以任意取值，比较两边同类项的系数就得到
+
+$$
+z_x=-\frac{F_x}{F_z},\qquad z_y=-\frac{F_y}{F_z}.
+$$
+
+这里用到$F_z\ne 0$，否则不能除以$F_z$。全微分的定义与形式不变性见[全微分](/knowledge/maths/multivariable-calculus/total-differential/)和[多元复合函数的求导法则](/knowledge/maths/multivariable-calculus/multivariable-chain-rule/)。方程组情形只是把同样的比较系数过程写成两个方程，再用克莱姆法则求解。
+
+> [!NOTE]
+> 三种情形的条件可以统一看成“雅可比矩阵可逆”：一元时它是$F_y$，二元时是$F_z$，方程组时是$2\times 2$的雅可比行列式。可逆意味着可以就这些变量局部解出隐函数。
+
+> [!TIP]
+> 若$F_x(P_0)\ne 0$、$F_y(P_0)=0$，结论改为在$P_0$附近确定$x=g(y)$，公式相应变成$\dfrac{\mathrm{d}x}{\mathrm{d}y}=-\dfrac{F_y}{F_x}$。哪一个偏导数非零，就把哪一个变量解出来。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="圆$x^2+y^2=1$在$(0,1)$附近"}
+
+取$F(x,y)=x^2+y^2-1$。在点$(0,1)$处
+
+$$
+F_x=2x=0,\qquad F_y=2y=2\ne 0,
+$$
+
+满足定理条件，所以方程在该点附近确定$y=f(x)$，且
+
+$$
+y'=-\frac{F_x}{F_y}=-\frac{x}{y},
+$$
+
+在$(0,1)$处$y'=0$，切线水平。这与把$y$看作$x$的函数、两边直接求导得到的结果一致，具体计算见[隐函数求导](/knowledge/maths/derivatives/implicit-differentiation/)。
+
+:::
+
+:::example{title="由$x^2+y^2+z^2-4z=0$求$\partial z/\partial x$"}
+
+取$F(x,y,z)=x^2+y^2+z^2-4z$，则
+
+$$
+F_x=2x,\qquad F_y=2y,\qquad F_z=2z-4 .
+$$
+
+在$F_z\ne 0$（即$z\ne 2$）的点附近可以解出$z=f(x,y)$，且
+
+$$
+\frac{\partial z}{\partial x}=-\frac{2x}{2z-4}=\frac{x}{2-z},
+\qquad
+\frac{\partial z}{\partial y}=\frac{y}{2-z}.
+$$
+
+在点$(0,0,0)$处$F_z=-4\ne 0$，两个偏导数都等于$0$。方程可以改写成
+
+$$
+x^2+y^2+(z-2)^2=4,
+$$
+
+即球心在$(0,0,2)$、半径为$2$的球面，这解释了为什么$z=2$处$F_z=0$：那里是球面的赤道，切平面竖直，不能把$z$写成$x,y$的单值函数。
+
+> [!WARNING]
+> 条件$F_z\ne 0$是这一定理的充分条件，不是所有隐函数存在或可微的必要条件。条件不成立时，不能直接使用该定理或除以该偏导数，但结论未必失败。例如$F(x,y)=y^3-x^3$在$(0,0)$处有$F_y=0$，方程仍唯一确定光滑函数$y=x$；此时比值公式在原点给出$0/0$，应从函数本身求导。
+
+
+:::
+
+:::example{title="方程组$u+v=x$，$u-v=y$"}
+
+取$F=u+v-x$、$G=u-v-y$，考察点$(x,y)=(1,1)$，此时$u=1$、$v=0$。雅可比行列式为
+
+$$
+J=\begin{vmatrix}1&1\\1&-1\end{vmatrix}=-2\ne 0,
+$$
+
+满足定理条件。方程组还能显式解出$u=\dfrac{x+y}{2}$、$v=\dfrac{x-y}{2}$，先得到$u_x=v_x=\dfrac12$，再用公式核对。由$F_x=-1$、$G_x=0$，
+
+$$
+\frac{\partial u}{\partial x}
+=-\frac{1}{-2}
+\begin{vmatrix}-1&1\\0&-1\end{vmatrix}
+=\frac12,
+\qquad
+\frac{\partial v}{\partial x}
+=-\frac{1}{-2}
+\begin{vmatrix}1&-1\\1&0\end{vmatrix}
+=\frac12,
+$$
+
+与显式结果一致。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ImplicitSurfaceDemo />
+
+## 练习
+
+::problems{#implicit-function-check}
+
+1. ::question{#one-variable-slope}
+
+   设$y=y(x)$由方程$x^2y+y^3-2=0$在点$(1,1)$附近确定，则$y'(1)=$ :blank{#slope type="number"}。
+
+   :::reference
+   ::correct{blank="slope" value="-0.5"}
+
+   $F(x,y)=x^2y+y^3-2$，有$F_x=2xy=2$、$F_y=x^2+3y^2=4$，所以$y'=-F_x/F_y=-\dfrac12$。
+   :::
+
+2. ::question{#condition}
+
+   要用公式$\dfrac{\partial z}{\partial x}=-\dfrac{F_x}{F_z}$由$F(x,y,z)=0$求$z=f(x,y)$的偏导数，在所求点处必须成立的条件是：
+
+   :::choices{#condition-choice mode="single"}
+   - :option[A]{#a} $F_x\ne 0$
+   - :option[B]{#b} $F_z\ne 0$
+   - :option[C]{#c} $F_y\ne 0$
+   - :option[D]{#d} $F_x=F_y=F_z=0$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   要直接使用给定的比值公式，分母$F_z$必须非零；这也是所述存在定理的一项充分条件。它不是所有隐函数存在的必要条件。$F_x$与$F_y$可以为零。
+   :::
+
+3. ::question{#system-partial}
+
+   设$u=u(x,y)$、$v=v(x,y)$由$u+v=xy$、$u-v=0$确定，在$(x,y)=(1,1)$处$\dfrac{\partial u}{\partial x}=$ :blank{#ux type="number"}。
+
+   :::reference
+   ::correct{blank="ux" value="0.5"}
+
+   取$F=u+v-xy$、$G=u-v$，则$J=\begin{vmatrix}1&1\\1&-1\end{vmatrix}=-2$，且$F_x=-y=-1$、$G_x=0$。于是
+
+   $$
+   \frac{\partial u}{\partial x}
+   =-\frac{1}{-2}
+   \begin{vmatrix}-1&1\\0&-1\end{vmatrix}
+   =\frac12.
+   $$
+
+   也可由$u=\dfrac{xy}{2}$直接求导核对。
+   :::

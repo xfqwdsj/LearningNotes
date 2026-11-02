@@ -1,0 +1,103 @@
+---
+title: 贝叶斯公式
+description: 在已知结果的条件下，按各来源的先验概率和条件概率计算后验概率。
+---
+import BayesDemo from "@/demos/bayes-demo";
+
+
+## 公式
+
+::section{#definition slot="knowledge.definition"}
+
+设$B_1,\ldots,B_n$是[完备事件组](/knowledge/maths/probability/event-partition/)，且$P(B_i)>0$，$A$为满足$P(A)>0$的事件，则对每个$j=1,\ldots,n$，
+
+$$
+P(B_j\mid A)=\frac{P(B_j)P(A\mid B_j)}{\sum_{i=1}^{n}P(B_i)P(A\mid B_i)}.
+$$
+
+分子是交事件的概率$P(AB_j)$，分母是$P(A)$的[全概率展开](/knowledge/maths/probability/total-probability/)。因此公式就是把
+
+$$
+P(B_j\mid A)=\frac{P(AB_j)}{P(A)}
+$$
+
+写成只用各来源概率和来源内条件概率表示的形式。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 先验概率与后验概率
+
+- $P(B_j)$：**先验概率**，观察结果之前对各来源的判断。
+- $P(A\mid B_j)$：来源确定为$B_j$时结果$A$出现的概率，它衡量该来源产生这个结果的难易。
+- $P(B_j\mid A)$：**后验概率**，观察到结果$A$之后对来源的重新判断。
+
+贝叶斯公式用各来源产生结果的相对难易重新分配先验概率，分母$P(A)$起归一化作用。后验概率一般不等于先验概率：若某个来源比别的来源更容易产生结果$A$，它的后验概率就高于先验概率。
+
+> [!WARNING]
+> 贝叶斯公式的分母必须包含所有可能来源。漏掉某个$B_i$时，分母少了该来源贡献的那部分概率，算出的比值一般大于真正的后验概率。
+
+> [!NOTE]
+> 两条公式常配合使用：先用全概率公式算出$P(A)$，再把同一个和式放进贝叶斯公式的分母。全概率回答“结果的总概率是多少”，贝叶斯回答“结果已发生，它来自哪个来源”。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="甲乙两厂供货中的次品"}
+
+甲厂供货占$60\%$，次品率$1\%$；乙厂供货占$40\%$，次品率$3\%$。记$D$为抽到次品，$B_1$为产品来自甲厂，$B_2$为产品来自乙厂，则$B_1,B_2$构成完备事件组。
+
+由全概率公式，
+
+$$
+P(D)=0.6\times 0.01+0.4\times 0.03=0.006+0.012=0.018.
+$$
+
+已知抽到次品，它来自乙厂的概率由贝叶斯公式得到：
+
+$$
+P(B_2\mid D)=\frac{0.4\times 0.03}{0.018}=\frac{0.012}{0.018}=\frac23.
+$$
+
+乙厂供货的先验概率为$0.4$，观察到次品后上升为$\dfrac23$：乙厂次品率更高，出现次品这一结果使“产品来自乙厂”的判断变得更可能。
+
+:::
+
+## 练习
+
+::problems{#bayes-practice}
+
+1. ::question{#line-posterior}
+
+   某车间有$A$、$B$两条生产线：$A$线产量占$70\%$，次品率$2\%$；$B$线产量占$30\%$，次品率$6\%$。已知取到的产品是次品，它来自$A$线的概率为 :blank{#posterior-value type="number"}。
+
+   :::reference
+   ::correct{blank="posterior-value" value="0.4375"}
+
+   由贝叶斯公式，$P(A\mid D)=\dfrac{0.7\times 0.02}{0.032}=\dfrac{0.014}{0.032}=0.4375$。
+   :::
+
+2. ::question{#denominator}
+
+   在贝叶斯公式中，分母应当是什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 目标来源的$P(B_j)P(A\mid B_j)$
+   - :option[B]{#b} $P(A)$，即所有来源的$P(B_i)P(A\mid B_i)$之和
+   - :option[C]{#c} $P(B_j)$
+   - :option[D]{#d} $1-P(A)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   分母是$P(A)$，由全概率公式展开为$\sum_i P(B_i)P(A\mid B_i)$。只写目标来源的那一项，通常会把分母算小，比值偏大，不再等于真正的后验概率。
+   :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<BayesDemo />

@@ -1,0 +1,53 @@
+---
+title: 8.2单个正态总体的假设检验
+description: 单个正态总体均值与方差检验的阅读顺序、选型约定和易错点。
+---
+## 阅读入口
+
+- [单个正态总体均值检验](/knowledge/maths/statistics/one-sample-tests/)
+- [单个正态总体方差检验](/knowledge/maths/statistics/one-sample-variance-test/)
+- [假设检验的基本概念](/knowledge/maths/statistics/hypothesis-testing/)
+- [抽样分布](/knowledge/maths/statistics/sampling-distributions/)
+
+## 设定与记号
+
+::knowledge{path="maths/statistics/one-sample-tests" slot="definition"}
+
+均值检验中应先确认总体标准差$\sigma$是已知量还是需要由样本估计。
+
+## 均值检验
+
+::knowledge{path="maths/statistics/one-sample-tests" slot="properties"}
+
+均值检验是本节唯一一次把$Z$与$t$并排给出的地方；8.3的均值差只是把这两个统计量的分母换成标准误。
+
+## 方差检验
+
+::knowledge{path="maths/statistics/one-sample-variance-test" slot="properties"}
+
+方差检验在8.3有两样本的推广（方差比），那边改用$F$分布；本节的$\chi^2$结论只适用于单个总体。
+
+## 学习安排
+
+教材先讲均值检验：$\sigma$已知时用$Z$统计量，$\sigma$未知时把$\sigma$换成样本标准差$S$、改用$t$统计量；接着讲均值未知时的方差检验；最后用一道$n=16$的例题把选型、查表和结论表述串起来，并以一份“使用前检查”清单收尾。
+
+做这一章的题，动笔前先回答四个问题：检验的是均值还是方差；$\sigma$是题目给出的，还是由同一样本算出的$s$；题目是否假定总体正态；备择方向指向哪一侧尾部。四个答案都确定之后再算统计量，可以避免大部分选型错误。
+
+## 课程约定
+
+- 教材统一使用上$\alpha$分位点：$z_\alpha$、$t_\alpha(\nu)$、$\chi^2_\alpha(\nu)$，双侧检验把$\alpha$拆成$\alpha/2$分到两侧。
+- 例题里的$s$指样本标准差（分母$n-1$），书写时与总体标准差$\sigma$、基准值$\sigma_0$分开。
+- 方差检验的公式默认均值未知；若题目给出已知均值，教材改用已知中心构造卡方统计量，并提示自由度换成$n$。
+- 结论只写“拒绝$H_0$”或“不拒绝$H_0$”；不拒绝表示当前证据不足，参数可以等于基准值，也可以落在其他未被排除的取值上。
+
+## 易错点
+
+- 方差未知时仍用$z_{\alpha/2}$当临界值，把$t$检验写成精确的$Z$检验。
+- 双侧检验不显著后改用单侧检验重新报告；备择方向应由研究问题事先确定。
+- 卡方分布不对称，双侧拒绝域不能写成“绝对值超过某个临界值”。
+- 已知均值时仍按$n-1$取自由度。
+- 把“不拒绝$H_0$”理解为证明了参数等于基准值。
+
+## 复习要点
+
+复习时把流程固定成：写$H_0$与$H_1$ → 确认$\sigma$是否已知 → 算统计量 → 按备择方向查表 → 写结论。$n=16$的例题里$t_{0.025}(15)\approx2.131$与$t_{0.05}(15)\approx1.753$容易混用，查表前先确认是双侧还是单侧。

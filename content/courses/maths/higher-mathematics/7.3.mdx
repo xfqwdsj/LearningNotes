@@ -1,0 +1,41 @@
+---
+title: 7.3齐次方程
+description: 记录齐次方程在第七章的位置、换元$u=y/x$的课程约定与可化为齐次方程时的判断顺序。
+---
+## 阅读入口
+
+- [齐次方程](/knowledge/maths/differential-equations/homogeneous-differential-equation/)
+- [可分离变量的微分方程](/knowledge/maths/differential-equations/separable-differential-equation/)
+
+## 齐次方程的定义
+
+::knowledge{path="maths/differential-equations/homogeneous-differential-equation" slot="definition"}
+
+定义这一段给了两种判定：能写成$\varphi\left(\dfrac{y}{x}\right)$，或右端是零次齐次函数；两种说法在作业里都会出现。
+
+## 换元解法
+
+::knowledge{path="maths/differential-equations/homogeneous-differential-equation" slot="properties"}
+
+步骤表里的还原变量是本节最常丢的一步；“易错点”把它列在最后一条，检查答案时对着看。
+
+## 学习安排
+
+7.3排在7.2之后，因为齐次方程没有独立于分离变量法的新解法：换元$u=\dfrac{y}{x}$只是把方程改造成7.2的形式。教材的顺序是定义与判断、换元步骤、完整例题，最后补充可化为齐次的平移法。
+
+复习时把三步分开检查：能不能化成$\varphi\left(\dfrac{y}{x}\right)$、换元后有没有得到可分离方程、最后有没有还原$u$。可化为齐次的部分先看两条直线是否相交，再决定用平移还是整体换元。
+
+## 课程约定
+
+- 统一令$u=\dfrac{y}{x}$，于是$y=ux$，$y'=u+xu'$。
+- 判断齐次优先用次数法：把分子、分母每一项中$x$与$y$的次数相加，总次数相同才可能是齐次。
+- 换元后一律先整理成$x\dfrac{\mathrm{d}u}{\mathrm{d}x}=\varphi(u)-u$，再决定怎么分离。
+- 答案可以保留隐式形式，但必须把$u$全部换回$\dfrac{y}{x}$。
+
+## 易错点
+
+- 把这里的“齐次”与线性齐次方程$y'+p(x)y=0$混为一谈。这里要求右端是零次齐次函数。
+- 换元时只把$y$换成$ux$，忘记$y'$也要换成$u+xu'$，导致方程里同时出现$y'$和$u$。
+- 分离时除以$\varphi(u)-u$，漏掉$\varphi(u)=u$对应的直线解$y=u_0x$。
+- 遇到$\dfrac{a_1x+b_1y+c_1}{a_2x+b_2y+c_2}$直接平移，不先检查两条直线是否相交；平行时平移法失效，要改用$z=a_1x+b_1y$。
+- 算出$u$的关系就停手，忘记还原变量。

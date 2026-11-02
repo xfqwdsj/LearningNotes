@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "割线怎样趋近切线？",
+      "description": "改变两个点的间距，观察割线斜率如何接近曲线在一点的导数。",
+      "messages": {
+        "label": "割线与切线交互演示",
+        "intro": "曲线为$y=x^2$，固定点在$x=1$；逐渐缩小两点的间距。",
+        "distance": "两点的横向间距",
+        "slope": "割线斜率：${slope}$；切线斜率：$2$",
+        "reset": "重新观察",
+        "graphLabel": "抛物线上的割线，横向间距{distance}，斜率{slope}",
+        "conclusion": "两点越接近，割线斜率越接近$2$；这就是函数在$x=1$处的导数。"
+      },
+      "tags": ["导数", "切线"]
+    }
+  }
+}

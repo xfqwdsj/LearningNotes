@@ -1,0 +1,49 @@
+---
+title: 运算符与表达式分组
+description: 区分优先级、结合性与求值顺序，并对照C和Python的表达式规则。
+---
+
+import PrecedenceComparisonDemo from "@/demos/precedence-comparison-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+优先级决定不同运算符的分组，结合性决定同一级运算符如何分组。括号显式指定分组；分组规则与操作数实际求值顺序是不同的问题，需要分别遵守语言规则。
+
+- [C运算符优先级](/knowledge/cs/programming/c/operator-precedence/)
+- [Python运算符优先级](/knowledge/cs/programming/python/operator-precedence/)
+
+## 对照
+
+::section{#language-differences slot="knowledge.properties"}
+
+同一段运算在两种语言里的分组与结果并不相同，下面几处是考试和实际改写时最容易出错的地方。
+
+| 方面 | C | Python |
+| :--- | :--- | :--- |
+| 按位运算与比较 | `&`、`^`、`\|` **低于** `==` 和关系运算 | `&`、`^`、`\|` **高于**比较运算符 |
+| 条件表达式 | `?:` 三目运算符 | `x if c else y` |
+| 逗号 | 逗号运算符，值取最后一个表达式 | 逗号构造元组 |
+| 赋值 | 赋值是表达式，可嵌套、可出现在条件里 | 赋值是语句；`:=` 只能写在允许的位置 |
+| 整数除法 | `/` 向零截断，`-7 / 2`得 `-3` | `//` 向下取整，`-7 // 2`得 `-4` |
+| 幂 | 没有 `**`，用`pow()` | `**` 右结合，且高于一元负号 |
+| 逻辑运算的结果 | `&&`、`\|\|` 返回0或1 | 返回参与运算的操作数本身 |
+
+### 位运算与比较
+
+C的`a & b == c`实际是`a & (b == c)`，而Python的`a & b == c`是`(a & b) == c`。迁移代码时不能只改语法，要按语义补括号。
+
+### 赋值表达式
+
+C的赋值是表达式，所以`a = b = c`与`if (a = b)`都能编译，赋值还可以写在`for`的更新部分和函数实参里。Python的`=`是语句，链式赋值`a = b = c`只是把同一个对象依次绑定，不是表达式的嵌套；需要表达式时用`:=`，但它能出现的位置受限制。
+
+### 整数除法与取模
+
+`-7 / 2`在C中向零截断，得`-3`，余数`-7 % 2`为`-1`；Python的`-7 // 2`向下取整，得`-4`，余数`-7 % 2`为`1`。两种语言对“商”的定义不同，负数参与时结果必然不同。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PrecedenceComparisonDemo />

@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "定积分分部时边界项从哪里来？",
+      "description": "比较边界项和余下的积分。",
+      "messages": {
+        "label": "定积分的分部积分",
+        "intro": "对$\\int_0^b xe^x\\,\\mathrm dx$取$u=x$、$\\mathrm dv=e^x\\,\\mathrm dx$。阴影是被积函数从0到$b$的积分；端点决定边界项，曲线与横轴之间的剩余区域对应另一个积分。",
+        "b": "上限$b$",
+        "boundary": "边界项",
+        "remaining": "余下的积分",
+        "result": "原积分等于边界项减去余下的积分，当前约为{value}。"
+      },
+      "tags": ["积分", "分部积分"]
+    }
+  }
+}

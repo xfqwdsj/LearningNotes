@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "平移和拉伸怎样影响方差？",
+      "description": "比较对称两点分布的中心、偏离距离和方差。",
+      "messages": {
+        "label": "方差的平移与缩放",
+        "intro": "随机变量等概率取中心两侧的两个值；深色点表示均值，浅色点表示可能取值。",
+        "center": "中心位置",
+        "distance": "各取值与中心的距离",
+        "diagram": "当前方差为{variance}",
+        "result": "均值为{center}，方差为{variance}。移动中心不改变偏离距离。"
+      },
+      "tags": ["概率论", "方差"]
+    }
+  }
+}

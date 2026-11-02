@@ -1,0 +1,215 @@
+---
+title: 边缘分布
+description: 从联合分布求单个随机变量的分布，说明离散型按行、列求和与连续型积分消去另一变量的做法，以及边缘分布能确定和不能确定的信息。
+---
+
+import MarginalAmbiguityDemo from "@/demos/marginal-ambiguity-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$(X,Y)$是二维随机变量，联合分布函数为
+
+$$
+F(x,y)=P\{X\le x,\;Y\le y\}.
+$$
+
+若只关心$X$，不对$Y$作任何限制，则事件$\{X\le x\}$就是$\{X\le x,\;Y<+\infty\}$，于是
+
+$$
+F_X(x)=P\{X\le x\}=F(x,+\infty)=\lim_{y\to+\infty}F(x,y).
+$$
+
+$F_X$称为$(X,Y)$关于$X$的**边缘分布函数**，由它给出的分布称为$X$的**边缘分布**。同理，
+
+$$
+F_Y(y)=F(+\infty,y)=\lim_{x\to+\infty}F(x,y)
+$$
+
+是$Y$的边缘分布函数。
+
+式中的$+\infty$表示取极限，不是把$+\infty$当作普通实数代入。边缘分布相当于不再对另一个变量施加限制：无论$Y$取什么值都计入，只看$X$落在哪个范围。离散型与连续型有各自的求法，见下文。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 离散型：按行、列求和
+
+设$(X,Y)$为离散型随机变量，联合分布律为
+
+$$
+p_{ij}=P\{X=x_i,\;Y=y_j\},\qquad i,j=1,2,\dots,
+$$
+
+行和与列和分别记作
+
+$$
+p_{i\cdot}=\sum_{j}p_{ij},\qquad p_{\cdot j}=\sum_{i}p_{ij}.
+$$
+
+事件$\{X=x_i\}$可以按$Y$的取值拆成互不相容的事件$\{X=x_i,Y=y_j\}$的并，概率相加得
+
+$$
+P\{X=x_i\}=p_{i\cdot}=\sum_j p_{ij},\qquad
+P\{Y=y_j\}=p_{\cdot j}=\sum_i p_{ij}.
+$$
+
+把联合分布律列成二维表时，行对应$X$、列对应$Y$，$P\{X=x_i\}$是整行之和，$P\{Y=y_j\}$是整列之和：
+
+| $X\backslash Y$ | $0$ | $1$ | $P\{X=x\}$ |
+| :--- | :--- | :--- | :--- |
+| $0$ | $0.2$ | $0.3$ | $0.5$ |
+| $1$ | $0.1$ | $0.4$ | $0.5$ |
+| $P\{Y=y\}$ | $0.3$ | $0.7$ | $1$ |
+
+表中$P\{X=0\}=0.2+0.3=0.5$，$P\{Y=1\}=0.3+0.4=0.7$；最右一列与最下一行分别是$X$、$Y$的边缘分布，右下角为$1$。边缘概率是整行或整列的和，不是表中某一格的联合概率。
+
+### 连续型：积分消去另一变量
+
+设$(X,Y)$为连续型随机变量，联合密度为$f(x,y)$，则边缘密度为
+
+$$
+f_X(x)=\int_{-\infty}^{+\infty}f(x,y)\,\mathrm dy,\qquad
+f_Y(y)=\int_{-\infty}^{+\infty}f(x,y)\,\mathrm dx.
+$$
+
+**求谁保留谁，另一个变量积分掉。** 公式中的上下限只是形式写法，实际范围由联合密度非零的区域（支持集）决定：固定保留变量后，被积掉的变量只能取支持集截出的那一段。支持集不是矩形时，积分限会依赖保留变量。
+
+### 边缘分布能确定什么
+
+联合分布能唯一确定边缘分布，反过来不成立：**边缘分布一般不能唯一确定联合分布**。边缘分布只记录每个变量各自取值的概率，没有保留两者之间的依赖关系。
+
+因此，看到两个边缘分布相同，既不能断定联合分布相同，也不能断定两个变量独立。要还原联合分布，还需要条件分布，见[条件分布](/knowledge/maths/probability/conditional-distribution/)；具体反例见下面的例子。
+
+> [!TIP]
+> **检查边缘密度**
+>
+> 每个边缘密度应非负、在$(-\infty,+\infty)$上积分为$1$，并且自变量只剩一个。若结果里仍含被积分消去的变量，说明积分没有完成或上下限写错。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="三角形区域上的两个边缘密度"}
+
+设联合密度为
+
+$$
+f(x,y)=\begin{cases}2,&0<x<y<1,\\0,&\text{其他}.\end{cases}
+$$
+
+求$f_X(x)$时固定$x$。支持条件$0<x<y<1$要求$0<x<1$，并进一步要求$x<y<1$，所以
+
+$$
+f_X(x)=\int_x^1 2\,\mathrm dy=2(1-x),\qquad 0<x<1,
+$$
+
+其他位置$f_X(x)=0$。求$f_Y(y)$时固定$y$：支持条件要求$0<y<1$，并进一步要求$0<x<y$，所以
+
+$$
+f_Y(y)=\int_0^y 2\,\mathrm dx=2y,\qquad 0<y<1,
+$$
+
+其他位置$f_Y(y)=0$。
+
+:::
+
+:::example{title="相同的边缘分布，不同的联合分布"}
+
+设$X$与$Y$都以$\frac12$的概率取$1$和$-1$。下面三种模型的两个边缘分布完全相同：
+
+- $Y=X$：$(1,1)$与$(-1,-1)$各占$\frac12$，$P\{X=Y\}=1$；
+- $Y=-X$：$(1,-1)$与$(-1,1)$各占$\frac12$，$P\{X=Y\}=0$；
+- $X$与$Y$独立：四个格各占$\frac14$，$P\{X=Y\}=\frac12$。
+
+三种模型的边缘分布都是$P\{X=1\}=P\{X=-1\}=\frac12$与$P\{Y=1\}=P\{Y=-1\}=\frac12$，联合分布却各不相同。只有第三种模型里两个变量独立。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+保持两个边缘分布不变，比较不同的联合分布。
+
+<MarginalAmbiguityDemo />
+
+## 练习
+
+::problems{#marginal-distribution-practice}
+
+1. ::question{#discrete-table}
+
+   设$(X,Y)$的联合分布律为$P\{X=0,Y=0\}=0.2$，$P\{X=0,Y=1\}=0.3$，$P\{X=1,Y=0\}=0.1$，$P\{X=1,Y=1\}=0.4$。
+
+   1. ::part{#x-zero}
+
+      $P\{X=0\}=$ :blank{#x-zero-value type="number"}。
+
+      :::reference
+      ::correct{blank="x-zero-value" value="0.5"}
+
+      固定$X=0$，把$Y$的两个取值对应的联合概率相加：$0.2+0.3=0.5$。
+      :::
+
+   2. ::part{#y-one}
+
+      $P\{Y=1\}=$ :blank{#y-one-value type="number"}。
+
+      :::reference
+      ::correct{blank="y-one-value" value="0.7"}
+
+      固定$Y=1$，把$X$的两个取值对应的联合概率相加：$0.3+0.4=0.7$。
+      :::
+
+2. ::question{#triangle}
+
+   设$f(x,y)=2$（$0<x<y<1$），其他位置$f(x,y)=0$。
+
+   1. ::part{#fx}
+
+      $f_X\left(\frac12\right)=$ :blank{#fx-value type="number"}。
+
+      :::reference
+      ::correct{blank="fx-value" value="1"}
+
+      由$f_X(x)=2(1-x)$，代入$x=\frac12$得$1$。
+      :::
+
+   2. ::part{#range}
+
+      求$f_X(x)$时固定$x$后，$y$的积分范围是
+
+      :::choices{#range-choice mode="single"}
+      - :option[A]{#a} $x$到$1$
+      - :option[B]{#b} $0$到$1$
+      - :option[C]{#c} $0$到$x$
+      - :option[D]{#d} $x$到$+\infty$
+      :::
+
+      :::reference
+      ::correct{option="a"}
+
+      支持条件$0<x<y<1$在固定$x\in(0,1)$后只剩$x<y<1$。
+      :::
+
+3. ::question{#what-marginal-determines}
+
+   关于边缘分布，下列说法正确的有
+
+   :::choices{#marginal-claims mode="multiple"}
+   - :option[A]{#a} 联合分布能唯一确定边缘分布
+   - :option[B]{#b} 边缘分布能唯一确定联合分布
+   - :option[C]{#c} 边缘分布没有保留两个变量之间的依赖关系
+   - :option[D]{#d} 两个变量的边缘分布相同，就能断定它们独立
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   由联合分布求和或积分即可得到边缘分布，所以A正确；反过来不成立，B、D都错。边缘分布只保留各自取值的概率，依赖关系已经丢失。
+   :::

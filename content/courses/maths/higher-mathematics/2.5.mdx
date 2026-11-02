@@ -1,0 +1,46 @@
+---
+title: 2.5微分与近似
+description: 微分一节的教材顺序、记号约定，以及近似计算和误差估计中的易错点与复习要点。
+---
+## 阅读入口
+
+- [微分与线性近似](/knowledge/maths/derivatives/differential/)
+- [导数的定义与几何意义](/knowledge/maths/derivatives/derivative/)
+- [基本求导公式与四则运算法则](/knowledge/maths/derivatives/derivative-formulas/)
+- [复合函数的链式法则](/knowledge/maths/derivatives/chain-rule/)
+
+## 微分的定义
+
+::knowledge{path="maths/derivatives/differential" slot="definition"}
+
+定义里的$\Delta y=A\,\Delta x+o(\Delta x)$决定了后面所有近似的误差说法：只保留线性项，其余都记作$o(\Delta x)$。
+
+## 近似计算
+
+::knowledge{path="maths/derivatives/differential" slot="properties"}
+
+常用近似公式是$x_0=0$时的特化，做题时先确认题目给的基点，不要默认取$0$；误差估计要分清绝对误差与相对误差所用的分母。
+
+## 学习安排
+
+教材先给出可微的定义与微分的记号，再给出可微与可导等价的充要条件，然后讲几何意义和运算法则，最后才进入近似计算。这个顺序说明微分是导数之后的应用层：导数给出变化率，微分给出增量的线性主部。
+
+读这一节时先分清线性主部与高阶余项，再记微分的写法，否则容易把$\mathrm{d}y$当成$\Delta y$。运算法则直接沿用2.2的求导法则，不必重新记一套；近似公式则是把一般的线性近似在$x_0=0$处特化。
+
+## 课程约定
+
+- 教材用线性主部加高阶余项定义可微，并由此得到$A=f'(x_0)$；本课程要求写清$A$与$\Delta x$无关这一条件。
+- 自变量的微分规定为$\mathrm{d}x=\Delta x$，所以微分的写法中$\mathrm{d}x$就是增量。
+- 近似计算统一选基点$x_0$，再按题目需要代入具体的值。
+
+## 易错点
+
+- $\mathrm{d}y$是$\Delta y$的线性主部，不是$\Delta y$本身；$|\Delta x|$较大时两者的差不能忽略。
+- $\mathrm{d}x$是整体记号，不能读成$\mathrm{d}$乘$x$；求微分时先求导再乘$\mathrm{d}x$。
+- 可微与可导等价只适用于一元函数；多元函数中偏导数存在与可微并不等价。
+- $(1+x)^\alpha\approx1+\alpha x$、$\sin x\approx x$这些公式只在$x\to0$时有效，$x$稍大误差就会明显。
+- 相对误差的分母用准确值$|A|$定义，实际估计时改用近似值$|a|$。
+
+## 复习要点
+
+做近似计算题时先定$x_0$和$\Delta x$：$x_0$要选在函数值与导数都容易算的点，$\Delta x$是待求点与$x_0$的差。算完把近似值与真实值比较一次，确认误差量级与$o(\Delta x)$的说法相符。

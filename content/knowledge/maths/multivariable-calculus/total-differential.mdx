@@ -1,0 +1,366 @@
+---
+title: 全微分
+description: 用全增量的线性主部定义二元函数的全微分，说明可微与连续、偏导数之间的关系，并给出叠加原理与判定方法。
+---
+
+import TotalDifferentialDemo from "@/demos/total-differential-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### 记号与偏增量
+
+设二元函数$z=f(x,y)$在点$(x_0,y_0)$的某个邻域内有定义。本页用$\Delta x$、$\Delta y$表示自变量的增量，并记
+
+$$
+\rho=\sqrt{(\Delta x)^2+(\Delta y)^2},
+$$
+
+即点$(x_0+\Delta x,y_0+\Delta y)$到$(x_0,y_0)$的距离。$f$对$x$的偏导数记作
+
+$$
+\frac{\partial z}{\partial x}=f_x(x,y)
+=\lim_{\Delta x\to 0}\frac{f(x+\Delta x,y)-f(x,y)}{\Delta x},
+$$
+
+求这个极限时$y$固定不变；$\dfrac{\partial z}{\partial y}=f_y(x,y)$类似，求值时$x$固定不变。
+
+只让一个自变量变化，得到的函数值改变量称为**偏增量**：
+
+$$
+\Delta_x z=f(x_0+\Delta x,y_0)-f(x_0,y_0),\qquad
+\Delta_y z=f(x_0,y_0+\Delta y)-f(x_0,y_0).
+$$
+
+当偏导数存在时，偏增量的线性主部称为**偏微分**：
+
+$$
+\mathrm{d}_x z=f_x(x_0,y_0)\,\Delta x,\qquad
+\mathrm{d}_y z=f_y(x_0,y_0)\,\Delta y.
+$$
+
+其中$\mathrm{d}_x z$只计入$x$方向的变化，$\mathrm{d}_y z$只计入$y$方向的变化。
+
+### 全微分
+
+两个自变量同时产生增量$\Delta x$、$\Delta y$时，函数值的总改变量称为**全增量**：
+
+$$
+\Delta z=f(x_0+\Delta x,y_0+\Delta y)-f(x_0,y_0).
+$$
+
+若存在与$\Delta x$、$\Delta y$无关的常数$A$、$B$，使得
+
+$$
+\Delta z=A\,\Delta x+B\,\Delta y+o(\rho)\qquad(\rho\to 0),
+$$
+
+则称函数$z=f(x,y)$在点$(x_0,y_0)$处**可微**，并把线性部分
+
+$$
+\mathrm{d}z=A\,\Delta x+B\,\Delta y
+$$
+
+称为$f$在$(x_0,y_0)$处的**全微分**。$o(\rho)$表示比$\rho$高阶的无穷小，所以$\mathrm{d}z$是全增量的线性主部：$\rho$足够小时，$\Delta z\approx\mathrm{d}z$。
+
+与一元情形一样，规定自变量的微分就是它的增量，即$\mathrm{d}x=\Delta x$、$\mathrm{d}y=\Delta y$。由下文可微的必要条件，可微时$A=f_x(x_0,y_0)$、$B=f_y(x_0,y_0)$，因此全微分通常写成
+
+$$
+\mathrm{d}z
+=\frac{\partial z}{\partial x}\,\mathrm{d}x+\frac{\partial z}{\partial y}\,\mathrm{d}y
+=f_x\,\mathrm{d}x+f_y\,\mathrm{d}y .
+$$
+
+> [!NOTE]
+> 全微分给出$\rho\to0$时全增量的线性近似，一般不与全增量完全相等。$\mathrm{d}z$同时依赖所在点和增量$(\mathrm{d}x,\mathrm{d}y)$两组量，同一个函数在不同点的全微分不同。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 计算步骤
+
+:::steps
+
+1. **求两个偏导数**
+
+   分别固定另一个自变量，求出$f_x(x_0,y_0)$与$f_y(x_0,y_0)$。
+
+2. **写出全微分**
+
+   代入$\mathrm{d}z=f_x(x_0,y_0)\,\mathrm{d}x+f_y(x_0,y_0)\,\mathrm{d}y$。若题目给出具体增量，就用$\Delta x$、$\Delta y$代替$\mathrm{d}x$、$\mathrm{d}y$。
+
+3. **核对适用范围**
+
+   确认两个偏导数在该点存在。若要用$\mathrm{d}z$近似$\Delta z$，还需要先确认函数在该点可微，通常就是检查两个偏导数在该点是否连续。
+
+:::
+
+
+### 可微、连续与偏导数
+
+### 可微的必要条件
+
+若$z=f(x,y)$在点$(x_0,y_0)$处可微，则
+
+1. $f$在$(x_0,y_0)$处连续；
+2. $f$在$(x_0,y_0)$处存在两个偏导数，且$A=f_x(x_0,y_0)$、$B=f_y(x_0,y_0)$。
+
+:::proof
+
+设$\Delta z=A\Delta x+B\Delta y+o(\rho)$。
+
+先证连续。因为$|\Delta x|\le\rho$、$|\Delta y|\le\rho$，所以$\rho\to0$时$\Delta x\to0$、$\Delta y\to0$，于是
+
+$$
+\lim_{\rho\to0}\Delta z
+=\lim_{\rho\to0}\bigl(A\Delta x+B\Delta y+o(\rho)\bigr)=0,
+$$
+
+即$\lim_{(x,y)\to(x_0,y_0)}f(x,y)=f(x_0,y_0)$。
+
+再证偏导数存在。在定义中取$\Delta y=0$，此时$\rho=|\Delta x|$，
+
+$$
+f(x_0+\Delta x,y_0)-f(x_0,y_0)=A\Delta x+o(|\Delta x|).
+$$
+
+两边除以$\Delta x$并令$\Delta x\to0$，得$f_x(x_0,y_0)=A$；同理取$\Delta x=0$，得$f_y(x_0,y_0)=B$。
+
+:::
+
+这两个条件都只是可微的必要条件。连续不能保证偏导数存在，偏导数存在也不能保证连续，更不能保证可微。
+
+### 可微的充分条件
+
+若$f_x$与$f_y$在点$(x_0,y_0)$的某邻域内存在，并且都在$(x_0,y_0)$处连续，则$f$在$(x_0,y_0)$处可微。
+
+:::proof
+
+把全增量拆成两步，每步只让一个自变量变化：
+
+$$
+\begin{aligned}
+\Delta z
+&=\bigl[f(x_0+\Delta x,y_0+\Delta y)-f(x_0,y_0+\Delta y)\bigr]\\
+&\quad+\bigl[f(x_0,y_0+\Delta y)-f(x_0,y_0)\bigr].
+\end{aligned}
+$$
+
+第一个括号只让$x$变化，对$x$用拉格朗日中值定理：存在$\theta_1\in(0,1)$，使
+
+$$
+f(x_0+\Delta x,y_0+\Delta y)-f(x_0,y_0+\Delta y)
+=f_x(x_0+\theta_1\Delta x,y_0+\Delta y)\,\Delta x .
+$$
+
+第二个括号只让$y$变化，同理存在$\theta_2\in(0,1)$，使
+
+$$
+f(x_0,y_0+\Delta y)-f(x_0,y_0)
+=f_y(x_0,y_0+\theta_2\Delta y)\,\Delta y .
+$$
+
+由$f_x$、$f_y$在$(x_0,y_0)$处连续，
+
+$$
+f_x(x_0+\theta_1\Delta x,y_0+\Delta y)=f_x(x_0,y_0)+\varepsilon_1,\qquad
+f_y(x_0,y_0+\theta_2\Delta y)=f_y(x_0,y_0)+\varepsilon_2,
+$$
+
+其中$\rho\to0$时$\varepsilon_1\to0$、$\varepsilon_2\to0$。于是
+
+$$
+\Delta z=f_x(x_0,y_0)\Delta x+f_y(x_0,y_0)\Delta y
++\varepsilon_1\Delta x+\varepsilon_2\Delta y .
+$$
+
+因为$|\Delta x|\le\rho$、$|\Delta y|\le\rho$，
+
+$$
+|\varepsilon_1\Delta x+\varepsilon_2\Delta y|
+\le(|\varepsilon_1|+|\varepsilon_2|)\rho=o(\rho),
+$$
+
+所以$\Delta z=f_x\Delta x+f_y\Delta y+o(\rho)$，即$f$在$(x_0,y_0)$处可微。
+
+:::
+
+> [!WARNING]
+> 充分条件要求偏导数在该点的某邻域内存在，并且在该点连续。只在一点存在偏导数远远不够。满足充分条件即可断定可微；不满足时不能据此断定不可微，要回到定义，检查$\Delta z-(f_x\Delta x+f_y\Delta y)$是否为$o(\rho)$。
+
+### 与一元函数的对比
+
+| 关系 | 一元函数$y=f(x)$ | 二元函数$z=f(x,y)$ |
+| :--- | :--- | :--- |
+| 导数与连续 | 可导必连续 | 偏导数存在不能推出连续 |
+| 导数与可微 | 可导与可微等价 | 可微推出偏导数存在，反之不成立 |
+| 可微与连续 | 可微必连续，连续不能推出可微 | 可微必连续，连续不能推出可微 |
+
+一元函数中可导与可微等价，所以三个概念只有“连续”和“可导”两层。二元函数中可微最强，它同时推出连续与偏导数存在；连续与偏导数存在之间互不蕴含，两个方向都有反例。例如$f(x,y)=|x|$处处连续，但$x=0$处的$\dfrac{\partial z}{\partial x}$不存在；下面的例子则给出偏导数存在却不连续的函数。一元函数的微分见[微分与线性近似](/knowledge/maths/derivatives/differential/)。
+
+### 叠加原理
+
+::section{#superposition}
+
+可微时$A=f_x$、$B=f_y$，全微分可以拆成两个偏微分之和：
+
+$$
+\mathrm{d}z=f_x\,\mathrm{d}x+f_y\,\mathrm{d}y
+=\mathrm{d}_x z+\mathrm{d}_y z .
+$$
+
+在$\rho$足够小的范围内，两个自变量同时变化引起的函数值变化，可以近似看成每个自变量单独变化所引起的线性变化之和，这就是全微分的**叠加原理**。
+
+> [!WARNING]
+> 叠加原理只对线性主部成立。全增量本身一般不等于两个偏增量之和，即$\Delta z\ne\Delta_x z+\Delta_y z$。对可微函数，两者的差是比$\rho$高阶的无穷小，因为$\Delta_x z=f_x\Delta x+o(|\Delta x|)$、$\Delta_y z=f_y\Delta y+o(|\Delta y|)$，相加后与$\Delta z$只相差$o(\rho)$。所以一阶近似下“分别算、再相加”是合法的，但不能把它当成精确等式。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="求$z=x^2y+y^3$在$(1,2)$处的全微分"}
+
+两个偏导数为
+
+$$
+f_x=2xy,\qquad f_y=x^2+3y^2 .
+$$
+
+在$(1,2)$处$f_x=4$、$f_y=13$，所以
+
+$$
+\mathrm{d}z=4\,\mathrm{d}x+13\,\mathrm{d}y .
+$$
+
+取$\Delta x=0.01$、$\Delta y=0.02$，全微分为$0.04+0.26=0.30$。实际全增量是
+
+$$
+f(1.01,2.02)-f(1,2)\approx10.30301-10=0.30301,
+$$
+
+与$\mathrm{d}z$相差约$0.003$。增量越小，两者越接近。
+
+:::
+
+:::example{title="偏导数存在但不连续：$f(x,y)=\dfrac{xy}{x^2+y^2}$"}
+
+补充定义$f(0,0)=0$。在原点，沿坐标轴方向函数值恒为$0$，所以
+
+$$
+f_x(0,0)=\lim_{\Delta x\to0}\frac{f(\Delta x,0)-f(0,0)}{\Delta x}=0,
+\qquad f_y(0,0)=0 .
+$$
+
+但沿直线$y=x$趋于原点时，
+
+$$
+f(t,t)=\frac{t^2}{2t^2}=\frac12\ne0=f(0,0),
+$$
+
+所以$f$在原点不连续。可见偏导数存在并不能保证连续，更不能保证可微。
+
+:::
+
+:::example{title="连续且偏导数存在，但仍不可微：$f(x,y)=\dfrac{xy}{\sqrt{x^2+y^2}}$"}
+
+补充定义$f(0,0)=0$。由
+
+$$
+|f(x,y)|=\frac{|xy|}{\sqrt{x^2+y^2}}
+\le\frac{\rho^2/2}{\rho}=\frac{\rho}{2},
+$$
+
+得$\lim_{(x,y)\to(0,0)}f(x,y)=0=f(0,0)$，所以$f$在原点连续。沿坐标轴方向函数值为$0$，故$f_x(0,0)=f_y(0,0)=0$。
+
+若可微，$A=B=0$，必须有$\Delta z=o(\rho)$。但在原点
+
+$$
+\Delta z=\frac{\Delta x\,\Delta y}{\rho},
+$$
+
+取$\Delta x=\Delta y=t$，则$\Delta z=\dfrac{t^2}{\sqrt{2}\,|t|}=\dfrac{|t|}{\sqrt2}$，与$\rho=\sqrt2\,|t|$同阶。$\Delta z$不是$o(\rho)$，所以$f$在原点不可微。
+
+:::
+
+:::example{title="全增量与偏增量之和：$z=xy$"}
+
+此时
+
+$$
+\Delta z=y\Delta x+x\Delta y+\Delta x\Delta y,
+$$
+
+而两个偏增量之和为
+
+$$
+\Delta_x z+\Delta_y z=y\Delta x+x\Delta y .
+$$
+
+所以$\Delta z$比两者之和高出$\Delta x\Delta y$。这个交叉项满足$|\Delta x\Delta y|\le\dfrac{\rho^2}{2}=o(\rho)$，正好是全微分之外的高阶部分：
+
+$$
+\mathrm{d}z=y\,\mathrm{d}x+x\,\mathrm{d}y
+=\mathrm{d}_x z+\mathrm{d}_y z .
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TotalDifferentialDemo />
+
+## 练习
+
+::problems{#total-differential-check}
+
+1. ::question{#compute-dz}
+
+   $z=x^2y$在点$(1,2)$处，当$\Delta x=0.1$、$\Delta y=0.2$时，全微分$\mathrm{d}z=$ :blank{#dz-value type="number"}。
+
+   :::reference
+   ::correct{blank="dz-value" value="0.6"}
+
+   $f_x=2xy$、$f_y=x^2$，在$(1,2)$处分别为$4$和$1$，所以$\mathrm{d}z=4\times0.1+1\times0.2=0.6$。
+   :::
+
+2. ::question{#relation}
+
+   关于二元函数的可微、连续与偏导数，正确的说法是
+
+   :::choices{#relation-choice mode="single"}
+   - :option[A]{#a} 偏导数存在一定可微
+   - :option[B]{#b} 连续一定可微
+   - :option[C]{#c} 可微一定连续，且两个偏导数都存在
+   - :option[D]{#d} 可微与偏导数存在等价
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   可微推出连续与偏导数存在，这是必要条件；两个反方向都不成立。偏导数存在甚至连连续性都不能保证。
+   :::
+
+3. ::question{#counterexample}
+
+   对补充定义$f(0,0)=0$的函数$f(x,y)=\dfrac{xy}{\sqrt{x^2+y^2}}$，下列哪些结论正确？
+
+   :::choices{#counterexample-choice mode="multiple"}
+   - :option[A]{#a} 函数在原点连续
+   - :option[B]{#b} $f_x(0,0)=f_y(0,0)=0$
+   - :option[C]{#c} 函数在原点可微
+   - :option[D]{#d} 函数在原点不可微
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   由$|f(x,y)|\le\dfrac{\rho}{2}$得连续；沿坐标轴方向函数值为$0$，得两个偏导数都为$0$；但$\Delta z=\dfrac{\Delta x\Delta y}{\rho}$不是$o(\rho)$，所以不可微。
+   :::

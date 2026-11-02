@@ -1,0 +1,51 @@
+---
+title: 9.8多元函数的极值及其求法
+description: 记录极值判定的教材顺序、判别式的符号约定和条件极值的解题要点。
+---
+## 阅读入口
+
+- [多元函数的极值](/knowledge/maths/multivariable-calculus/multivariable-extrema/)
+- [偏导数](/knowledge/maths/multivariable-calculus/partial-derivative/)（驻点由一阶偏导数定义）
+- [泰勒公式](/knowledge/maths/derivatives/taylor-formula/)（二阶充分条件的展开依据）
+
+## 学习安排
+
+教材依次给出极值定义、必要条件、二阶充分条件，再把极值问题推广到有界闭区域上的最值，最后用拉格朗日乘数法处理条件极值。必要条件与一元费马引理是同一件事：固定一个变量，极值点处的偏导数必须为零。充分条件把驻点处的二阶偏导数排成$A$、$B$、$C$，用$\Delta=AC-B^2$的符号判断曲面在驻点附近的弯曲方向。
+
+最值部分要紧的是候选点的来源：内部驻点、偏导数不存在的点、边界上的点，三类都要收集。条件极值则把约束写进拉格朗日函数，化为无条件极值来解。
+
+## 极值存在的条件
+
+::knowledge{path="maths/multivariable-calculus/multivariable-extrema" slot="properties"}
+
+极值的判定只处理内部点，放到有界闭区域上还要加上边界，这就是下一段的最值问题。
+
+## 最值
+
+::knowledge{path="maths/multivariable-calculus/global-extrema" slot="definition"}
+
+最值解决的是自由取值的情形，带约束的问题要换一套办法，见下一段。
+
+## 条件极值与拉格朗日乘数法
+
+::knowledge{path="maths/multivariable-calculus/constrained-extrema" slot="definition"}
+
+两种极值都齐了；课程约定把$A,B,C$与$\Delta$的记号收在一起。
+
+## 课程约定
+
+- 教材令$A=f_{xx}(x_0,y_0)$、$B=f_{xy}(x_0,y_0)$、$C=f_{yy}(x_0,y_0)$，判别式记作$\Delta=AC-B^2$。有些书用$B^2-AC$，符号相反，判据要跟着一起换。
+- 极值定义使用严格不等式；极值点与极值（函数值）是两个不同的对象。
+- 拉格朗日函数写作$L=f+\lambda\varphi$，约束为$\varphi(x,y)=0$；偏导数不存在的点也属于最值候选。
+
+## 易错点
+
+- 把驻点直接当成极值点。鞍点也满足$f_x=f_y=0$，还要用充分条件或定义再判断一次。
+- 看到$\Delta=0$就下结论。这个情形定理失效，要回到定义或改用其他方法。
+- 求有界闭区域上的最值时只在内部找驻点，漏掉边界；或者只比较极值，忘记比较所有候选点的函数值。
+- 用拉格朗日乘数法时漏写$L_\lambda=\varphi(x,y)=0$，或者解出$(x,y,\lambda)$后没有回代约束检验。
+- 把条件极值当成无条件极值处理。约束不同，候选点一般也不同。
+
+## 复习要点
+
+判断极值时按“求驻点—算$A,B,C,\Delta$—看$A$的符号”的顺序走，$\Delta=0$的情形单独留到最后处理。做最值题先标出区域的边界，再决定边界用代入还是乘数法。条件极值解完方程组后，用实际意义或边界上的取值确认最大最小。

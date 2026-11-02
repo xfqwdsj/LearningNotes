@@ -1,0 +1,104 @@
+---
+title: 硬件中断
+description: 了解设备或定时器发出的异步中断请求及其处理过程。
+---
+
+import InterruptFlowDemo from "@/demos/interrupt-flow-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+硬件中断是设备、定时器等硬件向处理器发出的事件通知。它通常与当前执行的具体指令无关，因此称为**异步**事件。处理器在体系结构允许的时机响应中断，转入相应的处理程序。
+
+例如，设备可以在一次输入输出完成后发出中断请求；定时器也可以产生中断以便内核处理计时与调度。定时器的位置、周期和触发方式由具体平台配置，不必都位于CPU内部，也不必始终采用固定周期。
+
+与之相对，[异常](/knowledge/cs/operating-systems/processor-exception/)通常与当前指令的执行同步产生。中断与异常都可能引起执行流转移，但来源和返回行为不应混为一谈。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+一种简化的处理过程是：硬件提出请求，处理器响应并保存必要状态，内核运行处理程序，再恢复执行或根据调度结果运行其他线程。具体保存哪些寄存器、何时响应以及能否屏蔽，取决于体系结构与操作系统。
+
+定时器事件可以让内核更新计时和调度状态。处理一次中断并不必然切换进程；是否切换由内核当时的调度决定。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择设备请求或定时器事件，逐步查看请求、处理和恢复的简化过程。
+
+<InterruptFlowDemo />
+
+## 练习
+
+::problems{#interrupt-practice}
+
+1. ::question{#keyboard}
+
+   按下键盘上的一个键，键盘控制器通知CPU的事件属于哪一类？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} I/O硬件中断
+   - :option[B]{#b} CPU硬件中断
+   - :option[C]{#c} 异常
+   - :option[D]{#d} 系统调用
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   键盘是CPU外部的输入设备，它发出的中断是异步的I/O硬件中断。
+   :::
+
+2. ::question{#timer}
+
+   假设处理器内部定时器产生一个中断，它属于哪一类？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} I/O硬件中断
+   - :option[B]{#b} CPU硬件中断
+   - :option[C]{#c} 故障
+   - :option[D]{#d} 陷阱
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   题设中的定时器位于CPU内部；它的中断仍是异步的。不同系统的定时器位置和工作方式可能不同。
+   :::
+
+3. ::question{#difference}
+
+   中断与异常最关键的区分是？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 是否由外部设备产生
+   - :option[B]{#b} 是否由当前指令同步触发
+   - :option[C]{#c} 是否由操作系统处理
+   - :option[D]{#d} 是否保存上下文
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   CPU硬件中断来自内部但仍属异步；关键在于异常由当前指令同步触发。
+   :::
+
+4. ::question{#timer-role}
+
+   时钟中断对多任务系统的主要作用是？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 让CPU进入低功耗状态
+   - :option[B]{#b} 让内核有机会处理计时事件并进行调度
+   - :option[C]{#c} 直接终止死循环进程
+   - :option[D]{#d} 把当前时间写入内存
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   时钟事件让内核有机会更新计时和调度状态；是否切换线程取决于调度策略与当时状态。
+   :::

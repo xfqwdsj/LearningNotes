@@ -1,0 +1,97 @@
+---
+title: 条件极值与拉格朗日乘数法
+description: 条件极值与拉格朗日乘数法的定义、判定与计算。
+---
+
+import LagrangeMultiplierDemo from "@/demos/lagrange-multiplier-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+无条件极值问题只要求自变量落在定义域内，称为**无条件极值**。若还要求自变量满足附加约束，例如点必须在一条确定的曲线或一张确定的曲面上，对应的极值称为**条件极值**。
+
+求$z=f(x,y)$在约束$\varphi(x,y)=0$下的极值点，常用**拉格朗日乘数法**。它的做法是引入参数$\lambda$，构造**拉格朗日函数**
+
+$$
+L(x,y,\lambda)=f(x,y)+\lambda\varphi(x,y),
+$$
+
+其中$\lambda$称为**拉格朗日乘子**，再用乘子方程寻找候选点。若约束函数在候选点可微且梯度非零，约束极值点必须满足这些方程；$L$作为所有变量的函数不必在该点取得无条件极值。
+
+:::steps
+
+1. **构造拉格朗日函数**
+
+   把约束写成$\varphi(x,y)=0$，取$L=f+\lambda\varphi$。
+
+2. **令一阶偏导数全为零**
+
+   解方程组
+
+   $$
+   \begin{cases}
+   L_x=f_x+\lambda\varphi_x=0,\\
+   L_y=f_y+\lambda\varphi_y=0,\\
+   L_\lambda=\varphi(x,y)=0.
+   \end{cases}
+   $$
+
+3. **解出候选点并判断**
+
+   方程组给出正则约束上的候选点；约束梯度为零的点和约束集合的边界也要单独检查。再根据问题的实际意义、边界上的取值或更高阶的条件，确定它是否为极值或最值。
+
+:::
+
+方法可以直接推广到三元及更多元的函数，也可以处理多个约束：每个约束乘一个乘子，把所有$\lambda_j\varphi_j$都加进$L$。
+
+> [!TIP]
+> 乘子$\lambda$本身通常不需要求出具体值，它的作用是让约束条件进入方程组。若题目只问最值，解出候选点后直接比较函数值即可。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="拉格朗日乘数法：$f(x,y)=xy$在$x+y=1$上"}
+
+约束为$\varphi(x,y)=x+y-1=0$。构造
+
+$$
+L=xy+\lambda(x+y-1),
+$$
+
+令
+
+$$
+\begin{cases}
+L_x=y+\lambda=0,\\
+L_y=x+\lambda=0,\\
+L_\lambda=x+y-1=0.
+\end{cases}
+$$
+
+前两式给出$x=y$，代入第三式得$x=y=\tfrac12$，此时$f=\tfrac14$。沿约束$y=1-x$，函数化为$f=x(1-x)$，这是以$x=\tfrac12$为顶点、开口向下的抛物线，所以$\tfrac14$是约束下的最大值。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<LagrangeMultiplierDemo />
+
+## 练习
+
+::problems{#lagrange-multiplier-practice}
+
+1. ::question{#lagrange}
+
+   在约束$x+y=2$下，$f(x,y)=xy$的最大值为 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   由拉格朗日乘数法或直接代入$y=2-x$，得$f=x(2-x)$，在$x=1$处取最大值$1$。
+   :::

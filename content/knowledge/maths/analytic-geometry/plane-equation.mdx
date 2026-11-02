@@ -1,0 +1,260 @@
+---
+title: 平面及其方程
+description: 用点法式、一般式与截距式表示空间平面，并给出两平面夹角、位置关系、点到平面的距离和求平面方程的方法。
+---
+
+import PlanePointDemo from "@/demos/plane-point-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+过一点并与一个非零向量垂直的点的全体构成一个平面，这个非零向量称为平面的**法向量**。因此确定一个平面需要两个要素：平面上的一点，以及平面的一个法向量。
+
+设平面过点$M_0(x_0,y_0,z_0)$，法向量为$\mathbf{n}=(A,B,C)$，其中$A,B,C$不全为零。点$M(x,y,z)$在该平面上，当且仅当向量
+
+$$
+\overrightarrow{M_0M}=(x-x_0,\ y-y_0,\ z-z_0)
+$$
+
+与$\mathbf{n}$垂直，即$\mathbf{n}\cdot\overrightarrow{M_0M}=0$。写成坐标形式得到**点法式方程**
+
+$$
+A(x-x_0)+B(y-y_0)+C(z-z_0)=0.
+$$
+
+展开并合并常数项，点法式化为**一般方程**
+
+$$
+Ax+By+Cz+D=0,
+$$
+
+其中$A,B,C$不全为零，$D=-(Ax_0+By_0+Cz_0)$。反过来，任一满足$A,B,C$不全为零的上述方程都表示一个平面，且$(A,B,C)$就是它的一个法向量：取平面上一点$M_0$，把方程移项就能写成以$M_0$为已知点的点法式。
+
+若平面与三条坐标轴分别交于$P(a,0,0)$、$Q(0,b,0)$、$R(0,0,c)$，且$a,b,c$都不为零，把三点坐标代入一般方程可解出系数，得到**截距式方程**
+
+$$
+\frac{x}{a}+\frac{y}{b}+\frac{z}{c}=1,
+$$
+
+$a,b,c$称为平面在三条坐标轴上的截距。
+
+同一平面的一般方程不唯一：方程两边乘以同一个非零常数仍是同一个平面，所以$(A,B,C)$与$D$只能确定到相差一个非零倍数。用哪个倍数求法向量、算夹角都不影响结果。
+
+{/* more */}
+
+### 特殊位置的平面
+
+一般方程中某些系数为零时，平面的位置有确定的几何含义：
+
+| 系数条件 | 平面的位置 |
+| :--- | :--- |
+| $D=0$ | 过原点$(0,0,0)$ |
+| $A=0$ | 平行于$x$轴（$D=0$时通过$x$轴）|
+| $B=0$ | 平行于$y$轴（$D=0$时通过$y$轴）|
+| $C=0$ | 平行于$z$轴（$D=0$时通过$z$轴）|
+| $A=B=0$ | 平行于$xOy$坐标面，即垂直于$z$轴 |
+| $A=C=0$ | 平行于$xOz$坐标面，即垂直于$y$轴 |
+| $B=C=0$ | 平行于$yOz$坐标面，即垂直于$x$轴 |
+
+规律是：方程中缺少哪个变量，平面就平行于哪条坐标轴；缺少两个变量时，平面平行于由这两个变量确定的坐标面。
+
+> [!NOTE]
+> 截距式要求$a,b,c$全不为零。平面过原点或平行于某条坐标轴时，对应截距不存在，应改用一般方程或点法式。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 两平面的夹角
+
+设平面$\Pi_1$、$\Pi_2$的法向量分别为$\mathbf{n}_1=(A_1,B_1,C_1)$、$\mathbf{n}_2=(A_2,B_2,C_2)$。两平面的夹角$\theta$取$\left[0,\dfrac{\pi}{2}\right]$，等于两法向量夹角或其补角，因此
+
+$$
+\cos\theta
+=\frac{\lvert \mathbf{n}_1\cdot\mathbf{n}_2\rvert}{\lvert \mathbf{n}_1\rvert\,\lvert \mathbf{n}_2\rvert}
+=\frac{\lvert A_1A_2+B_1B_2+C_1C_2\rvert}
+{\sqrt{A_1^2+B_1^2+C_1^2}\sqrt{A_2^2+B_2^2+C_2^2}}.
+$$
+
+夹角按锐角定义，所以分子取绝对值。用法向量直接算出的夹角可能是钝角，取绝对值后才等于两平面的夹角。
+
+### 两平面的位置关系
+
+| 关系 | 条件 |
+| :--- | :--- |
+| 垂直 | $\mathbf{n}_1\cdot\mathbf{n}_2=0$，即$A_1A_2+B_1B_2+C_1C_2=0$ |
+| 平行 | $\mathbf{n}_1\parallel\mathbf{n}_2$，即$\mathbf{n}_1\times\mathbf{n}_2=\mathbf{0}$ |
+| 重合 | $\mathbf{n}_1\parallel\mathbf{n}_2$，且两平面有公共点 |
+
+法向量平行时常用分量比例式$\dfrac{A_1}{A_2}=\dfrac{B_1}{B_2}=\dfrac{C_1}{C_2}$表示平行。
+
+> [!WARNING]
+> 比例式的分母不能为零。某个法向量分量为零时，比例式要按“对应分子也为零”理解；更稳妥的写法是$\mathbf{n}_1\times\mathbf{n}_2=\mathbf{0}$。
+
+> [!NOTE]
+> 法向量平行只保证两平面平行或重合。要区分两者，取第一个平面上的一点代入第二个平面的方程：等式成立则重合，不成立则平行。
+
+### 点到平面的距离
+
+点$P_0(x_0,y_0,z_0)$到平面$Ax+By+Cz+D=0$的距离为
+
+$$
+d=\frac{\lvert Ax_0+By_0+Cz_0+D\rvert}{\sqrt{A^2+B^2+C^2}}.
+$$
+
+这个公式是向量$\overrightarrow{P_1P_0}$（$P_1$为平面上任一点）在法向量方向上投影的长度；分子必须取绝对值，否则得到的是带符号的投影。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由点和法向量写平面方程"}
+
+求过点$M_0(1,-2,3)$、以$\mathbf{n}=(2,1,-1)$为法向量的平面方程。
+
+代入点法式：
+
+$$
+2(x-1)+(y+2)-(z-3)=0,
+$$
+
+整理得
+
+$$
+2x+y-z+3=0.
+$$
+
+把$M_0$的坐标代回检验，左边为$2-2-3+3=0$，方程成立。
+
+:::
+
+:::example{title="由三点求平面方程"}
+
+求过$A(1,0,0)$、$B(0,2,0)$、$C(0,0,3)$的平面方程。
+
+$\overrightarrow{AB}=(-1,2,0)$，$\overrightarrow{AC}=(-1,0,3)$，两者不共线，取
+
+$$
+\mathbf{n}=\overrightarrow{AB}\times\overrightarrow{AC}
+=\begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \mathbf{k}\\
+-1 & 2 & 0\\
+-1 & 0 & 3
+\end{vmatrix}
+=(6,\ 3,\ 2).
+$$
+
+以$A$为已知点写点法式：
+
+$$
+6(x-1)+3y+2z=0,
+$$
+
+即$6x+3y+2z-6=0$。三个截距正好是$1$、$2$、$3$，与截距式$\dfrac{x}{1}+\dfrac{y}{2}+\dfrac{z}{3}=1$一致。
+
+:::
+
+:::example{title="点到平面的距离"}
+
+求点$P_0(1,1,1)$到平面$2x-y+2z-6=0$的距离。
+
+$$
+d=\frac{\lvert 2-1+2-6\rvert}{\sqrt{4+1+4}}=\frac{3}{3}=1.
+$$
+
+:::
+
+### 求平面方程的方法
+
+求平面方程的核心是找法向量。
+
+:::steps
+
+1. **判断已知条件的类型**
+
+   已知一点和法向量时直接用点法式；已知三点、一点与两个方向向量、或平面平行于两个已知向量时，先由向量积求法向量。
+
+2. **求法向量**
+
+   过不共线三点$A,B,C$的平面取$\mathbf{n}=\overrightarrow{AB}\times\overrightarrow{AC}$；平行于两个不平行向量$\mathbf{a}$、$\mathbf{b}$的平面取$\mathbf{n}=\mathbf{a}\times\mathbf{b}$。
+
+3. **代入并整理**
+
+   用平面上的一个点写出点法式，再整理成一般方程；也可以设$Ax+By+Cz+D=0$，把已知点的坐标代入解出系数。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PlanePointDemo />
+
+## 练习
+
+::problems{#plane-equation-check}
+
+1. ::question{#normal-vector}
+
+   平面$2x-3y+z-5=0$的一个法向量是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $(2,-3,1)$
+   - :option[B]{#b} $(2,3,1)$
+   - :option[C]{#c} $(-2,3,1)$
+   - :option[D]{#d} $(2,-3,-5)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   一般方程$Ax+By+Cz+D=0$中，$(A,B,C)$就是法向量，常数项$D$不参与。
+   :::
+
+2. ::question{#distance}
+
+   点$P(1,1,1)$到平面$2x-y+2z-6=0$的距离是 :blank{#distance type="number"}。
+
+   :::reference
+   ::correct{blank="distance" value="1"}
+
+   分子为$\lvert 2-1+2-6\rvert=3$，分母为$\sqrt{4+1+4}=3$，所以$d=1$。
+   :::
+
+3. ::question{#relation}
+
+   平面$x+2y-2z+1=0$与$2x+4y-4z-3=0$的位置关系是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 平行
+   - :option[B]{#b} 垂直
+   - :option[C]{#c} 相交但不垂直
+   - :option[D]{#d} 重合
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   法向量$(1,2,-2)$与$(2,4,-4)$成比例，两平面平行。若重合，第一个方程乘$2$应与第二个方程相同，但常数项会变成$2$，与$-3$不符，所以不重合。
+   :::
+
+4. ::question{#intercept}
+
+   平面$\dfrac{x}{2}+\dfrac{y}{-3}+\dfrac{z}{4}=1$在$z$轴上的截距是 :blank{#intercept type="number"}。
+
+   :::reference
+   ::correct{blank="intercept" value="4"}
+
+   令$x=y=0$，得$\dfrac{z}{4}=1$，即$z=4$。
+   :::
+
+5. ::question{#three-points}
+
+   过$A(1,0,0)$、$B(0,2,0)$、$C(0,0,3)$的平面方程可写成$6x+3y+2z+D=0$，则$D=$ :blank{#d type="number"}。
+
+   :::reference
+   ::correct{blank="d" value="-6"}
+
+   把$A(1,0,0)$代入得$6+D=0$，所以$D=-6$。
+   :::

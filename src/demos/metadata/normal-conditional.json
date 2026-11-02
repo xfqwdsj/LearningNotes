@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "给定一个正态分量后，另一个如何变化？",
+      "description": "调整相关系数和条件值，查看二维标准正态的条件分布。",
+      "messages": {
+        "label": "二维正态分布的条件分布",
+        "intro": "两个分量的均值为$0$、方差为$1$，相关系数为$\\rho$。曲线表示给定$Y=y$后$X$的条件密度。",
+        "rho": "相关系数$\\rho$",
+        "condition": "给定值$y$",
+        "diagram": "条件均值为{mean}，条件方差为{variance}",
+        "result": "条件均值为{mean}，条件方差为{variance}。"
+      },
+      "tags": ["概率论", "多元正态分布"]
+    }
+  }
+}

@@ -1,0 +1,71 @@
+---
+title: 配对样本均值检验
+description: 配对样本均值检验的条件、统计量与检验方法。
+---
+
+import PairedTestDemo from "@/demos/paired-test-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+同一对象的前后测量、按特征匹配的个体对，都属于**配对设计**。两张表看起来是两组数据，但配对内的两个观测不独立，不能套用上面的独立两样本公式。
+
+配对设计先逐对作差：
+
+$$
+D_i=X_i-Y_i,\qquad i=1,\ldots,n,
+$$
+
+其中$n$是**对数**。若$D_1,\ldots,D_n$相互独立且都服从正态分布，则检验均值差$H_0:\mu_D=\Delta_0$就化为单个正态总体的均值检验：
+
+$$
+T=\frac{\bar D-\Delta_0}{S_D/\sqrt n}\sim t(n-1),
+$$
+
+其中$\bar D$、$S_D$分别是差值样本的均值和标准差。
+
+> [!IMPORTANT]
+> **配对检验的正态性加在差值上**
+>
+> 配对$t$检验要求的是**差值**服从正态分布，不是要求两列原始数据各自正态。配对内的两个观测可以强相关，这正是配对设计想要消掉的部分；因此差值的方差不能写成$S_X^2+S_Y^2$，那个式子只在两组相互独立时成立。自由度按对数算，是$n-1$，不是$n_1+n_2-2$。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="配对设计用差值做一元$t$检验"}
+
+对$n=9$对观测逐对作差，算得$\bar d=2.0$，$s_D=2.0$。检验$H_0:\mu_D=0$对$H_1:\mu_D\ne0$，取$\alpha=0.05$。
+
+$$
+t=\frac{\bar d-0}{s_D/\sqrt n}
+=\frac{2.0}{2.0/3}=3.0,
+\qquad \nu=9-1=8.
+$$
+
+临界值$t_{0.025}(8)\approx2.306$，$3.0>2.306$，拒绝$H_0$。这里自由度是$8$，由对数$9$决定；若误按两组独立样本处理，会写成$n_1+n_2-2$，把自由度放大一倍，临界值也随之变小。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PairedTestDemo />
+
+## 练习
+
+::problems{#paired-test-practice}
+
+1. ::question{#paired-df}
+
+   由$n=12$对观测组成的配对样本，检验差值均值$H_0:\mu_D=0$，所用$t$统计量的自由度为 :blank{#paired-df-value type="number"}。
+
+   :::reference
+   ::correct{blank="paired-df-value" value="11"}
+
+   配对检验化为一元$t$检验，自由度按对数算，为$n-1=11$。两组原始数据的独立性不成立，不能写成$12+12-2=22$。
+   :::

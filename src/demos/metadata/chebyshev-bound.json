@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "切比雪夫界离实际概率有多远？",
+      "description": "在对称两点分布上比较偏离概率和切比雪夫上界。",
+      "messages": {
+        "label": "切比雪夫不等式的上界",
+        "intro": "$X$以相同概率取$0$或$1$，均值为$1/2$、方差为$1/4$。改变偏离阈值，比较实际概率与上界。",
+        "epsilon": "偏离阈值$\\varepsilon$",
+        "diagram": "实际概率为{actual}，上界为{bound}",
+        "result": "实际概率为{actual}；把切比雪夫上界与$1$比较后得到{bound}。"
+      },
+      "tags": ["概率论", "切比雪夫不等式"]
+    }
+  }
+}

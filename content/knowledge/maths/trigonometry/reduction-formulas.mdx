@@ -1,0 +1,65 @@
+---
+title: 三角函数的诱导公式
+description: 将相关角的三角函数化为原角的三角函数。
+---
+
+import TrigReductionDemo from "@/demos/trig-reduction-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+把任意角的三角函数化为锐角三角函数，常用公式如下：
+
+| 角 | $\sin$ | $\cos$ | $\tan$ |
+| :--- | :--- | :--- | :--- |
+| $-\alpha$ | $-\sin\alpha$ | $\cos\alpha$ | $-\tan\alpha$ |
+| $\pi-\alpha$ | $\sin\alpha$ | $-\cos\alpha$ | $-\tan\alpha$ |
+| $\pi+\alpha$ | $-\sin\alpha$ | $-\cos\alpha$ | $\tan\alpha$ |
+| $2\pi-\alpha$ | $-\sin\alpha$ | $\cos\alpha$ | $-\tan\alpha$ |
+| $\dfrac{\pi}{2}-\alpha$ | $\cos\alpha$ | $\sin\alpha$ | $\cot\alpha$ |
+| $\dfrac{\pi}{2}+\alpha$ | $\cos\alpha$ | $-\sin\alpha$ | $-\cot\alpha$ |
+
+> [!TIP]
+> 口诀“奇变偶不变，符号看象限”：把$\alpha$看作锐角，先看角中$\dfrac{\pi}{2}$的倍数是奇数还是偶数，决定函数名是否变成余名函数；再按新角所在象限确定符号。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用诱导公式求$\sin\dfrac{7\pi}{6}$"}
+
+$$
+\sin\frac{7\pi}{6}=\sin\left(\pi+\frac{\pi}{6}\right)=-\sin\frac{\pi}{6}=-\frac{1}{2}.
+$$
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TrigReductionDemo />
+
+## 练习
+
+::problems{#trig-reduction-practice}
+
+1. ::question{#induction-sign}
+
+   $\sin(\pi+\alpha)=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $-\sin\alpha$
+   - :option[B]{#b} $\sin\alpha$
+   - :option[C]{#c} $\cos\alpha$
+   - :option[D]{#d} $-\cos\alpha$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\pi+\alpha$的终边在第三象限，把$\alpha$看作锐角时正弦为负；$\pi$是$\dfrac{\pi}{2}$的偶数倍，函数名不变，所以结果为$-\sin\alpha$。
+   :::

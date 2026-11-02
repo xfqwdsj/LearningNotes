@@ -1,0 +1,92 @@
+---
+title: 交错级数
+description: 用莱布尼茨判别法和余项界判断交错级数。
+---
+
+import AlternatingSeriesDemo from "@/demos/alternating-series-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+正负项交替出现的级数称为**交错级数**，一般形式为
+
+$$
+\sum_{n=1}^{\infty}(-1)^{n-1}u_n=u_1-u_2+u_3-u_4+\cdots
+$$
+
+或
+
+$$
+\sum_{n=1}^{\infty}(-1)^nu_n=-u_1+u_2-u_3+u_4-\cdots
+$$
+
+其中$u_n>0$。
+
+### 莱布尼茨定理
+
+若交错级数$\sum(-1)^{n-1}u_n$（$u_n>0$）满足
+
+1. 数列$\{u_n\}$单调递减，即$u_{n+1}\le u_n$（$n=1,2,3,\dots$）；
+2. $\lim_{n\to\infty}u_n=0$，
+
+则该交错级数收敛，且其和$s\le u_1$，余项满足
+
+$$
+|r_n|\le u_{n+1}.
+$$
+
+满足这两个条件的交错级数也称为**莱布尼茨级数**。
+
+:::proof
+
+记偶数项部分和$s_{2n}$。由于
+
+$$
+s_{2n}=(u_1-u_2)+(u_3-u_4)+\cdots+(u_{2n-1}-u_{2n}),
+$$
+
+每个括号非负，$\{s_{2n}\}$单调不减；又
+
+$$
+s_{2n}=u_1-(u_2-u_3)-\cdots-(u_{2n-2}-u_{2n-1})-u_{2n}\le u_1,
+$$
+
+所以$\{s_{2n}\}$有上界，收敛，设极限为$s$，且$s\le u_1$。
+
+奇数项部分和$s_{2n-1}$单调不增且有下界$0$，也收敛；而$s_{2n-1}-s_{2n}=u_{2n}\to0$，故$\{s_{2n-1}\}$与$\{s_{2n}\}$趋于同一极限$s$，整个部分和数列收敛于$s$。
+
+余项$r_n=s-s_n$是级数的尾部，符号由$n$的奇偶决定；对尾部按同样的括号分组，即得$|r_n|\le u_{n+1}$。
+
+:::
+
+> [!WARNING]
+> **单调性条件不能省**
+>
+> 只验证$u_n\to0$不足以判定交错级数收敛。取$u_{2k-1}=\dfrac1k$、$u_{2k}=\dfrac1{k^2}$，则$u_n>0$、$u_n\to0$，但级数$\sum(-1)^{n-1}u_n$的正项部分为调和级数、负项部分收敛，部分和趋于$+\infty$，级数发散。
+>
+> 莱布尼茨定理给出的是充分条件，不是必要条件。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$\sum\dfrac{(-1)^{n-1}}{\sqrt n}$条件收敛"}
+
+$u_n=\dfrac1{\sqrt n}$单调递减且趋于$0$，由莱布尼茨定理，级数收敛。但
+
+$$
+\sum\Bigl|\frac{(-1)^{n-1}}{\sqrt n}\Bigr|=\sum\frac1{\sqrt n}
+$$
+
+是$p=\dfrac12\le1$的$p$级数，发散。所以原级数条件收敛。
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<AlternatingSeriesDemo />

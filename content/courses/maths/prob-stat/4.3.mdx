@@ -1,0 +1,60 @@
+---
+title: 4.3协方差与相关系数
+description: 记录协方差与相关系数在数字特征一章中的位置、记号约定、判断顺序与常见混淆。
+---
+## 阅读入口
+
+- [协方差](/knowledge/maths/probability/covariance-correlation/)
+- [方差](/knowledge/maths/probability/variance/)
+- [数学期望](/knowledge/maths/probability/expectation/)
+- [随机变量的独立性](/knowledge/maths/probability/random-variable-independence/)
+
+## 协方差的定义
+
+::knowledge{path="maths/probability/covariance-correlation" slot="definition"}
+
+本课程把$\operatorname{Cov}(X,Y)$与$D(X)$并排使用，4.4再把它们排进同一个协方差矩阵。
+
+## 协方差的性质
+
+::knowledge{path="maths/probability/covariance-correlation" slot="properties"}
+
+协方差与方差共用同一套期望记号，本课程把$\operatorname{Cov}(X,X)=D(X)$当作两条公式之间的接口。
+
+## 相关系数
+
+::knowledge{path="maths/probability/correlation-coefficient" slot="definition"}
+
+::knowledge{path="maths/probability/correlation-coefficient" slot="properties"}
+
+## 学习安排
+
+4.3紧接4.2：协方差是两个偏差乘积的期望，相关系数再用两个方差把协方差归一化。因此读这一节时要同时调用4.1的期望运算和4.2的方差，缺一项就算不出相关系数。4.4会把这里的$n$个变量的两两协方差排成协方差矩阵，这一节的双线性展开是那里的基础。
+
+本节先定义协方差并说明符号含义，再列出性质，然后用柯西—施瓦茨不等式引出相关系数，最后集中讨论不相关与独立的区别。性质中的“和与差”例子可以用来检查条件是否写全。
+
+## 课程约定
+
+- 协方差记$\operatorname{Cov}(X,Y)$，相关系数记$\rho_{XY}$，方差继续用$D(X)$。
+- “不相关”定义为$\operatorname{Cov}(X,Y)=0$；只有在$D(X)>0$、$D(Y)>0$时才进一步等价于$\rho_{XY}=0$。
+- 讨论相关系数前先确认两个方差都为正；方差为零时相关系数没有定义，不能写成$0$。
+- 由不相关推出独立时，必须写明联合正态这一额外条件；只已知两个边缘为正态不够。
+
+## 重点
+
+- 协方差对两个位置分别线性，展开$\operatorname{Cov}\left(\sum_i a_iX_i,\sum_j b_jY_j\right)$时两个求和都要分配。
+- 独立时$E(XY)=E(X)E(Y)$，由此得到协方差为零；反向一般不成立。
+- $|\rho|=1$等价于两个变量以概率一满足线性关系$Y=aX+b$，$a$的符号与$\rho$相同。
+- 仿射变换下相关系数只可能改变符号：$\rho_{aX+b,cY+d}=\operatorname{sgn}(ac)\rho_{XY}$。
+
+## 易错点
+
+- 把“不相关”当成“独立”。$X\sim U[-1,1]$、$Y=X^2$是标准反例，协方差为零但两者明显不独立。
+- 用协方差的数值直接比较不同变量的关联强弱。协方差带单位，换成厘米就会放大$10000$倍，比较强弱应看相关系数。
+- 认为方差为零时“相关系数等于零”。分母为零时相关系数没有定义，只能说该变量几乎必然是常数。
+- 把相关当作因果，或者不检查线性关系就套用相关系数。
+- 只看到$X$、$Y$各自服从正态分布，就用“不相关即独立”；必须是$(X,Y)$联合正态。
+
+## 复习要点
+
+判断“不相关能否推出独立”时，先看题目有没有给出联合正态，再看两个变量是否由同一个变量决定。计算协方差前先确认拿到的是联合分布；只给两个边缘分布时，除非已知独立，否则不能把$E(XY)$拆成$E(X)E(Y)$。

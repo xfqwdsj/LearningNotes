@@ -1,0 +1,198 @@
+---
+title: 方差
+description: 用期望刻画随机变量围绕均值的波动，并说明方差的计算公式与性质。
+---
+
+方差与标准差描述随机变量取值围绕期望的分散程度。本页默认所讨论的随机变量二阶矩有限，即$E(X^2)<+\infty$；这时$E(X)$也一定存在。
+
+import VarianceShiftDemo from "@/demos/variance-shift-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X$满足$E(X^2)<+\infty$，记$\mu=E(X)$。称
+
+$$
+D(X)=E\bigl[(X-\mu)^2\bigr]
+$$
+
+为$X$的**方差**，也记作$\operatorname{Var}(X)$；称$\sqrt{D(X)}$为**标准差**，它与$X$取相同的单位。方差是平方的量，标准差才与原始数据同量纲，比较波动时常用标准差。
+
+方差常用下面的公式计算：
+
+$$
+D(X)=E(X^2)-[E(X)]^2.
+$$
+
+:::proof
+把平方展开，再用期望的线性性质：
+
+$$
+D(X)=E(X^2-2\mu X+\mu^2)=E(X^2)-2\mu E(X)+\mu^2=E(X^2)-[E(X)]^2.
+$$
+:::
+
+> [!IMPORTANT]
+> **两个量不要混淆**
+>
+> $E(X^2)$是二阶原点矩（记号见[矩](/knowledge/maths/probability/moments-covariance-matrix/)），$[E(X)]^2$是期望的平方。方差是这两者之差，既不是$E(X^2)$，也不能把平方写在期望外面。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 常数与仿射变换
+
+$$
+D(C)=0,\qquad D(aX+b)=a^2D(X).
+$$
+
+:::proof
+常数的取值不波动，所以$D(C)=0$。对仿射变换，均值为$aE(X)+b$，于是
+
+$$
+D(aX+b)=E\bigl[(aX+b-aE(X)-b)^2\bigr]
+=a^2E\bigl[(X-E(X))^2\bigr]=a^2D(X).
+$$
+:::
+
+平移不改变波动，乘以$a$则把偏差放大$|a|$倍，方差相应放大$a^2$倍。
+
+### 两个变量与线性组合
+
+$$
+D(X\pm Y)=D(X)+D(Y)\pm2\operatorname{Cov}(X,Y).
+$$
+
+协方差的定义与性质见[协方差](/knowledge/maths/probability/covariance-correlation/)。若$X$与$Y$不相关，即$\operatorname{Cov}(X,Y)=0$（独立是充分条件），则
+
+$$
+D(X+Y)=D(X-Y)=D(X)+D(Y).
+$$
+
+对有限线性组合，
+
+$$
+D\left(\sum_i a_iX_i\right)
+=\sum_i a_i^2D(X_i)+2\sum_{i<j}a_ia_j\operatorname{Cov}(X_i,X_j).
+$$
+
+若各变量两两不相关，所有协方差项为零，方差只剩$\sum_i a_i^2D(X_i)$。
+
+> [!WARNING]
+> **方差没有线性性**
+>
+> $D(X-X)=0$，不能未经检查就写成$2D(X)$。即使$X$与$Y$独立，$D(X-Y)$也是$D(X)+D(Y)$，不会相减；负号只通过协方差项影响结果。
+
+### 样本和与样本均值
+
+设$X_1,\ldots,X_n$独立同分布，$E(X_i)=\mu$，$D(X_i)=\sigma^2$。独立性使各协方差为零，于是
+
+$$
+E\left(\sum_{i=1}^nX_i\right)=n\mu,\qquad
+D\left(\sum_{i=1}^nX_i\right)=n\sigma^2,
+$$
+
+样本均值$\bar X=\frac1n\sum_iX_i$满足
+
+$$
+E(\bar X)=\mu,\qquad D(\bar X)=\frac{\sigma^2}{n}.
+$$
+
+最后一条由$D(\bar X)=\frac{1}{n^2}D\left(\sum_iX_i\right)=\frac{n\sigma^2}{n^2}$得到。平均值的标准差为$\sigma/\sqrt n$：若希望它减半，样本量要增为原来的四倍。
+
+### 零方差
+
+方差非负，且
+
+$$
+D(X)=0
+$$
+
+当且仅当$X=E(X)$几乎必然成立。也就是说，方差为零的随机变量几乎必然是常数；这一点在讨论相关系数的分母时要用到。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$B(1,p)$的方差"}
+
+设$P\{X=1\}=p$，$P\{X=0\}=1-p$。此时$E(X)=p$，且$X^2=X$，所以$E(X^2)=p$。按计算公式，
+
+$$
+D(X)=p-p^2=p(1-p).
+$$
+
+若直接用定义，$X-E(X)$以概率$p$取$1-p$、以概率$1-p$取$-p$，平方后加权同样得到$p(1-p)^2+(1-p)p^2=p(1-p)$。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+比较对称两点分布的中心位置与偏离距离对方差的影响。
+
+<VarianceShiftDemo />
+
+## 练习
+
+::problems{#variance-practice}
+
+1. ::question{#discrete-variance}
+
+   设$P\{X=0\}=0.2$，$P\{X=1\}=0.5$，$P\{X=2\}=0.3$，则$D(X)=$ :blank{#discrete-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="discrete-variance-value" value="0.49"}
+
+   先算$E(X)=0\times0.2+1\times0.5+2\times0.3=1.1$，再算$E(X^2)=0+1\times0.5+4\times0.3=1.7$，所以$D(X)=1.7-1.1^2=1.7-1.21=0.49$。
+   :::
+
+2. ::question{#affine-variance}
+
+   已知$D(X)=4$，则$D(3X-2)=$ :blank{#affine-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="affine-variance-value" value="36"}
+
+   仿射变换中常数项不影响方差，系数平方后乘到方差上：$D(3X-2)=3^2D(X)=9\times4=36$。
+   :::
+
+3. ::question{#sample-mean-variance}
+
+   设$X_1,\ldots,X_{16}$独立同分布，$D(X_i)=9$，则$D(\bar X)=$ :blank{#sample-mean-value type="number"}。
+
+   :::reference
+   ::correct{blank="sample-mean-value" value="0.5625"}
+
+   样本均值的方差为$\dfrac{\sigma^2}{n}=\dfrac{9}{16}=0.5625$。计算时先把和的方差$n\sigma^2$除以$n^2$，约分后得到$\sigma^2/n$。
+   :::
+
+4. ::question{#uncorrelated-variance}
+
+   设$D(X)=4$，$D(Y)=9$，且$X$与$Y$不相关，则$D(X-Y)=$ :blank{#uncorrelated-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="uncorrelated-variance-value" value="13"}
+
+   协方差为零时$D(X-Y)=D(X)+D(Y)=4+9=13$。负号不会让方差相减。
+   :::
+
+5. ::question{#variance-claim}
+
+   关于方差，下列叙述正确的是
+
+   :::choices{#choice-variance mode="single"}
+   - :option[A]{#a} $D(X-Y)=D(X)-D(Y)$
+   - :option[B]{#b} $D(2X)=2D(X)$
+   - :option[C]{#c} 若$X$与$Y$不相关，则$D(X-Y)=D(X)+D(Y)$
+   - :option[D]{#d} $D(XY)=D(X)D(Y)$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   不相关时协方差为零，$D(X-Y)=D(X)+D(Y)$。其余三项分别错在：方差不能相减；系数要平方，$D(2X)=4D(X)$；乘积的方差一般不能拆成方差之积。
+   :::

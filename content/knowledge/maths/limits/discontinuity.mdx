@@ -1,0 +1,127 @@
+---
+title: 间断点及其分类
+description: 按左右极限是否存在，把函数的间断点分为第一类与第二类，并给出判定流程。
+---
+
+import DiscontinuityDemo from "@/demos/discontinuity-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设函数$f$在点$x_0$的某个去心邻域内有定义。若$f$在$x_0$处不连续，则称$x_0$为$f$的**间断点**。
+
+判断间断点只看两条：$\lim_{x \to x_0^-}f(x)$与$\lim_{x \to x_0^+}f(x)$是否都存在。按这一点，间断点分为两类。
+
+| 类别 | 条件 | 细分 | 典型例子 |
+| :--- | :--- | :--- | :--- |
+| 第一类间断点 | 左右极限都存在 | 左右极限相等但不等于函数值（或函数值不存在）：**可去间断点** | $\dfrac{\sin x}{x}$在$x=0$处 |
+|  |  | 左右极限不相等：**跳跃间断点** | $\operatorname{sgn}(x)$在$x=0$处 |
+| 第二类间断点 | 至少一个单侧极限不存在 | 至少一个单侧极限为$\pm\infty$：**无穷间断点** | $\dfrac{1}{x^2}$在$x=0$处 |
+|  |  | 极限不存在且不趋于无穷：**振荡间断点** | $\sin\dfrac{1}{x}$在$x=0$处 |
+
+{/* more */}
+
+可去间断点是最容易误判的一类：极限存在，但函数值不存在，或者函数值与极限不相等。补上或改掉这一点函数值，就能把间断点变成连续点，这也是“可去”一名的来源。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 分段函数在分段点处的判定
+
+1. 计算$f(x_0)$，确认函数在该点是否有定义。
+2. 分别计算左极限$\lim_{x \to x_0^-}f(x)$与右极限$\lim_{x \to x_0^+}f(x)$。
+3. 比较三者：左右极限相等且等于$f(x_0)$时连续；否则按上表分类。
+
+对于分段函数，分段点两侧的表达式不同，左右极限必须分别用对应的一侧表达式计算。
+
+### 常见形式的快速判断
+
+- 分式$\dfrac{g(x)}{h(x)}$在$h(x_0)=0$处：若$\lim_{x \to x_0}g(x)\ne 0$，则$x_0$是无穷间断点。
+- $\sin\dfrac{1}{x}$、$\cos\dfrac{1}{x}$在$x=0$处通常为振荡间断点；但$x\sin\dfrac{1}{x}$在$x=0$处极限为$0$，是可去间断点。
+- $\dfrac{0}{0}$型且函数值未定义的点，先约分再求极限。例如$\dfrac{x^2-1}{x-1}$在$x=1$处极限为$2$，但$f(1)$不存在，所以是可去间断点。
+
+> [!WARNING]
+> “极限存在”不等于“连续”。可去间断点处极限存在，但函数值缺失或与极限不相等，仍然不连续。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$\dfrac{\sin x}{x}$在$x=0$处"}
+
+$f(0)$无定义，但
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x}=1.
+$$
+
+左右极限相等，所以$x=0$是可去间断点。补充定义$f(0)=1$后，函数在$x=0$处连续。
+
+:::
+
+:::example{title="$\operatorname{sgn}(x)$在$x=0$处"}
+
+$$
+\lim_{x \to 0^-}\operatorname{sgn}(x)=-1,\qquad
+\lim_{x \to 0^+}\operatorname{sgn}(x)=1.
+$$
+
+左右极限都存在但不相等，所以$x=0$是跳跃间断点。
+
+:::
+
+:::example{title="$\sin\dfrac{1}{x}$在$x=0$处"}
+
+当$x \to 0$时，$\dfrac{1}{x}$在无穷远处振荡，$\sin\dfrac{1}{x}$在$-1$与$1$之间反复取值，极限不存在，也不趋于无穷。因此$x=0$是振荡间断点。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<DiscontinuityDemo />
+
+## 练习
+
+::problems{#discontinuity-classification}
+
+1. ::question{#classify}
+
+   判断下列函数在指定点处的间断点类型。
+
+   1. ::part{#removable}
+
+      $f(x)=\dfrac{x^2-1}{x-1}$在$x=1$处属于哪一类？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 可去间断点
+      - :option[B]{#b} 跳跃间断点
+      - :option[C]{#c} 无穷间断点
+      - :option[D]{#d} 振荡间断点
+      :::
+
+      :::reference
+      ::correct{option="a"}
+
+      约分后$\lim_{x \to 1}(x+1)=2$，但$f(1)$无定义，所以是可去间断点。
+      :::
+
+   2. ::part{#infinite}
+
+      $f(x)=\dfrac{1}{x^2}$在$x=0$处属于哪一类？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 可去间断点
+      - :option[B]{#b} 跳跃间断点
+      - :option[C]{#c} 无穷间断点
+      - :option[D]{#d} 振荡间断点
+      :::
+
+      :::reference
+      ::correct{option="c"}
+
+      左右极限都为$+\infty$，所以是无穷间断点。
+      :::

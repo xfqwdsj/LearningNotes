@@ -1,0 +1,83 @@
+---
+title: 单个正态总体方差检验
+description: 单个正态总体方差检验的条件、统计量与检验方法。
+---
+
+import OneVarianceTestDemo from "@/demos/one-variance-test-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X_1,\ldots,X_n$是来自正态总体$N(\mu,\sigma^2)$的简单随机样本，$\bar X$与$S^2$分别为样本均值和分母为$n-1$的样本方差。检验以原假设为基准，方向和显著性水平应事先确定。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+均值未知时，检验$H_0:\sigma^2=\sigma_0^2$使用
+
+$$
+Q=\frac{(n-1)S^2}{\sigma_0^2}\sim\chi^2(n-1).
+$$
+
+记$\nu=n-1$，拒绝域按备择方向取：
+
+| 备择假设 | 拒绝域 |
+| :--- | :--- |
+| $\sigma^2\ne\sigma_0^2$ | $Q<\chi_{1-\alpha/2}^2(\nu)$或$Q>\chi_{\alpha/2}^2(\nu)$ |
+| $\sigma^2>\sigma_0^2$ | $Q>\chi_{\alpha}^2(\nu)$ |
+| $\sigma^2<\sigma_0^2$ | $Q<\chi_{1-\alpha}^2(\nu)$ |
+
+> [!WARNING]
+> **卡方分布不对称**
+>
+> 卡方分布只在非负半轴取值且右尾较长，没有$z_{1-\alpha}=-z_\alpha$那样的对称关系，所以双侧拒绝域不能写成“绝对值超过某个对称临界值”。两侧的临界值$\chi_{1-\alpha/2}^2(\nu)$与$\chi_{\alpha/2}^2(\nu)$需要分别查表；其中$\chi_{1-\alpha/2}^2(\nu)$位于分布的左侧，满足$P\{Q\le\chi_{1-\alpha/2}^2(\nu)\}=\alpha/2$。
+
+上面的公式以 $\mu$ 未知、用 $\bar X$ 估计中心为前提。若总体均值 $\mu$ **已知**，就不必再估计它，改用
+
+$$
+\frac{\sum_{i=1}^n(X_i-\mu)^2}{\sigma_0^2}\sim\chi^2(n),
+$$
+
+自由度相应地从$n-1$改成$n$。自由度不同的卡方分位点不能互换。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="方差检验的双侧与单侧"}
+
+设总体正态、均值未知，$n=16$，样本方差$s^2=16$，检验$H_0:\sigma^2=9$。
+
+$$
+Q=\frac{15\times16}{9}\approx26.67,\qquad \nu=15.
+$$
+
+若备择假设为$\sigma^2>9$，临界值为$\chi_{0.05}^2(15)\approx24.996$，$Q$超过它，拒绝$H_0$，认为方差偏大。
+
+一旦把问题改成双侧$H_1:\sigma^2\ne9$，就要同时看两侧：$\chi_{0.975}^2(15)\approx6.262$，$\chi_{0.025}^2(15)\approx27.488$。此时$Q\approx26.67$落在两个临界值之间，不拒绝$H_0$。同一个统计量在两套假设下给出不同结论，原因只是拒绝域的范围变了。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<OneVarianceTestDemo />
+
+## 练习
+
+::problems{#one-variance-test-practice}
+
+1. ::question{#known-mean-df}
+
+   设总体正态，均值$\mu$已知，用$\sum_{i=1}^n(X_i-\mu)^2/\sigma_0^2$检验$H_0:\sigma^2=\sigma_0^2$，样本容量$n=10$，该统计量服从的卡方分布的自由度为 :blank{#df-value type="number"}。
+
+   :::reference
+   ::correct{blank="df-value" value="10"}
+
+   中心用的是已知的$\mu$，没有用$\bar X$去估计它，因而不损失自由度，自由度就是$n=10$。若改用样本均值$\bar X$，自由度为$n-1=9$。
+   :::

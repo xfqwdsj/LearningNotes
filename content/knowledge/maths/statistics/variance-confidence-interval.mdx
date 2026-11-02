@@ -1,0 +1,107 @@
+---
+title: 正态总体方差的置信区间
+description: 使用卡方枢轴量构造方差与标准差区间。
+---
+
+import VarianceConfidenceIntervalDemo from "@/demos/variance-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设$X_1,\ldots,X_n$是来自$N(\mu,\sigma^2)$的简单随机样本，$n\ge2$，记
+
+$$
+\bar X=\frac1n\sum_{i=1}^nX_i,\qquad
+S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2,\qquad
+S=\sqrt{S^2}.
+$$
+
+以下都是置信水平$1-\alpha$的等尾双侧区间。
+
+均值$\mu$未知时，$\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$。按两侧各留$\alpha/2$得
+
+$$
+P\left\{\chi^2_{1-\alpha/2}(n-1)\le\frac{(n-1)S^2}{\sigma^2}\le\chi^2_{\alpha/2}(n-1)\right\}=1-\alpha,
+$$
+
+解出
+
+$$
+\sigma^2\in\left[\frac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)},\ \frac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}\right].
+$$
+
+端点都为正，所以标准差$\sigma$的区间是对两个端点开平方：
+
+$$
+\sigma\in\left[\sqrt{\frac{(n-1)S^2}{\chi^2_{\alpha/2}(n-1)}},\ \sqrt{\frac{(n-1)S^2}{\chi^2_{1-\alpha/2}(n-1)}}\right].
+$$
+
+若均值$\mu$已知，则用$\sum_{i=1}^n(X_i-\mu)^2$代替$(n-1)S^2$，自由度换成$n$：
+
+$$
+\sigma^2\in\left[\frac{\sum_i(X_i-\mu)^2}{\chi^2_{\alpha/2}(n)},\ \frac{\sum_i(X_i-\mu)^2}{\chi^2_{1-\alpha/2}(n)}\right].
+$$
+
+> [!TIP]
+> **端点顺序的记忆**
+>
+> $\chi^2_{\alpha/2}$在右尾，数值较大；$\chi^2_{1-\alpha/2}$在左尾，数值较小。较大的分位点作下界的分母，较小的作上界的分母，所以“分母越大，端点越小”。写完先检查下界是否小于上界。
+
+> [!WARNING]
+> **不要交换两个分位点**
+>
+> 把$\chi^2_{\alpha/2}$与$\chi^2_{1-\alpha/2}$的位置写反，会得到下界大于上界的空区间。$\chi^2$与$F$都不对称，不能沿用$z_{1-\alpha}=-z_\alpha$的写法。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="方差的区间"}
+
+$n=16$，$s^2=4$，$\alpha=0.05$，$\chi^2_{0.025}(15)=27.488$，$\chi^2_{0.975}(15)=6.262$。由
+
+$$
+\frac{15\times4}{27.488}\approx2.183,\qquad
+\frac{15\times4}{6.262}\approx9.582,
+$$
+
+得$\sigma^2$的$95\%$区间约为$[2.183,\ 9.582]$。对两个端点开平方，得$\sigma$的区间约为$[1.477,\ 3.095]$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<VarianceConfidenceIntervalDemo />
+
+## 练习
+
+::problems{#variance-confidence-interval}
+
+1. ::question{#variance-bounds}
+
+   正态样本容量$n=16$，样本方差$s^2=4$。取$\chi^2_{0.025}(15)=27.488$，$\chi^2_{0.975}(15)=6.262$。
+
+   1. ::part{#lower}
+
+      $\sigma^2$的$95\%$置信区间下界约为 :blank{#variance-lower type="number"}。
+
+      :::reference
+      ::correct{blank="variance-lower" value="2.183" tolerance="0.01"}
+
+      下界为$15\times4/27.488\approx2.183$，分母是较大的分位点。
+      :::
+
+   2. ::part{#upper}
+
+      上界约为 :blank{#variance-upper type="number"}。
+
+      :::reference
+      ::correct{blank="variance-upper" value="9.582" tolerance="0.01"}
+
+      上界为$15\times4/6.262\approx9.582$，分母是较小的分位点。
+      :::

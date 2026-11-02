@@ -1,0 +1,111 @@
+---
+title: 参数方程所确定函数的导数
+description: 由$x=\varphi(t)$、$y=\psi(t)$求$\mathrm{d}y/\mathrm{d}x$，以及参数方程求导的适用条件。
+---
+
+import ParametricSlopeDemo from "@/demos/parametric-slope-demo";
+
+## 公式
+
+::section{#formula slot="knowledge.definition"}
+
+设函数由参数方程
+
+$$
+\begin{cases}
+x=\varphi(t),\\
+y=\psi(t)
+\end{cases}
+$$
+
+确定，其中$\varphi(t)$、$\psi(t)$在参数区间内可导，且$\varphi'(t)\ne 0$。则
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{\dfrac{\mathrm{d}y}{\mathrm{d}t}}{\dfrac{\mathrm{d}x}{\mathrm{d}t}}
+=\frac{\psi'(t)}{\varphi'(t)}.
+$$
+
+{/* more */}
+
+这里$t$是参数，不是自变量。$\dfrac{\mathrm{d}y}{\mathrm{d}x}$仍然是曲线在$(x(t),y(t))$处的切线斜率。
+
+若需要二阶导数，先把$\dfrac{\mathrm{d}y}{\mathrm{d}x}$写成$t$的函数，再对$t$求导并除以$\varphi'(t)$：
+
+$$
+\frac{\mathrm{d}^2y}{\mathrm{d}x^2}
+=\frac{1}{\varphi'(t)}\cdot\frac{\mathrm{d}}{\mathrm{d}t}
+\left(\frac{\psi'(t)}{\varphi'(t)}\right).
+$$
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$x=t^2$，$y=t^3$"}
+
+$$
+\frac{\mathrm{d}x}{\mathrm{d}t}=2t,\qquad
+\frac{\mathrm{d}y}{\mathrm{d}t}=3t^2,
+$$
+
+所以
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}=\frac{3t^2}{2t}=\frac{3t}{2}\quad (t\ne 0).
+$$
+
+在$t=1$处，曲线在点$(1,1)$的切线斜率为$\dfrac{3}{2}$。
+
+:::
+
+:::example{title="单位圆$x=\cos t$，$y=\sin t$"}
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{\cos t}{-\sin t}=-\cot t\quad (\sin t\ne 0).
+$$
+
+在$t=\dfrac{\pi}{4}$处斜率为$-1$，与点$\left(\dfrac{\sqrt{2}}{2},\dfrac{\sqrt{2}}{2}\right)$处圆的切线方向一致。
+
+:::
+
+> [!WARNING]
+> 参数方程求导不是分别对$x$、$y$求导后相除就结束，还要确认$\varphi'(t)\ne 0$。当$\varphi'(t)=0$且$\psi'(t)\ne 0$时，曲线可能出现竖直切线，此时$\dfrac{\mathrm{d}y}{\mathrm{d}x}$不存在。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ParametricSlopeDemo />
+
+## 练习
+
+::problems{#parametric-check}
+
+1. ::question{#slope}
+
+   曲线$x=t^2$，$y=t^3$在$t=2$处的切线斜率是 :blank{#slope type="number"}。
+
+   :::reference
+   ::correct{blank="slope" value="3"}
+
+   $\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{3t}{2}$，代入$t=2$得$3$。
+   :::
+
+2. ::question{#condition}
+
+   参数方程求导公式$\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\psi'(t)}{\varphi'(t)}$要求：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\varphi'(t)\ne 0$
+   - :option[B]{#b} $\psi'(t)\ne 0$
+   - :option[C]{#c} $\varphi'(t)=\psi'(t)$
+   - :option[D]{#d} $t>0$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $x=\varphi(t)$必须能局部确定反函数，因此要求$\varphi'(t)\ne 0$。
+   :::

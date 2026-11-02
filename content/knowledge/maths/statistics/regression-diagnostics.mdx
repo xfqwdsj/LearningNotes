@@ -1,0 +1,20 @@
+---
+title: 线性回归的残差检查
+description: 通过残差图检查线性关系和误差条件的可疑偏离。
+---
+
+import RegressionDiagnosticsDemo from "@/demos/regression-diagnostics-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+在线性回归中，残差$e_i=y_i-\hat y_i$是观测值与拟合值之差。残差由整组数据共同拟合得到，不能直接当作相互独立的真实误差。
+
+回归计算本身不能验证模型条件。应检查残差与拟合值图是否有非线性结构或方差不齐，按观测顺序检查残差是否相关，用正态概率图辅助判断正态误差，并留意异常值与强影响点。样本内拟合好不等于样本外预测好；模型用于预测前，还要确认预测点是否落在数据覆盖的范围内。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<RegressionDiagnosticsDemo />

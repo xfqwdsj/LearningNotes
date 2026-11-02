@@ -1,0 +1,130 @@
+---
+title: 连续型随机变量
+description: 用概率密度描述连续型随机变量，并由密度计算区间概率。
+---
+
+import DensityAreaDemo from "@/demos/density-area-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若存在非负可积函数$f$，使随机变量$X$的分布函数可以写成
+
+$$
+F(x)=P\{X\le x\}=\int_{-\infty}^{x}f(t)\,\mathrm dt,\qquad -\infty<x<+\infty,
+$$
+
+则称$X$为**连续型随机变量**，$f$称为$X$的**概率密度函数**，简称密度。
+
+密度满足
+
+$$
+f(x)\ge 0,\qquad \int_{-\infty}^{+\infty}f(x)\,\mathrm dx=1.
+$$
+
+对任意$a<b$，区间概率由密度积分给出：
+
+$$
+P\{a<X<b\}=\int_a^b f(x)\,\mathrm dx.
+$$
+
+{/* more */}
+
+在$f$的连续点处有$F'(x)=f(x)$。改变$f$在有限个点处的取值不改变积分，也不改变分布。
+
+> [!WARNING]
+> **密度不是概率**
+>
+> $f(x)$是$x$附近单位长度上的概率密度，不是$P\{X=x\}$。密度可以大于$1$；连续型随机变量满足$P\{X=x\}=0$，但事件$\{X=x\}$并非不可能事件。
+
+求密度中的未知系数时，必须同时检查非负性与总积分为$1$，不能只用其中一个条件。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 求密度中的未知系数
+
+:::steps
+
+1. **写出非负条件**
+
+   对密度支持集内的每个$x$，要求$f(x)\ge 0$，据此排除一部分系数取值。
+
+2. **用归一化条件定系数**
+
+   令$\int_{-\infty}^{+\infty}f(x)\,\mathrm dx=1$，解出未知系数，再代回检查非负条件。
+
+3. **求分布函数或区间概率**
+
+   由$F(x)=\int_{-\infty}^{x}f(t)\,\mathrm dt$写出分布函数，或直接对所需区间积分。
+
+:::
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由归一化条件求系数"}
+
+设$X$的密度为
+
+$$
+f(x)=\begin{cases}cx^2,&0<x<1,\\0,&\text{其他}.\end{cases}
+$$
+
+由
+
+$$
+\int_0^1 cx^2\,\mathrm dx=\frac{c}{3}=1
+$$
+
+得$c=3$，且$3x^2\ge 0$，非负条件也满足。于是$F(x)=x^3$（$0\le x\le 1$），并且
+
+$$
+P\left\{X<\frac12\right\}=\left(\frac12\right)^3=\frac18.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+通过密度曲线下的面积计算区间概率，并比较边界处的密度高度。
+
+<DensityAreaDemo />
+
+## 练习
+
+::problems{#density-practice}
+
+1. ::question{#density-coefficient}
+
+   设连续型随机变量$X$的密度为$f(x)=cx^2$（$0<x<1$），在其他位置$f(x)=0$，则$c=$ :blank{#coefficient type="number"}。
+
+   :::reference
+   ::correct{blank="coefficient" value="3"}
+
+   由归一化条件$\int_0^1 cx^2\,\mathrm dx=c/3=1$得$c=3$，且此时$f(x)\ge 0$。
+   :::
+
+2. ::question{#density-properties}
+
+   关于连续型随机变量的密度$f$，下列说法正确的有
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $f(x)\ge 0$
+   - :option[B]{#b} $\int_{-\infty}^{+\infty}f(x)\,\mathrm dx=1$
+   - :option[C]{#c} 对一切$x$都有$f(x)\le 1$
+   - :option[D]{#d} $P\{X=a\}=f(a)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   密度非负且全域积分为$1$，但不要求$f(x)\le 1$；密度值也不是单点概率，连续型随机变量的单点概率为$0$。
+   :::

@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "交错调和级数的误差如何缩小？",
+      "description": "观察部分和与莱布尼茨余项界。",
+      "messages": {
+        "label": "交错调和级数",
+        "intro": "从$1-\\frac12+\\frac13-\\cdots$开始累加；该级数的和为$\\ln 2$。",
+        "terms": "项数$n$",
+        "graphLabel": "前{n}个部分和，当前部分和为{sum}；虚线表示极限。",
+        "graphNote": "每个点表示一个部分和，虚线表示极限$\\ln 2$。",
+        "result": "余项的绝对值不超过下一项，即{bound}；奇偶部分和分别从两侧靠近极限。"
+      },
+      "tags": ["级数", "交错级数"]
+    }
+  }
+}

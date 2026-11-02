@@ -1,0 +1,203 @@
+---
+title: 最大似然估计
+description: 通过最大化样本似然构造参数估计，检查边界和参数空间。
+---
+
+import LikelihoodBernoulliDemo from "@/demos/likelihood-bernoulli-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设样本的联合概率密度或概率质量函数为$f(x_1,\ldots,x_n;\theta)$。对独立同分布样本，它等于各观测值密度的乘积。把观测值$x_1,\ldots,x_n$视为固定，定义**似然函数**
+
+$$
+L(\theta)=\prod_{i=1}^n f(x_i;\theta).
+$$
+
+离散型把$f(x_i;\theta)$换成概率质量函数$P\{X=x_i;\theta\}$。使$L(\theta)$达到最大的参数值称为$\theta$的**最大似然估计**，记作$\hat\theta_{\mathrm{ML}}$。最大似然估计把“哪个参数值最能解释已经看到的样本”作为选择标准。
+
+:::steps
+
+1. **写出完整似然**
+
+   写出$L(\theta)$，并把与参数有关的支持范围一并写清。例如均匀分布的似然只在$\theta$不小于样本最大值时为正。
+
+2. **取对数**
+
+   在$L(\theta)>0$的范围内取对数
+   $$
+   \ell(\theta)=\ln L(\theta)=\sum_{i=1}^n\ln f(x_i;\theta).
+   $$
+   对数把乘积变成求和，便于求导，也不会改变最大值的位置。
+
+3. **解似然方程**
+
+   解$\ell'(\theta)=0$；有多个参数时解偏导方程组。得到的解只是候选点。
+
+4. **检查边界和全局最大值**
+
+   比较候选点、参数边界以及支持范围的端点，确认是否真的取得全局最大值。若最大值只在参数空间的边界或极限处取得，要检查该点是否属于参数空间；不属于时最大似然估计不存在。
+
+:::
+
+> [!WARNING]
+> **导数为零只是候选条件**
+>
+> 最大值可能在参数空间的边界，也可能没有有限的最大值解。对均匀分布这类支持范围依赖参数的模型，尤其要先看边界，不能只解似然方程。
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 常用最大似然估计
+
+下表汇总常见模型在样本非退化时的最大似然估计。表中$\bar X=\frac1n\sum_iX_i$，$X_{(n)}$为样本最大值。
+
+| 模型 | 参数 | 最大似然估计 |
+| :--- | :--- | :--- |
+| $B(1,p)$ | $p$ | $\hat p=\bar X$ |
+| $P(\lambda)$ | $\lambda$ | $\hat\lambda=\bar X$ |
+| $E(\lambda)$（率参数） | $\lambda$ | $\hat\lambda=1/\bar X$ |
+| $N(\mu,\sigma^2)$（两参数未知） | $\mu,\sigma^2$ | $\hat\mu=\bar X$，$\hat\sigma^2=\frac1n\sum_i(X_i-\bar X)^2$ |
+| $U[0,\theta]$ | $\theta$ | $\hat\theta=X_{(n)}$ |
+
+表中的公式默认样本落在使似然为正的范围内。指数样本全为零时，$E(\lambda)$的似然随$\lambda$增大而没有有限的最大值点；伯努利样本全为零或全为一时，要按参数空间是否包含端点处理边界估计。
+
+> [!IMPORTANT]
+> **均匀分布的边界要单独说明**
+>
+> 对$U[0,\theta]$，若密度采用包含端点的版本，似然为
+> $$
+> L(\theta)=\theta^{-n}I_{\{\theta\ge X_{(n)}\}}.
+> $$
+> 在允许区间$[X_{(n)},\infty)$上它随$\theta$增大而严格递减，所以最大值在最小允许值$X_{(n)}$处取得。若密度只在$\theta>X_{(n)}$上为正，则开区间内没有最大值，只有上确界；这时不能只做求导，也不能直接把边界点说成通常意义下的最大似然估计。
+
+
+### 不变性
+
+若$\hat\theta$是$\theta$的最大似然估计，则对参数的函数$g(\theta)$，在按诱导似然理解时，$g(\hat\theta)$是$g(\theta)$的最大似然估计。这个性质称为最大似然估计的**不变性**；$g$不必是一一对应的，若对应关系不唯一，$g(\hat\theta)$仍是其中一个最大似然估计。
+
+例如指数分布的率参数$\lambda$的最大似然估计为$\hat\lambda=1/\bar X$，而指数分布的均值为$1/\lambda$，由不变性，均值的最大似然估计就是
+
+$$
+\widehat{\frac1\lambda}=\frac1{\hat\lambda}=\bar X.
+$$
+
+> [!CAUTION]
+> **两个常见误解**
+>
+> 最大似然估计不自动等于无偏估计；无偏性需要另外计算期望来检查。似然函数$L(\theta)$是给定样本后关于参数的函数，不是参数$\theta$的概率密度，也不是后验密度。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="正态总体两参数的最大似然估计"}
+
+设$X_1,\ldots,X_n$独立同分布于$N(\mu,\sigma^2)$，其中$\sigma^2>0$，$\mu$与$\sigma^2$都未知。对数似然为
+
+$$
+\ell(\mu,\sigma^2)
+=-\frac n2\ln(2\pi)-\frac n2\ln\sigma^2
+-\frac1{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2.
+$$
+
+对$\mu$求偏导并令其为零，得到
+
+$$
+\frac1{\sigma^2}\sum_{i=1}^n(x_i-\mu)=0
+\quad\Longrightarrow\quad
+\hat\mu=\bar x.
+$$
+
+对$\sigma^2$求偏导并代入$\hat\mu$，得到
+
+$$
+-\frac n{2\sigma^2}
++\frac1{2\sigma^4}\sum_{i=1}^n(x_i-\bar x)^2=0
+\quad\Longrightarrow\quad
+\hat\sigma^2=\frac1n\sum_{i=1}^n(x_i-\bar x)^2.
+$$
+
+当样本不全相等时，这个驻点是内部的最大值点；当所有观测值都相等时，似然在$\sigma^2\to0^+$的过程中增大，而$\sigma^2=0$不在通常的参数空间内，因此没有正的有限最大似然估计。
+
+:::
+
+:::example{title="均匀分布的最大似然估计落在边界"}
+
+设$X_1,\ldots,X_n$独立同分布于$U[0,\theta]$，$\theta>0$，并采用包含端点的密度。似然为
+
+$$
+L(\theta)=\theta^{-n}I_{\{\theta\ge X_{(n)}\}}.
+$$
+
+当$\theta\ge X_{(n)}$时，$L(\theta)=\theta^{-n}$随$\theta$增大而严格递减，所以最大值出现在允许范围的最小值处：
+
+$$
+\hat\theta_{\mathrm{ML}}=X_{(n)}.
+$$
+
+这个结果不是由$\ell'(\theta)=0$得到的，而是由支持范围的边界决定的。若把密度改成只在$\theta>X_{(n)}$上为正，则$L$在开区间内没有最大值，只有上确界，需要按所采用的密度约定单独说明。
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<LikelihoodBernoulliDemo />
+
+## 练习
+
+::problems{#point-estimation-practice}
+
+1. ::question{#bernoulli-mle}
+
+   设$X_1,\ldots,X_5$是来自$B(1,p)$的样本，观测到$\sum_{i=1}^5x_i=4$。参数$p$的最大似然估计为 :blank{#bernoulli-value type="number"}。
+
+   :::reference
+   ::correct{blank="bernoulli-value" value="0.8"}
+
+   伯努利分布的最大似然估计为$\hat p=\bar x$，这里$\bar x=4/5=0.8$。
+   :::
+
+2. ::question{#uniform-mle}
+
+   设$X_1,\ldots,X_n$是来自$U[0,\theta]$的样本，观测到的样本最大值为$2.4$。参数$\theta$的最大似然估计为 :blank{#uniform-value type="number"}。
+
+   :::reference
+   ::correct{blank="uniform-value" value="2.4"}
+
+   均匀分布的似然在允许范围内随$\theta$增大而减小，因此最大似然估计取最小允许值，即样本最大值$X_{(n)}=2.4$。
+   :::
+
+3. ::question{#exponential-mle}
+
+   设$X_1,\ldots,X_n$是来自率参数为$\lambda$的指数分布的样本，样本均值$\bar x=4$。参数$\lambda$的最大似然估计为 :blank{#exponential-value type="number"}。
+
+   :::reference
+   ::correct{blank="exponential-value" value="0.25"}
+
+   指数分布率参数的最大似然估计为$\hat\lambda=1/\bar x$，所以$\hat\lambda=1/4=0.25$。
+   :::
+
+4. ::question{#mle-properties}
+
+   关于最大似然估计，下列说法正确的是
+
+   :::choices{#choice-mle-properties mode="single"}
+   - :option[A]{#a} 最大似然估计一定无偏
+   - :option[B]{#b} 若$\hat\theta$是$\theta$的最大似然估计，则在诱导似然意义下$g(\hat\theta)$是$g(\theta)$的最大似然估计
+   - :option[C]{#c} 似然函数是参数的后验密度
+   - :option[D]{#d} 解出似然方程的驻点，就一定是全局最大值点
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   最大似然估计的无偏性需要另行验证；似然函数是给定样本后关于参数的函数，不是后验密度；驻点还可能是极小值点，或者最大值在边界上。只有不变性的叙述正确。
+   :::

@@ -1,0 +1,20 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "字段宽度和标志怎样影响输出？",
+      "description": "比较右对齐、补零和左对齐的整数输出。",
+      "messages": {
+        "label": "`printf`字段宽度",
+        "intro": "对整数`12`选择宽度和标志。输出中的点号代表空格，方括号用于标示边界。",
+        "width": "最小宽度",
+        "choose": "选择对齐方式",
+        "spaces": "右对齐",
+        "zeros": "补零",
+        "left": "左对齐",
+        "result": "输出字段长度为{length}；宽度是最小值，不会截断较长的数字。"
+      },
+      "tags": ["C语言", "`printf`"]
+    }
+  }
+}

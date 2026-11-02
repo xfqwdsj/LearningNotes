@@ -1,0 +1,86 @@
+---
+title: 独立样本均值差的置信区间
+description: 按已知方差、共同方差和Welch近似选择均值差区间。
+---
+
+import IndependentMeanConfidenceIntervalDemo from "@/demos/independent-mean-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设$X_1,\ldots,X_{n_1}$与$Y_1,\ldots,Y_{n_2}$分别来自$N(\mu_1,\sigma_1^2)$与$N(\mu_2,\sigma_2^2)$，两个样本相互独立，$n_1,n_2\ge2$，样本均值与样本方差记为
+
+$$
+\bar X,\ \bar Y,\ S_1^2,\ S_2^2,
+$$
+
+其中$S_i^2$的分母是$n_i-1$。下面把区间写成“中心$\pm$半宽”，$\pm$表示闭区间的两个端点。
+
+### 方差已知
+
+$$
+\mu_1-\mu_2\in(\bar X-\bar Y)\pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}.
+$$
+
+### 均值差：方差未知但相等
+
+令合并方差
+
+$$
+S_p^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2},
+$$
+
+则
+
+$$
+\mu_1-\mu_2\in(\bar X-\bar Y)\pm t_{\alpha/2}(n_1+n_2-2)\,S_p\sqrt{\frac1{n_1}+\frac1{n_2}}.
+$$
+
+合并方差以两组的自由度为权重，自由度相加得$n_1+n_2-2$。
+
+### 均值差：方差不假定相等
+
+用Welch近似，标准误为$\sqrt{\dfrac{S_1^2}{n_1}+\dfrac{S_2^2}{n_2}}$，近似自由度为
+
+$$
+\nu=\frac{\left(\dfrac{S_1^2}{n_1}+\dfrac{S_2^2}{n_2}\right)^2}{\dfrac{(S_1^2/n_1)^2}{n_1-1}+\dfrac{(S_2^2/n_2)^2}{n_2-1}},
+$$
+
+$\mu_1-\mu_2$的近似区间为
+
+$$
+(\bar X-\bar Y)\pm t_{\alpha/2}(\nu)\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}.
+$$
+
+$\nu$由样本估计，通常不是整数。方差不相等时仍套用合并方差公式，会错误地估计标准误，区间不再具有所声称的置信水平。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两个正态总体均值差的区间"}
+
+两组样本量都是$10$，$s_1^2=4$，$s_2^2=6$，$\bar x-\bar y=1.2$，$\alpha=0.05$。方差相等时
+
+$$
+S_p^2=\frac{9\times4+9\times6}{18}=5,\qquad S_p=\sqrt5.
+$$
+
+自由度$18$，$t_{0.025}(18)=2.1009$，半宽为
+
+$$
+2.1009\times\sqrt5\times\sqrt{\frac1{10}+\frac1{10}}=2.1009.
+$$
+
+区间约为$[-0.901,\ 3.301]$，包含$0$，与“两组均值没有显著差异”的判断一致。若方差不假定相等，应改用Welch近似，而不是这个合并方差区间。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<IndependentMeanConfidenceIntervalDemo />

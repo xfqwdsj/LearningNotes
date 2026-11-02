@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "筛选之后，样本组成怎样改变？",
+      "description": "用面积展示先验比例、条件筛选与后验概率。",
+      "messages": {
+        "label": "贝叶斯公式面积演示",
+        "intro": "整个矩形表示样本空间；左右分别属于$A$与$\\bar A$。深色区域是被$B$筛选出的部分，比较其中属于$A$的面积比例。",
+        "prior": "先验$P(A)$",
+        "givenA": "筛选率$P(B\\mid A)$",
+        "givenOther": "筛选率$P(B\\mid \\bar A)$",
+        "diagram": "深色为筛选区域，后验概率为{value}%",
+        "result": "$P(A\\mid B)={value}\\%$。后验取决于两部分的筛选面积，而不只取决于$P(B\\mid A)$。"
+      },
+      "tags": ["概率论", "贝叶斯公式"]
+    }
+  }
+}

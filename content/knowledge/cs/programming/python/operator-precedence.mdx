@@ -1,0 +1,192 @@
+---
+title: Python运算符优先级
+description: Python的表达式分组、结合方向、短路求值与链式比较。
+---
+
+import PythonPowerDemo from "@/demos/python-power-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+一个表达式里出现多个运算符时，需要一套规则决定先算哪一部分。**优先级**决定不同级别运算符的先后，优先级高的先结合；**结合性**决定同一优先级的运算符如何分组。括号可以强制改变默认顺序，写在括号里的部分总是先算。
+
+下表按优先级从高到低排列，同一行的运算符优先级相同：
+
+| 运算符 | 描述 | 示例或备注 |
+| :--- | :--- | :--- |
+| `(...)`、`[...]`、`{...}` | 括号、列表、字典与集合的显示 | 优先级最高 |
+| `x[i]`、`x[i:j]`、`x.attr`、`f(...)` | 下标、切片、属性、函数调用 | |
+| `**` | 幂运算 | `2**3**2`等于`2**(3**2) = 512`，右结合 |
+| `~`、`+x`、`-x` | 按位取反、正负号 | 一元运算符 |
+| `*`、`/`、`//`、`%` | 乘、除、整除、取模 | `//`向下取整 |
+| `+`、`-` | 加、减 | |
+| `<<`、`>>` | 移位 | |
+| `&` | 按位与 | |
+| `^` | 按位异或 | |
+| `\|` | 按位或 | |
+| `in`、`not in`、`is`、`is not`、`<`、`<=`、`>`、`>=`、`!=`、`==` | 比较运算符 | 优先级相同，支持链式比较`a < b < c` |
+| `not` | 逻辑非 | |
+| `and` | 逻辑与 | 短路：`False and x`不计算`x` |
+| `or` | 逻辑或 | 短路：`True or x`不计算`x` |
+| `if`–`else` | 条件表达式 | `x if c else y` |
+| `lambda` | Lambda表达式 | |
+| `:=` | 海象运算符，Python 3.8+ | 优先级最低 |
+
+这张表只适用于Python。C使用不同的运算符集合与优先级，参见[C运算符优先级](/knowledge/cs/programming/c/operator-precedence/)。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 同级运算的结合方向
+
+同一行的运算符一般从左到右结合，例如`10 - 3 - 2`先算`10 - 3`，再减`2`。幂运算`**`是主要例外，从右到左结合，所以连写多个`**`时要从最右边的一组算起。
+
+结合方向只决定分组，不改变优先级：`2 * 3 ** 2`先算幂再算乘法，因为`**`的优先级更高。
+
+### 括号改变求值顺序
+
+括号内的表达式整体先算，再参与外层运算。表里的顺序只是“不加括号时的默认分组”；需要别的顺序时加括号即可，不必背下整张表再心算。
+
+### 逻辑运算的短路
+
+`and`与`or`从左到右求值，一旦结果已经确定就停下来：
+
+- `and`左边为假时，右边不再计算，结果就是左边的值；
+- `or`左边为真时，右边不再计算，结果就是左边的值。
+
+短路不只是省时间：右边如果带副作用或会抛异常，短路时这些代码根本不会执行。例如`True or 1 / 0`不会触发`ZeroDivisionError`。
+
+### 比较运算可以链式书写
+
+比较运算符优先级相同，并且支持链式写法：`a < b < c`等价于`a < b and b < c`，中间的操作数只求值一次。它不表示先算`a < b`再把布尔结果与`c`比较。
+
+### 易错点
+
+> [!WARNING]
+> - `not a == b`等价于`not (a == b)`，因为比较运算符的优先级高于`not`。
+> - `a and b or c`先算`and`，再算`or`。
+> - `-3**2`的结果是`-9`，因为`**`的优先级高于一元负号。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="幂与一元负号：`-3**2`"}
+
+`**`的优先级高于一元负号，`-3**2`先算`3**2 = 9`，再取负，结果是`-9`。想要$9$必须写成`(-3)**2`。
+
+:::
+
+:::example{title="幂运算右结合：`2**3**2`"}
+
+`**`从右到左结合，`2**3**2`等价于`2**(3**2) = 2^9 = 512`，而不是`(2**3)**2 = 64`。
+
+:::
+
+:::example{title="比较先于逻辑非：`not a == b`"}
+
+比较运算符的优先级高于`not`，所以`not a == b`等价于`not (a == b)`。如果本意是先取反再比较，必须写成`(not a) == b`。
+
+:::
+
+:::example{title="`and`先于`or`：`a and b or c`"}
+
+`and`的优先级高于`or`，所以`a and b or c`等价于`(a and b) or c`：先求`a and b`，结果再与`c`做`or`。
+
+:::
+
+:::example{title="在解释器里核对分组"}
+
+```python title="precedence.py"
+print(2 ** 3 ** 2)   # 512
+print(-3 ** 2)       # -9
+print(not 1 == 2)    # True
+print(True or 1 / 0) # True，右侧没有被求值
+```
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PythonPowerDemo />
+
+## 练习
+
+::problems{#operator-precedence-practice}
+
+1. ::question{#negative-power}
+
+   `-3**2`的值是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="-9"}
+
+   `**`优先于一元负号，先算`3**2 = 9`，再取负得到`-9`。
+   :::
+
+2. ::question{#power-assoc}
+
+   `2**3**2`的值是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="512"}
+
+   幂运算右结合，等价于`2**(3**2) = 2^9 = 512`。
+   :::
+
+3. ::question{#not-eq}
+
+   `not 1 == 2`的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `True`
+   - :option[B]{#b} `False`
+   - :option[C]{#c} `1`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   比较先算，`1 == 2`为`False`，再取非得到`True`。
+   :::
+
+4. ::question{#and-or-order}
+
+   `True and False or True`的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `True`
+   - :option[B]{#b} `False`
+   - :option[C]{#c} `None`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `and`先算，`True and False`为`False`，再与`True`做`or`，结果为`True`。
+   :::
+
+5. ::question{#short-circuit}
+
+   关于`and`、`or`的求值，下列说法正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `False and x`不会计算`x`
+   - :option[B]{#b} `True or x`不会计算`x`
+   - :option[C]{#c} `and`的优先级高于`or`
+   - :option[D]{#d} 逻辑运算符的优先级高于比较运算符
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   短路规则使A、B成立；表中`and`高于`or`，C成立。比较运算符的优先级高于`not`、`and`、`or`，D不成立。
+   :::

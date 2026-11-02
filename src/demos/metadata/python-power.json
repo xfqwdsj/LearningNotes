@@ -1,0 +1,16 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "负号和幂运算怎样分组？",
+      "description": "改变指数，比较负号在括号内外的结果。",
+      "messages": {
+        "label": "Python幂运算的分组",
+        "intro": "比较`-2**n`和`(-2)**n`。前者先求幂再取负，后者先把负数作为底数。",
+        "exponent": "指数`n`",
+        "result": "未加括号的结果为{without}，负数作底数的结果为{withParens}。"
+      },
+      "tags": ["Python", "运算符优先级"]
+    }
+  }
+}

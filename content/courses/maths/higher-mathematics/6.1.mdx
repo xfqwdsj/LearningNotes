@@ -1,0 +1,44 @@
+---
+title: 6.1定积分的元素法
+description: 记录元素法的教材顺序、课程采用的记号与取微元时的检查顺序。
+---
+## 阅读入口
+
+- [定积分的元素法](/knowledge/maths/integrals/integration-applications/)
+- [曲线之间的面积](/knowledge/maths/integrals/area-between-curves/)
+- [旋转体的体积](/knowledge/maths/integrals/solid-of-revolution/)
+- [变力做功](/knowledge/maths/integrals/variable-force-work/)
+
+## 元素法
+
+::knowledge{path="maths/integrals/integration-applications" slot="definition"}
+
+定义里“可加性”与“线性主部”是本节的判断标准；“课程约定”把三类量各自的微元写法固定下来，做题时对照检查。
+
+## 三类典型应用
+
+::knowledge{path="maths/integrals/area-between-curves" slot="definition"}
+
+::knowledge{path="maths/integrals/solid-of-revolution" slot="definition"}
+
+::knowledge{path="maths/integrals/variable-force-work" slot="definition"}
+
+三类的顺序与教材的例子一致；做完题把微元与图形的几何量对一遍，比急着积分更容易发现写错的$f(x)$。
+
+## 学习安排
+
+元素法先给出一般步骤，再按“面积 → 体积 → 功”的顺序逐类应用。每个例子都落在同一个模式上：先确认量对区间可加，再写微元，最后积分。复习时从“这个量的微元是什么”入手。
+
+## 课程约定
+
+- 本课程用$\mathrm{d}Q$表示微元，用$\Delta Q$表示小区间上的实际增量；写微元时只保留$\mathrm{d}x$的线性项，高阶无穷小一律略去。
+- 面积微元的高取“上曲线减下曲线”。
+- 旋转体体积默认绕$x$轴旋转，微元是垂直于$x$轴的薄圆盘，半径取曲线到旋转轴的距离。
+- 变力做功的自变量是位移，只有力的方向与位移方向一致时，功才等于力对位移的积分。
+
+## 易错点
+
+- 不检验可加性就写积分。元素法只适用于整体等于各部分之和的量。
+- 把$\mathrm{d}Q=f(x)\,\mathrm{d}x$中的$f(x)$当成整个小区间上的增量，忘记它只是线性主部。
+- 绕$x$轴旋转时把体积微元写成$\pi f(x)\,\mathrm{d}x$，漏掉半径的平方。
+- 面积题直接用定积分而不看函数是否变号，得到负值；$f$在区间上变号时，要先在零点处拆开再逐段积分。

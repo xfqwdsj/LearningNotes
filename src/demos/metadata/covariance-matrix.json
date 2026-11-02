@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "协方差矩阵怎样决定线性组合的方差？",
+      "description": "改变协方差与线性组合系数，计算对应的二次型。",
+      "messages": {
+        "label": "协方差矩阵的二次型",
+        "intro": "两个变量的方差固定为$4$和$9$，协方差在允许范围内变化；计算$aX+Y$的方差。",
+        "covariance": "协方差",
+        "coefficient": "系数$a$",
+        "diagram": "线性组合的方差为{variance}",
+        "result": "协方差为{cov}，$a={coefficient}$，线性组合方差为{variance}。"
+      },
+      "tags": ["概率论", "协方差矩阵"]
+    }
+  }
+}

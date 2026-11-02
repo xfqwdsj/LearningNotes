@@ -1,0 +1,108 @@
+---
+title: 二次曲面
+description: 二次曲面的定义、方程与几何特征。
+---
+
+import QuadricSectionDemo from "@/demos/quadric-section-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+三元二次方程（各项次数都不超过$2$）所表示的曲面称为**二次曲面**。通过坐标平移与旋转化简后，常见类型可以用标准方程识别；下表均取$a,b,c>0$。
+
+| 名称 | 标准方程 | 形状要点 |
+| :--- | :--- | :--- |
+| 椭球面 | $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}+\dfrac{z^2}{c^2}=1$ | 有界；三个方向的截痕都是椭圆 |
+| 椭圆抛物面 | $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=z$ | 碗状，$z\ge 0$，顶点在原点，向$z$轴正向无限张开 |
+| 双曲抛物面（马鞍面） | $\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=z$ | 鞍形；$y=0$的截痕开口向上，$x=0$的截痕开口向下，$z=0$的截痕是两条相交直线 |
+| 单叶双曲面 | $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}-\dfrac{z^2}{c^2}=1$ | 连成一片，形如冷却塔；$z=z_0$的截痕总是椭圆，$z=0$处最细 |
+| 双叶双曲面 | $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}-\dfrac{z^2}{c^2}=-1$ | 分成两支，$\vert z\vert\ge c$；只有$\vert z_0\vert\ge c$时才有截痕 |
+| 二次锥面 | $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=z^2$ | 顶点在原点；$z=z_0\ne 0$时截痕是椭圆，$z_0=0$时缩成顶点 |
+
+双叶双曲面也可以写成$\dfrac{z^2}{c^2}-\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=1$。轮换$x,y,z$就得到沿其他坐标轴张开的形式，例如$\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}-\dfrac{z^2}{c^2}=1$的两支沿$x$轴方向张开。
+
+> [!NOTE]
+> 区分单叶与双叶只看方程右端：左端相同的$\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}-\dfrac{z^2}{c^2}=1$连成一片，右端改成$-1$就分成两支。判断前先把方程整理成“平方项之和等于常数”的形式，再数正负号。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用截痕法识别$\dfrac{x^2}{4}+\dfrac{y^2}{9}+z^2=1$"}
+
+用$z=z_0$去截：
+
+$$
+\frac{x^2}{4}+\frac{y^2}{9}=1-z_0^2 .
+$$
+
+右端必须非负，所以$\vert z_0\vert\le 1$。此时截痕是椭圆，半轴分别为$2\sqrt{1-z_0^2}$与$3\sqrt{1-z_0^2}$，随$\vert z_0\vert$增大而缩小；$z_0=\pm1$时缩成点$(0,0,\pm1)$。
+
+再用$y=0$去截：
+
+$$
+\frac{x^2}{4}+z^2=1,
+$$
+
+也是椭圆，半轴为$2$与$1$。
+
+三个方向的截痕都是有界椭圆，所以这是半轴为$2,3,1$的椭球面，不是双曲面或抛物面。
+
+:::
+
+:::example{title="用截痕法识别$z=x^2-y^2$"}
+
+- 用$y=0$截：$z=x^2$，开口向上的抛物线。
+- 用$x=0$截：$z=-y^2$，开口向下的抛物线。
+- 用$z=0$截：$x^2=y^2$，即$y=x$或$y=-x$，退化成两条相交直线。
+
+两个方向的截痕弯曲方向相反，中间位置退化成两条直线，这正是双曲抛物面（马鞍面）的截痕特征。若换成$z=x^2+y^2$，两个方向的截痕都开口向上，$z=0$只截得一点，那是椭圆抛物面。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<QuadricSectionDemo />
+
+## 练习
+
+::problems{#quadric-section-practice}
+
+1. ::question{#single-sheet}
+
+   $\dfrac{x^2}{4}+\dfrac{y^2}{9}-z^2=1$是哪种曲面？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 单叶双曲面
+   - :option[B]{#b} 双叶双曲面
+   - :option[C]{#c} 二次锥面
+   - :option[D]{#d} 椭球面
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   左端两个平方项为正、一个为负，右端为$1$。用$z=z_0$截得的截痕总是椭圆，且$z=0$处最小，曲面连成一片，所以是单叶双曲面；右端改成$-1$才会分成两支。
+   :::
+
+2. ::question{#saddle}
+
+   $z=\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}$是哪种曲面？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 椭球面
+   - :option[B]{#b} 椭圆抛物面
+   - :option[C]{#c} 双曲抛物面
+   - :option[D]{#d} 单叶双曲面
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   两个二次项异号，且方程中$z$是一次的，所以是双曲抛物面（马鞍面）。只需看$y=0$与$x=0$两条截痕的开口方向相反即可确认。
+   :::

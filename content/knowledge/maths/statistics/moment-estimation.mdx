@@ -1,0 +1,68 @@
+---
+title: 矩估计
+description: 通过样本矩与总体矩的方程构造参数估计。
+---
+
+import MomentEstimateDemo from "@/demos/moment-estimate-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+记样本的$k$阶原点矩为
+
+$$
+A_k=\frac1n\sum_{i=1}^nX_i^k,
+$$
+
+总体的$k$阶原点矩为$\mu_k(\theta)=E_\theta(X^k)$。矩估计法用样本矩代替总体矩，令
+
+$$
+E_\theta(X^k)=A_k,\qquad k=1,\ldots,r,
+$$
+
+其中$r$是待估参数的个数，通常使用前$r$阶矩。解这个方程组，把解记为$\hat\theta_{\mathrm{MM}}$，就得到矩估计量。
+
+使用矩估计法时要检查三件事：相应的总体矩存在；方程能够识别参数，即不同的参数值不会给出完全相同的矩；解落在参数空间$\Theta$内。方程组可能有多个解，也可能没有符合要求的解；出现这些情况时，不能不加说明地把某一个解当作矩估计。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="正态总体两个参数未知"}
+
+设$X_1,\ldots,X_n$独立同分布于$N(\mu,\sigma^2)$，$\mu$与$\sigma^2$都未知。由
+
+$$
+E(X)=\mu,\qquad E(X^2)=\mu^2+\sigma^2
+$$
+
+令它们分别等于$A_1=\bar X$与$A_2=\frac1n\sum_iX_i^2$，解得
+
+$$
+\hat\mu=\bar X,\qquad
+\hat\sigma^2=\frac1n\sum_{i=1}^n(X_i-\bar X)^2.
+$$
+
+这里方差估计的分母是$n$，不是无偏样本方差所用的$n-1$。矩估计不自动保证无偏，分母的差别正是评价估计量时要检查的地方。
+
+:::
+
+:::example{title="均匀分布$U[0,\theta]$的矩估计"}
+
+设$X_1,\ldots,X_n$独立同分布于$U[0,\theta]$，$\theta>0$。由$E(X)=\theta/2$得矩估计
+
+$$
+\hat\theta_{\mathrm{MM}}=2\bar X.
+$$
+
+这个估计量可能小于样本最大值$X_{(n)}$。一旦出现这种情况，估计值所对应的模型区间$[0,\hat\theta_{\mathrm{MM}}]$就容不下已经观测到的样本，说明矩估计并不会自动满足参数与样本支持的约束。
+
+:::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MomentEstimateDemo />

@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "两次发送的边界会保留吗？",
+      "description": "用示例比较TCP字节流与UDP数据报的边界。",
+      "messages": {
+        "label": "字节流与数据报边界",
+        "intro": "应用分别发送`ABC`和`DE`。下方是可能的一种接收结果，假设两个数据报均成功到达。",
+        "choose": "选择传输协议",
+        "sent": "发送",
+        "received": "接收",
+        "tcpResult": "TCP提供有序字节流；应用每次读取多少字节不必与发送时的边界一致。",
+        "udpResult": "UDP按数据报交付；每个成功接收的数据报保留自己的消息边界。"
+      },
+      "tags": ["计算机网络", "TCP", "UDP"]
+    }
+  }
+}

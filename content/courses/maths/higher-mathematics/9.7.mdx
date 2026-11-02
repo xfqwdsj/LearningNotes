@@ -1,0 +1,51 @@
+---
+title: 9.7方向导数与梯度
+description: 记录方向导数与梯度的引入顺序、记号约定和判断最速上升方向时的注意事项。
+---
+## 阅读入口
+
+- [方向导数](/knowledge/maths/multivariable-calculus/directional-derivative-gradient/)
+- [梯度](/knowledge/maths/multivariable-calculus/gradient/)
+- [全微分](/knowledge/maths/multivariable-calculus/total-differential/)（方向导数的计算公式以可微为前提）
+- [偏导数](/knowledge/maths/multivariable-calculus/partial-derivative/)（方向导数是偏导数沿一般方向的推广）
+
+## 学习安排
+
+本节沿射线用距离$\rho$定义方向导数，再在可微的前提下把它化成$f_x\cos\alpha+f_y\cos\beta$的形式，然后把这两个系数抽成梯度。等值线与等值面用来解释梯度为什么垂直于它们、为什么指向函数值增大的方向。
+
+复习时按“定义—公式—梯度”的顺序回看。判断“沿哪个方向增加最快”时直接看梯度方向，不必逐个方向代公式；要比较大小就取梯度的模。下一节讨论极值时，驻点条件就是梯度为零，两节的记号到那里合流。
+
+## 方向导数的定义
+
+::knowledge{path="maths/multivariable-calculus/directional-derivative-gradient" slot="definition"}
+
+定义里的极限在具体函数上不好算，下一段给出可微时的计算公式。
+
+## 方向导数的计算
+
+::include{src="/knowledge/maths/multivariable-calculus/directional-derivative-gradient/" section="computation"}
+
+公式右端是两个偏导数的线性组合，把系数抽出来就是下一段的梯度。
+
+## 梯度
+
+::knowledge{path="maths/multivariable-calculus/gradient" slot="definition"}
+
+方向导数与梯度的定义到这里都齐了；课程约定把$\nabla$与方向余弦的写法收在一起。
+
+## 课程约定
+
+- 教材用$\alpha$、$\beta$表示射线与$x$、$y$轴正向的夹角，三元时再加$\gamma$，并称相应的余弦为方向余弦。
+- 方向导数记作$\left.\dfrac{\partial f}{\partial l}\right|_{P_0}$；梯度记作$\mathbf{grad}\,f$或$\nabla f$，教材把$\nabla$称为向量微分算子，也叫Nabla算子。
+- 方向导数的计算公式要求函数在该点可微。
+
+## 易错点
+
+- 方向导数沿射线定义，方向余弦取的是射线指向。沿相反射线再求一次，结果一般与原来的值不同。
+- 把方向余弦写成两点连线向量的分量，忘记除以长度。公式要求的是单位方向。
+- 只验证偏导数存在就套$f_x\cos\alpha+f_y\cos\beta$。这个公式需要可微，偏导数存在并不够。
+- 梯度是向量，方向导数是数。问“最大方向导数”时答案应是$|\nabla f|$，不是$\nabla f$。
+
+## 复习要点
+
+复习时先写出单位方向，再代公式；遇到“最速上升”“最速下降”的问题，先算梯度再回答方向，最后补充大小。等值线的法向量有两个方向，回答时要说明梯度指向函数值增大的一侧。

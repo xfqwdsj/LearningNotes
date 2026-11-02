@@ -1,0 +1,50 @@
+---
+title: 列联表独立性检验
+description: 用列联表的观察频数和独立假设下的期望频数检验分类变量的独立性。
+---
+
+import ContingencyDemo from "@/demos/contingency-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+同一套“观察频数对期望频数”的比较也可以检验两个分类变量是否独立。对$r\times c$列联表，记第$(i,j)$格的观察频数为$O_{ij}$，第$i$行合计为$O_{i\cdot}$，第$j$列合计为$O_{\cdot j}$，总频数为$n$。独立假设下的期望频数为
+
+$$
+E_{ij}=\frac{O_{i\cdot}O_{\cdot j}}{n},
+$$
+
+统计量仍为
+
+$$
+Q=\sum_{i,j}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\approx\chi^2((r-1)(c-1)).
+$$
+
+仍为右尾检验，并同样检查期望频数是否过小。拟合优度检验的自由度由类别数与所估参数决定；列联表独立性检验的自由度为$(r-1)(c-1)$，不要套用$k-1-r$。
+
+> [!TIP]
+> **两种自由度的来源**
+>
+> 列联表的期望频数由行合计与列合计共同决定，行列合计分别占去$(r-1)$与$(c-1)$个自由度，所以独立条件下自由变动的格子数是$(r-1)(c-1)$。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ContingencyDemo />
+
+## 练习
+
+::problems{#contingency-practice}
+
+1. ::question{#contingency-df}
+
+   $3\times4$列联表的独立性检验中，卡方统计量的自由度是 :blank{#contingency-df-value type="number"}。
+
+   :::reference
+   ::correct{blank="contingency-df-value" value="6"}
+
+   $(r-1)(c-1)=(3-1)(4-1)=6$。
+   :::

@@ -1,0 +1,38 @@
+---
+title: UDP
+description: 了解UDP数据报、端口与不提供可靠交付保证的语义。
+---
+
+import UdpDatagramDemo from "@/demos/udp-datagram-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+UDP是无连接的数据报传输协议。一个数据报具有源端口、目的端口、长度、校验和字段与数据；首部固定为$8$字节。UDP保留数据报边界，但自身不提供自动重传、按序交付或拥塞控制。
+
+数据报可能丢失、重复或乱序。应用可以在UDP之上自行实现可靠性、加密或拥塞控制；不能只根据传输协议断定应用是否能容忍丢包，也不能断言UDP一定比TCP快。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对两个先后发送的数据报，选择正常、乱序或丢失的模拟情形。UDP本身不会负责重新排序或重传。
+
+<UdpDatagramDemo />
+
+## 练习
+
+::problems{#udp-practice}
+
+1. ::question{#udp-header}
+
+   UDP的固定头部长度是多少字节？
+
+   :blank{#udp-header-size type="number"}
+
+   :::reference
+   ::correct{blank="udp-header-size" value="8"}
+
+   UDP头部固定为8字节，比TCP的最小20字节头部开销小。
+   :::

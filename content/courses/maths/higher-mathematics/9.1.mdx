@@ -1,0 +1,56 @@
+---
+title: 9.1多元函数的基本概念
+description: 记录从平面点集到二重极限$P\to P_0$的教材顺序、本课程采用的记号与路径判定的易错点，并提供知识点入口。
+---
+
+## 阅读入口
+
+- [平面点集与邻域](/knowledge/maths/multivariable-calculus/point-sets/)
+- [多元函数](/knowledge/maths/multivariable-calculus/multivariable-functions/)
+- [多元函数的极限](/knowledge/maths/multivariable-calculus/multivariable-limit/)
+- [多元函数的连续性](/knowledge/maths/multivariable-calculus/multivariable-continuity/)
+
+## 学习安排
+
+教材把平面点集放在最前面作为预备：先有邻域、内点、聚点这套语言，才能写出去心邻域上的二重极限定义。这一章把研究对象从一元函数扩展到多元函数，原来的极限与连续概念都要在平面上的点集里重新表述。阅读顺序是平面点集、n维空间、多元函数、二重极限、连续性，前一步的概念会直接出现在后一步的定义里。
+
+n维空间一节在教材中带 \* 号，属于选学内容；本课程只在$\mathbb R^2$上展开二重极限与连续性。
+
+## 平面点集
+
+::knowledge{path="maths/multivariable-calculus/point-sets" slot="definition"}
+
+点集的语言准备好之后，一元极限的$\varepsilon$-$\delta$说法才能搬到平面上，只是距离换成$d(P,P_0)$。
+
+## 多元函数
+
+::knowledge{path="maths/multivariable-calculus/multivariable-functions" slot="definition"}
+
+## 二重极限
+
+::knowledge{path="maths/multivariable-calculus/multivariable-limit" slot="definition"}
+
+极限之后紧接着是连续，两者的定义只差一个等号。
+
+## 连续性
+
+::knowledge{path="maths/multivariable-calculus/multivariable-continuity" slot="definition"}
+
+到这里，一元的极限与连续已在平面上重新表述完；下一节的偏导数从这里出发。
+
+## 课程约定
+
+- 二重极限定义中的$\delta$邻域是去心邻域，写成$0<d(P,P_0)<\delta$，中心点的函数值不参与极限。
+- 教材用$P\to P_0$与$(x,y)\to(x_0,y_0)$两种写法表示同一个极限。
+- 有界闭区域上连续函数的性质（最值、有界）教材直接引用结论，没有展开证明。
+
+## 重点与易错点
+
+- 二重极限的难点在“任意方式”：平面上的趋近路径有无穷多种，而一元函数只有左右两个方向，不能把一元的判定直接搬过来。
+- 否定二重极限只需两条路径给出不同的值；路径一致不能反过来证明极限存在。
+- 聚点与内点不是一回事：聚点可以属于点集，也可以不属于。
+- 多元初等函数在定义区域内连续，求二重极限前先确认极限点是否落在定义区域内，再决定能否直接代入。
+
+## 复习要点
+
+复习时把一元函数的可导与连续关系拿来对照：一元函数可导必连续，而多元函数中“偏导数存在”连连续性都推不出。这个差别来自二重极限要求沿任意路径趋近，不能只沿坐标轴方向检查。

@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+.generated
+pnpm-lock.yaml
+/content/
+next-env.d.ts
+
+private-content
+.next-*
+
+/public/
+
+/.dev/
+
+/playwright-report/
+/test-results/

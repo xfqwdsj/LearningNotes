@@ -1,0 +1,127 @@
+---
+title: 单个正态总体均值检验
+description: 单个正态总体均值检验的条件、统计量与检验方法。
+---
+
+import OneMeanTestDemo from "@/demos/one-mean-test-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X_1,\ldots,X_n$是来自正态总体$N(\mu,\sigma^2)$的简单随机样本，$\bar X$与$S^2$分别为样本均值和分母为$n-1$的样本方差。检验以原假设为基准，方向和显著性水平应事先确定。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+检验$H_0:\mu=\mu_0$时，统计量的选择只取决于$\sigma$是否已知。
+
+**方差已知。** 此时 $\sigma$ 是已知常数，用
+
+$$
+Z=\frac{\bar X-\mu_0}{\sigma/\sqrt n}\sim N(0,1)\qquad(H_0:\mu=\mu_0).
+$$
+
+**方差未知。** 此时 $\sigma$ 只能由样本估计，把分母中的 $\sigma$ 换成样本标准差 $S$，用
+
+$$
+T=\frac{\bar X-\mu_0}{S/\sqrt n}\sim t(n-1)\qquad(H_0:\mu=\mu_0).
+$$
+
+两个统计量的差别只在分母：一个是已知的$\sigma/\sqrt n$，另一个是由同一样本算出的$S/\sqrt n$，也就是**标准误**。换用$S$之后分布也从标准正态变成自由度为$n-1$的$t$分布，自由度来自$S^2$中$\bar X$占用了一个约束。
+
+以下$q_\alpha$在$Z$检验中表示$z_\alpha$，在$t$检验中表示$t_\alpha(n-1)$，均为上$\alpha$分位点；两种检验的拒绝域形状相同：
+
+| 备择假设 | 拒绝域 |
+| :--- | :--- |
+| $\mu\ne\mu_0$ | $\lvert Z\rvert>z_{\alpha/2}$或$\lvert T\rvert>t_{\alpha/2}(n-1)$ |
+| $\mu>\mu_0$ | 统计量大于$q_{\alpha}$ |
+| $\mu<\mu_0$ | 统计量小于$q_{1-\alpha}=-q_{\alpha}$ |
+
+双侧检验把$\alpha$平均分到两侧尾部，所以用$\alpha/2$的分位点；单侧检验把整个$\alpha$放在备择假设所指的那一侧。备择方向必须由研究问题事先确定，不能看了数据再挑方向。
+
+> [!IMPORTANT]
+> **方差未知时不能仍称精确的$Z$检验**
+>
+> 只要分母里出现的是由同一样本算出的$s$，统计量就不再服从标准正态分布，不能继续用$z_{\alpha/2}$作临界值，也不能因为“$n$不算太小”就把$t$检验写成$Z$检验。一般总体的大样本下可以使用渐近正态近似，但必须说明近似条件；只有$\sigma$确实已知时，$Z$检验才是精确的。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="方差未知时的均值检验"}
+
+已知总体正态但方差未知，$n=16$，$\bar x=52$，$s=4$。检验$H_0:\mu=50$对$H_1:\mu\ne50$，取$\alpha=0.05$。
+
+用$t$统计量：
+
+$$
+t=\frac{52-50}{4/\sqrt{16}}=2.
+$$
+
+临界值为$t_{0.025}(15)\approx2.131$，而$2<2.131$，所以不拒绝$H_0$。这个结论的含义是：当前样本没有提供足够证据表明均值偏离$50$，并不是证明了均值等于$50$。
+
+若研究问题事先规定为右侧检验$H_1:\mu>50$，比较的就是$t_{0.05}(15)\approx1.753$，同一个$t=2$会落入拒绝域，结论随之改变。两个检验回答的是不同问题，不能因为双侧检验不显著就事后改用单侧检验报告。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<OneMeanTestDemo />
+
+## 练习
+
+::problems{#one-mean-test-practice}
+
+1. ::question{#t-statistic}
+
+   设总体正态、方差未知，抽取$n=9$个样本，算得$\bar x=12$，$s=3$。检验$H_0:\mu=10$时，$t$统计量的值为 :blank{#t-value type="number"}。
+
+   :::reference
+   ::correct{blank="t-value" value="2"}
+
+   $$
+   t=\frac{\bar x-\mu_0}{s/\sqrt n}=\frac{12-10}{3/\sqrt9}=\frac{2}{1}=2.
+   $$
+   :::
+
+2. ::question{#choose-statistic}
+
+   设总体正态，方差未知，$n=12$。检验$H_0:\mu=\mu_0$应使用
+
+   :::choices{#choice-statistic mode="single"}
+   - :option[A]{#a} $Z=\dfrac{\bar X-\mu_0}{\sigma/\sqrt n}\sim N(0,1)$
+   - :option[B]{#b} $T=\dfrac{\bar X-\mu_0}{S/\sqrt n}\sim t(11)$
+   - :option[C]{#c} $Q=\dfrac{(n-1)S^2}{\sigma_0^2}\sim\chi^2(11)$
+   - :option[D]{#d} $T=\dfrac{\bar X-\mu_0}{S/\sqrt n}\sim t(12)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   方差未知时只能用样本标准差$S$，统计量服从$t(n-1)=t(11)$。自由度由$S^2$中$\bar X$占用的一个约束决定，是$11$而不是$12$；$Q$检验的是方差，不是均值。
+   :::
+
+3. ::question{#interpretation}
+
+   对某个正态总体检验$H_0:\mu=50$，取$\alpha=0.05$，算得$\lvert t\rvert<t_{0.025}(15)$。下列叙述正确的有
+
+   :::choices{#choice-interpretation mode="multiple"}
+   - :option[A]{#a} 没有足够证据表明$\mu$偏离$50$
+   - :option[B]{#b} 证明了$\mu=50$
+   - :option[C]{#c} 此时可能犯第二类错误
+   - :option[D]{#d} 若真实均值确实不等于$50$，说明本次检验犯了第一类错误
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   不拒绝$H_0$只表示样本与$H_0$不矛盾，不能证明$H_0$成立，所以B错。第一类错误是$H_0$为真却拒绝它，而不拒绝$H_0$时不可能犯第一类错误，可能犯的是“$H_0$为假却没有拒绝”的第二类错误，所以C对、D错。
+   :::

@@ -1,0 +1,20 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "`TTL`怎样限制数据包的转发次数？",
+      "description": "逐跳转发示意IPv4数据包`TTL`的递减与丢弃。",
+      "messages": {
+        "label": "IPv4数据包的`TTL`",
+        "intro": "每次选择转发都使`TTL`减一；减到零时路由器丢弃数据包。更改初始值会重新开始。",
+        "initial": "初始`TTL`",
+        "forward": "经过一个路由器",
+        "reset": "重新开始",
+        "diagram": "当前`TTL`为{ttl}",
+        "active": "经过{hops}个路由器，`TTL`还剩{ttl}。",
+        "dropped": "经过{hops}个路由器后`TTL`为零，数据包被丢弃。"
+      },
+      "tags": ["计算机网络", "IPv4"]
+    }
+  }
+}

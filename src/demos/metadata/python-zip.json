@@ -1,0 +1,21 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "长度不同时，`zip`会产生多少组？",
+      "description": "调整两个输入长度，查看`zip`按位置配对的结果。",
+      "messages": {
+        "label": "Python `zip`的位置配对",
+        "intro": "数字和字母序列按位置配对。默认情况下，一个输入耗尽时迭代停止。",
+        "first": "数字序列长度",
+        "second": "字母序列长度",
+        "position": "位置",
+        "firstColumn": "数字",
+        "secondColumn": "字母",
+        "pair": "结果",
+        "result": "两个输入可形成{count}组；多出的元素不会出现在结果中。"
+      },
+      "tags": ["Python", "`zip`"]
+    }
+  }
+}

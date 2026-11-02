@@ -1,0 +1,20 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "哪些点数属于并集和交集？",
+      "description": "选择骰子的点数，比较两个事件的并集与交集。",
+      "messages": {
+        "label": "事件的并集与交集",
+        "intro": "在两个事件中分别选择骰子的点数，比较至少属于一个事件和同时属于两个事件的结果。",
+        "event": "事件{name}",
+        "selected": "$A$：{a}；$B$：{b}",
+        "result": "并集$A\\cup B$：{union}；交集$A\\cap B$：{intersection}。",
+        "visual": "样本空间中的事件A为{a}，事件B为{b}，并集为{union}，交集为{intersection}。",
+        "emptySet": "空集",
+        "point": "事件{name}的点数{point}"
+      },
+      "tags": ["概率论", "随机事件"]
+    }
+  }
+}

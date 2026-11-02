@@ -1,0 +1,253 @@
+---
+title: C指针与数组
+description: 说明数组名与指针的等价关系、指针运算的步长、函数传参时的数组退化，以及字符串、下标越界和悬垂指针的常见问题。
+---
+import PointerArithmeticDemo from "@/demos/pointer-arithmetic-demo";
+
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**指针**是存放地址的变量，类型写`T *`。指针本身占4或8个字节（取决于平台），而`*p`的类型是`T`：取值时读几个字节、按什么规则解释，由`T`决定。
+
+取地址用`&`，解引用用`*`：`&x`得到`x`的地址，`*p`取出`p`指向的对象。两者互逆，`*&x`就是`x`。
+
+**数组**是一段连续存放的同类型元素。在表达式中，数组名（除`sizeof`、`&`和字符串字面量初始化之外）会**退化**为指向首元素的指针，所以`arr`与`&arr[0]`的值相同、类型不同：
+
+```c title="array-decay.c"
+#include <stdio.h>
+
+int main(void) {
+    int a[5];
+    int *p = a;                   /* 等价于int *p = &a[0]; */
+
+    printf("%zu\n", sizeof(a));   /* 20：整个数组的字节数 */
+    printf("%zu\n", sizeof(p));   /* 8：指针本身的字节数 */
+    return 0;
+}
+```
+
+数组名不是可修改的左值，`a = p`和`a++`都不合法；指针变量可以重新赋值。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 下标就是指针运算
+
+标准把`a[i]`定义为`*(a + i)`。加法可交换，所以`a[i]`与`i[a]`等价（能编译，但不要这么写）。理解这一点后，下面三种写法取到的是同一个元素：
+
+```c title="subscript.c"
+#include <stdio.h>
+
+int main(void) {
+    int a[5] = {0, 1, 2, 3, 4};
+    int *p = a;
+
+    printf("%d %d %d\n", a[2], *(p + 2), p[2]);   /* 2 2 2 */
+    return 0;
+}
+```
+
+### 指针运算按元素计数
+
+- `p + 1`前进`sizeof(*p)`个字节，不是1个字节。`int *p`在4字节`int`的平台上`p + 1`前进4字节。
+- `p - q`得到两个地址之间相差的**元素个数**，类型是`ptrdiff_t`，用`%td`输出。
+- 指针可以加、减整数，也可以相减；两个指针相加没有定义。
+- 指针运算只在同一数组（或数组末尾后一位）内有定义，跨对象的相减是未定义行为。
+
+### 传参时数组退化为指针
+
+形参写成数组形式只是语法糖：`void f(int a[10])`与`void f(int *a)`完全等价，方括号里的数字被忽略。函数内部`a`是指针，`sizeof(a)`得到指针大小，拿不到数组长度。因此长度必须单独传：
+
+```c title="sum.c"
+#include <stdio.h>
+
+int sum(const int *a, int n) {
+    int s = 0;
+    for (int i = 0; i < n; i++) {
+        s += a[i];            /* 也可以写 *(a + i) */
+    }
+    return s;
+}
+
+int main(void) {
+    int a[4] = {1, 2, 3, 4};
+    printf("%d\n", sum(a, 4));   /* 实参数组名退化为指针 */
+    return 0;
+}
+```
+
+`const int *a`表示不能通过`a`修改元素；如果连指针本身也不想改，写成`const int * const a`。
+
+### 字符串是以`\0`结尾的字符数组
+
+C没有独立的字符串类型，字符串就是以`'\0'`（ASCII 0）结尾的`char`数组。`char s[] = "abc";`占4个字节：`'a'`、`'b'`、`'c'`、`'\0'`。
+
+- `strlen(s)`从头数到`\0`为止，得到3，不含结尾符。
+- `sizeof(s)`得到整个数组的字节数4，包含结尾符。
+- 对没有`\0`的数组调用`strlen`，会一直读到数组外，属于越界读。
+
+### 解引用与自增的结合
+
+后置`++`的优先级高于一元`*`，所以`*p++`等价于`*(p++)`：先取`*p`的值，再让指针前进一位。
+
+| 写法 | 等价形式 | 效果 |
+| :--- | :--- | :--- |
+| `*p++` | `*(p++)` | 取当前元素的值，指针后移 |
+| `(*p)++` | — | 当前元素的值加1，指针不动 |
+| `*++p` | `*(++p)` | 指针先后移，再取新位置的值 |
+| `++*p` | `++(*p)` | 当前元素的值加1，指针不动 |
+
+> [!TIP]
+> `*p++`与`(*p)++`的分组由优先级决定，完整规则与更多陷阱见 [运算符优先级](/knowledge/cs/programming/operator-precedence/)。对指针而言只需区分：补完括号后，动的要么是地址，要么是地址上的值。
+
+### 越界、悬垂与未初始化
+
+- **下标越界**：访问`a[n]`之外的元素是未定义行为，写操作可能覆盖相邻变量或返回地址，且不一定立刻崩溃。
+- **悬垂指针**：指向已经`free`的内存，或指向已经返回的函数局部变量。解引用是未定义行为。
+- **未初始化指针**：值是随机的，解引用等于访问任意地址。指针应初始化为`NULL`或有效地址，并在解引用前判空。
+- **数组名不可修改**：`a++`不合法，需要移动时另用一个指针。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="`sizeof`与`strlen`的区别"}
+
+```c title="string-size.c"
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char s[] = "abc";
+    char *p = s;
+
+    printf("%zu %zu\n", sizeof(s), strlen(s));   /* 4 3 */
+    printf("%zu %zu\n", sizeof(p), strlen(p));   /* 8 3（指针宽度随平台）*/
+    return 0;
+}
+```
+
+`sizeof`在编译期确定，包含结尾的`\0`；`strlen`在运行期数到`\0`为止。同一个字符串，用数组名和用指针得到的大小不同。
+
+:::
+
+:::example{title="指针运算的步长与差值"}
+
+```c title="pointer-step.c"
+#include <stdio.h>
+
+int main(void) {
+    int a[4] = {10, 20, 30, 40};
+    int *p = a;
+
+    printf("%d\n", *p);              /* 10 */
+    printf("%d\n", *(p + 2));        /* 30 */
+    printf("%td\n", (p + 3) - a);    /* 3：差值是元素个数 */
+    printf("%zu\n", sizeof(*p));     /* 4：一个int的字节数 */
+    return 0;
+}
+```
+
+如果`sizeof(int)`为4，`p + 1`的地址比`p`大4个字节，但`(p + 1) - p`的值是1。
+
+:::
+
+:::example{title="`*p++`与`(*p)++`的实际效果"}
+
+```c title="deref-increment.c"
+#include <stdio.h>
+
+int main(void) {
+    int a[3] = {1, 2, 3};
+    int *p = a;
+
+    int x = *p++;     /* x = 1，p移到a[1] */
+    int y = (*p)++;   /* y = 2，a[1] 变成3，p不动 */
+    printf("%d %d %d %d\n", x, y, a[0], a[1]);   /* 1 2 1 3 */
+    return 0;
+}
+```
+
+第一行取走`a[0]`的值并把指针移到下一个元素；第二行读取`a[1]`的值，再把这个位置上的数加1。`a[0]`始终是1。
+
+:::
+
+## 练习
+
+::problems{#c-pointers-arrays-practice}
+
+1. ::question{#array-length}
+
+   `int a[5];`之后，表达式`sizeof(a) / sizeof(a[0])`的值是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="5"}
+
+   `sizeof(a)`是整个数组的字节数，`sizeof(a[0])`是一个元素的字节数，相除得到元素个数。这个写法只在数组名仍在当前作用域时有效。
+   :::
+
+2. ::question{#pointer-step}
+
+   若`sizeof(int)`为4，`int *p`执行`p + 1`后，地址增加 :blank{#value type="number"} 个字节。
+
+   :::reference
+   ::correct{blank="value" value="4"}
+
+   指针加法按元素计数，前进量是`sizeof(*p)`，即4个字节。
+   :::
+
+3. ::question{#pointer-difference}
+
+   在同一个数组中，`p2 - p1`得到的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 两个地址之间相差的元素个数
+   - :option[B]{#b} 两个地址之间相差的字节数
+   - :option[C]{#c} 两个地址的比值
+   - :option[D]{#d} 未定义的随机值，任何情况下都不能用
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   指针相减按元素计数，结果是`ptrdiff_t`；前提是两个指针指向同一数组（或末尾后一位），否则行为未定义。
+   :::
+
+4. ::question{#string-size}
+
+   `char s[] = "abc";`之后，`sizeof(s)`的值是 :blank{#sz type="number"}，`strlen(s)`的值是 :blank{#len type="number"}。
+
+   :::reference
+   ::correct{blank="sz" value="4"}
+   ::correct{blank="len" value="3"}
+
+   数组包含结尾的`\0`，共4个字节；`strlen`不数结尾符，返回3。
+   :::
+
+5. ::question{#undefined-behaviour}
+
+   下列关于指针与数组的说法，正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `int a[3]; a[3] = 0;`越界写，属于未定义行为
+   - :option[B]{#b} 指针指向已`free`的内存后再解引用，属于未定义行为
+   - :option[C]{#c} `void f(int a[])`中的`sizeof(a)`得到数组的总字节数
+   - :option[D]{#d} `int *p; *p = 1;`解引用了未初始化的指针
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="d"}
+
+   形参中的数组退化为指针，`sizeof(a)`得到的是指针大小，C错。
+   :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PointerArithmeticDemo />

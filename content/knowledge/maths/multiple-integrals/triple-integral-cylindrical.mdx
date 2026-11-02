@@ -1,0 +1,85 @@
+---
+title: 三重积分的柱面坐标计算
+description: 用柱面坐标表达空间区域并确定体积元素。
+---
+
+import CylindricalVolumeDemo from "@/demos/cylindrical-volume-demo";
+
+## 变换与积分公式
+
+::section{#definition slot="knowledge.definition"}
+
+设$f$在有界空间区域$\Omega$上连续。若区域不能用一组柱面坐标积分限表示，可以将其分块后分别计算。
+
+柱面坐标是极坐标的推广，与直角坐标的关系为
+
+$$
+x=r\cos\theta,\qquad y=r\sin\theta,\qquad z=z,
+$$
+
+其中$r\ge0$，$0\le\theta\le2\pi$，$-\infty<z<+\infty$。体积元素为
+
+$$
+\mathrm dv=r\,\mathrm dr\,\mathrm d\theta\,\mathrm dz .
+$$
+
+若$\Omega$在柱面坐标下表示为
+
+$$
+\alpha\le\theta\le\beta,\qquad r_1(\theta)\le r\le r_2(\theta),\qquad z_1(r,\theta)\le z\le z_2(r,\theta),
+$$
+
+则
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv
+=\int_\alpha^\beta\int_{r_1(\theta)}^{r_2(\theta)}\int_{z_1(r,\theta)}^{z_2(r,\theta)}f(r\cos\theta,r\sin\theta,z)\,r\,\mathrm dz\,\mathrm dr\,\mathrm d\theta .
+$$
+
+**适用场景**：当$\Omega$的侧面是圆柱面、锥面等旋转曲面，或被积函数含$x^2+y^2$时，用柱面坐标通常比直角坐标省事。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="柱面坐标：$\displaystyle\iiint_{x^2+y^2\le1,\ 0\le z\le1}z\,\mathrm dv$"}
+
+区域是单位圆柱体，柱面坐标下$0\le\theta\le2\pi$，$0\le r\le1$，$0\le z\le1$，体积元素为$r\,\mathrm dz\,\mathrm dr\,\mathrm d\theta$，所以
+
+$$
+\iiint_\Omega z\,\mathrm dv
+=\int_0^{2\pi}\int_0^1\int_0^1z\,r\,\mathrm dz\,\mathrm dr\,\mathrm d\theta
+=2\pi\cdot\frac12\cdot\frac12=\frac\pi2 .
+$$
+
+:::
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CylindricalVolumeDemo />
+
+## 练习
+
+::problems{#triple-cylindrical}
+
+1. ::question{#cylindrical-element}
+
+   柱面坐标下的体积元素是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $r\,\mathrm dz\,\mathrm dr\,\mathrm d\theta$
+   - :option[B]{#b} $\mathrm dz\,\mathrm dr\,\mathrm d\theta$
+   - :option[C]{#c} $r^2\,\mathrm dz\,\mathrm dr\,\mathrm d\theta$
+   - :option[D]{#d} $\dfrac1r\,\mathrm dz\,\mathrm dr\,\mathrm d\theta$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   柱面坐标只是把平面极坐标与$z$拼起来，平面部分的面积元素是$r\,\mathrm dr\,\mathrm d\theta$，再乘$\mathrm dz$即得。
+   :::

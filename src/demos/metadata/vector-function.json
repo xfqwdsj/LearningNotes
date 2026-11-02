@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "螺旋线的导向量怎样变化？",
+      "description": "改变参数并查看位置与导向量。",
+      "messages": {
+        "label": "向量值函数",
+        "intro": "取$\\mathbf r(t)=(\\cos t,\\sin t,t)$。曲线是空间螺旋线，实心点给出当前位置，箭头给出导向量；角度控件以度数显示，代入函数时使用弧度。",
+        "parameter": "参数$t$",
+        "result": "逐分量求导得到$\\boldsymbol r\\prime(t)=(-\\sin t,\\cos t,1)$。"
+      },
+      "tags": ["空间曲线", "向量值函数"]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+---
+title: 3.5二维随机变量函数的分布
+description: 教材从分布函数法到卷积、最值、商积与二维变换的编排顺序，本课程的记号约定，以及定区域和定积分限时的易错点。
+---
+## 阅读入口
+
+- [二维随机变量函数的分布](/knowledge/maths/probability/functions-of-bivariate-random-variables/)
+- [二维联合分布函数](/knowledge/maths/probability/bivariate-random-variable/)（联合密度与区域积分）
+- [边缘分布](/knowledge/maths/probability/marginal-distribution/)（卷积的被积函数由两个边缘密度组成）
+- [随机变量的独立性](/knowledge/maths/probability/random-variable-independence/)（卷积与最值公式的前提）
+- [连续型随机变量](/knowledge/maths/probability/continuous-distributions/)（均匀、指数与正态的密度，本节例题反复用到）
+
+## 分布函数法与二维函数的分布
+
+::knowledge{path="maths/probability/functions-of-bivariate-random-variables" slot="definition"}
+
+本节所有公式都要求先在支持集内定出$g(X,Y)\le z$的区域；遇到复杂情形时直接回到定义重算。
+
+## 和、最值与一般变换
+
+::knowledge{path="maths/probability/functions-of-bivariate-random-variables" slot="properties"}
+
+卷积与最值公式都要把密度相乘，这一步只在独立时成立；商与积的公式不要求独立，但积分限同样受支持集约束。
+
+## 学习安排
+
+教材把分布函数法放在最前面，其余公式都是它在具体函数上的特化：和对应区域$x+y\le z$，最大值、最小值对应交事件，商与积靠辅助变量化为可逆变换。建议按“分布函数法 → 和的卷积 → 最值 → 商、积与变换”的顺序阅读，每学一个公式都回到分布函数法核对区域和积分限。
+
+卷积只处理独立变量之和；不独立时要退回联合密度。最大值与最小值要分清“不超过”和“大于”两种事件写法，否则容易把两个分布函数公式记反。
+
+## 课程约定
+
+- 记$Z=g(X,Y)$，分布函数与密度分别记作$F_Z$、$f_Z$；和、积、商分别用$f_{X+Y}$、$f_{XY}$、$f_{X/Y}$表示。
+- 积分元写作$\mathrm dx$、$\mathrm dy$；二维变换的雅可比记作$\frac{\partial(x,y)}{\partial(u,v)}$，使用反变换并取绝对值。
+- “卷积”专指独立变量之和的密度公式；对相关变量只写一般公式。
+
+## 重点
+
+- 分布函数法的步骤：写出$P\{g(X,Y)\le z\}$，在支持集内确定区域，定积分限，最后求导。
+- 最值的记忆方式：最大值不超过$z$等价于全部变量不超过$z$，最小值大于$z$等价于全部变量大于$z$。
+- 只求一个函数时先构造辅助变量，凑成可逆变换，求出联合密度后再对辅助变量积分消去它。
+
+## 易错点
+
+- 卷积积分限不按两个密度的支持集求交，直接写成$\pm\infty$。
+- 变量不独立时仍套用卷积公式或最值的乘积公式。
+- 变换后只替换密度，不改写支持区域；或者使用正变换的雅可比。
+- 反变换不唯一时漏掉分支，只计算其中一支的密度。

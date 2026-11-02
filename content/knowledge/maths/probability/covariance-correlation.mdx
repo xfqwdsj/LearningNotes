@@ -1,0 +1,181 @@
+---
+title: 协方差
+description: 用协方差描述两个随机变量偏离均值的线性关联。
+---
+
+协方差描述两个随机变量偏离各自均值的方向是否一致；[相关系数](/knowledge/maths/probability/correlation-coefficient/)将它归一化。本页沿用$D(X)$表示方差，并默认$E(X^2)<+\infty$、$E(Y^2)<+\infty$，此时两个变量的协方差存在。
+
+import CovarianceDemo from "@/demos/covariance-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X$、$Y$的二阶矩有限，记$\mu_X=E(X)$、$\mu_Y=E(Y)$。称
+
+$$
+\operatorname{Cov}(X,Y)=E\bigl[(X-\mu_X)(Y-\mu_Y)\bigr]
+$$
+
+为$X$与$Y$的**协方差**。把乘积展开，得到等价的常用公式
+
+$$
+\operatorname{Cov}(X,Y)=E(XY)-E(X)E(Y).
+$$
+
+协方差的符号说明偏离均值的方向：
+
+- 取正值时，两个变量偏离均值的方向倾向于一致；
+- 取负值时，偏离方向倾向于相反；
+- 取零时称 $X$ 与 $Y$ **不相关**，这只表示没有这种线性关联，不排除其它形式的关系。
+
+协方差带有计量单位，数值大小会随单位改变，不能直接用它的绝对值比较不同变量之间关联的强弱。例如两个长度变量都从米改成厘米，协方差会放大$10000$倍，关联本身并没有变强。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 对称性与方差
+
+$$
+\operatorname{Cov}(X,Y)=\operatorname{Cov}(Y,X),\qquad
+\operatorname{Cov}(X,X)=D(X).
+$$
+
+第一条由定义中两个因子的对称性直接得到；第二条中两个因子相同，就是方差的定义（见[方差](/knowledge/maths/probability/variance/)）。
+
+### 仿射变换与双线性
+
+$$
+\operatorname{Cov}(aX+b,cY+d)=ac\operatorname{Cov}(X,Y).
+$$
+
+:::proof
+变换后的均值分别为$aE(X)+b$与$cE(Y)+d$，两个偏差分别为$a(X-E(X))$与$c(Y-E(Y))$，相乘后把常数$ac$提到期望外面即可。
+:::
+
+协方差对两个位置分别具有线性性，因此对有限线性组合可以逐项展开：
+
+$$
+\operatorname{Cov}\left(\sum_i a_iX_i,\sum_j b_jY_j\right)
+=\sum_i\sum_j a_ib_j\operatorname{Cov}(X_i,Y_j).
+$$
+
+特别地，$\operatorname{Cov}(X+Y,Z)=\operatorname{Cov}(X,Z)+\operatorname{Cov}(Y,Z)$。展开时两个位置都要分配，不能只乘到其中一边。
+
+:::example{title="和与差的协方差"}
+
+设$X$、$Y$独立，且$D(X)=D(Y)=\sigma^2$。令$U=X+Y$，$V=X-Y$。由双线性并利用独立性，
+
+$$
+\operatorname{Cov}(U,V)
+=\operatorname{Cov}(X,X)-\operatorname{Cov}(X,Y)
++\operatorname{Cov}(Y,X)-\operatorname{Cov}(Y,Y)
+=\sigma^2-0+0-\sigma^2=0.
+$$
+
+所以$U$与$V$不相关。这里只能得到不相关，不能直接断言独立：$U$与$V$都由$X$、$Y$决定。若额外已知$(X,Y)$服从二维正态分布，则$(U,V)$也服从二维正态分布，此时才能由不相关推出独立。
+
+:::
+
+### 不相关与独立
+
+独立一定不相关：独立时$E(XY)=E(X)E(Y)$，协方差为零。反过来一般不成立。取$X\sim U[-1,1]$，$Y=X^2$，则$E(X)=0$，
+
+$$
+E(XY)=E(X^3)=\int_{-1}^{1}\frac{x^3}{2}\,\mathrm dx=0,
+$$
+
+所以$\operatorname{Cov}(X,Y)=0$，两者不相关；但$Y$完全由$X$决定，显然不独立。事件层面的验证见[随机变量的独立性](/knowledge/maths/probability/random-variable-independence/)。
+
+> [!TIP]
+> **联合正态是常用的例外**
+>
+> 若$(X,Y)$服从二维正态分布，则不相关与独立等价。只已知两个边缘分布都是正态还不够，必须要求联合分布是二维正态。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由联合分布律计算协方差与相关系数"}
+
+设$(X,Y)$的联合分布律为
+
+| $X\backslash Y$ | $0$ | $1$ |
+| :-------------- | :-- | :-- |
+| $0$             | $0.4$ | $0.1$ |
+| $1$             | $0.1$ | $0.4$ |
+
+两个边缘分布都是$P\{X=1\}=P\{Y=1\}=0.5$，所以$E(X)=E(Y)=0.5$。又因为$XY$只在$X=Y=1$时取$1$，
+
+$$
+E(XY)=0.4,
+$$
+
+于是
+
+$$
+\operatorname{Cov}(X,Y)=0.4-0.5\times0.5=0.15.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+两个零一变量的边缘分布固定，改变联合概率可使协方差从负变正。比较其符号与两个变量同时取$1$的频率。
+
+<CovarianceDemo />
+
+## 练习
+
+::problems{#covariance-practice}
+
+1. ::question{#cov-value}
+
+   已知$E(XY)=6$，$E(X)=2$，$E(Y)=1$，则$\operatorname{Cov}(X,Y)=$ :blank{#cov-value-blank type="number"}。
+
+   :::reference
+   ::correct{blank="cov-value-blank" value="4"}
+
+   由$\operatorname{Cov}(X,Y)=E(XY)-E(X)E(Y)=6-2\times1=4$。
+   :::
+
+2. ::question{#cov-affine}
+
+   已知$\operatorname{Cov}(X,Y)=5$，则$\operatorname{Cov}(2X+1,-3Y+2)=$ :blank{#cov-affine-blank type="number"}。
+
+   :::reference
+   ::correct{blank="cov-affine-blank" value="-30"}
+
+   仿射变换把系数乘到协方差上：$2\times(-3)\times5=-30$。常数项不影响协方差。
+   :::
+
+3. ::question{#independence-claim}
+
+   设$X$与$Y$的二阶矩都有限，且$D(X)>0$、$D(Y)>0$。下列条件中，能推出$X$与$Y$相互独立的是
+
+   :::choices{#choice-independence mode="single"}
+   - :option[A]{#a} $\rho_{XY}=0$
+   - :option[B]{#b} $\operatorname{Cov}(X,Y)=0$
+   - :option[C]{#c} $(X,Y)$服从二维正态分布且$\rho_{XY}=0$
+   - :option[D]{#d} 两个边缘分布都是正态分布且$\operatorname{Cov}(X,Y)=0$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   前两项都只说明不相关，一般不充分；联合正态下不相关才等价于独立。选项D只给出两个边缘都是正态，不能保证$(X,Y)$联合正态，因此不能由协方差为零推出独立。
+   :::
+
+4. ::question{#sum-diff-cov}
+
+   设$X$与$Y$独立，$D(X)=4$，$D(Y)=9$。令$U=X+Y$，$V=X-Y$，则$\operatorname{Cov}(U,V)=$ :blank{#sum-diff-value type="number"}。
+
+   :::reference
+   ::correct{blank="sum-diff-value" value="-5"}
+
+   由双线性，$\operatorname{Cov}(U,V)=D(X)-D(Y)=4-9=-5$。独立性使交叉项$\operatorname{Cov}(X,Y)$为零。
+   :::

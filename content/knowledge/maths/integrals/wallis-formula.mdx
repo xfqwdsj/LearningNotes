@@ -1,0 +1,96 @@
+---
+title: 华里斯公式
+description: 用递推公式计算正弦或余弦的整数幂在四分之一周期上的定积分。
+---
+
+import WallisIntegralDemo from "@/demos/wallis-integral-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+记
+
+$$
+I_n=\int_0^{\frac{\pi}{2}}\sin^n x\,\mathrm{d}x=\int_0^{\frac{\pi}{2}}\cos^n x\,\mathrm{d}x,\qquad n=0,1,2,\dots
+$$
+
+两个积分相等，因为作代换$x=\frac{\pi}{2}-t$后$\sin^n x$与$\cos^n t$互换。
+
+对$n\ge 2$，
+
+$$
+I_n=\frac{n-1}{n}I_{n-2},\qquad I_0=\frac{\pi}{2},\quad I_1=1.
+$$
+
+反复使用递推，得到
+
+$$
+I_n=
+\begin{cases}
+\dfrac{n-1}{n}\cdot\dfrac{n-3}{n-2}\cdots\dfrac{1}{2}\cdot\dfrac{\pi}{2}, & n \text{ 为偶数},\\[6pt]
+\dfrac{n-1}{n}\cdot\dfrac{n-3}{n-2}\cdots\dfrac{2}{3}\cdot 1, & n \text{ 为奇数}.
+\end{cases}
+$$
+
+用双阶乘写就是$I_{2m}=\dfrac{(2m-1)!!}{(2m)!!}\cdot\dfrac{\pi}{2}$，$I_{2m+1}=\dfrac{(2m)!!}{(2m+1)!!}$。
+
+:::proof{title="递推公式的推导"}
+
+对$n\ge 2$，把$\sin^n x$写成$\sin^{n-1}x\cdot\sin x$，取$u=\sin^{n-1}x$，$\mathrm{d}v=\sin x\,\mathrm{d}x$，则$v=-\cos x$。于是
+
+$$
+\begin{aligned}
+I_n
+&=\bigl[-\sin^{n-1}x\cos x\bigr]_0^{\frac{\pi}{2}}
+ +(n-1)\int_0^{\frac{\pi}{2}}\sin^{n-2}x\cos^2x\,\mathrm{d}x\\
+&=(n-1)\int_0^{\frac{\pi}{2}}\sin^{n-2}x\,(1-\sin^2x)\,\mathrm{d}x\\
+&=(n-1)(I_{n-2}-I_n).
+\end{aligned}
+$$
+
+边界项在两端都为$0$，移项得$nI_n=(n-1)I_{n-2}$。
+
+:::
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="华里斯公式：$\displaystyle\int_0^{\frac{\pi}{2}}\sin^4x\,\mathrm{d}x$"}
+
+$n=4$为偶数，按公式
+
+$$
+I_4=\frac{3}{4}\cdot\frac{1}{2}\cdot\frac{\pi}{2}=\frac{3\pi}{16}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<WallisIntegralDemo />
+
+## 练习
+
+::problems{#wallis-practice}
+
+1. ::question{#wallis-fifth}
+
+   $\displaystyle\int_0^{\frac{\pi}{2}}\sin^5x\,\mathrm{d}x$的值为：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{8}{35}$
+   - :option[B]{#b} $\dfrac{4}{5}$
+   - :option[C]{#c} $\dfrac{8}{15}$
+   - :option[D]{#d} $\dfrac{3\pi}{16}$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   $n=5$为奇数，$I_5=\frac{4}{5}\cdot\frac{2}{3}\cdot1=\frac{8}{15}$。
+   :::

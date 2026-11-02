@@ -1,0 +1,30 @@
+---
+title: C文件流的打开模式
+description: 了解fopen的基础模式、更新流与读写方向切换。
+---
+
+import CUpdateStreamDemo from "@/demos/c-update-stream-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+C标准库的`fopen`用模式字符串指定文件流的访问方式。`r`打开已有文件供读取，`w`打开供写入并在文件存在时截断，`a`打开供追加写入；`w`与`a`在需要时创建文件。打开失败返回空指针，调用方应检查结果。
+
+在基础模式中加入`+`可创建**更新流**，允许读取与写入；加入`b`表示二进制模式。文本流的外部表示可能与程序中的字符表示不同，实际转换取决于实现。C的标准模式集合与Python不完全相同，不能把Python的模式表直接当作C的规则。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+更新流在切换读写方向时有次序要求：输出后转为输入，应先刷新或定位；输入后转为输出，应先定位，除非输入已遇到文件结尾。定位操作例如`fseek`；每次操作的返回值仍需检查。
+
+追加模式的写入发生在文件末尾。对于追加更新流，初始读取位置可能由实现决定，跨平台代码应显式定位到希望读取的位置。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+假设读取尚未遇到文件结尾，尝试在更新流中切换读取和写入，再用定位操作满足方向切换要求。
+
+<CUpdateStreamDemo />

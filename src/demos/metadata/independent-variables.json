@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "怎样用联合分布检验独立性？",
+      "description": "比较两个零一变量的联合概率与边缘概率之积。",
+      "messages": {
+        "label": "随机变量独立性的联合表",
+        "intro": "设$P(X=1)=1/2$，且$P(Y=1\\mid X=0)=1/2$。调整另一行的条件概率。",
+        "conditional": "$P(Y=1\\mid X=1)$",
+        "independent": "联合概率{joint}等于边缘概率之积{product}；在这个表中，两个变量独立。",
+        "dependent": "联合概率{joint}不等于边缘概率之积{product}，两个变量不独立。"
+      },
+      "tags": ["概率论", "随机变量的独立性"]
+    }
+  }
+}

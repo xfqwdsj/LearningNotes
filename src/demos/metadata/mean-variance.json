@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "两点分布的均值和方差怎样变化？",
+      "description": "调整取值为二的概率，比较加权平均和围绕均值的波动。",
+      "messages": {
+        "label": "两点分布的均值与方差",
+        "intro": "$X$以概率$p$取$2$，以概率$1-p$取$0$；柱高代表各取值的概率。",
+        "probability": "$P(X=2)$",
+        "diagram": "均值为{mean}，方差为{variance}",
+        "result": "$E(X)={mean}$，$D(X)={variance}$。"
+      },
+      "tags": ["概率论", "数学期望", "方差"]
+    }
+  }
+}

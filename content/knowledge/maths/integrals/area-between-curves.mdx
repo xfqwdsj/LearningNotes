@@ -1,0 +1,73 @@
+---
+title: 曲线之间的面积
+description: 用定积分计算曲线围成的平面面积。
+---
+
+import BetweenCurvesDemo from "@/demos/between-curves-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+由曲线$y=f(x)$（$f(x)\ge 0$）、$x$轴及直线$x=a$、$x=b$围成的曲边梯形，在$x$处取宽$\mathrm{d}x$的窄条，高近似为$f(x)$，于是
+
+$$
+\mathrm{d}A=f(x)\,\mathrm{d}x,\qquad A=\int_a^bf(x)\,\mathrm{d}x.
+$$
+
+若图形由上下两条曲线$y=f(x)$、$y=g(x)$（$f(x)\ge g(x)$）围成，微元的高换成两者之差：
+
+$$
+\mathrm{d}A=\bigl[f(x)-g(x)\bigr]\,\mathrm{d}x,\qquad
+A=\int_a^b\bigl[f(x)-g(x)\bigr]\,\mathrm{d}x.
+$$
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="曲边梯形的面积：$y=x^2$与$x$轴，$0\le x\le 1$"}
+
+$$
+\mathrm{d}A=x^2\,\mathrm{d}x,\qquad A=\int_0^1x^2\,\mathrm{d}x=\frac{1}{3}.
+$$
+
+:::
+
+:::example{title="两曲线之间的面积：$y=x$与$y=x^2$，$0\le x\le 1$"}
+
+在$[0,1]$上$x\ge x^2$，微元的高是$x-x^2$，所以
+
+$$
+A=\int_0^1(x-x^2)\,\mathrm{d}x=\frac{1}{2}-\frac{1}{3}=\frac{1}{6}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<BetweenCurvesDemo />
+
+## 练习
+
+::problems{#between-curves-practice}
+
+1. ::question{#area-between}
+
+   由$y=x$与$y=x^2$围成的图形（$0\le x\le 1$）的面积是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{1}{2}$
+   - :option[B]{#b} $\dfrac{1}{3}$
+   - :option[C]{#c} $\dfrac{1}{6}$
+   - :option[D]{#d} $\dfrac{1}{12}$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   面积微元为$(x-x^2)\,\mathrm{d}x$，积分为$\frac{1}{2}-\frac{1}{3}=\frac{1}{6}$。
+   :::

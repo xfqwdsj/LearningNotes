@@ -1,0 +1,21 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "极限存在，函数就连续吗？",
+      "description": "拖动函数在零点的取值，比较它与左右极限；曲线在零点附近保持不变。",
+      "messages": {
+        "label": "连续性交互演示",
+        "continuous": "连续",
+        "discontinuous": "不连续",
+        "intro": "保持零点附近的曲线不变，只改变$f(0)$。观察实心点与空心点何时重合。",
+        "graphLabel": "函数在零点的极限为0，函数值为{value}，当前{status}",
+        "valueLabel": "零点的函数值",
+        "reset": "令$f(0)$等于极限",
+        "continuousConclusion": "此时$\\lim_{x\\to 0} f(x) = f(0) = 0$，函数在零点连续。",
+        "discontinuousConclusion": "左右极限仍为$0$，但$f(0)$与极限不同，所以函数在零点不连续。"
+      },
+      "tags": ["连续性", "极限"]
+    }
+  }
+}

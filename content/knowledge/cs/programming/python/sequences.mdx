@@ -1,0 +1,145 @@
+---
+title: Python切片
+description: 说明切片的边界、步长、越界规则与返回对象之间的关系。
+---
+import PythonSliceDemo from "@/demos/python-slice-demo";
+
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**切片**用`sequence[start:stop:step]`从序列中取出一个子序列，区间左闭右开，取的是下标满足$start \le i < stop$的元素。
+
+- `start`：起始下标，包含在结果里。
+- `stop`：结束下标，不包含在结果里。
+- `step`：步长，默认`1`；为负时从右向左取。
+
+索引从`0`开始。长度为$n$的序列，正索引是`0`到`n-1`，负索引是`-1`（最后一个）到`-n`（第一个），`-k`等价于`n-k`。省略的参数由`step`的符号决定默认值：
+
+| 参数 | `step > 0` | `step < 0` |
+| :--- | :--- | :--- |
+| `start` | `0` | `len-1`，即最后一个元素 |
+| `stop` | `len`，越过末尾 | `-len-1`，越过开头 |
+
+## 切片的行为
+
+::section{#properties slot="knowledge.properties"}
+
+### 步长决定方向和间隔
+
+- `step`为正：从`start`向右取，停在`stop`之前，每隔`step`个位置取一个；
+- `step`为负：从`start`向左取，停在`stop`之后；
+- `step`不能为`0`，否则抛出`ValueError`。
+
+### 越界只影响结果，不报错
+
+切片会把越界的端点截到序列边界内，因此结果可能是原序列的一部分，也可能是空序列，但不会抛异常。直接写单个下标`a[100]`或`a[-100]`才是索引访问，越界会抛`IndexError`。
+
+> [!WARNING]
+> 切片越界和索引越界是两种不同的行为：`a[1:100]`正常返回能取到的元素，`a[100]`直接报`IndexError`。判断结果时先看有没有冒号。
+
+### 切片返回新序列
+
+切片得到的是新的序列对象，不是原序列的别名。对列表切片后修改切片，不会改动原列表；但切片只复制最外层，切片里的元素仍与原列表指向同一批对象。
+
+切片是否返回新容器与其中的元素是否被复制是两个层次。容器可变性和别名行为另见[Python对象可变性](/knowledge/cs/programming/python/mutability/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用切片取子序列"}
+
+```python title="slicing.py"
+a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+a[2:5]    # [2, 3, 4]
+a[:3]     # [0, 1, 2]，前3个
+a[-3:]    # [7, 8, 9]，后3个
+a[::2]    # [0, 2, 4, 6, 8]，偶数位置
+a[::-1]   # [9, 8, ..., 0]，逆序
+a[5:2:-1] # [5, 4, 3]，从5向左取到3，不含a[2]
+```
+
+`a[5:2:-1]`的`stop`是`2`，但负步长同样不包含终点，所以取到`a[3]`为止。
+
+:::
+
+:::example{title="切片越界与索引越界"}
+
+```python title="bounds.py"
+a = [0, 1, 2]
+print(a[1:10])  # [1, 2]
+print(a[10:])   # []
+print(a[10])    # IndexError
+```
+
+:::
+
+:::example{title="修改切片不影响原列表"}
+
+```python title="slice-copy.py"
+a = [1, 2, 3]
+b = a[:]
+b[0] = 100
+print(a)  # [1, 2, 3]
+print(b)  # [100, 2, 3]
+```
+
+:::
+
+## 练习
+
+::problems{#python-sequences-practice}
+
+1. ::question{#slice-step}
+
+   `a = [0, 1, 2, 3, 4, 5]`，`a[1:5:2]`的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[1, 3]`
+   - :option[B]{#b} `[1, 2, 3, 4]`
+   - :option[C]{#c} `[1, 3, 5]`
+   - :option[D]{#d} `[2, 4]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   从下标`1`开始，到下标`5`之前，每隔`2`个取一个，取到`a[1]`和`a[3]`。
+   :::
+
+2. ::question{#negative-slice}
+
+   长度为10的列表`a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`，`a[-3:]`的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[7, 8, 9]`
+   - :option[B]{#b} `[8, 9]`
+   - :option[C]{#c} `[6, 7, 8]`
+   - :option[D]{#d} `[]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `-3`对应下标`7`，从`7`取到末尾，得到最后3个元素。
+   :::
+
+3. ::question{#reverse-first}
+
+   `a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`，`a[::-1][0]`的值是 :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="9"}
+
+   `a[::-1]`是逆序列表`[9, 8, ..., 0]`，再取下标`0`得到`9`。
+   :::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PythonSliceDemo />

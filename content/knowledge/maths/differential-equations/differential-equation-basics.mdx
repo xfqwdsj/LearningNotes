@@ -1,0 +1,175 @@
+---
+title: 微分方程的基本概念
+description: 定义微分方程及其阶、解、通解、特解与初值问题，说明一阶方程的方向场与积分曲线。
+---
+
+import OdeSolutionDemo from "@/demos/ode-solution-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+含有未知函数、未知函数的导数（或微分）以及自变量的方程称为**微分方程**。方程中必须出现未知函数的导数或微分，但不必显式出现自变量。
+
+例如$y'+2xy=\sin x$是微分方程；$y^2+x^2=1$只含未知函数与自变量，是代数方程，不是微分方程。
+
+### 常微分方程与偏微分方程
+
+- **常微分方程**：未知函数只含一个自变量，例如$y=y(x)$。
+- **偏微分方程**：未知函数含两个或两个以上自变量，并且方程中出现偏导数，例如$u=u(x,t)$。
+
+本页只讨论常微分方程，未知函数记为$y=y(x)$，导数用$y'$、$y''$、$\dots$、$y^{(n)}$表示，其中
+
+$$
+y'=\frac{\mathrm{d}y}{\mathrm{d}x}.
+$$
+
+导数的定义与记号见[导数的定义与几何意义](/knowledge/maths/derivatives/derivative/)。
+
+### 阶
+
+微分方程中出现的未知函数导数的最高阶数，称为方程的**阶**。
+
+$$
+y'+ky=0
+$$
+
+是一阶方程；
+
+$$
+y''+p(x)y'+q(x)y=f(x)
+$$
+
+是二阶方程。
+
+### 解
+
+设$y=\varphi(x)$在区间$I$上有直到$n$阶的导数。若把$\varphi$代入方程后，等式在$I$上恒成立，则称$\varphi$是方程在$I$上的**解**。解必须在使方程各项都有意义的区间上讨论。
+
+### 通解与特解
+
+$n$阶方程的通解是含有$n$个相互独立任意常数的解族：
+
+$$
+y=\varphi(x,C_1,C_2,\dots,C_n).
+$$
+
+“相互独立”指这些常数不能通过重新组合合并成更少的常数。一阶方程的通解含一个常数$C$，二阶方程的通解含两个常数$C_1,C_2$。
+
+不含任意常数的解称为**特解**。特解通常由初始条件从通解中选出。
+
+> [!NOTE]
+> 通解是带有$n$个独立常数的解族，但未必包含方程的每一个解。求解过程中如果除以过可能为零的式子，需要单独检查被除掉的常数解。可分离变量方程的处理见[可分离变量的微分方程](/knowledge/maths/differential-equations/separable-differential-equation/)。
+
+### 初始条件与初值问题
+
+用来确定通解中任意常数的条件称为**初始条件**。在$x=x_0$处，一阶方程给一个条件
+
+$$
+y\vert_{x=x_0}=y_0,
+$$
+
+二阶方程给两个条件
+
+$$
+y\vert_{x=x_0}=y_0,\qquad y'\vert_{x=x_0}=y'_0.
+$$
+
+一般地，$n$阶方程需要$y,y',\dots,y^{(n-1)}$在$x_0$处的值。求微分方程满足给定初始条件的解的问题，称为**初值问题**。
+
+## 几何意义
+
+::section{#geometry slot="knowledge.properties"}
+
+一阶方程
+
+$$
+y'=f(x,y)
+$$
+
+在平面上每一点$(x,y)$给定一个斜率$f(x,y)$。以该斜率为方向画出的短线段组成**方向场**；方程的积分曲线在每一点的切线方向都与方向场一致。
+
+通解在几何上是一族积分曲线，特解是其中经过给定初值点$(x_0,y_0)$的那一条。二阶方程的通解含两个常数，对应需要两个条件才能确定的一条曲线。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="人口增长的马尔萨斯模型"}
+设$P(t)$是$t$时刻的人口数，人口增长率与当前人口成正比，比例系数为$k>0$。增长率就是$P$对$t$的导数，因此
+
+$$
+\frac{\mathrm{d}P}{\mathrm{d}t}=kP.
+$$
+
+这是一个一阶常微分方程。当$P>0$时分离变量并积分，得
+
+$$
+\ln P=kt+C_1,\qquad P(t)=Ce^{kt},
+$$
+
+其中$C=e^{C_1}>0$。通解是一族指数曲线；若已知$P(0)=P_0$，则$C=P_0$，特解为$P(t)=P_0e^{kt}$。这就是指数增长模型。
+
+:::
+
+:::example{title="验证$y=Ce^{x^2}$是$y'=2xy$的通解"}
+对$y=Ce^{x^2}$求导，
+
+$$
+y'=Ce^{x^2}\cdot 2x=2xy,
+$$
+
+所以每个常数$C$都给出一个解。方程是一阶的，而解中含一个任意常数，因此这是通解。若再要求$y(0)=3$，代入得$C=3$，特解为$y=3e^{x^2}$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<OdeSolutionDemo />
+
+## 练习
+
+::problems{#ode-basics-check}
+
+1. ::question{#order}
+
+   微分方程$y''+p(x)y'+q(x)y=f(x)$的阶是 :blank{#result type="number"}。
+
+   :::reference
+   ::correct{blank="result" value="2"}
+
+   方程中出现的最高阶导数是$y''$，所以是二阶方程。
+   :::
+
+2. ::question{#classification}
+
+   下列式子中，哪些是微分方程？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $y'+2xy=\sin x$
+   - :option[B]{#b} $y^2+x^2=1$
+   - :option[C]{#c} $\dfrac{\partial u}{\partial t}=\dfrac{\partial^2 u}{\partial x^2}$
+   - :option[D]{#d} $y'=y$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   ::correct{option="d"}
+
+   A、D含未知函数的导数，C含未知函数$u(x,t)$的偏导数，都是微分方程。B不含任何导数，只是代数方程。
+   :::
+
+3. ::question{#constants}
+
+   一阶微分方程的通解含有 :blank{#count type="number"} 个相互独立的任意常数。
+
+   :::reference
+   ::correct{blank="count" value="1"}
+
+   通解中独立任意常数的个数等于方程的阶数，一阶方程对应一个常数。
+   :::

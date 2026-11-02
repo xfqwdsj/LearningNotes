@@ -1,0 +1,94 @@
+---
+title: 置信区间
+description: 用重复抽样的覆盖概率解释区间估计，并说明枢轴量构造方法。
+---
+
+import ConfidenceIntervalDemo from "@/demos/interval-estimation-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+设总体分布含未知参数$\theta\in\Theta$，$X=(X_1,\ldots,X_n)$是来自该分布的简单随机样本（独立同分布），$L(X)$与$U(X)$是统计量且$L(X)\le U(X)$。若对每个$\theta\in\Theta$都有
+
+$$
+P_\theta\{L(X)\le\theta\le U(X)\}=1-\alpha,
+$$
+
+则称随机区间 $[L(X),U(X)]$ 为 $\theta$ 的**置信水平** $1-\alpha$（也称置信度）的**置信区间**，$1-\alpha$ 称为覆盖概率。若只能保证覆盖概率近似等于 $1-\alpha$，则称为**近似置信区间**。
+
+这里$\theta$固定，随机的是抽样产生的区间。置信水平的含义是：反复使用同一抽样与构造过程，约有$100(1-\alpha)\%$的区间覆盖真参数。观测到具体区间$[l,u]$之后，不能再说“$\theta$以$1-\alpha$的概率落入$[l,u]$”：此时$\theta$与端点都已确定，区间要么覆盖它，要么不覆盖。
+
+构造区间通常借助**枢轴量**：样本与参数的函数$G(X,\theta)$，它的分布完全已知，且不依赖任何未知参数（包括$\theta$本身）。若
+
+$$
+P\{a\le G(X,\theta)\le b\}=1-\alpha,
+$$
+
+就把$a\le G(X,\theta)\le b$当作关于$\theta$的不等式解出，得到$\theta$的置信区间。$a,b$常按两侧各留$\alpha/2$的尾概率选取；同一置信水平下的区间不唯一，等尾取法只是常用选择。统计量与枢轴量的区别见[简单随机样本](/knowledge/maths/statistics/sample-statistic/)与[统计量](/knowledge/maths/statistics/statistics/)。
+
+:::steps
+
+1. **确定参数与模型**
+
+   写清总体分布、样本结构、待估参数，以及哪些量已知。
+
+2. **选枢轴量**
+
+   找分布已知且不含未知参数的$G(X,\theta)$，常见的是$z$、$t$、$\chi^2$、$F$型统计量。
+
+3. **取概率为$1-\alpha$的区间**
+
+   双侧按各$\alpha/2$的尾概率取两个分位点；单侧只在一侧留$\alpha$。
+
+4. **解出参数范围**
+
+   把不等式变形为$L(X)\le\theta\le U(X)$，并检查端点顺序。
+
+5. **说明前提与近似**
+
+   正态样本的结论是精确的；Welch近似与大样本区间要写明“近似”。
+
+:::
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+对常见的正态均值对称区间，半宽$d$与总长度$2d$反映估计的精度。下面比较假定区间构造方法与其他条件保持不变。
+
+- 置信水平$1-\alpha$提高时，$\alpha$变小，分位点变大，区间变宽。想要更高的把握，就要接受更宽的区间。
+- 总体标准差已知且固定时，样本量$n$增大会使标准误$\sigma/\sqrt n$变小。使用样本标准差时，$S$与$t$分位点也会随样本变化，不能保证每次增加样本都使区间变短。
+- 这类区间的总长度是半宽的两倍，报告精度时要写清用的是半宽还是全长。
+- 对同一观测结果和同一构造方法，提高置信水平会使这类区间变宽。设计阶段可通过增加样本量等方式，在更高置信水平下控制区间宽度。
+
+不同参数和样本结构对应不同的构造方法，见[均值区间](/knowledge/maths/statistics/mean-confidence-interval/)、[正态总体方差区间](/knowledge/maths/statistics/variance-confidence-interval/)、[独立样本均值差区间](/knowledge/maths/statistics/independent-mean-confidence-interval/)、[配对均值差区间](/knowledge/maths/statistics/paired-mean-confidence-interval/)、[方差比区间](/knowledge/maths/statistics/variance-ratio-confidence-interval/)和[比例的Wald区间](/knowledge/maths/statistics/wald-confidence-interval/)。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ConfidenceIntervalDemo />
+
+## 练习
+
+::problems{#confidence-interval}
+
+1. ::question{#interval-interpretation}
+
+   关于置信区间的解释，下列说法正确的是
+
+   :::choices{#choice-interpretation mode="multiple"}
+   - :option[A]{#a} 重复同一抽样与构造过程，约$95\%$的区间覆盖真参数
+   - :option[B]{#b} 观测到的某个$95\%$区间以$0.95$的概率包含真参数
+   - :option[C]{#c} 对同一观测结果，用相同的正态均值区间方法提高置信水平会使区间变宽
+   - :option[D]{#d} 样本量增大时，区间长度一定按$1/\sqrt n$严格缩短
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   置信水平是重复抽样下的覆盖比例，不是某个已观测区间的概率；提高置信水平要求更大的分位点，区间变宽。样本量增大时区间通常变短，但$S$与$t$分位点也随$n$变化，不能断言严格按$1/\sqrt n$缩短。
+   :::

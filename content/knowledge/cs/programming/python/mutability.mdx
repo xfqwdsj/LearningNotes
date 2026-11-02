@@ -1,0 +1,145 @@
+---
+title: Python对象可变性
+description: 区分可变对象与不可变对象，并说明赋值、别名、复制和重新绑定怎样影响变量看到的内容。
+---
+
+import PythonMutabilityDemo from "@/demos/python-mutability-demo";
+
+Python中的变量保存对对象的引用。判断一次修改会影响谁，需要同时看对象是否允许原地改变，以及多个变量是否指向同一个对象。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+对象创建后允许原地改变内容的，称为**可变对象**；创建后内容不能原地改变，只能产生另一个对象并重新绑定的，称为**不可变对象**。
+
+变量赋值`b = a`绑定的是对象引用。若`a`指向可变对象，`b`也指向同一对象，那么通过任一变量原地修改，两个变量都会观察到变化。若对象不可变，例如字符串，运算会产生新对象并让变量指向新对象，原对象保持不变。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 常见类型
+
+| 类型 | 可变性 | 备注 |
+| :--- | :--- | :--- |
+| `int`、`float`、`bool`、`complex` | 不可变 | 数值运算产生新对象 |
+| `str` | 不可变 | 字符串操作产生新字符串 |
+| `tuple` | 不可变 | 元组保存的引用不能替换，引用目标的内容仍可能改变 |
+| `list` | 可变 | 可以原地追加、删除或替换元素 |
+| `dict` | 可变 | 键必须是可哈希对象 |
+| `set` | 可变 | 元素必须是可哈希对象 |
+| `frozenset` | 不可变 | 不可变集合，可以作为字典的键 |
+
+“不可变”描述对象自身能否原地改变，不表示对象引用的所有子对象都不可变。例如元组`t = ([1],)`中的列表仍可执行`t[0].append(2)`，因为这里修改的是列表；而`t[0] = [2]`试图替换元组保存的引用，会抛出`TypeError`。
+
+### 别名与复制
+
+赋值`b = a`创建的是别名，不会复制对象。需要独立列表时，可以使用浅复制`b = a[:]`或`b = list(a)`。浅复制会建立新的外层列表，但列表中的元素引用仍与原列表相同。
+
+```python title="alias.py"
+a = [1, 2]
+b = a
+b.append(3)
+print(a)  # [1, 2, 3]
+```
+
+### 重新绑定
+
+不可变对象上的“修改”会重新绑定变量：
+
+```python title="rebind.py"
+s = "ab"
+t = s
+t += "c"
+print(s)  # ab
+print(t)  # abc
+```
+
+`t += "c"`没有改变原来那个字符串，而是创建一个新字符串并让`t`指向它，因此`s`看到的仍是`ab`。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="修改共享列表"}
+
+`a = [1, 2]`、`b = a`后，`a is b`为真。执行`b.append(3)`后，两个变量都看到`[1, 2, 3]`，因为它们引用同一个列表对象。
+
+:::
+
+:::example{title="切片建立独立外层列表"}
+
+`a = [1, 2]`、`b = a[:]`后，`a is b`为假。执行`b.append(3)`只改变`b`，`a`仍是`[1, 2]`。如果列表元素本身也是可变对象，浅复制后两个外层列表仍可能共享这些子对象。
+
+:::
+
+:::example{title="元组内的可变元素"}
+
+在`t = ([1],)`中，`t[0].append(2)`合法，结果中元组的第一个引用仍指向同一个列表；`t[0] = [2]`不合法，因为它要替换元组保存的引用。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+切换共享引用、复制列表和字符串重新绑定，观察变量箭头指向的对象何时相同。
+
+<PythonMutabilityDemo />
+
+## 练习
+
+::problems{#python-mutability-practice}
+
+1. ::question{#mutability-claims}
+
+   关于可变性，下列说法正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `list`是可变对象，可以在原地追加元素
+   - :option[B]{#b} `tuple`不可变，所以元组里的`list`也不能修改
+   - :option[C]{#c} `dict`的键必须是不可变（可哈希）类型
+   - :option[D]{#d} 对列表做切片得到的是原列表的别名，修改切片会影响原列表
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="c"}
+
+   元组不可变只约束它保存的引用，元组里的列表内容仍可修改，B错；切片返回新列表，不是别名，D错。
+   :::
+
+2. ::question{#alias-effects}
+
+   设`a = [1, 2]`，执行`b = a`与`b.append(3)`后，`a`的值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[1, 2, 3]`
+   - :option[B]{#b} `[1, 2]`
+   - :option[C]{#c} `None`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `b = a`只复制引用，两者指向同一个列表；通过`b`原地追加，`a`也会看到新元素。
+   :::
+
+3. ::question{#string-rebind}
+
+   设`s = "ab"`，执行`t = s`和`t += "c"`后，`s`的值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `"ab"`
+   - :option[B]{#b} `"abc"`
+   - :option[C]{#c} `None`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   字符串不可变，`+=`让`t`绑定到新字符串`abc`，原来的`ab`没有被修改。
+   :::

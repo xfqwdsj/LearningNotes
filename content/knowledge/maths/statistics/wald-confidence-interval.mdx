@@ -1,0 +1,26 @@
+---
+title: 伯努利比例的Wald区间
+description: 用样本比例构造正态近似区间，并说明其边界问题。
+---
+
+import WaldConfidenceIntervalDemo from "@/demos/wald-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设每次独立伯努利试验的成功概率为$p$，$N$为$n$次试验中的成功次数，$\hat p=N/n$。常见的大样本Wald区间为
+
+$$
+p\in\hat p\pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+$$
+
+它在小样本或$p$接近$0,1$时覆盖率可能明显低于名义水平，端点还可能越出$[0,1]$。此时应采用Wilson区间或精确二项区间；只把越界端点截断到$[0,1]$，并不能恢复覆盖率。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<WaldConfidenceIntervalDemo />

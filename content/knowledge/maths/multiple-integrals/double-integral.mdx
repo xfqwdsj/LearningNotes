@@ -1,0 +1,278 @@
+---
+title: 二重积分的概念与性质
+description: 从曲顶柱体体积与平面薄片质量两个问题引入二重积分的定义，并列出线性、区域可加、面积、比较、估值与中值等基本性质。
+---
+
+import DoubleSumDemo from "@/demos/double-sum-demo";
+
+设$D$是$xOy$平面上的有界闭区域，其边界面积为零，$f(x,y)$是定义在$D$上的函数。二重积分把“分割、求和、取极限”的过程搬到二维区域上，结果是一个数$\iint_D f\,\mathrm d\sigma$。本页记面积元素为$\mathrm d\sigma$，它在直角坐标下写成$\mathrm dx\,\mathrm dy$；区域$D$的面积记为$A$。
+
+## 背景
+
+::section{#background}
+
+### 曲顶柱体的体积
+
+设空间中的柱体以$D$为底面，侧面以$D$的边界为准线、母线平行于$z$轴，顶面是连续函数$z=f(x,y)$的图像，且$f(x,y)\ge 0$。这样的立体称为**曲顶柱体**。
+
+求它的体积$V$时，把$D$分成许多小区域，每一小块上用“平顶”柱体近似“曲顶”柱体，再把所有小体积相加并取极限。
+
+### 平面薄片的质量
+
+设$xOy$平面上有一块占有区域$D$的薄片，其面密度由连续函数$\rho(x,y)$给出，且不为常数。把薄片分成若干小块，假定每一小块内密度均匀，求出各小块质量的近似值，再求和、取极限，就得到总质量$M$。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+定义从对平面区域的分割与求和出发，可以概括为四步：
+
+:::steps
+
+1. **分割**
+
+   把闭区域$D$任意分成$n$个小闭区域$\Delta\sigma_1,\Delta\sigma_2,\dots,\Delta\sigma_n$，它们的面积也记作$\Delta\sigma_i$。同一个记号既表示小区域，也表示它的面积。
+
+2. **近似**
+
+   在每个$\Delta\sigma_i$内任取一点$(\xi_i,\eta_i)$，用乘积$f(\xi_i,\eta_i)\Delta\sigma_i$作为这一小块上部分量的近似值。
+
+3. **求和**
+
+   把所有小块的近似值相加，得到和式
+
+   $$
+   \sum_{i=1}^{n}f(\xi_i,\eta_i)\Delta\sigma_i .
+   $$
+
+4. **取极限**
+
+   记$\lambda$为各小区域直径的最大值，令$\lambda\to0$，考察上述和式的极限。
+
+:::
+
+若这个极限存在，并且极限值与$D$的分法、每块内所取点$(\xi_i,\eta_i)$的取法都无关，则称此极限为$f(x,y)$在闭区域$D$上的**二重积分**，记作
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\lim_{\lambda\to0}\sum_{i=1}^{n}f(\xi_i,\eta_i)\Delta\sigma_i .
+$$
+
+记号各部分的名称：
+
+- $\iint$：二重积分号；
+- $D$：积分区域；
+- $f(x,y)$：被积函数；
+- $\mathrm d\sigma$：面积元素，直角坐标下常写作$\mathrm dx\,\mathrm dy$。
+
+> [!IMPORTANT]
+> **可积性要核对两件事**
+>
+> 定义既要求和式的极限存在，也要求极限值与分法、取点无关。只要换一种分法或换一组点就得到另一个极限值，这个和式就不能定义二重积分。
+
+> [!NOTE]
+> 本页默认$f$在$D$上连续。连续函数在有界闭区域上的二重积分一定存在；反过来，可积函数至少在$D$上有界。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+以下设$f$、$g$在$D$上可积，$A$是$D$的面积。这些性质用于估计积分值、比较两个积分的大小，以及把区域拆开分别计算。
+
+### 线性性质
+
+设$\alpha,\beta$为常数，则
+
+$$
+\iint_D[\alpha f(x,y)+\beta g(x,y)]\,\mathrm d\sigma=\alpha\iint_D f\,\mathrm d\sigma+\beta\iint_D g\,\mathrm d\sigma .
+$$
+
+### 区域可加性
+
+若$D$被分成两个互不重叠（只允许边界相交）的子区域$D_1$与$D_2$，则
+
+$$
+\iint_D f\,\mathrm d\sigma=\iint_{D_1}f\,\mathrm d\sigma+\iint_{D_2}f\,\mathrm d\sigma .
+$$
+
+### 面积性质
+
+若在$D$上$f(x,y)\equiv1$，则
+
+$$
+\iint_D 1\,\mathrm d\sigma=\iint_D\mathrm d\sigma=A .
+$$
+
+### 比较性质与保号性
+
+若在$D$上$f(x,y)\le g(x,y)$，则
+
+$$
+\iint_D f\,\mathrm d\sigma\le\iint_D g\,\mathrm d\sigma .
+$$
+
+特别地，若在$D$上$f(x,y)\ge0$，则$\iint_D f\,\mathrm d\sigma\ge0$，这一条也称保号性。
+
+对$-|f|\le f\le|f|$用两次比较性质，得到
+
+$$
+\left|\iint_D f\,\mathrm d\sigma\right|\le\iint_D|f|\,\mathrm d\sigma .
+$$
+
+### 估值定理
+
+设$M$、$m$分别是$f$在$D$上的最大值与最小值，则
+
+$$
+mA\le\iint_D f(x,y)\,\mathrm d\sigma\le MA .
+$$
+
+### 中值定理
+
+设$D$连通且面积$A>0$，$f$在$D$上连续，则$D$中至少存在一点$(\xi,\eta)$，使
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=f(\xi,\eta)\,A .
+$$
+
+:::proof{title="中值定理的证明"}
+
+$f$在有界闭区域$D$上连续，因此在$D$上取到最小值$m$与最大值$M$，依据见 [多元函数的连续性](/knowledge/maths/multivariable-calculus/multivariable-continuity/) 中有界闭区域上连续函数的性质。由估值定理，
+
+$$
+m\le\frac1A\iint_D f\,\mathrm d\sigma\le M .
+$$
+
+$D$是连通区域，连续函数在连通区域上取到$m$与$M$之间的每一个值，所以存在$(\xi,\eta)\in D$使
+
+$$
+f(\xi,\eta)=\frac1A\iint_D f\,\mathrm d\sigma ,
+$$
+
+两边乘以$A$即得结论。
+
+:::
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="曲顶柱体的体积：$z=1-x-y$在三角形区域上"}
+
+取
+
+$$
+D=\{(x,y):x\ge 0,\ y\ge 0,\ x+y\le 1\},\qquad f(x,y)=1-x-y .
+$$
+
+在$D$上$f\ge 0$，对应的曲顶柱体是以$D$为底面、顶点在原点上方的四面体，四个顶点为
+
+$$
+(0,0,0),\quad(1,0,0),\quad(0,1,0),\quad(0,0,1).
+$$
+
+它的体积为$\dfrac16$，所以
+
+$$
+\iint_D(1-x-y)\,\mathrm d\sigma=\frac16 .
+$$
+
+左边是按定义写出的二重积分，右边是这个立体的几何体积。把二重积分化为累次积分的方法见[二重积分的直角坐标计算](/knowledge/maths/multiple-integrals/double-integral-computation/)。
+
+:::
+
+:::example{title="用估值定理估计积分"}
+
+设$D=[0,1]\times[0,1]$，$f(x,y)=\dfrac1{1+x+y}$。$D$的面积为$1$，$f$的最小值在$(1,1)$处为$\dfrac13$，最大值在$(0,0)$处为$1$，于是
+
+$$
+\frac13\le\iint_D\frac{\mathrm d\sigma}{1+x+y}\le 1 .
+$$
+
+:::
+
+:::example{title="中值定理的数值含义"}
+
+设$f$在有界闭区域$D$上连续，$D$的面积为$3$，且$\iint_D f\,\mathrm d\sigma=6$。由中值定理，$D$中存在一点$(\xi,\eta)$使
+
+$$
+f(\xi,\eta)=\frac{6}{3}=2 .
+$$
+
+积分值等于“某一点的函数值乘以区域面积”，这里的$2$就是$f$在$D$上的平均值。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<DoubleSumDemo />
+
+## 练习
+
+::problems{#double-integral-basics}
+
+1. ::question{#estimate-range}
+
+   设$D$的面积为$4$，$f$在$D$上满足$1\le f(x,y)\le 3$，则$\displaystyle\iint_D f\,\mathrm d\sigma$的取值范围是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $[4,12]$
+   - :option[B]{#b} $[1,3]$
+   - :option[C]{#c} $[3,4]$
+   - :option[D]{#d} $[0,4]$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由估值定理，$m=1$、$M=3$、$A=4$，积分落在$[1\cdot4,\ 3\cdot4]=[4,12]$内。
+   :::
+
+2. ::question{#valid-properties}
+
+   设$f$、$g$在同一个区域$D$上可积，下列各式中一定成立的有哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\displaystyle\iint_D(f+g)\,\mathrm d\sigma=\iint_D f\,\mathrm d\sigma+\iint_D g\,\mathrm d\sigma$
+   - :option[B]{#b} 若在$D$上$f\le g$，则$\displaystyle\iint_D f\,\mathrm d\sigma\le\iint_D g\,\mathrm d\sigma$
+   - :option[C]{#c} $\displaystyle\left|\iint_D f\,\mathrm d\sigma\right|\le\iint_D|f|\,\mathrm d\sigma$
+   - :option[D]{#d} $\displaystyle\iint_D fg\,\mathrm d\sigma=\left(\iint_D f\,\mathrm d\sigma\right)\left(\iint_D g\,\mathrm d\sigma\right)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   A、B、C分别是线性性质、比较性质和比较性质的推论。A只取$\alpha=\beta=1$的情形。二重积分没有“乘积的积分等于积分的乘积”这条性质，D不成立。
+   :::
+
+3. ::question{#constant-integral}
+
+   $D=[0,1]\times[0,2]$，被积函数$f(x,y)\equiv3$，则$\displaystyle\iint_D f\,\mathrm d\sigma=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="6"}
+
+   由面积性质，$\iint_D3\,\mathrm d\sigma=3A=3\times2=6$。
+   :::
+
+4. ::question{#mean-value-condition}
+
+   关于中值定理$\displaystyle\iint_D f\,\mathrm d\sigma=f(\xi,\eta)A$，下列条件中必需的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $f$在有界闭区域$D$上连续
+   - :option[B]{#b} $f$在$D$上非负
+   - :option[C]{#c} $f$在$D$上单调
+   - :option[D]{#d} $D$是矩形
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $(\xi,\eta)$由连续函数在连通区域上的介值性保证，因此连续性不可省；非负、单调和区域的形状都不是条件。
+   :::

@@ -1,0 +1,59 @@
+---
+title: 计算机的启动过程
+description: 从固件到内核和用户空间，理解启动时的控制权交接。
+---
+
+import BootStagesDemo from "@/demos/boot-stages-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+计算机启动时，处理器从平台规定的入口开始执行，逐步准备硬件环境并将控制交给操作系统。一个便于理解的简化顺序是：
+
+1. 固件初始化必要硬件，并选择启动目标。
+2. 启动加载程序准备内核映像和启动参数，随后把控制交给内核。
+3. 内核初始化内存、设备与调度等运行环境，并启动用户空间的初始进程。
+4. 用户空间的初始进程继续启动系统服务、会话或应用。
+
+实际平台可以合并或细分这些步骤。例如固件也可能直接加载内核；设备的固件名称、验证机制和启动介质各不相同，不能把一种平台的具体实现当作所有设备的必经步骤。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+后续阶段依赖前面准备的条件：内核需要可用的执行环境和内核映像，用户空间服务需要内核提供进程和资源管理。阶段用于理解职责与控制权，不意味着每种硬件都先完成同样的自检项目，也不意味着系统服务或登录界面必须按固定次序启动。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+若固件能找到启动目标，但内核未能挂载所需的根文件系统，问题出现在控制已交给内核之后；仅凭这一现象不能断定最初的硬件自检失败。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+按简化顺序逐步查看固件、加载程序、内核与用户空间的职责。
+
+<BootStagesDemo />
+
+## 练习
+
+::problems{#boot-practice}
+
+1. ::question{#boot-order}
+
+   在这个简化模型中，哪个阶段负责启动用户空间的初始进程？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 固件选择启动目标
+   - :option[B]{#b} 操作系统内核初始化
+   - :option[C]{#c} 应用程序读取配置
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   内核建立运行环境后启动用户空间的初始进程；随后由用户空间继续启动服务。
+   :::

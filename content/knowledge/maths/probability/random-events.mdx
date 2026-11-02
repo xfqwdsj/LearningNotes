@@ -1,0 +1,219 @@
+---
+title: 随机事件
+description: 用样本空间的子集描述随机事件，并理解事件的关系与运算。
+---
+
+import EventOperationsDemo from "@/demos/event-operations-demo";
+
+## 定义
+
+::section{#sample-space slot="knowledge.definition"}
+
+设随机试验的[样本空间](/knowledge/maths/probability/sample-space/)为$\Omega$。随机事件是样本空间的子集。设$A\subseteq\Omega$，若试验结果$\omega\in A$，就说事件$A$发生。$\Omega$本身称为**必然事件**，空集$\varnothing$称为**不可能事件**。
+
+## 性质
+
+::section{#event-operations slot="knowledge.properties"}
+
+### 事件的关系与运算
+
+设$A$与$B$是同一个试验中的事件。
+
+| 记号 | 名称 | 含义 |
+| :--- | :--- | :--- |
+| $A\subseteq B$ | 包含 | $A$发生必有$B$发生 |
+| $A=B$ | 相等 | $A\subseteq B$且$B\subseteq A$ |
+| $A\cup B$ | 和事件 | $A$与$B$至少有一个发生 |
+| $A\cap B=AB$ | 积事件 | $A$与$B$同时发生 |
+| $A-B=A\cap\bar B$ | 差事件 | $A$发生而$B$不发生 |
+| $\bar A=\Omega-A$ | 对立事件 | $A$不发生 |
+
+若 $AB=\varnothing$，称 $A$ 与 $B$ **互斥**（或不相容），即两者不能同时发生。若互斥之外还要求 $A\cup B=\Omega$，则称 $A$ 与 $B$ **对立**：两者不能同时发生，且必有一个发生。因此对立一定互斥，互斥未必对立。
+
+对多个事件$A_1,A_2,\ldots,A_n$，常用以下表示：
+
+- 至少一个发生：$\bigcup_i A_i$；
+- 全部发生：$\bigcap_i A_i$；
+- 一个都不发生：$\bigcap_i\bar A_i=\overline{\bigcup_iA_i}$；
+- 恰有一个发生：$\bigcup_i\left(A_i\cap\bigcap_{j\ne i}\bar A_j\right)$。
+
+### 运算律
+
+事件的交换律、结合律、分配律与集合运算相同。特别常用的是**德摩根律**：
+
+$$
+\overline{A\cup B}=\bar A\cap\bar B,\qquad
+\overline{A\cap B}=\bar A\cup\bar B.
+$$
+
+多个事件的情形同样成立：并事件的补等于各补事件的交，交事件的补等于各补事件的并。
+
+概率的记号与计算见[概率公理](/knowledge/maths/probability/probability-axioms/)。求“至少一次”的概率，常转化为
+
+$$
+P(\text{至少一次})=1-P(\text{一次也没有}).
+$$
+
+求“恰好一次”的概率时，要把各互斥情形分别写出再相加，不能直接使用$A\cup B$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="掷一枚骰子"}
+
+掷一枚均匀骰子，样本空间为
+
+$$
+\Omega=\{1,2,3,4,5,6\}.
+$$
+
+“出现偶数点”是事件$A=\{2,4,6\}$。若掷出$4$，则$4\in A$，事件$A$发生；若掷出$5$，则$5\notin A$，事件$A$不发生。
+
+:::
+
+:::example{title="掷两枚可区分的骰子"}
+
+掷两枚可区分的骰子时，样本空间由$36$个有序对组成：
+
+$$
+\Omega=\{(i,j):i,j=1,2,\ldots,6\}.
+$$
+
+每个有序对是一个样本点。若只记录点数和，和$2$与和$7$会被当成同样基本的结果，但它们的出现方式数并不相同，不能把这些点数和当作等可能结果。
+
+> [!IMPORTANT]
+> 样本点应覆盖所关心的结果。如果希望按等可能结果计数，掷两枚可区分的均匀骰子时可用有序对$(i,j)$；各个点数和并不等可能。
+
+:::
+
+:::example{title="恰有一个发生与至少一个发生"}
+
+两事件$A$与$B$中“恰有一个发生”为
+
+$$
+A\bar B\cup\bar AB,
+$$
+
+而“至少一个发生”为$A\cup B$。后者还包含$AB$，所以两者不是同一个事件，概率一般也不相等。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选取骰子点数，分别组成事件$A$和$B$。并集包含至少属于一个事件的点数，交集只包含同时属于两个事件的点数。
+
+<EventOperationsDemo />
+
+## 练习
+
+::problems{#event-exercises}
+
+1. ::question{#dice-events}
+
+   掷一枚骰子，$\Omega=\{1,2,3,4,5,6\}$，令$A=\{2,4,6\}$，$B=\{1,2,3\}$。
+
+   1. ::part{#union}
+
+      $A\cup B$含有的样本点个数为 :blank{#union-count type="number"}。
+
+      :::reference
+      ::correct{blank="union-count" value="5"}
+
+      $A\cup B=\{1,2,3,4,6\}$，共$5$个样本点。
+      :::
+
+   2. ::part{#mutually-exclusive}
+
+      $A$与$B$是否互斥？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 互斥
+      - :option[B]{#b} 不互斥
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      两个事件都含样本点$2$，因此$AB=\{2\}\ne\varnothing$，不互斥。
+      :::
+
+   3. ::part{#difference}
+
+      $A-B$含有的样本点个数为 :blank{#difference-count type="number"}。
+
+      :::reference
+      ::correct{blank="difference-count" value="2"}
+
+      差事件表示$A$发生而$B$不发生，$A-B=\{4,6\}$，共$2$个样本点。
+      :::
+
+2. ::question{#modeling}
+
+   掷两枚可区分的骰子，为了能用等可能样本点计数，样本点应取为：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 两枚骰子的点数和
+   - :option[B]{#b} 有序对$(i,j)$
+   - :option[C]{#c} 无序对$\{i,j\}$
+   - :option[D]{#d} 两枚骰子中较大的点数
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   有序对$(i,j)$才能把$36$种结果区分开；点数和、无序对和较大点数都会把多个结果合并，破坏等可能性。
+   :::
+
+3. ::question{#de-morgan}
+
+   $\overline{A\cup B}$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\bar A\cup\bar B$
+   - :option[B]{#b} $\bar A\cap\bar B$
+   - :option[C]{#c} $A\cap B$
+   - :option[D]{#d} $A-B$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   由德摩根律，并事件的补等于各补事件的交。
+   :::
+
+4. ::question{#exactly-one}
+
+   两事件$A$与$B$中“恰有一个发生”表示为：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $A\cup B$
+   - :option[B]{#b} $AB$
+   - :option[C]{#c} $A\bar B\cup\bar AB$
+   - :option[D]{#d} $\bar A\bar B$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   $A\bar B$表示$A$发生且$B$不发生，$\bar AB$表示$B$发生且$A$不发生，两者互斥，并起来正是恰有一个发生。
+   :::
+
+5. ::question{#at-least-once}
+
+   求“至少发生一次”的概率时，常用的转化是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $1-P(\text{一次也没有})$
+   - :option[B]{#b} $P(\text{一次也没有})$
+   - :option[C]{#c} $P(\text{恰好一次})$
+   - :option[D]{#d} 各次概率直接相加
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   “至少一次”与“一次也没有”互为对立事件。各次概率直接相加只适用于各次事件互斥的情形。
+   :::

@@ -1,0 +1,60 @@
+---
+title: 经验分布函数
+description: 用样本中不超过给定值的比例近似总体分布函数。
+---
+
+import EmpiricalCdfDemo from "@/demos/empirical-cdf-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X_1,\ldots,X_n$为样本，定义
+
+$$
+F_n(x)=\frac1n\sum_{i=1}^nI_{\{X_i\le x\}},\qquad -\infty<x<+\infty,
+$$
+
+其中$I_{\{X_i\le x\}}$在$X_i\le x$时取$1$，否则取$0$。$F_n(x)$表示样本中不超过$x$的观测值所占的比例，称为**经验分布函数**。
+
+它的性质：
+
+1. 只取$0,\frac1n,\frac2n,\ldots,1$这些值；
+2. 是右连续的阶梯函数，在每个观测值处跳跃，跳跃高度等于该值重复出现的次数乘以$\frac1n$；
+3. 固定$x$时，$nF_n(x)$是$n$次独立试验中事件$\{X\le x\}$发生的次数，所以$nF_n(x)\sim B\bigl(n,F(x)\bigr)$。
+
+由第3条立得
+
+$$
+E[F_n(x)]=F(x),\qquad
+D[F_n(x)]=\frac{F(x)[1-F(x)]}{n}.
+$$
+
+再由大数定律（依概率收敛指：对任意$\varepsilon>0$，有$P\{|Y_n-a|\ge\varepsilon\}\to0$，记作$Y_n\xrightarrow{P}a$），对每个固定的$x$，
+
+$$
+F_n(x)\xrightarrow{P}F(x).
+$$
+
+也就是说，样本量增大时，样本中不超过$x$的比例依概率接近总体的概率$F(x)$。这是用样本来近似总体分布的依据。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<EmpiricalCdfDemo />
+
+## 练习
+
+::problems{#empirical-cdf-practice}
+
+1. ::question{#empirical-value}
+
+   样本观测值为$1,2,3,4,5$，则经验分布函数在$x=2$处的值$F_n(2)=$ :blank{#empirical-value type="number"}。
+
+   :::reference
+   ::correct{blank="empirical-value" value="0.4"}
+
+   不超过$2$的观测值有$1$与$2$两个，故$F_n(2)=\dfrac25=0.4$。
+   :::

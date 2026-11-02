@@ -1,0 +1,23 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "0.1在32位里是什么样？",
+      "description": "输入一个十进制数，拆开它的IEEE 754单精度符号、阶码和尾数。",
+      "messages": {
+        "label": "IEEE 754单精度位域演示",
+        "intro": "输入十进制数，观察它在`float32`中的1位符号、8位阶码和23位尾数。",
+        "valueLabel": "十进制数值",
+        "sliderLabel": "拖动取值",
+        "sign": "符号`S`={value}",
+        "exponent": "阶码`E`={value}",
+        "mantissa": "尾数`F`={value}",
+        "graphLabel": "十进制{value}的`float32`编码，还原值{stored}",
+        "reset": "恢复0.1",
+        "exact": "还原值${stored}$与原数相同；这个十进制数能被`float32`精确表示。",
+        "inexact": "还原值${stored}$与原数相差${difference}$；尾数只有23位，多数十进制小数只能近似存储。"
+      },
+      "tags": ["浮点数", "IEEE 754", "位"]
+    }
+  }
+}

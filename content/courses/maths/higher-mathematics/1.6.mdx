@@ -1,0 +1,41 @@
+---
+title: 1.6两个重要极限
+description: 两个重要极限在本章的先后位置、模板化的记忆约定与套用时的常见误判。
+---
+## 阅读入口
+
+- [正弦的重要极限](/knowledge/maths/limits/important-limits/)
+- [自然常数的重要极限](/knowledge/maths/limits/exponential-limit/)
+- [极限的四则运算与比较法则](/knowledge/maths/limits/limit-laws/)
+- [等价无穷小](/knowledge/maths/limits/equivalent-infinitesimals/)
+
+## 两个重要极限
+
+::knowledge{path="maths/limits/important-limits" slot="definition"}
+
+::knowledge{path="maths/limits/exponential-limit" slot="definition"}
+
+第一个结论在1.7会以$\sin x\sim x$的形式再次出现，但用法不同：这里要求结构完全一致，等价无穷小则允许在乘除中替换因子。
+
+## 学习安排
+
+两个重要极限承接四则运算法则：第一个给出$\dfrac{0}{0}$型三角函数极限的处理方式，第二个给出$1^\infty$型的标准结果。两者都是计算模板，下一节等价无穷小中的$\sin x\sim x$是第一个极限的另一种写法。
+
+复习时先判断类型再套模板：$\dfrac{0}{0}$型且出现$\sin$才考虑第一个，$1^\infty$型才考虑第二个，其余类型先变形。这样能避免看到$\sin$或不等于$1$的底数就往公式上套。
+
+## 课程约定
+
+- 模板中的方框$\square$表示同一个变量或表达式。套用时必须同时满足“分子分母（或底数与指数）使用同一个$\square$”和“$\square$按对应方式趋近”两个条件。
+- 第二个重要极限在本课程中优先使用$\lim_{t \to 0}(1+t)^{\frac{1}{t}}=e$的形式，因为后续的等价无穷小与泰勒展开都在$t\to0$下讨论。
+- 变形时只调整系数与指数，不改变整体结构：例如$\dfrac{\sin 3x}{x}=3\cdot\dfrac{\sin 3x}{3x}$，$\left(1+\dfrac{2}{x}\right)^x=\left[\left(1+\dfrac{1}{x/2}\right)^{x/2}\right]^2$。
+
+## 易错点
+
+- 只看到$\sin$就套第一个极限。分子必须是分母对应的正弦；$\dfrac{\sin x}{x^2}$不符合结构，不能直接得$1$。
+- 把$1^\infty$直接当成$1$。底数趋于$1$、指数趋于无穷时，结果是$e$的某次幂，不是$1$。
+- $\left(1+\dfrac{2}{x}\right)^x$直接写成$e$。指数上的倍率要一起调整，结果是$e^2$。
+- 混用两种趋近方式：$\left(1+\dfrac{1}{x}\right)^x$是$x\to\infty$，$(1+t)^{\frac{1}{t}}$是$t\to0$，换元前后不要混写。
+
+## 复习要点
+
+判断用哪一个：先看是不是$\dfrac{0}{0}$型并含$\sin$（第一个），再看是不是$1^\infty$型（第二个）。套用前先写清楚$\square$是什么、它趋于多少，再核对结构是否真的与模板一致。

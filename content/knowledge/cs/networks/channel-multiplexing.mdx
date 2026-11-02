@@ -1,0 +1,55 @@
+---
+title: 信道复用
+description: 比较多路信号通过频率、时间、波长或编码共享传输介质的方式。
+---
+
+import MultiplexingDemo from "@/demos/multiplexing-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+为了提高通信线路的利用率，需要在同一条传输介质上同时传输多路信号，这就是信道复用。四种常见方式按“把什么切开分给各路信号”来区分。
+
+| 方式 | 划分依据 | 说明 |
+| :--- | :--- | :--- |
+| 频分复用FDM | 频率 | 把频谱分成若干互不重叠的频带，每路信号占用一个频带。收音机不同电台使用不同频率、互不干扰，就是这种思路。 |
+| 时分复用TDM | 时间 | 把时间划分为一段段等长的时隙，每路信号轮流占用时隙传输。类似大家轮流发言，每人讲一分钟。 |
+| 波分复用WDM | 波长 | 本质是光的频分复用，在光纤中传输不同波长（颜色）的光信号，极大提高了光纤的传输容量。 |
+| 码分复用CDM | 编码 | 主要用于无线通信（如3G、4G）。每个用户分配一个唯一的码序列（码片），各用户使用同样的频率同时发送数据，通过解码分离出特定用户的信号。 |
+
+> [!TIP]
+> 记四种复用的区别时，先问“多路信号靠什么互不干扰”：频率、时间、波长还是编码。FDM与WDM都在频率维度上划分，WDM只是把这一思路用在光纤的光波上。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+比较两路信号使用不同时隙或不同频带的方式。
+
+<MultiplexingDemo />
+
+## 练习
+
+::problems{#multiplexing-practice}
+
+1. ::question{#multiplexing-forms}
+
+   关于信道复用，下列叙述哪些正确？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} FDM把频谱分成互不重叠的频带，每路信号占用一个频带
+   - :option[B]{#b} TDM把时间划分为等长时隙，每路信号轮流占用时隙
+   - :option[C]{#c} WDM是光纤中的波分复用，本质上是光的频分复用
+   - :option[D]{#d} CDM要求每个用户使用互不相同的频率发送数据
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   CDM中各用户使用同样的频率、同时发送，靠各自唯一的码序列区分，而不是靠不同频率。
+   :::

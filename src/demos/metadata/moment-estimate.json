@@ -1,0 +1,21 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "矩估计能否容纳全部样本？",
+      "description": "调整三个观测值，比较样本均值、矩估计上界与样本最大值。",
+      "messages": {
+        "label": "均匀分布上界的矩估计",
+        "intro": "假设样本来自$U[0,\\theta]$，其中$\\theta>0$。矩形表示矩估计给出的拟合区间，下方的点是三个观测。虚线标出样本均值，实线标出估计上界；空心点位于拟合区间之外。",
+        "first": "$x_1$",
+        "second": "$x_2$",
+        "third": "$x_3$",
+        "reset": "恢复示例",
+        "graphLabel": "矩估计上界为{estimate}，样本均值为{mean}，最大观测值为{maximum}。",
+        "outside": "矩估计$\\widehat\\theta=2\\bar x={estimate}$小于最大观测$M={maximum}$，拟合区间没有容纳全部观测。",
+        "inside": "矩估计$\\widehat\\theta=2\\bar x={estimate}$不小于最大观测$M={maximum}$，拟合区间容纳了全部观测。"
+      },
+      "tags": ["统计推断", "矩估计"]
+    }
+  }
+}

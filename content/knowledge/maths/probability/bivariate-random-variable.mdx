@@ -1,0 +1,101 @@
+---
+title: 二维联合分布函数
+description: 用联合分布函数描述两个随机变量的共同取值与矩形区域概率。
+---
+
+import JointTriangleDemo from "@/demos/joint-triangle-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设 $X$、$Y$ 是定义在同一概率空间上的随机变量，组成[二维随机向量](/knowledge/maths/probability/random-vector/) $(X,Y)$。
+
+对任意实数$x,y$，把$\{X\le x\}$与$\{Y\le y\}$同时发生的事件记作$\{X\le x,\,Y\le y\}$。称二元函数
+
+$$
+F(x,y)=P\{X\le x,\;Y\le y\},\qquad -\infty<x,y<+\infty
+$$
+
+为$(X,Y)$的**联合分布函数**。$F(x,y)$是点$(x,y)$左下无穷矩形区域上的概率，它只是一维分布函数$F(x)=P\{X\le x\}$的推广形式；一维情形见[分布函数](/knowledge/maths/probability/distribution-function/)。
+
+矩形区域的概率由$F$在四个顶点处的取值组合得到。对$a<b$、$c<d$，
+
+$$
+\begin{aligned}
+P\{a<X\le b,\;c<Y\le d\}
+={}&F(b,d)-F(a,d)\\
+&-F(b,c)+F(a,c).
+\end{aligned}
+$$
+
+这个式子决定了二维情形的端点写法：四个顶点都要取到，不能用一维的差$F(b)-F(a)$直接套用。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+联合分布函数$F(x,y)$满足：
+
+1. **对每个坐标单调不减**：固定$y$，若$x_1<x_2$，则$F(x_1,y)\le F(x_2,y)$；固定$x$时对$y$同理。
+2. **对每个坐标右连续**：$F(x+0,y)=F(x,y)$，$F(x,y+0)=F(x,y)$。
+3. **极限行为**：任一坐标趋于$-\infty$时极限为零，即$F(-\infty,y)=0$、$F(x,-\infty)=0$；两个坐标同时趋于$+\infty$时极限为一，即$F(+\infty,+\infty)=1$。
+4. **矩形增量非负**：对任意$a<b$、$c<d$，都有$F(b,d)-F(a,d)-F(b,c)+F(a,c)\ge 0$。
+
+> [!WARNING]
+> 仅逐坐标单调（即使对每个坐标右连续）不足以保证一个二元函数是联合分布函数。还必须检查任意矩形上的增量非负，这是二维特有的要求；只按一维的三条性质推广会漏掉这一条。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="支持区域如何限制分布函数的积分"}
+
+沿用上例的密度$f(x,y)=2$（$0<x<y<1$），求$F\!\left(\dfrac12,1\right)=P\left\{X\le\dfrac12,\;Y\le 1\right\}$。
+
+由于$Y\le 1$在支持区域上自动成立，只需限制$X\le\dfrac12$，再让$Y$取遍$x<y<1$：
+
+$$
+F\!\left(\frac12,1\right)
+=2\int_0^{1/2}\int_x^1 \mathrm dy\,\mathrm dx
+=2\int_0^{1/2}(1-x)\,\mathrm dx
+=2\left[\frac12-\frac18\right]
+=\frac34.
+$$
+
+若机械地按矩形积到$x=\dfrac12$、$y=1$，就会把区域$y<x$上密度为零的部分也算进去，得到错误结果。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+联合密度在$0<x<y<1$上为$2$。调整$a$，图中阴影表示$F(a,1)=P(X\le a,Y\le1)$的积分区域。
+
+<JointTriangleDemo />
+
+## 练习
+
+::problems{#joint-cdf-practice}
+
+1. ::question{#joint-cdf-properties}
+
+   关于联合分布函数$F(x,y)$，下列说法正确的有
+
+   :::choices{#choice-cdf mode="multiple"}
+   - :option[A]{#a} 对每个坐标单调不减
+   - :option[B]{#b} 对每个坐标右连续
+   - :option[C]{#c} 只要对每个坐标单调不减，就能作为某个二维随机变量的联合分布函数
+   - :option[D]{#d} 对任意$a<b$、$c<d$，矩形$a<x\le b$、$c<y\le d$上的概率增量必须非负
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   联合分布函数除逐坐标单调、右连续外，还要求矩形增量非负；仅逐坐标单调不足以保证它能作为联合分布函数。
+   :::

@@ -1,0 +1,75 @@
+---
+title: 三重积分
+description: 通过空间区域的积分和定义三重积分，并说明其质量与体积意义。
+---
+
+import TripleBoxDemo from "@/demos/triple-box-demo";
+
+
+设$\Omega$是空间有界闭区域，$f(x,y,z)$在$\Omega$上有定义。三重积分把 [二重积分](/knowledge/maths/multiple-integrals/double-integral/) 中分割、求和、取极限的过程照搬到空间区域上。本页记体积元素为$\mathrm dv$，直角坐标下它写成$\mathrm dx\,\mathrm dy\,\mathrm dz$；$\Omega$的体积记作$V$，$\Omega$的边界曲面假设充分光滑，被积函数连续。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+把$\Omega$任意分成$n$个小闭区域$\Delta v_1,\Delta v_2,\dots,\Delta v_n$，记号$\Delta v_i$既表示第$i$个小闭区域，也表示它的体积。在每个$\Delta v_i$内任取一点$(\xi_i,\eta_i,\zeta_i)$，作和式
+
+$$
+\sum_{i=1}^{n}f(\xi_i,\eta_i,\zeta_i)\Delta v_i .
+$$
+
+记$\lambda$为各小闭区域直径的最大值。若$\lambda\to0$时上述和式的极限存在，且极限值与$\Omega$的划分方式、取点方式都无关，则称此极限为$f(x,y,z)$在空间闭区域$\Omega$上的**三重积分**，记作
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv=\lim_{\lambda\to0}\sum_{i=1}^{n}f(\xi_i,\eta_i,\zeta_i)\Delta v_i .
+$$
+
+其中$\Omega$是积分区域，$f(x,y,z)$是被积函数，$\mathrm dv$是体积元素。
+
+### 物理意义
+
+若空间物体占有区域$\Omega$，体密度为$\rho(x,y,z)$，则物体的质量为
+
+$$
+M=\iiint_\Omega\rho(x,y,z)\,\mathrm dv .
+$$
+
+当$f(x,y,z)\equiv1$时，$\iiint_\Omega\mathrm dv$等于区域$\Omega$的体积：
+
+$$
+\iiint_\Omega\mathrm dv=V .
+$$
+
+> [!NOTE]
+> 三重积分与二重积分只差区域维数和相应的元素。二重积分的线性性质、区域可加性、比较性质、估值定理和中值定理逐条照搬，只需把面积$A$换成体积$V$。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="单位立方体的体积"}
+
+被积函数为$1$时，$[0,1]^3$上的三重积分等于区域体积$1$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TripleBoxDemo />
+
+## 练习
+
+::problems{#triple-integral-definition}
+
+1. ::question{#cube-volume}
+
+   $\displaystyle\iiint_{[0,1]^3}\mathrm dv=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   被积函数为$1$时，三重积分的值等于区域体积。单位立方体的体积是$1$。
+   :::

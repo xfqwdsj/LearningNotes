@@ -1,0 +1,329 @@
+---
+title: 二维随机变量函数的分布
+description: 用分布函数法求$g(X,Y)$的分布，并给出和与卷积、最大值最小值、商与积以及一般二维变换的密度公式与适用条件。
+---
+
+import BinarySumDemo from "@/demos/binary-sum-demo";
+
+## 定义与分布函数法
+
+::section{#definition slot="knowledge.definition"}
+
+设$(X,Y)$是[二维联合分布函数](/knowledge/maths/probability/bivariate-random-variable/)，$g$是二元函数，$Z=g(X,Y)$。$Z$的分布函数为
+
+$$
+F_Z(z)=P\{Z\le z\}=P\{g(X,Y)\le z\},\qquad z\in\mathbb R.
+$$
+
+先求$F_Z$、再在可导处求导得到密度$f_Z$，这一方法称为**分布函数法**。按$(X,Y)$的类型，具体计算分两种：
+
+- **离散型**：设$p_{ij}=P\{X=x_i,\ Y=y_j\}$，则对满足条件的格子求和：
+  $$
+  F_Z(z)=\sum_{g(x_i,y_j)\le z}p_{ij}.
+  $$
+- **连续型**：设联合密度为$f(x,y)$（即对任意平面区域$D$，$P\{(X,Y)\in D\}=\iint_D f(x,y)\,\mathrm dx\,\mathrm dy$），则
+  $$
+  F_Z(z)=\iint_{D_z}f(x,y)\,\mathrm dx\,\mathrm dy,\qquad D_z=\{(x,y):g(x,y)\le z\},
+  $$
+  积分区域取$D_z$与联合密度支持集的交集。
+
+连续型求出$F_Z$后，在$F_Z$可导的区间内求导即可，分段点单独讨论。先确定$g(X,Y)$的取值范围，再写区域，能减少漏掉分段。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 和的分布与卷积
+
+对一般的连续型$(X,Y)$，不要求独立，由分布函数法
+
+$$
+F_{X+Y}(z)=\int_{-\infty}^{+\infty}\left(\int_{-\infty}^{z-x}f(x,y)\,\mathrm dy\right)\mathrm dx,
+$$
+
+对$z$求导得
+
+$$
+f_{X+Y}(z)=\int_{-\infty}^{+\infty}f(x,z-x)\,\mathrm dx.
+$$
+
+若 $X$ 与 $Y$ [相互独立](/knowledge/maths/probability/random-variable-independence/)，则 $f(x,z-x)=f_X(x)f_Y(z-x)$，上式成为**卷积公式**
+
+$$
+f_{X+Y}(z)=\int_{-\infty}^{+\infty}f_X(x)f_Y(z-x)\,\mathrm dx.
+$$
+
+离散型独立、取整数值时，相应地
+
+$$
+P\{X+Y=k\}=\sum_i P\{X=i\}P\{Y=k-i\}.
+$$
+
+> [!WARNING]
+> **卷积以独立为前提，积分限按支持集求交**
+>
+> 不独立时必须保留联合密度$f(x,z-x)$。即使是独立情形，卷积积分的上下限也应由$f_X(x)$与$f_Y(z-x)$同时非零的条件求交得到，不能一律写成$\pm\infty$。
+
+### 最大值与最小值
+
+设$X$与$Y$独立，$M=\max(X,Y)$，$m=\min(X,Y)$。“最大值不超过$z$”等价于两个变量都不超过$z$，所以
+
+$$
+F_M(z)=P\{X\le z,\ Y\le z\}=F_X(z)F_Y(z).
+$$
+
+“最小值大于$z$”等价于两个变量都大于$z$，所以
+
+$$
+F_m(z)=1-P\{X>z,\ Y>z\}=1-[1-F_X(z)][1-F_Y(z)].
+$$
+
+对$n$个独立同分布的连续型变量$X_1,\dots,X_n$，记$M=\max(X_1,\dots,X_n)$、$m=\min(X_1,\dots,X_n)$，公共分布函数为$F$、密度为$f$，则
+
+$$
+F_M(z)=F(z)^n,\qquad F_m(z)=1-[1-F(z)]^n,
+$$
+
+求导得
+
+$$
+f_M(z)=nF(z)^{n-1}f(z),\qquad f_m(z)=n[1-F(z)]^{n-1}f(z).
+$$
+
+> [!TIP]
+> **记忆方式**
+>
+> 最大值不超过$z$等于“全部不超过”，最小值大于$z$等于“全部大于”。两个公式都用独立性把交事件概率写成乘积；不独立时不能这样拆。
+
+### 商与积
+
+在存在联合密度的情形，设$f$为$(X,Y)$的联合密度。
+
+**积**：令$U=X$、$V=XY$，反变换为$x=u$、$y=v/u$，雅可比绝对值为$1/|u|$，于是
+
+$$
+f_{XY}(z)=\int_{-\infty}^{+\infty}\frac{1}{|x|}f\left(x,\frac{z}{x}\right)\mathrm dx,
+$$
+
+在$x\ne 0$处使用。**商**：令$U=Y$、$V=X/Y$，反变换为$x=uv$、$y=u$，雅可比绝对值为$|u|$，于是
+
+$$
+f_{X/Y}(z)=\int_{-\infty}^{+\infty}|y|f(zy,y)\,\mathrm dy.
+$$
+
+有联合密度时$P\{X=0\}=P\{Y=0\}=0$，排除这两个单点不影响积分；但两式的积分范围仍受支持集约束，不能直接取全体实数。
+
+### 一般二维变换
+
+设$(U,V)=T(X,Y)$是可逆的连续可微变换，反变换为$x=x(u,v)$、$y=y(u,v)$。则$(U,V)$的联合密度为
+
+$$
+f_{U,V}(u,v)=f\bigl(x(u,v),y(u,v)\bigr)\left|\frac{\partial(x,y)}{\partial(u,v)}\right|.
+$$
+
+使用这个公式要做三件事：
+
+1. 写出反变换，求出反变换的雅可比行列式并取绝对值；
+2. 把联合密度的支持区域按反变换改写到$(u,v)$平面上；
+3. 反变换不唯一时，把各分支的密度分别算出后相加。
+
+只求一个函数$Z=g(X,Y)$的分布时，先补一个辅助变量（例如取$U=X$或$U=Y$）使变换可逆，求出$(U,Z)$或$(Z,V)$的联合密度，再对辅助变量积分消去它。上面的积、商公式都是这种做法。
+
+> [!IMPORTANT]
+> **雅可比与支持区域同样重要**
+>
+> 密度公式必须用反变换的雅可比并取绝对值；直接使用正变换的雅可比会得到错误结果。只换公式而不换支持区域，积分限也会错。多值反变换漏掉分支，会丢掉一部分概率。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两个独立均匀变量之和"}
+
+设$X,Y$相互独立，都服从$U[0,1]$（区间上的均匀分布），则$f_X(x)=f_Y(x)=1$（$0<x<1$），其余为零。卷积的被积函数$f_X(x)f_Y(z-x)$非零要求$0<x<1$且$0<z-x<1$，即$z-1<x<z$。这个区间只在$0<z<2$时非空：
+
+- 当$0<z\le 1$时，$x\in(0,z)$，积分为$z$；
+- 当$1<z<2$时，$x\in(z-1,1)$，积分为$2-z$。
+
+所以
+
+$$
+f_{X+Y}(z)=\begin{cases}
+z, & 0<z\le 1,\\
+2-z, & 1<z<2,\\
+0, & \text{其他}.
+\end{cases}
+$$
+
+密度在$z=1$处取峰值$1$，图像是三角形。
+
+:::
+
+:::example{title="独立均匀变量的最大值与最小值"}
+
+设$X,Y$相互独立，都服从$U[0,1]$，则$F(z)=z$、$f(z)=1$（$0\le z\le 1$）。于是
+
+$$
+F_M(z)=z^2,\quad f_M(z)=2z;\qquad
+F_m(z)=1-(1-z)^2,\quad f_m(z)=2(1-z),
+$$
+
+密度只在$0<z<1$内取上述表达式，其余位置为零；分布函数在$z<0$时为$0$，在$z>1$时为$1$。最大值偏向$1$附近，最小值偏向$0$附近。
+
+:::
+
+:::example{title="独立均匀变量之积"}
+
+设$X,Y$相互独立，都服从$U[0,1]$，求$Z=XY$的密度。由积的公式，
+
+$$
+f_Z(z)=\int_{-\infty}^{+\infty}\frac{1}{|x|}f(x)f\left(\frac{z}{x}\right)\mathrm dx.
+$$
+
+被积函数非零要求$0<x<1$且$0<z/x<1$，后者即$x>z$。所以对$0<z<1$，
+
+$$
+f_Z(z)=\int_z^1\frac{1}{x}\,\mathrm dx=-\ln z,
+$$
+
+其余位置为零。检验：$\int_0^1(-\ln z)\,\mathrm dz=1$。
+
+:::
+
+:::example{title="独立正态变量的和与差"}
+
+设$X,Y$相互独立，都服从标准正态分布，联合密度为
+
+$$
+f(x,y)=\frac{1}{2\pi}e^{-(x^2+y^2)/2}.
+$$
+
+令$U=X+Y$、$V=X-Y$，反变换为$x=\dfrac{u+v}{2}$、$y=\dfrac{u-v}{2}$，雅可比绝对值为$\dfrac12$。又$x^2+y^2=\dfrac{u^2+v^2}{2}$，所以
+
+$$
+f_{U,V}(u,v)=\frac{1}{4\pi}e^{-(u^2+v^2)/4}
+=\frac{1}{2\sqrt{\pi}}e^{-u^2/4}\cdot\frac{1}{2\sqrt{\pi}}e^{-v^2/4}.
+$$
+
+两个因子分别是$N(0,2)$（均值为$0$、方差为$2$的正态分布）的密度，因此$U$与$V$独立，且都服从$N(0,2)$。这说明在联合正态且两个方差相等的条件下，“和与差”可以独立；对一般的独立变量不能作此断言。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变两个独立零一变量的分布，比较它们的和取不同值的概率。
+
+<BinarySumDemo />
+
+## 练习
+
+::problems{#functions-of-bivariate-random-variables-practice}
+
+1. ::question{#uniform-sum-value}
+
+   设$X,Y$相互独立，都服从$U[0,1]$。$f_{X+Y}(1.5)=$ :blank{#uniform-sum type="number"}。
+
+   :::reference
+   ::correct{blank="uniform-sum" value="0.5"}
+
+   $1.5\in(1,2)$，用第二段$2-z=2-1.5=0.5$。
+   :::
+
+2. ::question{#unequal-intervals}
+
+   设$X\sim U[0,2]$，$Y\sim U[0,1]$，且$X$与$Y$独立。$f_{X+Y}(2.5)=$ :blank{#unequal-sum type="number"}。
+
+   :::reference
+   ::correct{blank="unequal-sum" value="0.25"}
+
+   $f_X(x)=\dfrac12$（$0<x<2$），$f_Y(y)=1$（$0<y<1$）。非零条件为$0<x<2$与$1.5<x<2.5$，交集为$(1.5,2)$，所以积分为$\dfrac12\times(2-1.5)=0.25$。
+   :::
+
+3. ::question{#max-min}
+
+   设$X,Y$相互独立，都服从$U[0,1]$，$M=\max(X,Y)$，$m=\min(X,Y)$。
+
+   1. ::part{#max-half}
+
+      $P\{M\le 0.5\}=$ :blank{#max-value type="number"}。
+
+      :::reference
+      ::correct{blank="max-value" value="0.25"}
+
+      $P\{M\le 0.5\}=F(0.5)^2=0.5^2=0.25$。
+      :::
+
+   2. ::part{#min-half}
+
+      $P\{m\le 0.5\}=$ :blank{#min-value type="number"}。
+
+      :::reference
+      ::correct{blank="min-value" value="0.75"}
+
+      $P\{m\le 0.5\}=1-P\{m>0.5\}=1-(1-0.5)^2=0.75$。
+      :::
+
+   3. ::part{#max-density}
+
+      $f_M(0.5)=$ :blank{#max-density type="number"}。
+
+      :::reference
+      ::correct{blank="max-density" value="1"}
+
+      $f_M(z)=2z$，代入$z=0.5$得$1$。
+      :::
+
+4. ::question{#product-density}
+
+   设$X,Y$相互独立，都服从$U[0,1]$，$Z=XY$。$f_Z(0.25)=$ :blank{#product-value type="number"}（保留三位小数）。
+
+   :::reference
+   ::correct{blank="product-value" value="1.386" tolerance="0.001"}
+
+   $f_Z(z)=-\ln z$，所以$f_Z(0.25)=-\ln 0.25=\ln 4\approx 1.386$。
+   :::
+
+5. ::question{#jacobian}
+
+   设$U=X+Y$，$V=X-Y$。反变换的雅可比绝对值$\left|\dfrac{\partial(x,y)}{\partial(u,v)}\right|=$ :blank{#jacobian-value type="number"}。
+
+   :::reference
+   ::correct{blank="jacobian-value" value="0.5"}
+
+   $x=\dfrac{u+v}{2}$、$y=\dfrac{u-v}{2}$，雅可比行列式为$-\dfrac12$，取绝对值得$\dfrac12$。
+   :::
+
+6. ::question{#exponential-quotient}
+
+   设$X,Y$相互独立，都服从参数为$1$的指数分布，密度为$e^{-x}$（$x>0$）。$f_{X/Y}(1)=$ :blank{#quotient-value type="number"}。
+
+   :::reference
+   ::correct{blank="quotient-value" value="0.25"}
+
+   $f_{X/Y}(z)=\int_0^{+\infty}|y|e^{-zy}e^{-y}\,\mathrm dy=\int_0^{+\infty}ye^{-(z+1)y}\,\mathrm dy=\dfrac{1}{(z+1)^2}$。代入$z=1$得$\dfrac14=0.25$。
+   :::
+
+7. ::question{#method-claims}
+
+   关于二维随机变量函数的分布，下列说法正确的是
+
+   :::choices{#method-choice mode="multiple"}
+   - :option[A]{#a} 卷积公式在$X$与$Y$不独立时仍然成立
+   - :option[B]{#b} 若$X$与$Y$不独立，$F_M(z)=F_X(z)F_Y(z)$仍成立
+   - :option[C]{#c} 连续型可以先求$F_Z$，再求导得$f_Z$
+   - :option[D]{#d} 可逆变换的密度公式使用正变换的雅可比$\dfrac{\partial(u,v)}{\partial(x,y)}$
+   - :option[E]{#e} 商与积的密度公式的积分范围仍受联合支持集限制
+   :::
+
+   :::reference
+   ::correct{option="c"}
+   ::correct{option="e"}
+
+   $A$、$B$都依赖独立性，不独立时不能把联合密度或交事件概率拆成乘积；$D$应使用反变换的雅可比并取绝对值。
+   :::
+
+8. ::question{#multi-branch}
+
+   说明反变换不唯一时，为什么要把各分支的密度分别计算后相加。

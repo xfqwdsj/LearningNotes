@@ -1,0 +1,106 @@
+---
+title: C格式化输入
+description: 理解scanf的地址参数、空白处理和返回值。
+---
+
+import CScanfSpaceDemo from "@/demos/c-scanf-space-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+`scanf`按格式串解析标准输入，并通过指针把转换结果写入对象。例如`scanf("%d", &n)`将整数写入`int n`。格式说明与指针所指向的类型必须匹配，否则行为未定义。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+`%d`需要`int *`，`%f`需要`float *`，`%lf`需要`double *`。字符数组作为实参时通常转换为首元素指针，例如`char word[16]`可传`word`。用`%15s`最多读取15个字符，并为结尾的`\0`留出空间；不限制宽度可能导致数组越界。
+
+大多数转换会跳过前导空白；`%c`、`%[`和`%n`是例外。格式串中的空白会匹配任意多个输入空白，因此`" %c"`会先跳过空白再读取一个字符。`%s`在空白处停止；需要读取一整行时可使用`fgets`。
+
+返回值是成功赋值的项数。例如`scanf("%d %d", &a, &b)`在输入`12 abc`时返回1。在第一次成功转换或匹配失败之前发生输入失败，返回`EOF`。应按期望的赋值数检查返回值。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="`%c`读到上一行留下的换行"}
+
+```c title="char-input.c"
+#include <stdio.h>
+
+int main(void) {
+    int n;
+    char ch;
+
+    scanf("%d", &n);        /* 输入42后按回车，换行留在缓冲区 */
+    scanf("%c", &ch);       /* 读到的是 '\n' */
+    printf("n=%d ch=[%c]\n", n, ch);
+
+    scanf(" %c", &ch);      /* 格式串开头的空格跳过空白 */
+    printf("ch=[%c]\n", ch);
+    return 0;
+}
+```
+
+第一次`printf`会打印出一个空行，因为`ch`是换行符；在`%c`前加一个空格后，才能读到缓冲区里真正等待的那个字符。
+
+:::
+
+:::example{title="用返回值判断读取是否成功"}
+
+```c title="scanf-return.c"
+#include <stdio.h>
+
+int main(void) {
+    int n;
+    if (scanf("%d", &n) != 1) {
+        printf("没有读到整数\n");
+        return 1;
+    }
+    printf("n = %d\n", n);
+    return 0;
+}
+```
+
+输入`abc`时`scanf`返回0，输入`42`时返回1，输入为空（文件结束）时返回`EOF`。若只判断`!= 0`，返回`EOF`时也会被误当成读取成功。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CScanfSpaceDemo />
+
+## 练习
+
+::problems{#c-scanf-practice}
+
+1. ::question{#scanf-return}
+
+   输入为`12 abc`时，执行`scanf("%d %d", &a, &b)`的返回值是 :blank{#ret type="number"}。
+
+   :::reference
+   ::correct{blank="ret" value="1"}
+
+   只有第一个整数转换成功，第二个转换遇到`abc`失败，函数返回成功赋值的项数1。
+   :::
+
+2. ::question{#double-specifier}
+
+   要把输入读进`double`变量`d`，正确的写法是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `scanf("%lf", &d);`
+   - :option[B]{#b} `scanf("%f", &d);`
+   - :option[C]{#c} `scanf("%f", d);`
+   - :option[D]{#d} `scanf("%lf", d);`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `double`在`scanf`中要用`%lf`，并且必须传地址`&d`；`%f`需要`float *`；传入不匹配的指针类型或漏写`&`都会导致未定义行为。
+   :::

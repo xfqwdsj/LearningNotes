@@ -1,0 +1,44 @@
+---
+title: 4.2换元积分法
+description: 记录两类换元的分工、教材例题顺序与常见错误，方法与例题见知识点页面。
+---
+
+## 阅读入口
+
+- [换元积分法](/knowledge/maths/integrals/integration-by-substitution/)
+
+## 两类换元
+
+::knowledge{path="maths/integrals/integration-by-substitution" slot="definition"}
+
+两类的依据都是链式法则，区别只在换元方向；“重点与易错点”里第二类换元的漏乘与回代，都针对这个分工。
+
+## 第二类换元与三角代换
+
+::include{src="/knowledge/maths/integrals/integration-by-substitution/" section="second-type"}
+
+三角代换的难点是$t$的范围决定开根号后的符号；“课程约定”补充选范围的理由。
+
+## 学习安排
+
+教材先讲第一类换元法（凑微分），再讲第二类换元法（代换）。第一类是复合函数求导的逆用，重点在把$\varphi'(x)\,\mathrm{d}x$认成$\mathrm{d}\varphi(x)$；第二类主动设置$x=\psi(t)$，重点在选对代换并在最后回代。
+
+例题顺序是：先用$\int\cos(3x+2)\,\mathrm{d}x$练线性替换，再用$\int\frac{1}{\sqrt{4-x^{2}}}\,\mathrm{d}x$练三角代换。复习时先默写常见凑微分表，再独立完成三角代换；根式代换和万能代换放在后面，作为消除根式和有理化三角函数的备用手段。
+
+## 课程约定
+
+- 换元时$\mathrm{d}x$必须一起换，不能只替换被积函数中的$x$。
+- 第二类换元求出关于$t$的原函数后，必须用反函数代回$x$；答案不能留在$t$上。
+- 三角代换的$t$范围要使开根号后的符号确定；范围不同，绝对值处理也不同。
+
+## 重点与易错点
+
+- 凑微分只差常数因子时，在积分号外补上倒数；在$\mathrm{d}$内加减常数不影响结果。
+- 第二类换元容易漏乘$\psi'(t)$，也容易忘记回代。
+- 三角代换开根号得到的是绝对值，必须按$t$的范围判断符号。例如$\sqrt{4-x^{2}}=2\lvert\cos t\rvert$，取$t\in\left(-\frac{\pi}{2},\frac{\pi}{2}\right)$后才能写成$2\cos t$。
+- 根式代换令$u=\sqrt[n]{ax+b}$后，$\mathrm{d}x=\frac{n}{a}u^{n-1}\,\mathrm{d}u$，不要漏掉$\frac{1}{a}$。
+- 万能代换计算量较大，只有当被积函数是$\sin x$、$\cos x$的有理式且其它方法不便使用时才选。
+
+## 复习提醒
+
+复习时独立写出两类换元的公式和适用条件，再核对第二类换元的回代与三角代换的范围。
