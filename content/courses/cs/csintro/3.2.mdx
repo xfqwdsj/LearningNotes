@@ -1,0 +1,45 @@
+---
+title: 3.2&#32;CPU中的核心部件与Simple-MIPS指令（1）
+description: 记录CPU部件与数据传送指令在本章的阅读顺序、教材的符号约定和读指令时的检查方法。
+---
+
+## 阅读入口
+
+- [CPU的核心部件](/knowledge/cs/computer-architecture/cpu-components/)
+- [Simple-MIPS教学指令集](/knowledge/cs/computer-architecture/simple-mips/)
+
+## 各部件的职责
+
+::knowledge{path="cs/computer-architecture/cpu-components" slot="properties"}
+
+读这几段时先记每个部件保存什么：PC存地址，IR存当前这条指令，寄存器组给ALU送数。有了这张对照表，下面读指令的写法就不必来回翻页。
+
+## 操作数与指令形式
+
+::knowledge{path="cs/computer-architecture/simple-mips" slot="definition"}
+
+`操作码 目标, 源1, 源2`是本节所有指令的共同形式，`$rd`、`$rs`、`$rt`的角色由这张表固定。3.3的控制流指令继续使用同一套记号，两节可以对照着读。
+
+## 学习安排
+
+教材先拆开CPU的内部部件，再引入指令，因为读一条指令时必须知道每个操作数落在哪个部件：PC提供地址，IR暂存指令，寄存器组给ALU送数，load/store把寄存器与内存连起来。按这个顺序读，部件表不是要背的清单，而是读指令时的对照表。
+
+- 3.2只讲数据传送、算术和移位指令，控制流指令留到3.3；两节合起来才能写出循环。
+- 教材的示例主要用`$t0`、`$t1`、`$t2`和`$s1`；读例子时先认寄存器编号，再看操作码。
+- 本节聚焦汇编写法和每条指令的语义；指令字段的划分回到CPU部件页对照即可。
+
+## 课程约定
+
+- Simple-MIPS是教学指令集，名称与真实MIPS有差异：教学集写`mov`、`shiftl`、`shiftr`，标准汇编分别写`move`、`sll`、`srl`。作业按题目采用的指令集作答。
+- 访存一律写成`offset($rs)`，读题时先分清哪一个是基址、哪一个是偏移，不要漏掉括号。
+- PC和地址都按字节计：一条指令4字节，顺序执行时下一条是当前地址加4，不要写成加1。
+
+## 易错点
+
+- 真实MIPS没有独立的`mov`，但Simple-MIPS把复制当作基本指令；不要把“真实MIPS没有”当成“Simple-MIPS不能用”。
+- 逻辑右移`srl`左侧补0，只有对非负整数才等同于除以$2^{shamt}$后向下取整；不要拿它处理带符号数的除法。
+- `sll`、`srl`的`shamt`取0–31。
+
+## 读指令的检查顺序
+
+拿到一条指令，先看它是否访问内存：`lw`和`sw`读写内存，其余指令只改寄存器或PC。再看三个寄存器分别站在`rd`、`rs`、`rt`的哪个位置，最后才代数值计算。这个顺序能避免把`rs`和`rt`的角色对调。

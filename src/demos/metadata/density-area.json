@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "密度高度和区间概率有什么区别？",
+      "description": "比较密度曲线上的高度和区间下的面积。",
+      "messages": {
+        "label": "密度与区间概率",
+        "intro": "$f(x)=2x$，支持区间为$[0,1]$。改变右边界，阴影是从零到该位置的概率面积。",
+        "boundary": "右边界$a$",
+        "diagram": "阴影面积为{probability}",
+        "result": "边界处密度为{height}，区间概率为{probability}；密度高度不是单点概率。"
+      },
+      "tags": ["概率论", "概率密度"]
+    }
+  }
+}

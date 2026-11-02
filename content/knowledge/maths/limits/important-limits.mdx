@@ -1,0 +1,95 @@
+---
+title: 正弦的重要极限
+description: 正弦的重要极限的结构、应用与证明。
+---
+
+import SineLimitDemo from "@/demos/sine-limit-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+当$x$以弧度表示并趋近$0$时，$\lim_{x\to0}\dfrac{\sin x}{x}=1$。这里极限只考察$x\ne0$的取值。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+1. 极限类型：$\dfrac{0}{0}$型。$x\to 0$时，分子$\sin x\to 0$，分母$x\to 0$。
+2. 结构要求：分子是分母对应的正弦函数，即$\lim_{\square \to 0}\dfrac{\sin\square}{\square}=1$，其中$\square$是同一个变量或表达式，且$\square\to 0$。
+
+**应用场景**
+
+- 直接套用：表达式符合$\dfrac{\sin\text{某式}}{\text{某式}}$且某式趋于$0$时，结果为$1$。例如$\lim_{x \to 0}\dfrac{\sin 2x}{2x}=1$（令$\square=2x$，$x\to 0$时$2x\to 0$）。
+- 变形后套用：分子分母的$\square$不一致时，先通过凑项、调整系数把结构补成一致。例如
+
+  $$
+  \lim_{x \to 0}\frac{\sin 3x}{x}
+  =3\lim_{x \to 0}\frac{\sin 3x}{3x}
+  =3\times 1=3.
+  $$
+
+  这里提取系数$3$，把分母凑成$3x$，结构才与模板一致。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+当$0<x<\dfrac{\pi}{2}$时，比较单位圆中三角形、扇形与三角形的面积，可得
+
+$$
+\sin x<x<\tan x.
+$$
+
+三边都为正，除以$\sin x$得
+
+$$
+1<\frac{x}{\sin x}<\frac{1}{\cos x},
+$$
+
+即$\cos x<\dfrac{\sin x}{x}<1$。由$\lim_{x \to 0^+}\cos x=1$和夹逼定理，右极限为$1$。又因为$\dfrac{\sin x}{x}$是偶函数，左极限也等于$1$，所以$\lim_{x \to 0}\dfrac{\sin x}{x}=1$。夹逼定理的表述见[极限的四则运算与比较法则](/knowledge/maths/limits/limit-laws/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用第一个重要极限处理$1-\cos x$"}
+先用半角公式把$1-\cos x$写成平方，再凑出$\dfrac{\sin\square}{\square}$的结构：
+
+$$
+\lim_{x \to 0}\frac{1-\cos x}{x^2}
+=\lim_{x \to 0}\frac{2\sin^2(x/2)}{x^2}
+=\frac{1}{2}\lim_{x \to 0}\left(\frac{\sin(x/2)}{x/2}\right)^2
+=\frac{1}{2}.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SineLimitDemo />
+
+## 练习
+
+::problems{#sine-limit-practice}
+
+1. ::question{#sin-five}
+
+   $\lim_{x \to 0}\dfrac{\sin 5x}{x}=$ :blank{#sin-five-value type="number"}。
+
+   :::reference
+   ::correct{blank="sin-five-value" value="5"}
+
+   提出系数：$\dfrac{\sin 5x}{x}=5\cdot\dfrac{\sin 5x}{5x}\to 5$。
+   :::
+
+2. ::question{#sin-over-two}
+
+   $\lim_{x \to 0}\dfrac{\sin 3x}{2x}=$ :blank{#sin-over-two-value type="number"}。
+
+   :::reference
+   ::correct{blank="sin-over-two-value" value="1.5"}
+
+   $\dfrac{\sin 3x}{2x}=\dfrac{3}{2}\cdot\dfrac{\sin 3x}{3x}\to\dfrac{3}{2}$。
+   :::

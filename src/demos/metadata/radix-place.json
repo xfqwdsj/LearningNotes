@@ -1,0 +1,20 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "同一个整数怎样用不同进制表示？",
+      "description": "改变整数和进制，查看各数位及其位权。",
+      "messages": {
+        "label": "进制与位权",
+        "intro": "选择一个整数和进制。每个格子下方是数位，上方表示该位的权；不同写法对应同一个数值。",
+        "value": "十进制整数",
+        "base": "选择进制",
+        "baseChoice": "{base}进制",
+        "place": "{base}的{power}次方",
+        "diagram": "{base}进制的数位为{digits}",
+        "result": "十进制{value}写成{base}进制是{digits}。"
+      },
+      "tags": ["二进制", "进制"]
+    }
+  }
+}

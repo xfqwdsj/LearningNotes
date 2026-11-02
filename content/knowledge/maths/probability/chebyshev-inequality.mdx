@@ -1,0 +1,89 @@
+---
+title: 切比雪夫不等式
+description: 用有限方差给出随机变量偏离均值的概率上界。
+---
+
+import ChebyshevBoundDemo from "@/demos/chebyshev-bound-demo";
+
+## 定理
+
+::section{#definition slot="knowledge.definition"}
+
+只要$D(X)$有限，对任意$\varepsilon>0$，
+
+$$
+P\{|X-E(X)|\ge\varepsilon\}\le\frac{D(X)}{\varepsilon^2}.
+$$
+
+等价地，
+
+$$
+P\{|X-E(X)|<\varepsilon\}\ge1-\frac{D(X)}{\varepsilon^2}.
+$$
+
+若右端为负，只能说概率不小于$0$，此时得到的是平凡下界。
+
+:::proof
+记$A=\{|X-E(X)|\ge\varepsilon\}$，$I_A$是$A$的指示变量，$\mu=E(X)$。在$A$上$\frac{(X-\mu)^2}{\varepsilon^2}\ge1$，在$A$外这个比值非负，所以处处有
+
+$$
+I_A\le\frac{(X-\mu)^2}{\varepsilon^2}.
+$$
+
+两边取期望，左边是$P(A)$，右边是$\frac{D(X)}{\varepsilon^2}$，即得结论。
+:::
+
+> [!NOTE]
+> **界宽但通用**
+>
+> 切比雪夫不等式不要求知道具体分布，代价是界通常偏宽。已知具体分布时可以直接计算概率；当分布未知、只掌握均值和方差，或需要证明统一的概率界时，这个不等式尤其有用。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="掷一枚均匀骰子：切比雪夫界有多宽"}
+
+设$X$为骰子点数，$E(X)=\dfrac{7}{2}$，且
+
+$$
+E(X^2)=\frac{1+4+9+16+25+36}{6}=\frac{91}{6},
+$$
+
+所以
+
+$$
+D(X)=\frac{91}{6}-\frac{49}{4}=\frac{35}{12}.
+$$
+
+取$\varepsilon=2$，切比雪夫不等式给出
+
+$$
+P\{|X-3.5|\ge2\}\le\frac{35/12}{4}=\frac{35}{48}\approx0.729.
+$$
+
+实际满足$|X-3.5|\ge2$的只有$X=1$与$X=6$，概率为$\dfrac13$。界确实成立，但比真实概率宽得多。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对均匀取$0$或$1$的随机变量，改变偏离阈值，比较真实概率与上界。为便于比较，演示将超过$1$的上界截为$1$。
+
+<ChebyshevBoundDemo />
+
+## 练习
+
+::problems{#chebyshev-practice}
+
+1. ::question{#chebyshev-bound}
+
+   设$D(X)=2$，用切比雪夫不等式估计$P\{|X-E(X)|\ge2\}$，得到的上界是:blank{#chebyshev-value type="number"}。
+
+   :::reference
+   ::correct{blank="chebyshev-value" value="0.5"}
+
+   代入$P\{|X-E(X)|\ge\varepsilon\}\le\dfrac{D(X)}{\varepsilon^2}$，得$\dfrac{2}{2^2}=0.5$。
+   :::

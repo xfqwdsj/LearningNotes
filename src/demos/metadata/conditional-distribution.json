@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "固定不同的条件值，分布怎样变化？",
+      "description": "对两个零一变量，比较给定不同条件时的条件分布。",
+      "messages": {
+        "label": "零一变量的条件分布",
+        "intro": "设$P(X=1)=0.4$，$P(Y=1\\mid X=0)=0.3$。改变另一组发生率，选择给定$Y=0$或$Y=1$后观察$X$的分布。",
+        "rate": "$P(Y=1\\mid X=1)$",
+        "condition": "给定的$Y$",
+        "diagram": "条件下取零概率为{zero}，取一概率为{one}",
+        "result": "给定$Y={condition}$，$X=0$的概率为{zero}，$X=1$的概率为{one}。"
+      },
+      "tags": ["概率论", "条件分布"]
+    }
+  }
+}

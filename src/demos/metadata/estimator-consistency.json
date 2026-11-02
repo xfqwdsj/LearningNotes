@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "样本最大值如何接近总体上界？",
+      "description": "查看误差超过给定阈值的理论概率。",
+      "messages": {
+        "label": "样本最大值的相合性",
+        "intro": "独立样本来自$U[0,1]$，用样本最大值估计上界$1$。调整样本量与误差阈值，查看精确概率。",
+        "graphNote": "曲线表示固定当前阈值时，误差达到阈值的概率如何随样本量变化；点标出当前样本量。",
+        "graphLabel": "误差阈值为{epsilon}，样本量为{n}时概率为{probability}。",
+        "n": "样本量$n$",
+        "epsilon": "误差阈值$\\varepsilon$",
+        "result": "误差至少为$\\varepsilon$的概率为{probability}；对每个固定的正阈值，该概率随样本量增大趋于0。"
+      },
+      "tags": ["统计推断", "相合性"]
+    }
+  }
+}

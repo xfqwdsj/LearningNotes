@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "指针加一，地址增加多少？",
+      "description": "沿数组移动指针，观察元素索引、地址和尾后位置。",
+      "messages": {
+        "label": "C指针算术演示",
+        "intro": "本示例约定`sizeof(int)`的值为`4`，数组起始地址为`0x1000`，含四个元素。地址是教学模型，不是运行时真实地址。",
+        "offset": "相对起点的元素偏移",
+        "diagram": "指针偏移{index}个元素，地址`{address}`",
+        "boundary": "尾后",
+        "result": "`p+{index}`指向地址`{address}`，可读取的元素值为`{value}`。一次偏移按元素大小计算。",
+        "onePast": "地址`{address}`是合法的尾后位置，可用于比较，但不能解引用。"
+      },
+      "tags": ["C语言", "指针", "数组"]
+    }
+  }
+}

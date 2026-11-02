@@ -1,0 +1,309 @@
+---
+title: 随机变量的独立性
+description: 用联合分布函数、分布律与概率密度判定两个随机变量是否独立，并说明密度分解、独立变量的函数以及与不相关的关系。
+---
+
+import IndependentVariablesDemo from "@/demos/independent-variables-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$(X,Y)$是二维随机变量，联合分布函数为$F(x,y)=P\{X\le x,\ Y\le y\}$，两个边缘分布函数分别为$F_X(x)=P\{X\le x\}$与$F_Y(y)=P\{Y\le y\}$。若对任意实数$x,y$都有
+
+$$
+F(x,y)=F_X(x)F_Y(y),
+$$
+
+则称$X$与$Y$ **相互独立**。
+
+分布函数等式等价于：对任意可测集合$A,B$，
+
+$$
+P\{X\in A,\ Y\in B\}=P\{X\in A\}P\{Y\in B\}.
+$$
+
+按随机变量的类型，判定式可以写成下面的形式：
+
+| 类型 | 记号 | 判定式 |
+| :--- | :--- | :--- |
+| 离散型 | 联合分布律$p_{ij}=P\{X=x_i,\ Y=y_j\}$，边缘分布律$p_{i\cdot}=\sum_j p_{ij}$、$p_{\cdot j}=\sum_i p_{ij}$ | 对所有$i,j$，$p_{ij}=p_{i\cdot}p_{\cdot j}$ |
+| 连续型 | 联合密度$f(x,y)$，边缘密度$f_X(x)=\int_{-\infty}^{+\infty}f(x,y)\,\mathrm dy$、$f_Y(y)=\int_{-\infty}^{+\infty}f(x,y)\,\mathrm dx$ | $f(x,y)=f_X(x)f_Y(y)$几乎处处成立 |
+
+表中连续型的联合密度指满足$P\{(X,Y)\in D\}=\iint_D f(x,y)\,\mathrm dx\,\mathrm dy$的非负函数，$D$为任意平面区域。联合分布与边缘分布的完整讨论分别见[二维联合分布函数](/knowledge/maths/probability/bivariate-random-variable/)和[边缘分布](/knowledge/maths/probability/marginal-distribution/)。
+
+> [!IMPORTANT]
+> **两个方向的工作量不对称**
+>
+> 证独立要检查所有取值：离散型要覆盖全部$i,j$，连续型要验证几乎处处的密度等式。证不独立只需找到一处失败，例如某个$i,j$使分布律的乘法关系不成立，或某个有正面积的区域上联合密度与边缘密度之积不相等。
+
+### 多个随机变量的相互独立
+
+$X_1,\ldots,X_n$ **相互独立**，当且仅当对任意$(x_1,\ldots,x_n)\in\mathbb R^n$都有
+
+$$
+F(x_1,\ldots,x_n)=\prod_{i=1}^{n}F_i(x_i).
+$$
+
+连续型相应地要求
+
+$$
+f(x_1,\ldots,x_n)=\prod_{i=1}^{n}f_i(x_i)
+$$
+
+几乎处处成立；离散型要求每个格点的联合分布律等于各边缘分布律之积。取$n=2$就是两个随机变量相互独立的定义。
+
+> [!WARNING]
+> **两两独立不够**
+>
+> 两两独立只要求任意两个分量满足乘法关系，它推不出相互独立。涉及多个变量的乘积分解、卷积或样本联合密度时，都要先确认相互独立这个更强的条件，反例见下方例子。
+
+
+## 性质与判定
+
+::section{#properties slot="knowledge.properties"}
+
+### 密度分解与支持区域
+
+若联合密度在全平面上能写成两个非负函数的乘积
+
+$$
+f(x,y)=g(x)h(y),
+$$
+
+且$g,h$在全平面上的积分都是有限正数，则$X$与$Y$独立。事实上，由$\iint f(x,y)\,\mathrm dx\,\mathrm dy=1$得$\left(\int g\right)\left(\int h\right)=1$，而
+
+$$
+f_X(x)=g(x)\int_{-\infty}^{+\infty}h(y)\,\mathrm dy,\qquad
+f_Y(y)=h(y)\int_{-\infty}^{+\infty}g(x)\,\mathrm dx,
+$$
+
+两式相乘恰好等于$g(x)h(y)=f(x,y)$。
+
+反过来，独立时联合密度几乎处处等于$f_X(x)f_Y(y)$，所以判定时只需检查这种乘积形式。
+
+> [!WARNING]
+> **支持区域也要能分离**
+>
+> 不能只看非零区域内的公式能否分解，还要看支持区域（密度为正的区域）的限制是否也能分离。若支持区域不能写成两个集合的乘积（允许相差一个零测集），即使公式在非零区域内可以分解，也不足以推出独立。
+
+### 独立变量的函数仍独立
+
+若$X$与$Y$独立，则对任意函数$g,h$，$g(X)$与$h(Y)$也独立。这是因为$\{g(X)\in A\}$与$\{h(Y)\in B\}$分别是$\{X\in g^{-1}(A)\}$与$\{Y\in h^{-1}(B)\}$，代回独立性的集合形式即可。
+
+更一般地，相互独立的变量分成两组、且两组互不重叠时，每组变量构成的函数仍相互独立。例如$X_1,X_2,X_3,X_4$相互独立，则$X_1+X_2$与$X_3X_4$独立。
+
+> [!WARNING]
+> **共享变量的函数未必独立**
+>
+> 即使$X$与$Y$独立，$X+Y$与$X-Y$都由这两个变量共同决定，不能直接断言它们独立。一般要回到联合分布重新判断，只有联合正态等额外条件成立时才能由不相关推出独立。
+
+### 独立与不相关
+
+当$X,Y$的二阶矩都存在时，记
+
+$$
+\operatorname{Cov}(X,Y)=E\bigl[(X-E(X))(Y-E(Y))\bigr].
+$$
+
+若$X$与$Y$独立，则
+
+$$
+E(XY)=E(X)E(Y),\qquad \operatorname{Cov}(X,Y)=0.
+$$
+
+以连续型为例，独立时$f=f_Xf_Y$，于是
+
+$$
+E(XY)=\iint xy\,f_X(x)f_Y(y)\,\mathrm dx\,\mathrm dy
+=\left(\int x f_X(x)\,\mathrm dx\right)\left(\int y f_Y(y)\,\mathrm dy\right)=E(X)E(Y).
+$$
+
+协方差为零称为$X$与$Y$ **不相关**；当两个方差都为正时，这也等价于相关系数为零。独立一定不相关，反方向一般不成立。
+
+取$X$在$[-1,1]$上均匀分布、$Y=X^2$，则$E(X)=0$、$E(XY)=E(X^3)=0$，所以$\operatorname{Cov}(X,Y)=0$；但$Y$完全由$X$决定，两者显然不独立。事件概率的验证见下面的例子。
+
+> [!TIP]
+> **联合正态是常用的例外**
+>
+> 若$(X,Y)$服从二维正态分布，则不相关与独立等价。仅有两个边缘都是正态分布还不够，必须要求$(X,Y)$联合正态。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="支持区域不能分离：$0<x<y<1$上的密度"}
+
+设
+
+$$
+f(x,y)=\begin{cases}2, & 0<x<y<1,\\ 0, & \text{其他}.\end{cases}
+$$
+
+先求边缘密度：
+
+$$
+f_X(x)=\int_x^1 2\,\mathrm dy=2(1-x),\quad 0<x<1,
+$$
+
+$$
+f_Y(y)=\int_0^y 2\,\mathrm dx=2y,\quad 0<y<1.
+$$
+
+在正方形$(0,1)^2$内$f_X(x)f_Y(y)=4y(1-x)>0$，而$f(x,y)$在$x>y$时为零。二者在正面积区域上不相等，所以$X$与$Y$不独立。
+
+联合密度在非零区域$0<x<y<1$内是常数$2$，形式上可以写成$2\cdot 1$这样的乘积，但这个分解不能延拓到整个正方形，问题正出在支持区域。
+
+:::
+
+:::example{title="不相关但不独立"}
+
+设$X\sim U[-1,1]$（区间上的均匀分布），$Y=X^2$。则$E(X)=0$、$E(Y)=E(X^2)=\dfrac13$，且
+
+$$
+E(XY)=E(X^3)=\int_{-1}^{1}\frac{x^3}{2}\,\mathrm dx=0,
+$$
+
+所以$\operatorname{Cov}(X,Y)=E(XY)-E(X)E(Y)=0$，两者不相关。
+
+但它们不独立：事件$\{0\le X\le \tfrac12\}$包含于$\{Y\le \tfrac14\}$，所以
+
+$$
+P\{0\le X\le \tfrac12,\ Y\le \tfrac14\}=\frac14,
+$$
+
+而$P\{0\le X\le \tfrac12\}P\{Y\le \tfrac14\}=\dfrac14\cdot\dfrac12=\dfrac18$，乘法关系不成立。
+
+:::
+
+:::example{title="两两独立但不相互独立"}
+
+抛两枚均匀硬币，记事件$A$为“第一枚正面”，$B$为“第二枚正面”，$C$为“两枚结果不同”。四个样本点等可能，三个事件的概率都是$\frac12$，任意两个的交事件只含一个样本点，概率都是$\frac14$，所以
+
+$$
+P(AB)=P(A)P(B),\qquad P(AC)=P(A)P(C),\qquad P(BC)=P(B)P(C),
+$$
+
+即$A$、$B$、$C$两两独立。但三个事件同时发生是空集，
+
+$$
+P(ABC)=0\ne\frac18=P(A)P(B)P(C),
+$$
+
+所以它们不相互独立。取$X=I_A$、$Y=I_B$、$Z=I_C$，就得到两两独立而不相互独立的三个随机变量。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对零一变量的联合表，比较一格联合概率与两个边缘概率之积。
+
+<IndependentVariablesDemo />
+
+## 练习
+
+::problems{#random-variable-independence-practice}
+
+1. ::question{#support-region}
+
+   设$f(x,y)=2$（$0<x<y<1$），其他位置为$0$。
+
+   1. ::part{#marginal-value}
+
+      $f_X\left(\dfrac12\right)=$ :blank{#marginal-x type="number"}。
+
+      :::reference
+      ::correct{blank="marginal-x" value="1"}
+
+      $f_X(x)=\int_x^1 2\,\mathrm dy=2(1-x)$，代入$x=\dfrac12$得$1$。
+      :::
+
+   2. ::part{#independent}
+
+      $X$与$Y$是否独立？
+
+      :::choices{#support-choice mode="single"}
+      - :option[A]{#a} 独立
+      - :option[B]{#b} 不独立
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      边缘密度之积为$4y(1-x)$，与联合密度在$x>y$的正面积区域上不一致，所以不独立。
+      :::
+
+2. ::question{#discrete-table}
+
+   设$(X,Y)$的联合分布律为
+
+   | $X\backslash Y$ | $0$ | $1$ |
+   | :--- | :--- | :--- |
+   | $0$ | $0.1$ | $0.4$ |
+   | $1$ | $0.3$ | $0.2$ |
+
+   1. ::part{#x-marginal}
+
+      $P\{X=0\}=$ :blank{#px0 type="number"}。
+
+      :::reference
+      ::correct{blank="px0" value="0.5"}
+
+      按行求和：$0.1+0.4=0.5$。
+      :::
+
+   2. ::part{#table-independent}
+
+      $X$与$Y$是否独立？
+
+      :::choices{#table-choice mode="single"}
+      - :option[A]{#a} 独立
+      - :option[B]{#b} 不独立
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      $P\{X=0\}P\{Y=0\}=0.5\times0.4=0.2$，而$P\{X=0,\ Y=0\}=0.1$，乘法关系不成立。
+      :::
+
+3. ::question{#functions-independent}
+
+   设$X_1,X_2,X_3,X_4$相互独立。以下哪些随机变量一定相互独立？
+
+   :::choices{#functions-choice mode="multiple"}
+   - :option[A]{#a} $X_1+X_2$与$X_3X_4$
+   - :option[B]{#b} $X_1+X_2$与$X_1-X_2$
+   - :option[C]{#c} $X_1$与$X_2+X_3$
+   - :option[D]{#d} $X_1X_2$与$X_1+X_3$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="c"}
+
+   $A$、$C$的两组变量互不重叠；$B$、$D$各自共享$X_1$，共享变量的函数不保证独立。
+   :::
+
+4. ::question{#joint-normal}
+
+   下列哪个条件能保证$X$与$Y$独立？
+
+   :::choices{#joint-normal-choice mode="single"}
+   - :option[A]{#a} $\operatorname{Cov}(X,Y)=0$
+   - :option[B]{#b} $E(XY)=E(X)E(Y)$
+   - :option[C]{#c} $(X,Y)$服从联合正态分布且$\operatorname{Cov}(X,Y)=0$
+   - :option[D]{#d} $X$与$Y$的边缘分布都是正态分布
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   $A$、$B$只说明不相关；$D$只约束两个边缘，联合分布仍可不同；只有联合正态时不相关才等价于独立。
+   :::
+
+5. ::question{#explain-density-factorization}
+
+   说明为什么“密度在非零区域的公式可以分解”不能作为独立的判定依据，并结合支持区域举例。

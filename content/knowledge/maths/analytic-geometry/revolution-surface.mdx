@@ -1,0 +1,92 @@
+---
+title: 旋转曲面
+description: 旋转曲面的定义、方程与几何特征。
+---
+
+import RevolutionSurfaceDemo from "@/demos/revolution-surface-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+一条平面曲线$C$绕它所在平面内的一条定直线$l$旋转一周，所生成的曲面称为**旋转曲面**，$l$称为旋转轴，$C$称为母线。
+
+设母线在$yOz$坐标面内，方程为
+
+$$
+f(y,z)=0 .
+$$
+
+曲面上任一点$M(x,y,z)$由母线上某点$M_1(0,y_1,z)$绕$z$轴旋转得到，两点到$z$轴的距离相等，即
+
+$$
+\sqrt{x^2+y^2}=\vert y_1\vert .
+$$
+
+因此把方程中的$y$换成$\pm\sqrt{x^2+y^2}$、$z$保持不变，就得到绕$z$轴旋转的曲面方程：
+
+$$
+f\bigl(\pm\sqrt{x^2+y^2},\,z\bigr)=0 .
+$$
+
+绕$y$轴旋转时，$y$不变，把$z$换成$\pm\sqrt{x^2+z^2}$：
+
+$$
+f\bigl(y,\,\pm\sqrt{x^2+z^2}\bigr)=0 .
+$$
+
+母线在别的坐标面内时，先把方程写成含旋转轴坐标的形式，再替换与旋转轴垂直的那个坐标。
+
+> [!TIP]
+> 绕哪根轴旋转，哪个变量就不动，另一个变量换成另外两个变量平方和的平方根。替换时应取正负分支所对应点集的并；能否平方消去符号取决于母线方程，还要检查原方程的约束，避免漏掉或引入点。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="母线$z=y^2$绕$z$轴旋转"}
+
+母线在$yOz$面内，方程写成$z-y^2=0$。绕$z$轴旋转时$z$不变，把$y$换成$\pm\sqrt{x^2+y^2}$：
+
+$$
+z-(x^2+y^2)=0,
+$$
+
+即
+
+$$
+z=x^2+y^2 .
+$$
+
+这是旋转抛物面。用$z=z_0\ge 0$去截，得到半径$\sqrt{z_0}$的圆，半径随$z_0$增大而增大，所以曲面越往上越宽。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<RevolutionSurfaceDemo />
+
+## 练习
+
+::problems{#revolution-surface-practice}
+
+1. ::question{#rotated-parabola}
+
+   母线$z=y^2$在$yOz$面内，绕$z$轴旋转所得曲面的方程是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $z=x^2+y^2$
+   - :option[B]{#b} $z=x^2-y^2$
+   - :option[C]{#c} $x^2+y^2=z^2$
+   - :option[D]{#d} $z^2=x^2+y^2$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   绕$z$轴旋转时$z$不变，把$y$换成$\pm\sqrt{x^2+y^2}$，平方后得$z=x^2+y^2$。
+   :::

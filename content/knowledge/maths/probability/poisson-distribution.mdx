@@ -1,0 +1,94 @@
+---
+title: 泊松分布
+description: 用参数刻画单位区间内的事件次数。
+---
+
+import PoissonCountDemo from "@/demos/poisson-count-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若随机变量$X$的概率为
+
+$$
+P(X=k)=e^{-\lambda}\frac{\lambda^k}{k!},\qquad k=0,1,2,\ldots,\quad \lambda>0,
+$$
+
+则称$X$服从参数为$\lambda$的泊松分布。它可用于符合泊松过程假设的固定时间或空间区间内的事件计数；仅仅观察到计数并不足以推出模型成立。
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+$E(X)=D(X)=\lambda$。若$n\to\infty$、$p\to0$且$np\to\lambda$，二项分布的每个固定取值的概率趋于对应的泊松概率。
+
+
+### 独立泊松变量之和
+
+若$X_i\sim P(\lambda_i)$相互独立，则$\sum_iX_i\sim P(\sum_i\lambda_i)$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="二项分布的泊松近似：$X\sim B(1000,0.002)$"}
+
+这里$n=1000$较大，$p=0.002$较小，$\lambda=np=2$适中，可以用$P(2)$近似。于是
+
+$$
+P\{X=0\}\approx e^{-2}\frac{2^0}{0!}=e^{-2}\approx 0.1353,
+$$
+
+$$
+P\{X\ge 1\}=1-P\{X=0\}\approx 1-e^{-2}\approx 0.8647.
+$$
+
+:::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变$\lambda$和次数$k$，查看点概率$P(X=k)$。
+
+<PoissonCountDemo />
+
+## 练习
+
+::problems{#practice}
+
+1. ::question{#poisson-conditions}
+
+   用泊松分布近似二项分布$B(n,p)$时，需要检查的条件包括
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $n$较大
+   - :option[B]{#b} $p$较小
+   - :option[C]{#c} $\lambda=np$适中
+   - :option[D]{#d} $n$与$p$都接近$1/2$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   泊松近似要求试验次数多、单次成功概率小，而$np$保持在可用泊松表的范围内；$p$接近$1/2$时二项分布接近对称，不适合用泊松分布近似。
+   :::
+
+2. ::question{#poisson-sum}
+
+   设$X\sim P(2)$，$Y\sim P(3)$，且$X$与$Y$相互独立。
+
+   1. ::part{#lambda}
+
+      $X+Y$服从参数为$\lambda$的泊松分布，$\lambda=$ :blank{#lambda-value type="number"}。
+
+      :::reference
+      ::correct{blank="lambda-value" value="5"}
+
+      独立泊松变量之和仍为泊松变量，参数相加：$\lambda=2+3=5$。
+      :::

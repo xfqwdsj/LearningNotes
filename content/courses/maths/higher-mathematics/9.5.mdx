@@ -1,0 +1,59 @@
+---
+title: 9.5&#32;隐函数的求导公式
+description: 记录三种隐函数存在定理的分类方式、课程记号与方程组情形的求解顺序。
+---
+## 阅读入口
+
+- [隐函数的求导公式](/knowledge/maths/multivariable-calculus/implicit-function-theorem/)
+- [隐函数求导](/knowledge/maths/derivatives/implicit-differentiation/)（一元情形的直接求导写法）
+- [全微分](/knowledge/maths/multivariable-calculus/total-differential/)（公式由全微分比较系数得到）
+- [偏导数](/knowledge/maths/multivariable-calculus/partial-derivative/)（$F_x$、$F_y$、$F_z$的记号）
+
+## 学习安排
+
+本节分成三个定理：一个方程确定一元函数、一个方程确定二元函数、方程组确定两个二元函数。前两个定理检查一个偏导数，第三个把条件换成雅可比行列式，求导也从解一个方程变成解一个线性方程组。第三个定理退化后给出前两个定理。
+
+复习时先按“未知函数有几个、自变量有几个”给题目分类，再对号入座，不要先背三个公式。考试中通常不必逐条验证定理条件，但要说明在哪个点附近、对哪个变量求偏导。
+
+## 隐函数的含义
+
+::knowledge{path="maths/multivariable-calculus/implicit-function-theorem" slot="definition"}
+
+## 一个方程确定一元函数
+
+::include{src="/knowledge/maths/multivariable-calculus/implicit-function-theorem/" section="one-variable"}
+
+一个自变量的情形看懂之后，把自变量增加到两个，条件与公式的分母跟着换。
+
+## 一个方程确定二元函数
+
+::include{src="/knowledge/maths/multivariable-calculus/implicit-function-theorem/" section="two-variables"}
+
+方程增加到两个、未知函数也增加到两个时，单个偏导数不够用，要换成行列式。
+
+## 方程组情形
+
+::include{src="/knowledge/maths/multivariable-calculus/implicit-function-theorem/" section="system"}
+
+三个定理到这里就齐了；课程约定按定理编号把它们重新排一遍。
+
+## 课程约定
+
+- 定理编号沿用教材：定理1、2、3分别对应一个方程一个自变量、一个方程两个自变量、方程组。
+- 导数写成$\dfrac{\mathrm{d}y}{\mathrm{d}x}$，偏导数写成$\dfrac{\partial z}{\partial x}$；$y$只依赖$x$时使用全导数记号。
+- 方程组情形固定一个自变量（先$x$后$y$），得到的是关于$\dfrac{\partial u}{\partial x}$、$\dfrac{\partial v}{\partial x}$的线性方程组，系数行列式就是雅可比行列式。
+- 公式中的偏导数一律在给定点处取值，最后要把坐标代进去。
+
+## 易错点
+
+- 不检查$F_y\ne0$或$J\ne0$就套公式。条件决定能不能把那个变量解出来，也决定分母是否为零。
+- 方程组情形把$\dfrac{\partial(F,G)}{\partial(x,v)}$的列写反。分子行列式按$J$的列顺序，把被求偏导的变量所在列换成对$x$的偏导列。
+- 漏掉$u_x$、$v_x$公式中的负号，或把$-\dfrac{1}{J}$写成$J$。两个公式都带$-\dfrac{1}{J}$。
+- 求完偏导数没有回代，答案里还留着$x,y,z$。
+- 把存在定理当成能求出显式表达式。定理只保证局部存在唯一，公式给出的是导数，不是函数本身。
+
+## 复习要点
+
+三种情形可以压成一句话：看要解出哪些变量，算它们对$F,G$的雅可比；行列式非零就能局部解出，导数用克莱姆法则再加负号。一元情形雅可比退化为$F_y$，二元情形退化为$F_z$。
+
+做方程组题时先算$J$，再写两个分子行列式，最后统一乘$-\dfrac{1}{J}$。符号错误多半出在最后一步。

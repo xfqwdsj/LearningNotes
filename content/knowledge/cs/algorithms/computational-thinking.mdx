@@ -1,0 +1,202 @@
+---
+title: 计算思维
+description: 从找假币和分解因数出发，说明如何把问题拆成有限、可执行、可评估代价的步骤。
+---
+
+计算思维把一个问题从“想清楚”推进到“能算”：先确定输入与输出，再拆出可以由有限步骤完成的子任务，最后比较不同做法的正确性与代价。本页用找假币和分解因数两个问题演示这条路径。递归的写法见[递归](/knowledge/cs/algorithms/recursion/)；把问题分成同型子问题、分别求解再合并的策略见[分治法](/knowledge/cs/algorithms/divide-and-conquer/)。
+
+import FakeCoinDemo from "@/demos/fake-coin-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**计算思维**是运用计算机科学的基础概念进行问题求解、系统设计以及人类行为理解等一系列思维活动。落到算法设计上，它通常包含四个方面：
+
+- **抽象**：忽略与目标无关的细节，保留决定答案的对象和关系。
+- **分解**：把大问题拆成若干可以独立处理的子问题。
+- **算法设计**：写出有限、确定、可执行的步骤，并说明何时停止。
+- **评估**：比较不同步骤序列的正确性与代价，例如比较次数、运行时间和额外空间。
+
+> [!NOTE]
+> 一段步骤要成为算法，需要满足三个条件：输入有明确的范围；每一步都可以执行；步骤数有限，并且对合法输入一定终止。只有“思路”还不能算算法。
+
+## 从问题到可计算步骤
+
+::section{#step-model slot="knowledge.properties"}
+
+把一个用自然语言描述的问题转成算法，可以按下面的顺序检查：
+
+:::steps
+
+1. **明确输入与输出**
+
+   写出输入的类型、范围和约束，以及要返回什么。找假币的输入是硬币重量列表，输出是假币的下标。
+
+2. **确定判定与终止条件**
+
+   说明什么情况下已经得到答案、可以停止。找假币在发现一对重量不同的硬币时立即返回，不需要扫描完整个列表。
+
+3. **选择分解方式**
+
+   可以按位置分、按规模分、按值分，也可以先处理一个局部再递归处理剩余部分。分解方式决定了子问题是否同型，以及是否需要合并。
+
+4. **评估代价**
+
+   数一数最坏情况下要做多少次基本操作。代价必须相对于允许的操作来计数：如果只允许比较两枚硬币的重量，一次扫描需要$n-1$次比较；如果换用天平、每次把候选分成三堆，代价就会不同。讨论复杂度之前先固定计算模型。
+
+5. **用边界情形检查**
+
+   至少检查最小规模、答案在首尾、没有答案这几类输入，确认程序不会越界或漏解。
+
+:::
+
+分解的粒度也影响实现：拆得太细会带来大量调用和合并开销，拆得太粗则子问题仍然难以直接求解。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="找假币：一次相邻比较"}
+
+设有$n\ge2$枚硬币，其中恰有一枚比真币轻。只允许比较两枚硬币的重量时，可以按相邻位置扫描：重量相等就继续前进，出现不等时较轻的那一枚就是假币。
+
+```python title="findcoin.py"
+def findcoin_1(L):
+    if len(L) <= 1:
+        print("Error: coins are too few")
+        quit()
+    i = 0
+    while i < len(L):
+        if L[i] < L[i + 1]:
+            return i
+        elif L[i] > L[i + 1]:
+            return i + 1
+        i = i + 1
+    print("All coins are the same")
+    return len(L)  # 正常输入不会到达这里
+
+
+import random
+
+n = int(input("Enter the number of coins >=2: "))
+w_normal = random.randint(2, 5)
+index_faked = random.randint(0, n - 1)  # 0 <= index <= n-1
+L = []
+for i in range(0, n):
+    L.append(w_normal)
+L[index_faked] = w_normal - 1
+print(L)
+print("The index of faked coin:", findcoin_1(L))
+```
+
+假币在最后一位时，前$n-2$对都相等，最后一次比较才会发现它，因此最坏情况需要$n-1$次比较。
+
+> [!WARNING]
+> 这段程序假设恰有一枚较轻的假币。若所有硬币等重，`i`会走到`len(L) - 1`并访问`L[len(L)]`，触发`IndexError`；末尾的`All coins are the same`分支实际上不可达。
+
+:::
+
+:::example{title="分解因数：每层把规模缩小到$\sqrt{x}$"}
+
+下面的函数找出$x$的所有素因数。若$x$是合数，它一定有一个不超过$\lfloor\sqrt{x}\rfloor$的因数；从小到大地试除，找到第一个因数$i$后，只需递归分解$x//i$，因为更小的因数已经不可能出现。
+
+```python title="factors.py"
+import math
+
+
+def factors(x, L):
+    y = int(math.sqrt(x))  # x的平方根
+    for i in range(2, y + 1):  # 从小到大找因数
+        if x % i == 0:  # 找到一个因数i
+            print(i)
+            L.append(i)
+            factors(x // i, L)  # 递归分解剩余部分
+            break  # 找到一个就跳出for循环
+    else:  # 找不到因数，x是素数
+        L.append(int(x))
+        print(int(x))
+
+
+L = []
+factors(18, L)
+```
+
+`for ... else`的`else`只在循环没有被`break`打断时执行，所以它正好对应“试除完毕仍没有因数”的情形。`factors(18, L)`依次输出`2`、`3`、`3`，结束后`L`为`[2, 3, 3]`。
+
+每层递归至少把$x$缩小一半，递归深度不超过$\log_2 x$；每层只试除到当前数的平方根，避免了对整个原数逐一试除。
+
+> [!CAUTION]
+> 该写法默认$x\ge2$。$x=1$时`range(2, 2)`为空，`else`分支会把1当作素数加入列表，需要另行处理。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择一枚较轻的硬币，按三等分策略逐次称量，观察每次结果如何缩小候选范围。
+
+<FakeCoinDemo />
+
+## 练习
+
+::problems{#computational-thinking-check}
+
+1. ::question{#fake-index}
+
+   设`L = [5, 5, 5, 4, 5]`，调用`findcoin_1(L)`返回的下标是:blank{#index type="number"}。
+
+   :::reference
+   ::correct{blank="index" value="3"}
+
+   前两对重量相等，`i`增加到2；此时`L[2] = 5`大于`L[3] = 4`，于是返回`3`。
+   :::
+
+2. ::question{#comparison-count}
+
+   有8枚硬币，假币比真币轻且位于最后一个位置。按`findcoin_1`的相邻比较方式，最坏情况下需要的比较次数是:blank{#count type="number"}。
+
+   :::reference
+   ::correct{blank="count" value="7"}
+
+   假币在最后一位时，前6对相等，第7次比较`L[6]`与`L[7]`才发现较轻的一枚，所以需要$8-1=7$次比较。
+   :::
+
+3. ::question{#computable-checks}
+
+   把一个自然语言描述的问题转成可计算步骤时，下列哪些属于必要的检查？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 明确输入的类型、范围与输出
+   - :option[B]{#b} 保证每一步可执行且步骤有限
+   - :option[C]{#c} 说明算法对合法输入一定终止
+   - :option[D]{#d} 先列出输入的所有具体数值
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   输入输出、可执行性和终止性都是算法的基本要求。具体数值只是某一次运行的实例，不能代替对输入范围的说明。
+   :::
+
+4. ::question{#factor-result}
+
+   执行`factors(18, L)`后，`L`的内容是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[2, 3, 3]`
+   - :option[B]{#b} `[2, 9]`
+   - :option[C]{#c} `[3, 3, 2]`
+   - :option[D]{#d} `[2, 2, 3]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   先找到因数`2`，剩余`9`；对`9`找到因数`3`，剩余`3`；`3`没有不超过$\sqrt{3}$的因数，作为素数加入，得到`[2, 3, 3]`。
+   :::

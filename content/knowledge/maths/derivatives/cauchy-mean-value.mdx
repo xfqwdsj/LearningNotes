@@ -1,0 +1,92 @@
+---
+title: 柯西中值定理
+description: 柯西中值定理的条件、结论与证明。
+---
+
+import CauchyMeanDemo from "@/demos/cauchy-mean-demo";
+
+## 定理
+
+::section{#definition slot="knowledge.definition"}
+
+若$f$与$g$满足
+
+1. 在闭区间$[a,b]$上连续；
+2. 在开区间$(a,b)$内可导；
+3. 对任意$x\in(a,b)$，$g'(x)\ne0$，
+
+则存在$\xi\in(a,b)$，使得
+
+$$
+\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(\xi)}{g'(\xi)}.
+$$
+
+把$x$看作参数，柯西中值定理就是参数方程$X=g(x)$、$Y=f(x)$所表示的曲线上的中值定理：曲线上至少存在一点，其切线斜率等于端点连线的斜率。
+
+> [!NOTE]
+> 条件3保证$g(b)\ne g(a)$，因此分母不为零。若$g(b)=g(a)$，对$g$用罗尔定理会得到某个内点处$g'=0$，与条件3矛盾。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+由条件3与罗尔定理，$g(b)\ne g(a)$：否则$g$在两端取值相等，罗尔定理将给出某个内点处$g'=0$。构造辅助函数
+
+$$
+F(x)=f(x)-f(a)-\frac{f(b)-f(a)}{g(b)-g(a)}\bigl(g(x)-g(a)\bigr).
+$$
+
+$F$满足罗尔定理的全部条件，且$F(a)=F(b)=0$。于是存在$\xi\in(a,b)$使
+
+$$
+F'(\xi)=f'(\xi)-\frac{f(b)-f(a)}{g(b)-g(a)}g'(\xi)=0.
+$$
+
+由$g'(\xi)\ne0$，把上式整理为
+
+$$
+\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(\xi)}{g'(\xi)}.
+$$
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="验证柯西中值定理：$f(x)=x^2$，$g(x)=x^3$在$[1,2]$上"}
+
+$f$与$g$在$[1,2]$上连续、在$(1,2)$内可导，且$g'(x)=3x^2>0$，满足$g'\ne0$。左端为
+
+$$
+\frac{f(2)-f(1)}{g(2)-g(1)}=\frac{4-1}{8-1}=\frac{3}{7},
+$$
+
+右端为$\dfrac{f'(\xi)}{g'(\xi)}=\dfrac{2\xi}{3\xi^2}=\dfrac{2}{3\xi}$。令$\dfrac{2}{3\xi}=\dfrac{3}{7}$，得$\xi=\dfrac{14}{9}\in(1,2)$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CauchyMeanDemo />
+
+## 练习
+
+::problems{#cauchy-mean-value-practice}
+
+1. ::question{#cauchy-point}
+
+   对$f(x)=x^2$、$g(x)=x^3$在$[1,2]$上使用柯西中值定理，得到的中值点是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{14}{9}$
+   - :option[B]{#b} $\dfrac{3}{2}$
+   - :option[C]{#c} $\dfrac{4}{3}$
+   - :option[D]{#d} $2$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\dfrac{f(2)-f(1)}{g(2)-g(1)}=\dfrac{3}{7}$，而$\dfrac{f'(\xi)}{g'(\xi)}=\dfrac{2}{3\xi}$，解得$\xi=\dfrac{14}{9}$。
+   :::

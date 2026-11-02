@@ -1,0 +1,170 @@
+---
+title: 积分上限函数的导数
+description: 定义积分上限函数，说明它的导数与变限求导。
+---
+
+import UpperIntegralDemo from "@/demos/upper-integral-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$f$在$[a,b]$上连续。对$[a,b]$上的每一点$x$，定积分$\int_a^x f(t)\,\mathrm{d}t$都存在，于是可以定义一个以$x$为自变量的函数
+
+$$
+\Phi(x)=\int_a^x f(t)\,\mathrm{d}t,\qquad a\le x\le b.
+$$
+
+$\Phi$称为**变上限的定积分**，也叫**积分上限函数**。这里$x$出现在积分上限，被积函数的变量改用$t$，以免与上限混淆；$t$是哑变量，换成别的字母不影响$\Phi(x)$。
+
+若在区间$I$上有$F'(x)=f(x)$，则称$F$是$f$在$I$上的一个**原函数**。原函数不唯一：把一个原函数加上任意常数，仍然是原函数；反过来，区间$I$上$f$的任意两个原函数只相差一个常数。
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+**定理（原函数存在定理）** 设$f$在$[a,b]$上连续，则积分上限函数$\Phi(x)=\int_a^x f(t)\,\mathrm{d}t$在$[a,b]$上可导（端点处指相应的单侧导数），且
+
+$$
+\Phi'(x)=\frac{\mathrm{d}}{\mathrm{d}x}\int_a^x f(t)\,\mathrm{d}t=f(x).
+$$
+
+因此，连续函数$f$的积分上限函数$\Phi$就是$f$的一个原函数。这条结论同时说明：在闭区间上连续的函数一定有原函数。
+
+:::proof
+设$x\in(a,b)$，$\Delta x\ne 0$且$x+\Delta x\in[a,b]$。由积分对区间的可加性，
+
+$$
+\Delta\Phi=\Phi(x+\Delta x)-\Phi(x)
+=\int_x^{x+\Delta x}f(t)\,\mathrm{d}t.
+$$
+
+以$\Delta x>0$为例（$\Delta x<0$时先交换上下限，结论相同）。在区间$[x,x+\Delta x]$上对$f$用积分中值定理（见[定积分的概念与性质](/knowledge/maths/integrals/definite-integral/)），存在$\xi\in[x,x+\Delta x]$，使
+
+$$
+\int_x^{x+\Delta x}f(t)\,\mathrm{d}t=f(\xi)\Delta x.
+$$
+
+于是$\dfrac{\Delta\Phi}{\Delta x}=f(\xi)$。当$\Delta x\to 0$时$\xi\to x$，由$f$在$x$处连续得$f(\xi)\to f(x)$，故$\Phi'(x)=f(x)$。端点$x=a$、$x=b$处用同样的推理讨论单侧导数，结论相同。
+:::
+
+### 上下限都是函数时的导数
+
+设$f$连续，$\phi$、$\psi$可导，且$\phi(x)$、$\psi(x)$都落在$f$的连续区间内，记
+
+$$
+F(x)=\int_{\phi(x)}^{\psi(x)}f(t)\,\mathrm{d}t,
+$$
+
+则
+
+$$
+F'(x)=\frac{\mathrm{d}}{\mathrm{d}x}\int_{\phi(x)}^{\psi(x)}f(t)\,\mathrm{d}t
+=f[\psi(x)]\psi'(x)-f[\phi(x)]\phi'(x).
+$$
+
+这条公式称为**莱布尼茨公式**。它的来源是把积分拆成两个积分上限函数之差：
+
+$$
+\int_{\phi(x)}^{\psi(x)}f(t)\,\mathrm{d}t
+=\int_a^{\psi(x)}f(t)\,\mathrm{d}t-\int_a^{\phi(x)}f(t)\,\mathrm{d}t,
+$$
+
+再对两项分别用微积分基本定理，并对外层用[复合函数的链式法则](/knowledge/maths/derivatives/chain-rule/)求导。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="求$\Phi(x)=\int_0^x\sin t\,\mathrm{d}t$的导数"}
+由微积分基本定理，直接去掉积分号并把$t$换成上限$x$：
+
+$$
+\Phi'(x)=\sin x.
+$$
+:::
+
+:::example{title="上限是函数：$\frac{\mathrm{d}}{\mathrm{d}x}\int_0^{x^2}\cos t\,\mathrm{d}t$"}
+上限$\psi(x)=x^2$，外层被积函数在$\psi(x)$处的值为$\cos(x^2)$，再乘上限的导数$2x$：
+
+$$
+\frac{\mathrm{d}}{\mathrm{d}x}\int_0^{x^2}\cos t\,\mathrm{d}t=\cos(x^2)\cdot 2x.
+$$
+:::
+
+:::example{title="上下限都是函数：$\frac{\mathrm{d}}{\mathrm{d}x}\int_x^{x^2}e^{t}\,\mathrm{d}t$"}
+上限项带正号，下限项带负号：
+
+$$
+\frac{\mathrm{d}}{\mathrm{d}x}\int_x^{x^2}e^{t}\,\mathrm{d}t
+=e^{x^2}\cdot 2x-e^{x}\cdot 1
+=2xe^{x^2}-e^{x}.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<UpperIntegralDemo />
+
+## 练习
+
+::problems{#upper-integral-practice}
+
+1. ::question{#upper-limit-derivative}
+
+   设$\Phi(x)=\int_0^x t^2\,\mathrm{d}t$，则$\Phi'(2)=$ :blank{#derivative-value type="number"}。
+
+   :::reference
+   ::correct{blank="derivative-value" value="4"}
+
+   由微积分基本定理，$\Phi'(x)=x^2$，代入$x=2$得$4$。
+   :::
+
+2. ::question{#composite-upper-limit}
+
+   设$F(x)=\int_0^{x^2}t\,\mathrm{d}t$，则$F'(1)=$ :blank{#composite-value type="number"}。
+
+   :::reference
+   ::correct{blank="composite-value" value="2"}
+
+   上限为$x^2$，由莱布尼茨公式，$F'(x)=x^2\cdot 2x=2x^3$，代入$x=1$得$2$。
+   :::
+
+3. ::question{#antiderivative}
+
+   设$f$在$[a,b]$上连续，$\Phi(x)=\int_a^x f(t)\,\mathrm{d}t$。关于$\Phi$，下列说法正确的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\Phi$是$f$的导数
+   - :option[B]{#b} $\Phi$是$f$的一个原函数
+   - :option[C]{#c} $\Phi$是$f$的不定积分
+   - :option[D]{#d} $\Phi$是$f$在$[a,b]$上的最大值
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   微积分基本定理给出$\Phi'(x)=f(x)$，所以$\Phi$是$f$的一个原函数。不定积分指全体原函数，是函数族，与单个$\Phi$不同。
+   :::
+
+4. ::question{#inverse}
+
+   设$f$连续，且对一切$x$有$\int_0^x f(t)\,\mathrm{d}t=x^2$，则$f(x)=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $2x$
+   - :option[B]{#b} $x^2$
+   - :option[C]{#c} $\dfrac{x^3}{3}$
+   - :option[D]{#d} $2$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   对等式两边求导，左边由微积分基本定理得$f(x)$，右边得$2x$，所以$f(x)=2x$。
+   :::

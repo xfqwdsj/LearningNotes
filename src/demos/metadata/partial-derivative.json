@@ -1,0 +1,22 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "固定另一个变量后变化率是多少？",
+      "description": "比较乘积函数的两个偏导数。",
+      "messages": {
+        "label": "偏导数",
+        "intro": "取$f(x,y)=xy$。选择位置和变化的坐标；求偏导时另一个坐标固定。",
+        "x": "点的横坐标$x$",
+        "y": "点的纵坐标$y$",
+        "choose": "选择变化的坐标",
+        "graphNote": "固定另一个坐标，直线展示函数在所选方向的截面，点表示当前位置。",
+        "graphLabel": "所选坐标为{coordinate}，截面斜率为{slope}。",
+        "alongX": "改变$x$",
+        "alongY": "改变$y$",
+        "result": "所选方向的偏导数为{slope}。"
+      },
+      "tags": ["多元微积分", "偏导数"]
+    }
+  }
+}

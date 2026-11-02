@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "两个来源怎样贡献总概率？",
+      "description": "用面积比较两个来源下的结果概率及其总和。",
+      "messages": {
+        "label": "全概率公式面积模型",
+        "intro": "矩形按来源分成左右两部分，深色面积表示各来源内发生结果$A$的部分。",
+        "prior": "第一种来源$P(B_1)$",
+        "first": "第一种来源下的发生率$P(A\\mid B_1)$",
+        "second": "第二种来源下的发生率$P(A\\mid B_2)$",
+        "diagram": "结果发生的总概率为{value}%",
+        "result": "两个来源分别贡献{first}% 和{second}%，总概率为{value}%。"
+      },
+      "tags": ["概率论", "全概率公式"]
+    }
+  }
+}

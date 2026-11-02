@@ -1,0 +1,224 @@
+---
+title: 等价无穷小
+description: 等价无穷小的定义、$x\to0$时的基本与扩展等价表，以及乘积与商可替换、和差不可直接替换的判定原则。
+---
+
+import InfinitesimalDemo from "@/demos/infinitesimal-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设当$x\to x_0$时$\alpha(x)\to 0$、$\beta(x)\to 0$。若
+
+$$
+\lim_{x \to x_0}\frac{\alpha(x)}{\beta(x)}=1,
+$$
+
+则称$\alpha(x)$与$\beta(x)$是当$x\to x_0$时的**等价无穷小**，记作$\alpha(x)\sim\beta(x)$。
+
+等价无穷小要求两者都是无穷小，并且比值的极限为$1$：它们同阶，主部相同。等价关系总是相对于某个趋近方式而言，$x\to 0$、$x\to 1$、$x\to\infty$下的等价关系不能混用。
+
+最常用的趋近方式是$x\to 0$，下面两张表都默认$x\to 0$。若极限过程是$x\to x_0$或$x\to\infty$，先换元把新变量化到$0$，再查表。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 基本等价
+
+这组关系是极限计算的基础，需要熟练记忆。它们都可以由泰勒展开取最低阶非零项得到。
+
+| 类别 | 等价关系（$x\to 0$） | 说明 |
+| --- | --- | --- |
+| 幂函数类 | $x\sim\sin x\sim\tan x$ | 三角函数与自变量等价，是最常用的替换（如$\lim_{x \to 0}\dfrac{\sin 2x}{x}=2$） |
+| 指数函数类 | $e^x-1\sim x$ | 核心是“指数减1”的形式；底数不是$e$时可变形为$a^x-1\sim x\ln a$（$a>0$，$a\ne 1$） |
+| 对数函数类 | $\ln(1+x)\sim x$ | 核心是“$\ln(1+\text{自变量})$”的形式；可逆用$x\sim\ln(1+x)$（如$\lim_{x \to 0}\dfrac{x}{\ln(1+3x)}=\dfrac{1}{3}$） |
+| 幂函数类 | $(1+x)^a-1\sim ax$ | 广义二项式等价，$a$为任意实数，如$\sqrt{1+x}-1\sim\dfrac{1}{2}x$，$\dfrac{1}{1+x}-1\sim -x$ |
+| 三角函数类 | $1-\cos x\sim\dfrac{1}{2}x^2$ | 余弦的“1减余弦”形式，等价于二次项；因为$\cos x=1-\dfrac{x^2}{2!}+o(x^2)$，余项$o(x^2)$可忽略 |
+| 反三角函数类 | $\arcsin x\sim x$，$\arctan x\sim x$ | 反三角函数与自变量等价，本质是原函数与反函数在原点附近的线性近似一致（如$\lim_{x \to 0}\dfrac{\arctan 5x}{x}=5$） |
+
+### 扩展等价
+
+这组关系由泰勒展开取更高阶项，或由基本等价关系组合得到；当分子分母都是高阶无穷小时使用，余项$o(x^n)$可忽略。
+
+| 函数类型 | 等价关系（$x\to 0$） | 泰勒展开依据 |
+| --- | --- | --- |
+| 指数函数扩展 | $e^x-1-x\sim\dfrac{1}{2}x^2$ | $e^x=1+x+\dfrac{x^2}{2!}+o(x^2)$ |
+| 指数函数扩展 | $e^x-1-x-\dfrac{1}{2}x^2\sim\dfrac{1}{6}x^3$ | $e^x=1+x+\dfrac{x^2}{2!}+\dfrac{x^3}{3!}+o(x^3)$ |
+| 对数函数扩展 | $x-\ln(1+x)\sim\dfrac{1}{2}x^2$ | $\ln(1+x)=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}+o(x^3)$ |
+| 对数函数扩展 | $x-\ln(1+x)-\dfrac{1}{2}x^2\sim-\dfrac{1}{3}x^3$ | 同上，取到三阶项 |
+| 三角函数扩展 | $\sin x-x\sim-\dfrac{1}{6}x^3$ | $\sin x=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}+o(x^5)$ |
+| 三角函数扩展 | $\tan x-x\sim\dfrac{1}{3}x^3$ | $\tan x=x+\dfrac{x^3}{3}+\dfrac{2x^5}{15}+o(x^5)$ |
+| 三角函数扩展 | $\tan x-\sin x\sim\dfrac{1}{2}x^3$ | 由$\tan x-\sin x=\dfrac{\sin x(1-\cos x)}{\cos x}$，代入基本等价无穷小推导 |
+| 反三角函数扩展 | $x-\arcsin x\sim-\dfrac{1}{6}x^3$ | $\arcsin x=x+\dfrac{x^3}{6}+\dfrac{3x^5}{40}+o(x^5)$ |
+| 反三角函数扩展 | $x-\arctan x\sim\dfrac{1}{3}x^3$ | $\arctan x=x-\dfrac{x^3}{3}+\dfrac{x^5}{5}+o(x^5)$ |
+| 双曲函数类 | $\sinh x\sim x$，$\cosh x-1\sim\dfrac{1}{2}x^2$ | $\sinh x=\dfrac{e^x-e^{-x}}{2}$，$\cosh x=\dfrac{e^x+e^{-x}}{2}$，泰勒展开后比较 |
+
+### 替换原则
+
+等价无穷小不能随意替换：替换只保证主部不变，被丢掉的低阶项在加减法中可能正是主部。
+
+### 乘积与商可以替换
+
+若$\alpha\sim\alpha'$，$\beta\sim\beta'$，则
+
+$$
+\alpha\beta\sim\alpha'\beta',\qquad
+\frac{\alpha}{\beta}\sim\frac{\alpha'}{\beta'}.
+$$
+
+后者要求$\lim\dfrac{\alpha'}{\beta'}$存在或为$\infty$。
+
+:::proof
+由等价关系的定义，
+
+$$
+\frac{\alpha\beta}{\alpha'\beta'}
+=\frac{\alpha}{\alpha'}\cdot\frac{\beta}{\beta'}\to 1,
+$$
+
+所以$\alpha\beta\sim\alpha'\beta'$。同理
+
+$$
+\frac{\alpha/\beta}{\alpha'/\beta'}
+=\frac{\alpha}{\alpha'}\cdot\frac{\beta'}{\beta}\to 1.
+$$
+:::
+
+### 和差不能直接逐项替换
+
+若$\alpha\sim\beta$，即两者的比值趋于$1$，则$\alpha-\beta$是比它们更高阶的无穷小。把$\alpha$、$\beta$各自替换成等价量，会把这个差直接变成$0$，丢掉真正的主部。
+
+例如$\tan x\sim x$、$\sin x\sim x$，但
+
+$$
+\lim_{x \to 0}\frac{\tan x-\sin x}{x^3}
+=\lim_{x \to 0}\frac{\frac{1}{2}x^3}{x^3}
+=\frac{1}{2}\ne 0.
+$$
+
+若把两者都替换成$x$，会错误地得到$0$。正确做法是使用扩展等价$\tan x-\sin x\sim\dfrac{1}{2}x^3$，或直接用泰勒展开。
+
+> [!WARNING]
+> 失效的条件是两个被减项彼此等价。若$\alpha$与$\beta$的比值趋于异于$1$的常数，$\alpha-\beta$与$\alpha'-\beta'$仍然等价；判断和差能否替换，要看两项是否同阶且主部相同。
+
+### 复合函数的替换
+
+若$t\to 0$时$f(t)\sim g(t)$，且$x\to x_0$时$u(x)\to 0$，则
+
+$$
+f(u(x))\sim g(u(x)).
+$$
+
+因为$\dfrac{f(u(x))}{g(u(x))}$就是$\dfrac{f(t)}{g(t)}$在$t=u(x)$处的取值，极限仍为$1$。
+
+### 精度匹配
+
+若分子分母都是$n$阶无穷小，替换后的等价无穷小至少要保留到$n$阶，否则会丢掉决定极限值的项。例如在$\dfrac{e^x-1-x}{x^2}$中，只用$e^x-1\sim x$会把分子换成$0$，无法判断；应使用二阶等价$e^x-1-x\sim\dfrac{1}{2}x^2$。
+
+### 与泰勒展开的关系
+
+等价无穷小是泰勒展开的最低阶截断：$f(x)$等价于其展开式的第一个非零项。因此当替换失效，尤其是和差或需要高阶精度时，直接展开到与分母同阶即可，这是更通用的做法。
+
+> [!CAUTION]
+> **先确认趋近方式**
+>
+> 所有等价关系都绑定在特定的趋近方式上。$x\to\infty$时应先令$t=\dfrac{1}{x}$，把极限化为$t\to 0$；$x\to 1$时不能直接套用$x\to 0$的表，例如$\ln x$应令$u=x-1$，用$\ln(1+u)\sim u$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="复合替换：$\lim_{x \to 1}\dfrac{\sin(x-1)}{\ln x}$"}
+令$u=x-1$，$x\to 1$时$u\to 0$，且$\ln x=\ln(1+u)\sim u$。于是
+
+$$
+\lim_{x \to 1}\frac{\sin(x-1)}{\ln x}
+=\lim_{u \to 0}\frac{\sin u}{u}=1.
+$$
+:::
+
+:::example{title="变趋近方式：$\lim_{x \to \infty}x\sin\dfrac{1}{x}$"}
+令$t=\dfrac{1}{x}$，$x\to\infty$时$t\to 0^+$，且$\sin t\sim t$。于是
+
+$$
+\lim_{x \to \infty}x\sin\frac{1}{x}
+=\lim_{t \to 0^+}\frac{\sin t}{t}=1.
+$$
+:::
+
+:::example{title="精度匹配：$\lim_{x \to 0}\dfrac{e^x-1-x}{x^2}$"}
+分母是二阶无穷小，一阶等价$e^x-1\sim x$不够用。取二阶等价$e^x-1-x\sim\dfrac{1}{2}x^2$，得
+
+$$
+\lim_{x \to 0}\frac{e^x-1-x}{x^2}=\frac{1}{2}.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<InfinitesimalDemo />
+
+## 练习
+
+::problems{#equivalent-infinitesimals-practice}
+
+1. ::question{#sin-two-x}
+
+   $\lim_{x \to 0}\dfrac{\sin 2x}{x}=$ :blank{#sin-two-value type="number"}。
+
+   :::reference
+   ::correct{blank="sin-two-value" value="2"}
+
+   用$\sin 2x\sim 2x$，或用第一个重要极限：$\dfrac{\sin 2x}{x}=2\cdot\dfrac{\sin 2x}{2x}\to 2$。
+   :::
+
+2. ::question{#log-three}
+
+   若$\lim_{x \to 0}\dfrac{x}{\ln(1+3x)}=\dfrac{1}{k}$，则$k=$ :blank{#log-three-value type="number"}。
+
+   :::reference
+   ::correct{blank="log-three-value" value="3"}
+
+   由$\ln(1+3x)\sim 3x$，原极限为$\dfrac{1}{3}$，所以$k=3$。
+   :::
+
+3. ::question{#arctan-five}
+
+   $\lim_{x \to 0}\dfrac{\arctan 5x}{x}=$ :blank{#arctan-five-value type="number"}。
+
+   :::reference
+   ::correct{blank="arctan-five-value" value="5"}
+
+   由$\arctan 5x\sim 5x$，原极限为$5$。
+   :::
+
+4. ::question{#tan-minus-sin}
+
+   $\lim_{x \to 0}\dfrac{\tan x-\sin x}{x^3}=$ :blank{#tan-minus-sin-value type="number"}。
+
+   :::reference
+   ::correct{blank="tan-minus-sin-value" value="0.5"}
+
+   和差不能直接逐项替换，应使用扩展等价$\tan x-\sin x\sim\dfrac{1}{2}x^3$，极限为$\dfrac{1}{2}$。
+   :::
+
+5. ::question{#rule-choice}
+
+   关于等价无穷小替换，下列说法正确的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 在$\lim_{x \to 0}\dfrac{\sin x-x}{x^3}$中可以把$\sin x$换成$x$
+   - :option[B]{#b} 在$\lim_{x \to 0}\dfrac{\sin x\tan x}{x^2}$中可以把$\sin x$、$\tan x$都换成$x$
+   - :option[C]{#c} 在$\lim_{x \to 0}\dfrac{e^x-1-x}{x^2}$中可以用$e^x-1\sim x$把分子换成$0$
+   - :option[D]{#d} 当$x\to\infty$时可以直接使用$\sin x\sim x$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   A是差式，逐项替换会丢掉主部；C的精度不够，应使用二阶等价；D的趋近方式不满足$\sin x\sim x$的条件。B中乘积的两个因子分别替换后得到$\dfrac{x\cdot x}{x^2}=1$，是正确的。
+   :::

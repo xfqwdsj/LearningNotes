@@ -1,0 +1,61 @@
+---
+title: 多元回归的整体显著性检验
+description: 检验多元线性回归的全部斜率是否同时为零。
+---
+
+import MultipleRegressionTestsDemo from "@/demos/multiple-regression-tests-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+考虑含截距的[多元线性回归](/knowledge/maths/statistics/multiple-linear-regression/)：有$n$个观测与$p$个斜率，设计矩阵满列秩，$n>p+1$。假定误差相互独立且服从$N(0,\sigma^2)$，记误差方差估计为$s^2=SSE/(n-p-1)$，并采用[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+整体检验的原假设是所有斜率同时为零：
+
+$$
+H_0:\beta_1=\cdots=\beta_p=0.
+$$
+
+含截距时仍有平方和分解
+
+$$
+SST=\sum_{i=1}^n(Y_i-\bar Y)^2=SSR+SSE,
+$$
+
+其中$SSR$是回归平方和。在$H_0$与正态误差下，
+
+$$
+F=\frac{SSR/p}{SSE/(n-p-1)}\sim F(p,n-p-1).
+$$
+
+当$F>F_\alpha(p,n-p-1)$时拒绝$H_0$，认为至少有一个斜率不为零。这里$F_\alpha$是上侧$\alpha$分位点，检验只用右尾。
+
+整体显著只说明$p$个斜率中至少有一个不为零，并不保证每个解释变量都显著，也不指出是哪一个变量在起作用。要定位具体变量，还要逐个检查单个系数，或者比较嵌套模型。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultipleRegressionTestsDemo />
+
+## 练习
+
+::problems{#multiple-regression-overall-test}
+
+1. ::question{#overall-vs-individual}
+
+   某多元回归的整体$F$检验显著，但每个系数的$t$检验都不显著。下列解释最合理的是
+
+   :::choices{#choice-overall mode="single"}
+   - :option[A]{#a} 计算一定出错，两种检验不可能出现这种结果
+   - :option[B]{#b} 解释变量之间高度相关，整体检验捕捉到共同解释能力，而单个系数在保留其他变量后没有额外贡献
+   - :option[C]{#c} 整体$F$检验显著说明每个系数都不为零
+   - :option[D]{#d} 只要$R^2$大于$0.9$，单个$t$检验就必然显著
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   整体检验与单个检验回答不同问题；多重共线性会使系数标准误变大，从而出现整体显著而单个不显著的情形。
+   :::

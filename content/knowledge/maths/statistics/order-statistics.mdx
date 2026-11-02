@@ -1,0 +1,74 @@
+---
+title: 次序统计量
+description: 描述排序后的样本及其分布。
+---
+
+import OrderStatisticsDemo from "@/demos/order-statistics-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+把样本按从小到大重新排列，记
+
+$$
+X_{(1)}\le X_{(2)}\le\cdots\le X_{(n)}.
+$$
+
+$X_{(k)}$称为第$k$个**次序统计量**。其中$X_{(1)}=\min_iX_i$是样本最小值，$X_{(n)}=\max_iX_i$是样本最大值，样本中位数也是由次序统计量定义的。
+
+设总体是连续型，分布函数为$F$，密度为$f$，则$X_{(k)}$的密度为
+
+$$
+f_{X_{(k)}}(x)=\frac{n!}{(k-1)!(n-k)!}\bigl[F(x)\bigr]^{k-1}\bigl[1-F(x)\bigr]^{n-k}f(x).
+$$
+
+:::proof
+考察$X_{(k)}$落在小区间$(x,x+\mathrm dx]$内的概率。要使第$k$小的观测值落在这个区间里，必须做到三件事：
+
+- 恰有一个观测值落在$(x,x+\mathrm dx]$，其概率为$f(x)\,\mathrm dx$；
+- 有$k-1$个观测值落在$x$以下，每个的概率为$F(x)$；
+- 其余$n-k$个观测值落在$x+\mathrm dx$以上，每个的概率为$1-F(x)$。
+
+样本独立，所以可以把这些概率直接相乘，再乘上把$n$个观测值分配到三类位置的分法数$\dfrac{n!}{1!\,(k-1)!\,(n-k)!}$，得到
+
+$$
+P\{x<X_{(k)}\le x+\mathrm dx\}
+=\frac{n!}{(k-1)!(n-k)!}\bigl[F(x)\bigr]^{k-1}\bigl[1-F(x)\bigr]^{n-k}f(x)\,\mathrm dx.
+$$
+
+两边除以$\mathrm dx$即得密度。
+:::
+
+> [!WARNING]
+> **次序统计量一般不独立**
+>
+> 原样本$X_1,\ldots,X_n$独立，但排序后的$X_{(1)},\ldots,X_{(n)}$不独立。直观上，知道最小的观测值偏大，其余观测值只会更大。因此对次序统计量不能沿用“独立变量和的方差等于方差之和”这类结论。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<OrderStatisticsDemo />
+
+## 练习
+
+::problems{#order-statistics-practice}
+
+1. ::question{#order-dependence}
+
+   关于次序统计量$X_{(1)},\ldots,X_{(n)}$，下列叙述正确的是
+
+   :::choices{#choice-order mode="single"}
+   - :option[A]{#a} 它们相互独立，因为原样本相互独立
+   - :option[B]{#b} 它们一般相互独立
+   - :option[C]{#c} 它们一般不独立
+   - :option[D]{#d} 只有$X_{(1)}$与$X_{(n)}$相互独立
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   排序引入了约束$X_{(1)}\le\cdots\le X_{(n)}$，各次序统计量的取值互相牵制，一般不独立，也不存在“两端独立”的结论。原样本的独立性不能传递到排序后的变量上。
+   :::

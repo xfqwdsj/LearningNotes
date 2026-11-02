@@ -1,0 +1,115 @@
+---
+title: 三重积分的直角坐标计算
+description: 使用投影或截面把三重积分化为低维积分。
+---
+
+import TripleSliceDemo from "@/demos/triple-slice-demo";
+
+## 计算方法
+
+::section{#definition slot="knowledge.definition"}
+
+设$\Omega$为有界空间区域，$f$在其上连续。以下公式要求所用投影与截面可积；切片不是单个区间时，可将区域分块。
+
+直角坐标下$\mathrm dv=\mathrm dx\,\mathrm dy\,\mathrm dz$。化为三次积分时，按“先积几个变量”分成两种做法：先对一个变量积分、再对剩下两个变量积分的叫“先一后二”，反过来叫“先二后一”。选哪种，取决于区域形状和截面面积是否容易求。
+
+### 投影法（先一后二）
+
+把$\Omega$投影到$xOy$平面，得到投影区域$D_{xy}$。若对$D_{xy}$内每一点$(x,y)$，$z$的变化范围是
+
+$$
+z_1(x,y)\le z\le z_2(x,y),
+$$
+
+则
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv=\iint_{D_{xy}}\left[\int_{z_1(x,y)}^{z_2(x,y)}f(x,y,z)\,\mathrm dz\right]\mathrm d\sigma .
+$$
+
+内层是对$z$的定积分，结果是$x,y$的函数，再对$D_{xy}$做二重积分。同样可以把$\Omega$投影到$yOz$或$zOx$平面，此时内层分别先对$x$或$y$积分。
+
+### 截面法（先二后一）
+
+用平行于某一坐标平面的平面去截$\Omega$，得到一系列截面。例如用平行于$xOy$平面的平面$z=z_0$截$\Omega$，得到截面区域$D(z)$；设$z$的变化范围是$c_1\le z\le c_2$，则
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv=\int_{c_1}^{c_2}\left[\iint_{D(z)}f(x,y,z)\,\mathrm d\sigma\right]\mathrm dz .
+$$
+
+截面法适合截面面积容易求出的情形：内层是对$x,y$的二重积分，外层只对$z$积分一次。
+
+> [!WARNING]
+> 投影法的内层上下限$z_1(x,y)$、$z_2(x,y)$一般依赖$x,y$，不能当作常数提到二重积分外面。只有上下底面都是水平平面时，它们才是常数。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="投影法：$\displaystyle\iiint_{[0,1]^3}xyz\,\mathrm dv$"}
+
+取$\Omega=[0,1]\times[0,1]\times[0,1]$，投影区域是单位正方形，$z$从$0$到$1$，所以
+
+$$
+\iiint_\Omega xyz\,\mathrm dv
+=\iint_{D_{xy}}\left[\int_0^1xyz\,\mathrm dz\right]\mathrm d\sigma
+=\iint_{D_{xy}}\frac{xy}{2}\,\mathrm d\sigma
+=\frac12\cdot\frac12\cdot\frac12=\frac18 .
+$$
+
+三个变量的积分限都是常数，三层定积分可以任意调换次序。
+
+:::
+
+
+
+:::example{title="截面法：$\displaystyle\iiint_{x^2+y^2+z^2\le1}z^2\,\mathrm dv$"}
+
+取$\Omega$为单位球。固定$z\in[-1,1]$，截面为圆域
+
+$$
+D(z)=\{(x,y):x^2+y^2\le1-z^2\},
+$$
+
+其面积为$\pi(1-z^2)$。被积函数$z^2$在截面上是常数，于是
+
+$$
+\iiint_\Omega z^2\,\mathrm dv
+=\int_{-1}^{1}z^2\pi(1-z^2)\,\mathrm dz
+=\pi\left(\frac23-\frac25\right)
+=\frac{4\pi}{15}.
+$$
+
+这里被积函数只含$z$、截面积又容易求，截面法比投影法省事。
+
+:::
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TripleSliceDemo />
+
+## 练习
+
+::problems{#triple-cartesian}
+
+1. ::question{#section-method}
+
+   用平行于$xOy$平面的平面$z=z_0$截$\Omega$得截面$D(z)$，先算$\displaystyle\iint_{D(z)}f\,\mathrm d\sigma$，再对$z$积分。这种做法称为：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 截面法（先二后一）
+   - :option[B]{#b} 投影法（先一后二）
+   - :option[C]{#c} 柱面坐标法
+   - :option[D]{#d} 球面坐标法
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   先对$x,y$做二重积分、后对$z$积分，所以是“先二后一”的截面法。投影法恰好相反，先对$z$积分。
+   :::

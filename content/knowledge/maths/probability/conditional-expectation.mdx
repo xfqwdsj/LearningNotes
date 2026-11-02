@@ -1,0 +1,89 @@
+---
+title: 条件期望
+description: 在给定条件下计算平均，并通过全期望公式联系总体平均。
+---
+
+import ConditionalMeanDemo from "@/demos/conditional-mean-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+给定$Y$的某个取值时，$X$的**条件期望**是在条件分布下算出的期望。若$X$与$Y$都是离散型，$P\{Y=y_j\}>0$，则
+
+$$
+E(X\mid Y=y_j)=\sum_i x_iP\{X=x_i\mid Y=y_j\};
+$$
+
+若$X$为连续型，$Y$的密度$f_Y$在$y$处为正，则
+
+$$
+E(X\mid Y=y)=\int_{-\infty}^{+\infty}xf_{X\mid Y}(x\mid y)\,\mathrm dx,
+$$
+
+其中$f_{X\mid Y}$是条件密度，它由联合密度除以边缘密度$f_Y(y)$得到，具体写法见[条件分布](/knowledge/maths/probability/conditional-distribution/)。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+把$E(X\mid Y)$整体看作$Y$的函数，它就是一个随机变量：当$Y=y_j$时取$E(X\mid Y=y_j)$，当$Y=y$时取$E(X\mid Y=y)$。**全期望公式**把它再取一次期望，得到$X$的无条件期望：
+
+$$
+E(X)=E\bigl[E(X\mid Y)\bigr].
+$$
+
+按$Y$的取值展开，就是
+
+$$
+E(X)=\sum_jE(X\mid Y=y_j)P\{Y=y_j\}\qquad(Y\text{ 离散}),
+$$
+
+或
+
+$$
+E(X)=\int_{-\infty}^{+\infty}E(X\mid Y=y)f_Y(y)\,\mathrm dy\qquad(Y\text{ 连续}).
+$$
+
+:::proof
+离散情形。把$P\{X=x_i\}$按$Y$的取值分组（对$P\{Y=y_j\}>0$的$j$），
+
+$$
+\begin{aligned}
+E(X)
+&=\sum_i x_iP\{X=x_i\}
+=\sum_i x_i\sum_jP\{X=x_i,\ Y=y_j\}\\
+&=\sum_jP\{Y=y_j\}\sum_i x_i\frac{P\{X=x_i,\ Y=y_j\}}{P\{Y=y_j\}}
+=\sum_jP\{Y=y_j\}E(X\mid Y=y_j).
+\end{aligned}
+$$
+
+第一步是分布律的加法公式，第二步交换求和次序，第三步用条件分布律的定义，最后一步是条件期望的定义。连续情形把求和换成积分、分布律换成密度，论证相同。
+:::
+
+> [!TIP]
+> **解题顺序**
+>
+> 总体由多种情形混合时，先在每种情形下求平均，再按情形概率加权。先分层、后平均，通常比直接对总体建模简单；反过来，若题目给出了总体平均与各层比例，也可以反推某一层的条件均值。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变组别比例与条件均值，比较组内平均数和总体平均数。
+
+<ConditionalMeanDemo />
+
+## 练习
+
+::problems{#conditional-expectation-practice}
+
+1. ::question{#total-expectation}
+
+   设$P\{Y=1\}=0.4$，$P\{Y=2\}=0.6$，且$E(X\mid Y=1)=3$，$E(X\mid Y=2)=5$，则$E(X)=$ :blank{#total-value type="number"}。
+
+   :::reference
+   ::correct{blank="total-value" value="4.2"}
+
+   由全期望公式，$E(X)=0.4\times3+0.6\times5=1.2+3=4.2$。
+   :::

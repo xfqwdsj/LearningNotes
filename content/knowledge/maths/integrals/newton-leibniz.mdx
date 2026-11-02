@@ -1,0 +1,129 @@
+---
+title: 牛顿–莱布尼茨公式
+description: 用原函数的端点值计算定积分。
+---
+
+import NewtonLeibnizDemo from "@/demos/newton-leibniz-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**定理** 设$f$在$[a,b]$上连续，$F$是$f$在$[a,b]$上的一个原函数，则
+
+$$
+\int_a^b f(x)\,\mathrm{d}x=F(b)-F(a).
+$$
+
+这个公式称为**牛顿-莱布尼茨公式**，也称为**微积分基本公式**。
+
+:::proof
+令$\Phi(x)=\int_a^x f(t)\,\mathrm{d}t$。由微积分基本定理，$\Phi'(x)=f(x)$，所以$\Phi$也是$f$的原函数。于是
+
+$$
+\bigl(F(x)-\Phi(x)\bigr)'=f(x)-f(x)=0.
+$$
+
+由拉格朗日中值定理的推论，导数恒为零的函数为常数，设$F(x)-\Phi(x)=C$。令$x=a$，注意$\Phi(a)=0$，得$C=F(a)$。因此
+
+$$
+\Phi(x)=F(x)-F(a).
+$$
+
+取$x=b$，即得$\int_a^b f(x)\,\mathrm{d}x=F(b)-F(a)$。
+:::
+
+### 记号
+
+通常把$F(b)-F(a)$记作$\bigl[F(x)\bigr]_a^b$或$F(x)\big|_a^b$，于是
+
+$$
+\int_a^b f(x)\,\mathrm{d}x=\bigl[F(x)\bigr]_a^b=F(b)-F(a).
+$$
+
+方括号与竖线含义相同：先代入上限，再减去代入下限的结果。
+
+### 意义
+
+牛顿-莱布尼茨公式把定积分与不定积分联系起来。定积分本来是由积分和的极限定义的，直接用定义计算需要分割、求和再取极限；公式说明它只取决于原函数在两个端点处的值之差。于是求定积分归结为求原函数，而求原函数的方法（[基本积分公式](/knowledge/maths/integrals/integral-formulas/)、[换元积分法](/knowledge/maths/integrals/integration-by-substitution/)、[分部积分法](/knowledge/maths/integrals/integration-by-parts/)等）可以直接借用。
+
+### 计算步骤
+
+:::steps
+
+1. **求一个原函数**
+
+   求出$f(x)$的一个原函数$F(x)$。这里只需一个原函数，不必写常数$C$。
+
+2. **代入上下限**
+
+   计算$F(b)-F(a)$，即上限处的值减去下限处的值。
+
+:::
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 使用注意
+
+> [!WARNING]
+> **公式的前提**
+>
+> 公式要求$f$在$[a,b]$上连续。被积函数在区间内有瑕点时不能直接代原函数求值：例如$\int_{-1}^{1}\frac{1}{x^2}\,\mathrm{d}x$若取$F(x)=-\frac{1}{x}$，会算出$-2$，但这个积分其实发散。含瑕点或无穷限的积分要按反常积分处理。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用牛顿-莱布尼茨公式计算$\int_0^1 x^2\,\mathrm{d}x$"}
+取原函数$F(x)=\dfrac{x^3}{3}$，则
+
+$$
+\int_0^1 x^2\,\mathrm{d}x
+=\left[\frac{x^3}{3}\right]_0^1
+=\frac{1}{3}-0=\frac{1}{3}.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<NewtonLeibnizDemo />
+
+## 练习
+
+::problems{#newton-leibniz-practice}
+
+1. ::question{#newton-leibniz-value}
+
+   $\int_0^1 2x\,\mathrm{d}x=$ :blank{#integral-value type="number"}。
+
+   :::reference
+   ::correct{blank="integral-value" value="1"}
+
+   取原函数$F(x)=x^2$，则$\int_0^1 2x\,\mathrm{d}x=\bigl[x^2\bigr]_0^1=1-0=1$。
+   :::
+
+2. ::question{#notation}
+
+   设$f$在$[a,b]$上连续，$F$是$f$的一个原函数。下列说法正确的是
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\int_a^b f(x)\,\mathrm{d}x=F(b)-F(a)$
+   - :option[B]{#b} $\bigl[F(x)\bigr]_a^b=F(b)-F(a)$
+   - :option[C]{#c} $\int_a^b f(x)\,\mathrm{d}x=F(a)-F(b)$
+   - :option[D]{#d} 公式中的$F$必须取加上常数$C$的原函数，否则结果不对
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   代入顺序是上限减下限，所以C错；任意一个原函数代入后常数都会抵消，D错。
+   :::

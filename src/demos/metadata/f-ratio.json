@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "交换自由度会怎样改变$F$分布？",
+      "description": "比较原自由度和交换自由度后的两条$F$分布密度曲线。",
+      "messages": {
+        "label": "F分布与自由度顺序",
+        "intro": "实线是$F(\\nu_1,\\nu_2)$的密度，虚线是交换自由度后的$F(\\nu_2,\\nu_1)$。横轴采用对数刻度，两条曲线可以直观比较偏斜程度与尾部质量的位置。",
+        "numerator": "分子自由度",
+        "denominator": "分母自由度",
+        "reset": "恢复示例",
+        "graphLabel": "自由度{first}和{second}的F分布密度，以及交换自由度后的密度。",
+        "result": "实线为$F({first},{second})$，虚线为$F({second},{first})$；交换自由度会改变分布形状，这两个分布一般不相同。"
+      },
+      "tags": ["概率分布", "$F$分布"]
+    }
+  }
+}

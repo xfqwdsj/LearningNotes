@@ -1,0 +1,72 @@
+---
+title: 上侧分位点
+description: 上侧分位点的定义与性质。
+---
+
+import QuantileTailDemo from "@/demos/quantile-tail-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$0<\alpha<1$。对随机变量$W$，若$w_\alpha$满足
+
+$$
+P\{W>w_\alpha\}=\alpha,
+$$
+
+则称$w_\alpha$为$W$的**上$\alpha$分位点**：它右侧的尾概率恰为$\alpha$。本页用到的四个记号是
+
+$$
+P\{Z>z_\alpha\}=\alpha,\qquad
+P\{T>t_\alpha(\nu)\}=\alpha,
+$$
+
+$$
+P\{U>\chi^2_\alpha(\nu)\}=\alpha,\qquad
+P\{V>F_\alpha(\nu_1,\nu_2)\}=\alpha,
+$$
+
+其中$Z\sim N(0,1)$，$T\sim t(\nu)$，$U\sim\chi^2(\nu)$，$V\sim F(\nu_1,\nu_2)$。$\alpha$越小，上侧分位点越大，因为要让右侧只剩更小的概率，分位点必须往右移。
+
+双侧区间估计通常把显著性水平分到两侧，各占$\alpha/2$的尾概率，于是用到$z_{\alpha/2}$与$z_{1-\alpha/2}$这样的两个点。
+
+对关于零对称的分布，上侧分位点可以直接换成负号：
+
+$$
+z_{1-\alpha}=-z_\alpha,\qquad
+t_{1-\alpha}(\nu)=-t_\alpha(\nu).
+$$
+
+例如$z_{0.975}=-z_{0.025}$，因为标准正态的密度关于零对称。
+
+> [!WARNING]
+> **卡方与F不能靠对称性换算**
+>
+> 卡方分布只在非负半轴取值，$F$分布也不对称，都没有$z_{1-\alpha}=-z_\alpha$这样的等式。$\chi^2_{1-\alpha}(\nu)$由$P\{U>\chi^2_{1-\alpha}(\nu)\}=1-\alpha$定义，等价于$P\{U\le\chi^2_{1-\alpha}(\nu)\}=\alpha$，它是分布的左侧分位点，只能另外查表或在表中按累积概率定位。$F$分布可以借助倒数关系换算：
+> $$
+> F_\alpha(\nu_1,\nu_2)=\frac{1}{F_{1-\alpha}(\nu_2,\nu_1)},
+> $$
+> 但两个自由度必须同时交换位置。
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<QuantileTailDemo />
+
+## 练习
+
+::problems{#quantile-tail-practice}
+
+1. ::question{#normal-quantile}
+
+   已知标准正态分布的上$0.025$分位点为$z_{0.025}=1.96$，则$z_{0.975}=$ :blank{#z-lower type="number"}。
+
+   :::reference
+   ::correct{blank="z-lower" value="-1.96"}
+
+   标准正态关于零对称，$z_{1-\alpha}=-z_\alpha$，故$z_{0.975}=-z_{0.025}=-1.96$。
+   :::

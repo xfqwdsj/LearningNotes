@@ -1,0 +1,296 @@
+---
+title: 微分与线性近似
+description: 用增量的线性主部定义函数微分，说明一元函数可微与可导等价、微分的几何意义与运算法则，并用于近似计算和误差估计。
+---
+
+import DifferentialApproxDemo from "@/demos/differential-approx-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设函数$y=f(x)$在区间内有定义，$x_0$与$x_0+\Delta x$都在该区间内。若函数的增量
+
+$$
+\Delta y=f(x_0+\Delta x)-f(x_0)
+$$
+
+可以写成
+
+$$
+\Delta y=A\,\Delta x+o(\Delta x)\qquad(\Delta x\to0),
+$$
+
+其中$A$是不依赖于$\Delta x$的常数，则称$f$在点$x_0$处**可微**，并把线性部分
+
+$$
+\mathrm{d}y=A\,\Delta x
+$$
+
+称为$f$在$x_0$处相应于自变量增量$\Delta x$的**微分**。
+
+这里$o(\Delta x)$表示比$\Delta x$高阶的无穷小，即$\Delta y$与$A\Delta x$之差趋于$0$的速度比$\Delta x$更快。所以$\mathrm{d}y$是$\Delta y$的**线性主部**：$|\Delta x|$足够小时，$\Delta y\approx\mathrm{d}y$。
+
+规定自变量的微分就是它的增量，
+
+$$
+\mathrm{d}x=\Delta x,
+$$
+
+由下文可微与可导的充要条件，可微时$A=f'(x_0)$，于是微分通常写成
+
+$$
+\mathrm{d}y=f'(x)\,\mathrm{d}x .
+$$
+
+> [!NOTE]
+> $\mathrm{d}x$是一个整体记号，表示自变量的增量，不是$\mathrm{d}$与$x$相乘。$\mathrm{d}y$同时依赖所在点$x$和增量$\mathrm{d}x$两个量。
+
+## 可微与可导
+
+::section{#differentiability slot="knowledge.properties"}
+
+### 充要条件
+
+一元函数$f$在点$x_0$处可微的充要条件是$f$在$x_0$处可导，并且此时
+
+$$
+A=f'(x_0),\qquad
+\mathrm{d}y=f'(x_0)\,\mathrm{d}x .
+$$
+
+:::proof
+
+若$f$在$x_0$处可微，则$\Delta y=A\Delta x+o(\Delta x)$。两边除以$\Delta x$：
+
+$$
+\frac{\Delta y}{\Delta x}
+=A+\frac{o(\Delta x)}{\Delta x}\to A,
+$$
+
+所以$f'(x_0)$存在，且等于$A$。
+
+反过来，若$f'(x_0)$存在，令
+
+$$
+\varepsilon=\frac{\Delta y}{\Delta x}-f'(x_0),
+$$
+
+则$\Delta x\to0$时$\varepsilon\to0$，且
+
+$$
+\Delta y=f'(x_0)\Delta x+\varepsilon\Delta x,
+\qquad \varepsilon\Delta x=o(\Delta x),
+$$
+
+故$f$在$x_0$处可微，且$A=f'(x_0)$。
+
+:::
+
+因此求微分归结为求导数再乘以$\mathrm{d}x$。下面讨论一元函数；多元函数中偏导数存在与可微是两件不同的事。
+
+### 几何意义
+
+曲线$y=f(x)$在点$(x_0,f(x_0))$处的切线为
+
+$$
+y=f(x_0)+f'(x_0)(x-x_0).
+$$
+
+当自变量从$x_0$变到$x_0+\Delta x$时，$\Delta y$是曲线上纵坐标的增量，$\mathrm{d}y=f'(x_0)\Delta x$是同一切线上纵坐标的增量。两者之差$o(\Delta x)$就是曲线偏离切线的部分。
+
+所以$\Delta x$很小时可以用切线段代替曲线段，即**以直代曲**：
+
+$$
+f(x_0+\Delta x)\approx f(x_0)+f'(x_0)\Delta x .
+$$
+
+### 运算法则
+
+微分法则与导数法则一致。设$u$、$v$可微，则
+
+$$
+\mathrm{d}(Cu)=C\,\mathrm{d}u,\qquad
+\mathrm{d}(u\pm v)=\mathrm{d}u\pm\mathrm{d}v,
+$$
+
+$$
+\mathrm{d}(uv)=v\,\mathrm{d}u+u\,\mathrm{d}v,\qquad
+\mathrm{d}\left(\frac{u}{v}\right)
+=\frac{v\,\mathrm{d}u-u\,\mathrm{d}v}{v^2}\quad(v\ne0).
+$$
+
+以乘积为例，由$\mathrm{d}(uv)=(uv)'\mathrm{d}x$得
+
+$$
+\mathrm{d}(uv)=(u'v+uv')\mathrm{d}x
+=v\,(u'\mathrm{d}x)+u\,(v'\mathrm{d}x)
+=v\,\mathrm{d}u+u\,\mathrm{d}v .
+$$
+
+其余法则可以同样验证。更完整的求导公式见[基本求导公式与四则运算法则](/knowledge/maths/derivatives/derivative-formulas/)；复合函数的微分要用[链式法则](/knowledge/maths/derivatives/chain-rule/)。
+
+> [!TIP]
+> 计算微分时先求导，再在末尾乘$\mathrm{d}x$。例如$y=x^2e^x$的导数是$e^x(x^2+2x)$，所以$\mathrm{d}y=e^x(x^2+2x)\,\mathrm{d}x$。
+
+### 近似计算
+
+#### 近似公式
+
+当$|\Delta x|$很小时，用$\mathrm{d}y$代替$\Delta y$：
+
+$$
+f(x_0+\Delta x)\approx f(x_0)+f'(x_0)\Delta x .
+$$
+
+令$x=x_0+\Delta x$，也可写成
+
+$$
+f(x)\approx f(x_0)+f'(x_0)(x-x_0).
+$$
+
+这就是用切线代替曲线得到的线性近似。
+
+:::steps
+
+1. **选基点**
+
+   取$x_0$使$f(x_0)$与$f'(x_0)$都容易计算，并且$x$离$x_0$足够近。
+
+2. **算增量与微分**
+
+   令$\Delta x=x-x_0$，计算$\mathrm{d}y=f'(x_0)\Delta x$。
+
+3. **相加并说明精度**
+
+   得到$f(x)\approx f(x_0)+\mathrm{d}y$。误差是$o(\Delta x)$，$\Delta x$越小，近似越可靠。
+
+:::
+
+#### 常用近似公式
+
+取$x_0=0$，当$|x|$很小时：
+
+$$
+(1+x)^\alpha\approx1+\alpha x,\qquad
+\sqrt{1+x}\approx1+\frac12x,\qquad
+\frac{1}{1+x}\approx1-x,
+$$
+
+$$
+\sin x\approx x,\qquad
+\tan x\approx x,\qquad
+e^x\approx1+x,\qquad
+\ln(1+x)\approx x .
+$$
+
+前三个式子是同一个公式的特例：$\alpha=\dfrac12$给出$\sqrt{1+x}$，$\alpha=-1$给出$\dfrac{1}{1+x}$。这一组都可以由$f(x)\approx f(0)+f'(0)x$得到，只在$x\to0$时有效。
+
+#### 误差估计
+
+设$A$为准确值，$a$为近似值，则
+
+- **绝对误差**：$|A-a|$；
+- **相对误差**：$\dfrac{|A-a|}{|A|}$，实际估计时常用$\dfrac{|A-a|}{|a|}$。
+
+用微分近似时，误差$\Delta y-\mathrm{d}y=o(\Delta x)$，所以$|\Delta x|$足够小时，绝对误差是比$|\Delta x|$高阶的无穷小。实际测量中常把测量误差当作$\Delta x$，用$\mathrm{d}y=f'(x)\Delta x$估计函数值的误差。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="近似$\sqrt{1.02}$"}
+
+取$f(x)=\sqrt{x}$，$x_0=1$，$\Delta x=0.02$。则$f(1)=1$，$f'(x)=\dfrac{1}{2\sqrt{x}}$，$f'(1)=\dfrac12$。于是
+
+$$
+\sqrt{1.02}\approx1+\frac12\cdot0.02=1.01 .
+$$
+
+真实值约为$1.00995$，近似值偏大约$0.00005$，误差比$\Delta x$小两个数量级以上。
+
+:::
+
+:::example{title="微分与增量的差别：$y=\ln(1+x)$"}
+
+在$x=0$处取$\Delta x=0.01$。因为$f'(0)=1$，
+
+$$
+\mathrm{d}y=f'(0)\Delta x=0.01 .
+$$
+
+而实际增量
+
+$$
+\Delta y=\ln1.01\approx0.00995,
+$$
+
+与$\mathrm{d}y$相差约$5\times10^{-5}$，这个差是$o(\Delta x)$。$\Delta x$越小，两者越接近。
+
+:::
+
+:::example{title="用微分估计面积误差"}
+
+测得圆半径$r=10\ \mathrm{cm}$，测量误差至多$0.05\ \mathrm{cm}$。面积$A=\pi r^2$，$A'(r)=2\pi r$，所以面积的微分为
+
+$$
+\mathrm{d}A=2\pi r\,\mathrm{d}r
+=2\pi\cdot10\cdot0.05
+=\pi\approx3.14\ (\mathrm{cm}^2).
+$$
+
+这是面积误差的线性估计。相对误差约为
+
+$$
+\frac{\mathrm{d}A}{A}=\frac{2\pi r\,\mathrm{d}r}{\pi r^2}
+=\frac{2\,\mathrm{d}r}{r}=1\%.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<DifferentialApproxDemo />
+
+## 练习
+
+::problems{#differential-practice}
+
+1. ::question{#cube-differential}
+
+   函数$y=x^3$在$x=2$处、$\Delta x=0.01$时的微分$\mathrm{d}y=$ :blank{#cube-dy type="number"}。
+
+   :::reference
+   ::correct{blank="cube-dy" value="0.12"}
+
+   $y'=3x^2$，$y'(2)=12$，所以$\mathrm{d}y=12\cdot0.01=0.12$。
+   :::
+
+2. ::question{#sqrt-approximation}
+
+   用微分近似，$\sqrt{1.04}\approx$ :blank{#sqrt-value type="number"}。
+
+   :::reference
+   ::correct{blank="sqrt-value" value="1.02" tolerance="0.001"}
+
+   取$f(x)=\sqrt{x}$、$x_0=1$、$\Delta x=0.04$，得$1+\dfrac12\cdot0.04=1.02$。
+   :::
+
+3. ::question{#differentiable-relation}
+
+   关于一元函数可微与可导的关系，正确的说法是
+
+   :::choices{#relation-choice mode="single"}
+   - :option[A]{#a} 可微必可导，但可导不一定可微
+   - :option[B]{#b} 可导必可微，可微也必可导
+   - :option[C]{#c} 可微与可导没有关系
+   - :option[D]{#d} 连续必可微
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   一元函数在一点可微的充要条件是在该点可导，且$\mathrm{d}y=f'(x)\mathrm{d}x$。连续只保证函数值贴近极限值，不足以保证可微。
+   :::

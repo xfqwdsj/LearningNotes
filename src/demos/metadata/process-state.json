@@ -1,0 +1,38 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "进程因哪些事件改变状态？",
+      "description": "按事件推进进程，查看就绪、运行和阻塞之间的转换。",
+      "messages": {
+        "label": "进程状态转换",
+        "intro": "选择当前状态允许发生的事件，查看简化的五状态模型如何转换。",
+        "states": "进程状态",
+        "new": "新建",
+        "ready": "就绪",
+        "running": "运行",
+        "blocked": "阻塞",
+        "terminated": "终止",
+        "admit": "接纳进就绪队列",
+        "dispatch": "调度运行",
+        "preempt": "时间片用完",
+        "wait": "等待I/O",
+        "exit": "执行结束",
+        "complete": "I/O完成",
+        "reset": "重新开始",
+        "admitShort": "接纳",
+        "dispatchShort": "调度",
+        "waitShort": "等待",
+        "preemptShort": "时间片用完",
+        "completeShort": "事件完成",
+        "exitShort": "退出",
+        "newMeaning": "新建进程尚未进入就绪队列。",
+        "readyMeaning": "进程已具备运行条件，等待CPU。",
+        "runningMeaning": "进程正在使用CPU，可以被抢占、等待I/O或结束。",
+        "blockedMeaning": "进程等待事件完成，暂时不能运行。",
+        "terminatedMeaning": "进程已结束，不能再进入就绪队列。"
+      },
+      "tags": ["操作系统", "进程"]
+    }
+  }
+}

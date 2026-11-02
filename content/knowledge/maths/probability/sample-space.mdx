@@ -1,0 +1,35 @@
+---
+title: 样本空间
+description: 用样本点和样本空间描述随机试验的可能结果。
+---
+
+import SampleSpacePairsDemo from "@/demos/sample-space-pairs-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+随机试验是在给定条件下进行、结果不能预先确定的试验。每次试验的一个可能结果称为**样本点**，记作$\omega$；所有可能结果构成的集合称为**样本空间**，记作$\Omega$。建模时，样本点应互不混淆，并覆盖所关心的所有可能结果。
+
+样本空间依赖于记录的结果：掷一枚骰子，若记录点数，可以取$\Omega=\{1,2,3,4,5,6\}$；若只记录奇偶，则可以取$\Omega=\{\text{奇},\text{偶}\}$。样本空间本身不决定各结果是否等可能。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两枚可区分的骰子"}
+
+记录两枚骰子的点数时，样本点可以取有序对$(i,j)$，其中$i,j\in\{1,2,3,4,5,6\}$，共有$36$个样本点。若只记录点数和，也可以用$\{2,3,\ldots,12\}$作样本空间，但这些和并不等可能：和为$2$只有一种点数组合，和为$7$有六种。
+
+:::
+
+[随机事件](/knowledge/maths/probability/random-events/)是样本空间的子集，可以用它描述结果满足的条件。
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+两枚可区分骰子的有序点数对与点数和是两种不同的记录方式。改变两枚骰子的结果，比较同一个和对应多少个有序点数对。
+
+<SampleSpacePairsDemo />

@@ -1,0 +1,226 @@
+---
+title: 分布函数
+description: 用分布函数描述随机变量，并由端点值与左极限计算概率。
+---
+
+import DistributionFunctionDemo from "@/demos/distribution-function-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X$是[随机变量](/knowledge/maths/probability/random-variable/)。对任意实数$x$，$\{X\le x\}$表示使$X(\omega)\le x$的所有样本点组成的集合，它是一个事件。**分布函数**定义为
+
+$$
+F(x)=P\{X\le x\},\qquad -\infty<x<+\infty.
+$$
+
+分布函数在全体实数上有定义，并且只由概率决定，所以离散型、连续型和混合型随机变量都可以用它描述，不需要事先假定存在分布律或概率密度。
+
+> [!NOTE]
+> **记号约定**
+>
+> $P\{X\le x\}$与$P(X\le x)$含义相同，本页统一用前者。$F(x)$是$x$的函数，其中$x$取任意实数，不是随机变量。
+
+## 分布函数的性质
+
+::section{#properties slot="knowledge.properties"}
+
+设$F$是随机变量$X$的分布函数。
+
+1. **单调不减**：若$x_1<x_2$，则$F(x_1)\le F(x_2)$。
+2. **右连续**：$F(x+0)=F(x)$，即$\lim_{t\to x^+}F(t)=F(x)$。左极限$F(x-0)=\lim_{t\to x^-}F(t)$存在，但可以不等于$F(x)$。
+3. **两端极限**：$F(-\infty)=\lim_{x\to-\infty}F(x)=0$，$F(+\infty)=\lim_{x\to+\infty}F(x)=1$。
+
+:::proof
+**单调性**
+
+若$x_1<x_2$，则事件$\{X\le x_1\}$是$\{X\le x_2\}$的子集。由概率的单调性，
+
+$$
+F(x_1)=P\{X\le x_1\}\le P\{X\le x_2\}=F(x_2).
+$$
+:::
+
+**右连续与左极限**：当$x_n\downarrow x$时，事件$\{X\le x_n\}$单调减少，其交为$\{X\le x\}$，于是$F(x_n)\to F(x)$，这就是右连续。当$x_n\uparrow x$时，事件$\{X\le x_n\}$单调增加，其并为$\{X<x\}$，所以
+
+$$
+F(x-0)=P\{X<x\}.
+$$
+
+由单调性和两端极限还可得到$0\le F(x)\le 1$。
+
+> [!TIP]
+> **充分性**
+>
+> 反过来，任何满足单调不减、右连续以及两端极限为$0$和$1$的函数，都可以作为某个随机变量的分布函数。判断一个函数能否充当分布函数时，只需核对这三条，并确认定义域是全体实数。
+
+### 由分布函数计算概率
+
+::section{#interval-probability}
+
+对任意$a<b$，区间概率都能写成$F$在端点处取值之差。记$F(a-0)=\lim_{x\uparrow a}F(x)$，则
+
+| 概率 | 用分布函数表示 |
+| :--- | :--- |
+| $P\{a<X\le b\}$ | $F(b)-F(a)$ |
+| $P\{a\le X\le b\}$ | $F(b)-F(a-0)$ |
+| $P\{a<X<b\}$ | $F(b-0)-F(a)$ |
+| $P\{a\le X<b\}$ | $F(b-0)-F(a-0)$ |
+
+单点概率等于分布函数在该点的跳跃高度：
+
+$$
+P\{X=a\}=F(a)-F(a-0).
+$$
+
+尾概率可以写为
+
+$$
+P\{X>x\}=1-F(x),\qquad P\{X\ge x\}=1-F(x-0).
+$$
+
+此外，$P\{X<x\}=F(x-0)$。
+
+> [!WARNING]
+> 分布函数定义中的“$\le$”决定了端点写法。改写区间时，端点是否包含决定了该用$F(a)$还是$F(a-0)$；离散型不能随意把$<$换成$\le$。连续型的单点概率为零，端点才可以忽略。
+
+离散型与连续型随机变量都可用分布函数描述；连续的分布函数不一定有概率密度。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两点分布的分布函数"}
+
+若$P\{X=0\}=\dfrac13$，$P\{X=2\}=\dfrac23$，则
+
+$$
+F(x)=\begin{cases}
+0, & x<0,\\[2pt]
+\dfrac13, & 0\le x<2,\\[2pt]
+1, & x\ge 2.
+\end{cases}
+$$
+
+在$x=0$处，$F(0)-F(0-0)=\dfrac13-0=\dfrac13=P\{X=0\}$；在$x=2$处跳跃$1-\dfrac13=\dfrac23=P\{X=2\}$。分段点取右侧表达式，这与右连续一致。
+
+用区间公式可以读出：$P\{0<X\le 2\}=F(2)-F(0)=1-\dfrac13=\dfrac23$，而$P\{0\le X\le 2\}=F(2)-F(0-0)=1$。
+
+:::
+
+:::example{title="区间上的均匀分布"}
+
+若$X$在$(0,1)$上取值，分布函数为
+
+$$
+F(x)=\begin{cases}
+0, & x<0,\\
+x, & 0\le x<1,\\
+1, & x\ge 1,
+\end{cases}
+$$
+
+则$F$在全体实数上连续，概率密度为$f(t)=1$（$0<t<1$），其余位置为$0$。连续型在单点的概率为零：
+
+$$
+P\{X=0.5\}=F(0.5)-F(0.5-0)=0.5-0.5=0,
+$$
+
+而$P\{0<X\le 0.5\}=F(0.5)-F(0)=0.5$。这里端点的开闭不影响概率值。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对只取$0$和$2$的随机变量，改变$P(X=0)$和读取位置。移动到取值点时，分布函数取跳跃后的高度；跳跃大小就是该点的概率。
+
+<DistributionFunctionDemo />
+
+## 练习
+
+::problems{#random-variable-practice}
+
+1. ::question{#interval-values}
+
+   已知$F(1)=0.2$，$F(1-0)=0.1$，$F(3)=0.7$，$F(3-0)=0.6$。
+
+   1. ::part{#open-left}
+
+      $P\{1<X\le 3\}=$ :blank{#open-left-value type="number"}。
+
+      :::reference
+      ::correct{blank="open-left-value" value="0.5"}
+
+      $P\{1<X\le 3\}=F(3)-F(1)=0.7-0.2=0.5$。
+      :::
+
+   2. ::part{#closed-left}
+
+      $P\{1\le X\le 3\}=$ :blank{#closed-left-value type="number"}。
+
+      :::reference
+      ::correct{blank="closed-left-value" value="0.6"}
+
+      左端点包含$1$，要减去$F(1-0)$：$P\{1\le X\le 3\}=F(3)-F(1-0)=0.7-0.1=0.6$。
+      :::
+
+   3. ::part{#point-mass}
+
+      $P\{X=1\}=$ :blank{#point-mass-value type="number"}。
+
+      :::reference
+      ::correct{blank="point-mass-value" value="0.1"}
+
+      单点概率等于跳跃高度：$F(1)-F(1-0)=0.2-0.1=0.1$。
+      :::
+
+2. ::question{#cdf-requirement}
+
+   下列哪一条**不是**分布函数必须满足的性质？
+
+   :::choices{#choice-requirement mode="single"}
+   - :option[A]{#a} 单调不减
+   - :option[B]{#b} 右连续
+   - :option[C]{#c} 在每一点都连续
+   - :option[D]{#d} $F(-\infty)=0$，$F(+\infty)=1$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   分布函数只要求右连续，允许有跳跃。离散型的分布函数就是阶梯函数，在取值点处不连续。
+   :::
+
+3. ::question{#continuous-interval}
+
+   设$F(x)=0$（$x<0$），$F(x)=x^2$（$0\le x<1$），$F(x)=1$（$x\ge 1$）。则$P\{0.5<X\le 1\}=$ :blank{#square-value type="number"}。
+
+   :::reference
+   ::correct{blank="square-value" value="0.75"}
+
+   用区间公式：$F(1)-F(0.5)=1-0.25=0.75$。
+   :::
+
+4. ::question{#type-judgment}
+
+   关于离散型与连续型随机变量，下列说法正确的是
+
+   :::choices{#choice-type mode="single"}
+   - :option[A]{#a} 取值有无穷多个的随机变量一定是连续型
+   - :option[B]{#b} 连续型随机变量的分布函数一定连续
+   - :option[C]{#c} 离散型随机变量的分布函数一定连续
+   - :option[D]{#d} 连续型随机变量在某个单点的概率可能为正
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   连续型的分布函数可写成密度的积分，因此连续；离散型的分布函数是阶梯函数；取正整数的泊松变量取值无穷多但仍为离散型；连续型在单点的概率为零。
+   :::
+
+5. ::question{#jump-example}
+
+   举一个分布函数不连续的例子，并说明跳跃高度对应什么概率。

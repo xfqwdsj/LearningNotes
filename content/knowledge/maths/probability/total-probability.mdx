@@ -1,0 +1,55 @@
+---
+title: 全概率公式
+description: 按完备事件组分解事件，计算各来源对总概率的贡献。
+---
+
+import TotalProbabilityDemo from "@/demos/total-probability-demo";
+
+## 公式
+
+::section{#definition slot="knowledge.definition"}
+
+设$B_1,\ldots,B_n$是[完备事件组](/knowledge/maths/probability/event-partition/)，且$P(B_i)>0$。对任意事件$A$，
+
+$$
+P(A)=\sum_{i=1}^{n}P(B_i)P(A\mid B_i).
+$$
+
+每一项是交事件$AB_i$的概率；这些交事件互斥且合起来是$A$，因此可以相加。公式从不同来源的比例和各来源内的发生率求总概率。若某个来源概率为零，其交事件概率也为零，可以去掉该项；不能在分母为零时直接使用条件概率。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两条生产线的次品率"}
+
+甲线占产量的$70\%$，次品率为$2\%$；乙线占$30\%$，次品率为$6\%$。两种来源构成完备事件组，任取一件产品是次品的概率为
+
+$$
+0.7\times0.02+0.3\times0.06=0.032.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+调整两个来源所占比例和各自的发生率，深色面积表示结果事件。总概率是两块深色面积之和。
+
+<TotalProbabilityDemo />
+
+## 练习
+
+::problems{#total-probability-practice}
+
+1. ::question{#line-defect}
+
+   某车间有$A$、$B$两条生产线：$A$线产量占$70\%$，次品率$2\%$；$B$线产量占$30\%$，次品率$6\%$。任取一件产品，它是次品的概率为:blank{#defect-value type="number"}。
+
+   :::reference
+   ::correct{blank="defect-value" value="0.032"}
+
+   两条生产线构成完备事件组，由全概率公式，
+   $P(D)=0.7\times 0.02+0.3\times 0.06=0.014+0.018=0.032$。
+   :::

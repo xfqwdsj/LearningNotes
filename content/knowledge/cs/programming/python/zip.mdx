@@ -1,0 +1,47 @@
+---
+title: Python zip
+description: 将多个可迭代对象按位置组合成元组。
+---
+
+import PythonZipDemo from "@/demos/python-zip-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+`zip`从每个输入依次取一个元素组成元组，返回迭代器。默认情况下，一个输入耗尽时迭代停止，较长输入的其余元素不会出现在结果中；需要列表时可用`list`消费迭代器。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+`list(zip([1, 2, 3], "ab"))`得到`[(1, 'a'), (2, 'b')]`。两个输入长度不同，因此默认结果只有两组。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+调整两个输入的长度，查看可配对的位置和结果组数。
+
+<PythonZipDemo />
+
+## 练习
+
+::problems{#zip-practice}
+
+1. ::question{#zip-shortest}
+
+   `list(zip([1, 2, 3], "ab"))`的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[(1, 'a'), (2, 'b')]`
+   - :option[B]{#b} `[(1, 'a'), (2, 'b'), (3, None)]`
+   - :option[C]{#c} `[(1, 'a'), (2, 'b'), (3, '')]`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `zip`以最短序列为准，字符串只有两个字符，第三个元素不会出现在结果里。
+   :::

@@ -1,0 +1,266 @@
+---
+title: 幂级数
+description: 从函数项级数的收敛域出发，说明幂级数的收敛半径、阿贝尔定理与系数极限的关系，以及幂级数的四则运算和逐项求导、逐项积分。
+---
+
+import PowerSeriesDemo from "@/demos/power-series-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+形如
+
+$$
+\sum_{n=0}^{\infty}a_nx^n=a_0+a_1x+a_2x^2+\cdots+a_nx^n+\cdots
+$$
+
+的函数项级数称为$x$的**幂级数**，常数$a_0,a_1,a_2,\dots$称为幂级数的**系数**。
+
+更一般地，形如
+
+$$
+\sum_{n=0}^{\infty}a_n(x-x_0)^n
+$$
+
+的级数称为$(x-x_0)$的幂级数。令$t=x-x_0$，它就化为$\sum a_nt^n$，所以讨论收敛性时可以只处理$x_0=0$的情形，最后把区间平移回去。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 收敛性与收敛半径
+
+#### 阿贝尔定理
+
+设幂级数$\sum_{n=0}^{\infty}a_nx^n$。
+
+1. 若它在$x=x_0$（$x_0\ne0$）处收敛，则对满足$|x|<|x_0|$的一切$x$，该幂级数绝对收敛；
+2. 若它在$x=x_0$处发散，则对满足$|x|>|x_0|$的一切$x$，该幂级数发散。
+
+:::proof
+
+设$\sum a_nx_0^n$收敛。由收敛的必要条件，$a_nx_0^n\to0$，于是存在常数$M$，使
+
+$$
+|a_nx_0^n|\le M
+$$
+
+对一切$n$成立。对满足$|x|<|x_0|$的$x$，记$q=\left|\dfrac{x}{x_0}\right|<1$，则
+
+$$
+|a_nx^n|=|a_nx_0^n|\cdot q^n\le Mq^n.
+$$
+
+$\sum Mq^n$是收敛的等比级数，由比较审敛法，$\sum|a_nx^n|$收敛，即原幂级数在$x$处绝对收敛。
+
+第二条用反证：若存在$|x|>|x_0|$使级数在$x$处收敛，则由第一条，级数在$x_0$处绝对收敛，与题设发散矛盾。
+
+:::
+
+**推论**：若幂级数$\sum a_nx^n$不是只在$x=0$处收敛，也不是在整个实数轴上收敛，则存在正数$R$，使得
+
+- 当$|x|<R$时，幂级数绝对收敛；
+- 当$|x|>R$时，幂级数发散；
+- 当$x=R$与$x=-R$时，幂级数可能收敛也可能发散，需要单独判定。
+
+这个$R$称为幂级数的**收敛半径**，开区间$(-R,R)$称为**收敛区间**。把端点$x=\pm R$的敛散性判定之后，收敛区间连同收敛的端点构成**收敛域**。
+
+若幂级数只在$x=0$处收敛，规定$R=0$；若它对一切$x$都收敛，规定$R=+\infty$。
+
+> [!WARNING]
+> **端点没有一般结论**
+>
+> 阿贝尔定理只断言开区间$(-R,R)$内绝对收敛、$|x|>R$时发散。在$x=\pm R$处，幂级数可能绝对收敛、条件收敛或发散，必须把$x=\pm R$代入原级数，按常数项级数重新判断。
+
+#### 收敛半径的求法
+
+设幂级数$\sum a_nx^n$的系数满足
+
+$$
+\lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|=\rho
+\qquad\text{或}\qquad
+\lim_{n\to\infty}\sqrt[n]{|a_n|}=\rho,
+$$
+
+则
+
+1. 当$0<\rho<+\infty$时，$R=\dfrac1\rho$；
+2. 当$\rho=0$时，$R=+\infty$；
+3. 当$\rho=+\infty$时，$R=0$。
+
+:::proof
+
+对$x\ne0$，把比值审敛法用于绝对值级数$\sum|a_nx^n|$：
+
+$$
+\lim_{n\to\infty}\left|\frac{a_{n+1}x^{n+1}}{a_nx^n}\right|
+=\rho|x|.
+$$
+
+当$\rho|x|<1$，即$|x|<\dfrac1\rho$时，绝对值级数收敛；当$\rho|x|>1$时，通项不趋于$0$，幂级数发散。所以$R=\dfrac1\rho$。用根值审敛法对$\sum|a_nx^n|$开$n$次方，得到同样的$\rho|x|$，结论相同。
+
+$\rho=0$时对任何$x$都有$\rho|x|<1$，$R=+\infty$；$\rho=+\infty$时对任何$x\ne0$都有$\rho|x|>1$，$R=0$。
+
+:::
+
+> [!NOTE]
+> 公式只给收敛半径，不给端点。求收敛域要分三步：由系数极限算$R$；写出收敛区间$(-R,R)$；把$x=\pm R$代入原级数判断端点。
+
+### 幂级数的运算
+
+设$\sum a_nx^n$的收敛半径为$R_1$，$\sum b_nx^n$的收敛半径为$R_2$，令$R=\min(R_1,R_2)$。在$(-R,R)$内可以进行下列运算。
+
+**加法与减法**：
+
+$$
+\sum_{n=0}^{\infty}a_nx^n\pm\sum_{n=0}^{\infty}b_nx^n
+=\sum_{n=0}^{\infty}(a_n\pm b_n)x^n.
+$$
+
+**乘法（柯西乘积）**：
+
+$$
+\Bigl(\sum_{n=0}^{\infty}a_nx^n\Bigr)\Bigl(\sum_{n=0}^{\infty}b_nx^n\Bigr)
+=\sum_{n=0}^{\infty}c_nx^n,\qquad
+c_n=\sum_{k=0}^{n}a_kb_{n-k}.
+$$
+
+**除法**：当$b_0\ne0$且$|x|$足够小时，商可以写成幂级数$\sum d_nx^n$，系数$d_n$用待定系数法由递推关系确定。
+
+> [!NOTE]
+> $R=\min(R_1,R_2)$只是保证运算在$(-R,R)$内成立的区间，运算结果的收敛半径可以更大。例如两个系数互为相反数的幂级数相加得到零级数，它对一切$x$收敛。
+
+### 分析性质
+
+幂级数在收敛区间内的三条分析性质，是它区别于一般函数项级数的关键。
+
+**连续性**：和函数$s(x)=\sum a_nx^n$在收敛区间$(-R,R)$内连续。若幂级数在端点$x=R$（或$x=-R$）处也收敛，则和函数在该端点处单侧连续。
+
+**逐项积分**：对任意$x\in(-R,R)$，
+
+$$
+\int_0^xs(t)\,\mathrm{d}t
+=\int_0^x\Bigl(\sum_{n=0}^{\infty}a_nt^n\Bigr)\mathrm{d}t
+=\sum_{n=0}^{\infty}\frac{a_n}{n+1}x^{n+1},
+$$
+
+逐项积分后所得幂级数的收敛半径仍为$R$。
+
+**逐项求导**：和函数在$(-R,R)$内可导，且
+
+$$
+s'(x)=\Bigl(\sum_{n=0}^{\infty}a_nx^n\Bigr)'
+=\sum_{n=1}^{\infty}na_nx^{n-1},
+$$
+
+逐项求导后所得幂级数的收敛半径仍为$R$。
+
+> [!NOTE]
+> 逐项求导、逐项积分保持收敛半径不变，但端点处的敛散性可能改变。例如$\sum\dfrac{x^n}{n}$的收敛半径是$1$，在$x=-1$处收敛；逐项求导得到$\sum x^{n-1}$，它在$x=-1$处发散。
+
+这三条性质给出了求幂级数和函数的常用路线：先逐项求导，把系数中的$n$消去，化成可以套用等比级数公式的形式，求和后再逐项积分还原；有时反过来先积分再求导更方便。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$\sum\dfrac{x^n}{n}$的收敛域"}
+
+由$\left|\dfrac{a_{n+1}}{a_n}\right|=\dfrac{n}{n+1}\to1$得$R=1$，收敛区间为$(-1,1)$。
+
+在$x=1$处，级数为调和级数$\sum\dfrac1n$，发散；在$x=-1$处，级数为$\sum\dfrac{(-1)^n}{n}$，由莱布尼茨定理收敛。
+
+所以收敛域为$[-1,1)$。
+
+:::
+
+:::example{title="$\sum n!x^n$的收敛域"}
+
+由$\left|\dfrac{a_{n+1}}{a_n}\right|=n+1\to+\infty$得$R=0$，幂级数只在$x=0$处收敛，收敛域为$\{0\}$。
+
+:::
+
+:::example{title="$\sum\dfrac{x^n}{n!}$的收敛域"}
+
+由$\left|\dfrac{a_{n+1}}{a_n}\right|=\dfrac{1}{n+1}\to0$得$R=+\infty$，幂级数对一切$x$收敛，收敛域为$(-\infty,+\infty)$。
+
+:::
+
+:::example{title="用求导与积分求和函数"}
+
+当$|x|<1$时，
+
+$$
+\sum_{n=0}^{\infty}x^n=\frac{1}{1-x}.
+$$
+
+两边逐项求导，得
+
+$$
+\sum_{n=1}^{\infty}nx^{n-1}=\frac{1}{(1-x)^2}\qquad(|x|<1).
+$$
+
+对$\sum x^n=\dfrac1{1-x}$两边从$0$到$x$逐项积分，得
+
+$$
+\sum_{n=1}^{\infty}\frac{x^n}{n}=-\ln(1-x)\qquad(|x|<1).
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PowerSeriesDemo />
+
+## 练习
+
+::problems{#power-series-basics}
+
+1. ::question{#radius}
+
+   幂级数$\displaystyle\sum_{n=0}^{\infty}\frac{x^n}{3^n}$的收敛半径$R=$ :blank{#radius type="number"}。
+
+   :::reference
+   ::correct{blank="radius" value="3"}
+
+   $\left|\dfrac{a_{n+1}}{a_n}\right|=\dfrac{3^n}{3^{n+1}}=\dfrac13$，所以$\rho=\dfrac13$，$R=\dfrac1\rho=3$。
+   :::
+
+2. ::question{#domain}
+
+   幂级数$\displaystyle\sum_{n=0}^{\infty}n!x^n$的收敛域是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\{0\}$
+   - :option[B]{#b} $(-1,1)$
+   - :option[C]{#c} $[-1,1]$
+   - :option[D]{#d} $(-\infty,+\infty)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   系数比值的极限为$+\infty$，所以$R=0$，幂级数只在$x=0$处收敛。
+   :::
+
+3. ::question{#properties}
+
+   设幂级数$\displaystyle\sum_{n=0}^{\infty}a_nx^n$的收敛半径为$R>0$，下列结论哪些一定成立？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 在$(-R,R)$内绝对收敛
+   - :option[B]{#b} 在$x=R$处必收敛
+   - :option[C]{#c} 逐项求导后所得幂级数的收敛半径仍为$R$
+   - :option[D]{#d} 和函数在$(-R,R)$内连续
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="c"}
+   ::correct{option="d"}
+
+   A、D由阿贝尔定理与连续性得到，C是逐项求导的性质。B不成立：端点处可能收敛也可能发散，例如$\sum x^n$的收敛半径是$1$，在$x=1$处发散。
+   :::

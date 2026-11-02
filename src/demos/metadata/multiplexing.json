@@ -1,0 +1,23 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "两路信号怎样共享一条信道？",
+      "description": "比较时分复用和频分复用各自划分的资源。",
+      "messages": {
+        "label": "时分与频分复用",
+        "intro": "以两路信号A、B为例，切换复用方式，比较被分开的资源。",
+        "choose": "选择复用方式",
+        "tdm": "时分",
+        "fdm": "频分",
+        "timeDiagram": "A和B轮流使用时隙",
+        "frequencyDiagram": "A和B使用不同频带",
+        "timeAxis": "横向表示连续时隙",
+        "frequencyAxis": "上下表示不同频带",
+        "timeResult": "时分复用将不同时间片分配给不同信号。",
+        "frequencyResult": "频分复用将不同频带分配给不同信号。"
+      },
+      "tags": ["计算机网络", "多路复用"]
+    }
+  }
+}

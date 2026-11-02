@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "均匀分布改变区间后，概率怎样计算？",
+      "description": "调整区间位置、长度和阈值，计算左侧区间的概率。",
+      "messages": {
+        "label": "均匀分布的区间概率",
+        "intro": "深色部分表示从区间左端到阈值的位置；阈值由区间长度的比例确定。",
+        "start": "左端点$a$",
+        "width": "区间长度$b-a$",
+        "fraction": "阈值在区间内的比例",
+        "diagram": "深色区间占总长度的{probability}",
+        "result": "区间为$[{start},{end}]$，阈值为{x}，左侧概率为{probability}。"
+      },
+      "tags": ["概率论", "均匀分布"]
+    }
+  }
+}

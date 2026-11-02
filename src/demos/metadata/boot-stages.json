@@ -1,0 +1,26 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "启动时控制权怎样逐步交接？",
+      "description": "按顺序查看固件、加载程序、内核和用户空间的职责。",
+      "messages": {
+        "label": "计算机启动的控制权交接",
+        "intro": "这是一条简化启动链。实际平台可能合并或细分阶段，也可能直接由固件加载内核。",
+        "previous": "上一步",
+        "next": "下一步",
+        "progress": "第{stage} / {total}阶段",
+        "diagram": "当前阶段：{stage}",
+        "firmware": "固件",
+        "loader": "启动加载程序",
+        "kernel": "操作系统内核",
+        "userspace": "用户空间",
+        "firmwareDescription": "固件准备必要硬件并选择后续启动目标。",
+        "loaderDescription": "启动加载程序准备内核及其启动参数，再交出控制权。",
+        "kernelDescription": "内核初始化运行环境并启动用户空间的初始进程。",
+        "userspaceDescription": "用户空间进程启动服务和会话。"
+      },
+      "tags": ["操作系统", "启动过程"]
+    }
+  }
+}

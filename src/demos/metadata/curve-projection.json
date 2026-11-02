@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "空间曲线如何投影到坐标平面？",
+      "description": "查看螺旋线点及其在xy平面的投影。",
+      "messages": {
+        "label": "空间曲线投影",
+        "intro": "取螺旋线$(\\cos t,\\sin t,t)$，将每个点沿$z$轴方向投影到$xy$平面。空间中的实线螺旋随参数上升，虚线是它在$xy$平面上的单位圆，竖线连接当前空间点$P(t)$与投影点$P_0(t)$。",
+        "parameter": "参数$t$",
+        "spacePoint": "空间点",
+        "projectionPoint": "投影点",
+        "result": "投影保留$x$、$y$并令$z=0$；投影曲线是单位圆。"
+      },
+      "tags": ["空间几何", "曲线投影"]
+    }
+  }
+}

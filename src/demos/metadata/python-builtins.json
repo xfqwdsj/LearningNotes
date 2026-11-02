@@ -1,0 +1,17 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "内置函数怎样接收对象并返回结果？",
+      "description": "增减列表元素，查看内置函数`len`的返回值。",
+      "messages": {
+        "label": "Python内置函数`len`的调用",
+        "intro": "`len`是可直接调用的内置函数。改变列表长度，查看调用表达式的返回值。",
+        "add": "增加元素",
+        "remove": "移除元素",
+        "result": "当前列表有{length}个元素，`len`返回{length}。"
+      },
+      "tags": ["Python", "内置函数"]
+    }
+  }
+}

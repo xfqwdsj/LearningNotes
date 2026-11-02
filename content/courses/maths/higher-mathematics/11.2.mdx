@@ -1,0 +1,52 @@
+---
+title: 11.2&#32;对坐标的曲线积分
+description: 记录第二类曲线积分在本章的过渡位置、方向约定和两类积分联系公式的使用要点。
+---
+
+## 阅读入口
+
+- [对坐标的曲线积分](/knowledge/maths/line-integrals/line-integral-coordinates/)
+- [对弧长的曲线积分](/knowledge/maths/line-integrals/line-integral-arc-length/)
+- [格林公式及其应用](/knowledge/maths/line-integrals/greens-theorem/)
+
+## 学习安排
+
+教材在上一节建立了对弧长的曲线积分，本节改用有向小弧段的坐标增量定义对坐标的曲线积分，并立刻给出向量形式。下一节的格林公式以$P\,\mathrm{d}x+Q\,\mathrm{d}y$为对象，所以本节的参数化计算是整章的基础。
+
+阅读顺序建议是：先看有向弧段与$\Delta x_i$、$\Delta y_i$的符号，再读参数方程下的计算公式，然后比较方向性与可加性，最后看两类积分的联系公式。联系公式在格林公式之后还会反过来用，不宜跳读。
+
+## 定义与方向
+
+::knowledge{path="maths/line-integrals/line-integral-coordinates" slot="definition"}
+
+有向弧段的定义落到计算上仍是参数化，只是上下限要按方向排。
+
+## 计算方法
+
+::include{src="/knowledge/maths/line-integrals/line-integral-coordinates/" section="computation"}
+
+两类积分各自能算之后，才谈得上把它们互相转换。
+
+## 两类积分的联系
+
+::include{src="/knowledge/maths/line-integrals/line-integral-coordinates/" section="relation"}
+
+联系公式之后就是下一节的格林公式；课程约定把方向余弦的符号先固定下来。
+
+## 课程约定
+
+- 有向曲线弧记作$L$，起点为$A$、终点为$B$；与$L$方向相反的弧记作$L^-$。
+- 向量形式中取$\mathbf F=(P,Q)$、$\mathrm{d}\mathbf r=(\mathrm{d}x,\mathrm{d}y)$，教材把第二类积分写成$\int_L\mathbf F\cdot\mathrm{d}\mathbf r$。
+- 两类积分联系公式里的$\cos\alpha$、$\cos\beta$是**有向**单位切向量的方向余弦，带符号；$\mathrm{d}s$仍取正值。
+- 空间曲线用$\Gamma$表示，被积表达式增加$R\,\mathrm{d}z$一项。
+
+## 重点与易错点
+
+- 参数$t$的起止值必须和曲线的起点、终点对应。方向反了要改上下限或在结果前加负号，不能只改被积表达式。
+- 计算时两个坐标微分都要乘上对应的参数导数，漏乘是本节最常见的计算错误。
+- 第二类积分反向变号，第一类积分反向不变号。题目把两类积分放在一起时，先确认$\mathrm{d}s$还是$\mathrm{d}x$、$\mathrm{d}y$。
+- 联系公式中方向余弦决定符号，不能把$\cos\alpha$、$\cos\beta$当成普通夹角余弦取正值。
+
+## 复习要点
+
+复习时先看曲线是否闭合、方向是否给定，再决定直接参数化还是寻找原函数。若被积表达式恰是某个函数的全微分，优先用端点值相减，下一节的路径无关判定会解释这样做的条件。

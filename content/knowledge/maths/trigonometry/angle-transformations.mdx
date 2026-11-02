@@ -1,0 +1,169 @@
+---
+title: 和差角与三角恒等变形
+description: 两角和差、和差化积、积化和差、倍角、半角与降幂公式，以及化简求值的基本顺序。
+order: 3
+---
+
+import AngleSumDemo from "@/demos/angle-sum-demo";
+
+## 公式
+
+::section{#formulas slot="knowledge.properties"}
+
+以下公式都在各函数有定义时成立；正切公式还要求分母不为零。
+
+### 两角和差
+
+$$
+\begin{aligned}
+\sin(\alpha\pm\beta)&=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta,\\
+\cos(\alpha\pm\beta)&=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta,\\
+\tan(\alpha\pm\beta)&=\frac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}.
+\end{aligned}
+$$
+
+正切公式要求$\cos\alpha\cos\beta\ne 0$，且对应分母$1-\tan\alpha\tan\beta$或$1+\tan\alpha\tan\beta$不为零。
+
+### 和差化积
+
+$$
+\begin{aligned}
+\sin\alpha+\sin\beta&=2\sin\frac{\alpha+\beta}{2}\cos\frac{\alpha-\beta}{2},\\
+\sin\alpha-\sin\beta&=2\cos\frac{\alpha+\beta}{2}\sin\frac{\alpha-\beta}{2},\\
+\cos\alpha+\cos\beta&=2\cos\frac{\alpha+\beta}{2}\cos\frac{\alpha-\beta}{2},\\
+\cos\alpha-\cos\beta&=-2\sin\frac{\alpha+\beta}{2}\sin\frac{\alpha-\beta}{2}.
+\end{aligned}
+$$
+
+### 积化和差
+
+$$
+\begin{aligned}
+\sin\alpha\cos\beta&=\frac{1}{2}\left[\sin(\alpha+\beta)+\sin(\alpha-\beta)\right],\\
+\cos\alpha\sin\beta&=\frac{1}{2}\left[\sin(\alpha+\beta)-\sin(\alpha-\beta)\right],\\
+\cos\alpha\cos\beta&=\frac{1}{2}\left[\cos(\alpha+\beta)+\cos(\alpha-\beta)\right],\\
+\sin\alpha\sin\beta&=\frac{1}{2}\left[\cos(\alpha-\beta)-\cos(\alpha+\beta)\right].
+\end{aligned}
+$$
+
+> [!TIP]
+> 和差化积与积化和差都可以由两角和差公式推出。记不住时，先把$\sin(\alpha+\beta)$与$\sin(\alpha-\beta)$相加或相减，再令$\alpha=\dfrac{u+v}{2}$、$\beta=\dfrac{u-v}{2}$，比硬背可靠。
+
+### 倍角
+
+$$
+\begin{aligned}
+\sin 2\alpha&=2\sin\alpha\cos\alpha,\\
+\cos 2\alpha&=\cos^{2}\alpha-\sin^{2}\alpha=2\cos^{2}\alpha-1=1-2\sin^{2}\alpha,\\
+\tan 2\alpha&=\frac{2\tan\alpha}{1-\tan^{2}\alpha}.
+\end{aligned}
+$$
+
+正切倍角公式要求$\cos\alpha\ne 0$且$1-\tan^{2}\alpha\ne 0$。
+
+### 半角
+
+$$
+\begin{aligned}
+\sin\frac{\alpha}{2}&=\pm\sqrt{\frac{1-\cos\alpha}{2}},\\
+\cos\frac{\alpha}{2}&=\pm\sqrt{\frac{1+\cos\alpha}{2}},\\
+\tan\frac{\alpha}{2}&=\pm\sqrt{\frac{1-\cos\alpha}{1+\cos\alpha}}
+=\frac{\sin\alpha}{1+\cos\alpha}
+=\frac{1-\cos\alpha}{\sin\alpha}.
+\end{aligned}
+$$
+
+> [!WARNING]
+> 半角公式中根号前的符号由$\dfrac{\alpha}{2}$所在象限决定，不能只看$\alpha$的象限。此外，$\tan\dfrac{\alpha}{2}=\dfrac{\sin\alpha}{1+\cos\alpha}$要求$\cos\alpha\ne -1$，而$\tan\dfrac{\alpha}{2}=\dfrac{1-\cos\alpha}{\sin\alpha}$要求$\sin\alpha\ne 0$。
+
+### 降幂
+
+| 原式 | 降幂结果 |
+| :--- | :--- |
+| $\sin^{2}\alpha$ | $\dfrac{1-\cos 2\alpha}{2}$ |
+| $\cos^{2}\alpha$ | $\dfrac{1+\cos 2\alpha}{2}$ |
+| $\sin^{3}\alpha$ | $\dfrac{3\sin\alpha-\sin 3\alpha}{4}$ |
+| $\cos^{3}\alpha$ | $\dfrac{3\cos\alpha+\cos 3\alpha}{4}$ |
+| $\sin^{4}\alpha$ | $\dfrac{3-4\cos 2\alpha+\cos 4\alpha}{8}$ |
+| $\cos^{4}\alpha$ | $\dfrac{3+4\cos 2\alpha+\cos 4\alpha}{8}$ |
+
+更高次幂可以反复使用倍角公式降幂，也可以借助欧拉公式把正弦、余弦写成复指数再展开，或按傅里叶系数的做法推广。
+
+### 化简与求值
+
+:::steps
+
+1. **统一角**
+
+   用诱导公式把角化到同一个角或锐角，减少同时出现的角。
+
+2. **统一函数名**
+
+   把正切、余切化为正弦、余弦，或反过来把正弦、余弦化为正切；后者要注意$\cos\alpha\ne 0$。
+
+3. **选择公式**
+
+   两个角的和差用和差角公式展开；同角的高次幂用降幂公式；正弦、余弦的和差考虑和差化积；三角函数的乘积考虑积化和差。
+
+4. **检验符号与定义域**
+
+   用特殊值回代检查符号，并确认每一步用到的函数都有定义、分母不为零。
+
+:::
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="已知正弦值求二倍角"}
+
+已知$\sin\alpha=\dfrac{3}{5}$，$\alpha\in\left(\dfrac{\pi}{2},\pi\right)$，求$\cos 2\alpha$与$\sin 2\alpha$。
+
+因为$\alpha$在第二象限，所以
+
+$$
+\cos\alpha=-\sqrt{1-\sin^{2}\alpha}=-\frac{4}{5}.
+$$
+
+于是
+
+$$
+\cos 2\alpha=1-2\sin^{2}\alpha=1-2\cdot\frac{9}{25}=\frac{7}{25},
+$$
+
+$$
+\sin 2\alpha=2\sin\alpha\cos\alpha=2\cdot\frac{3}{5}\cdot\left(-\frac{4}{5}\right)=-\frac{24}{25}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<AngleSumDemo />
+
+## 练习
+
+::problems{#trigonometry-transformations}
+
+1. ::question{#double-angle-forms}
+
+   下列等式在定义域内恒成立的有：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\cos 2\alpha=2\cos^{2}\alpha-1$
+   - :option[B]{#b} $\cos 2\alpha=1-2\sin^{2}\alpha$
+   - :option[C]{#c} $\cos 2\alpha=\cos^{2}\alpha-\sin^{2}\alpha$
+   - :option[D]{#d} $\cos 2\alpha=2\sin^{2}\alpha-1$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   前三个都是二倍角余弦的常用形式；最后一个的符号相反，应为$1-2\sin^{2}\alpha$。
+   :::

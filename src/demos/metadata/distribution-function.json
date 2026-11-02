@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "分布函数在取值处怎样跳跃？",
+      "description": "改变两点分布的概率和读取位置，观察分布函数的右连续性。",
+      "messages": {
+        "label": "两点分布的分布函数",
+        "intro": "随机变量只取$0$与$2$，其中$P(X=0)=p$；空心点表示该位置不取这段的高度，实心点表示取到的值。",
+        "probability": "$P(X=0)$",
+        "position": "读取位置$x$",
+        "diagram": "在{x}处分布函数值为{value}",
+        "result": "$F({x})={value}$，即$X\\le {x}$的概率。"
+      },
+      "tags": ["概率论", "分布函数"]
+    }
+  }
+}

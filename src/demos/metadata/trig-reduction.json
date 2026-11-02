@@ -1,0 +1,22 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "改变角后正弦值怎样变化？",
+      "description": "比较三个诱导公式的符号和函数名。",
+      "messages": {
+        "label": "正弦诱导公式",
+        "intro": "单位圆上的实心点表示角$\\alpha$，空心点表示变换后的角。水平虚线比较两个终点的纵坐标，就能读出正弦值的符号或函数名变化。",
+        "angle": "角$\\alpha$",
+        "choose": "选择角的变换",
+        "subtract": "$180^\\circ-\\alpha$",
+        "add": "$180^\\circ+\\alpha$",
+        "quarter": "$90^\\circ+\\alpha$",
+        "subtractResult": "$\\sin(\\pi-\\alpha)=\\sin\\alpha$。",
+        "addResult": "$\\sin(\\pi+\\alpha)=-\\sin\\alpha$。",
+        "quarterResult": "$\\sin(\\pi/2+\\alpha)=\\cos\\alpha$。"
+      },
+      "tags": ["三角函数", "诱导公式"]
+    }
+  }
+}

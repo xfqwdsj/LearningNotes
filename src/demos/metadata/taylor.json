@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "多项式怎样贴合曲线？",
+      "description": "提高泰勒多项式的次数，观察它在一段区间上逼近正弦曲线。",
+      "messages": {
+        "label": "正弦函数的泰勒逼近演示",
+        "degree": "{order}次",
+        "intro": "虚线是$y=\\sin x$，实线是它在$0$处的麦克劳林多项式。次数越高，贴合的范围越宽。",
+        "orderLabel": "展开到",
+        "graphLabel": "正弦曲线与{order}次泰勒多项式，区间内最大误差{error}",
+        "reset": "重新观察",
+        "conclusion": "在$[-\\pi,\\pi]$上的最大误差约为${error}$。增加次数时，误差通常先在一段区间内快速减小。"
+      },
+      "tags": ["泰勒公式", "近似计算", "级数"]
+    }
+  }
+}

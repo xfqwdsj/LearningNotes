@@ -1,0 +1,92 @@
+---
+title: 全方差公式
+description: 将总方差拆为条件方差的期望与条件期望的方差。
+---
+
+import TotalVarianceDemo from "@/demos/total-variance-demo";
+
+## 公式
+
+::section{#definition slot="knowledge.definition"}
+
+$$
+D(X)=E[D(X\mid Y)]+D[E(X\mid Y)].
+$$
+
+其中$D(X\mid Y)=E(X^2\mid Y)-[E(X\mid Y)]^2$是给定$Y$时的条件方差（条件期望与条件分布的写法见[条件期望](/knowledge/maths/probability/conditional-expectation/)和[条件分布](/knowledge/maths/probability/conditional-distribution/)）。全方差公式把总波动拆成两部分：各情形内部的平均波动$E[D(X\mid Y)]$，以及各情形平均水平之间的波动$D[E(X\mid Y)]$。
+
+:::proof
+由条件期望的性质，$E(X^2)=E[E(X^2\mid Y)]$，而
+
+$$
+E(X^2\mid Y)=D(X\mid Y)+[E(X\mid Y)]^2.
+$$
+
+于是
+
+$$
+\begin{aligned}
+D(X)
+&=E(X^2)-[E(X)]^2\\
+&=E[D(X\mid Y)]+E\bigl([E(X\mid Y)]^2\bigr)-\bigl(E[E(X\mid Y)]\bigr)^2\\
+&=E[D(X\mid Y)]+D[E(X\mid Y)].
+\end{aligned}
+$$
+:::
+
+> [!WARNING]
+> 混合分布中只把各条件方差加权平均，会漏掉条件均值随情形变化带来的那部分波动。两部分都要算，才是总方差。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="混合分布的总方差"}
+
+某零件由两台设备加工，$60\%$来自甲设备，$40\%$来自乙设备。甲设备加工的长度均值为$10$，方差为$0.04$；乙设备均值为$12$，方差为$0.09$。记长度为$X$，来源设备为$Y$。
+
+组内平均波动为
+
+$$
+E[D(X\mid Y)]=0.6\times0.04+0.4\times0.09=0.06.
+$$
+
+条件均值为$E(X\mid Y=\text{甲})=10$、$E(X\mid Y=\text{乙})=12$，其方差为
+
+$$
+D[E(X\mid Y)]
+=0.6\times(10-10.8)^2+0.4\times(12-10.8)^2
+=0.384+0.576=0.96.
+$$
+
+由全方差公式，
+
+$$
+D(X)=0.06+0.96=1.02.
+$$
+
+若只把两个条件方差加权平均，会得到$0.06$，漏掉了两台设备均值相差$2$所带来的波动。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+调整两组的比例和组内成功率，比较各组内部的平均波动与组间平均水平差异带来的波动。两部分相加为总方差。
+
+<TotalVarianceDemo />
+
+## 练习
+
+::problems{#total-variance-practice}
+
+1. ::question{#total-variance}
+
+   已知$E[D(X\mid Y)]=2$，$D[E(X\mid Y)]=3$，则$D(X)=$ :blank{#total-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="total-variance-value" value="5"}
+
+   由全方差公式，$D(X)=E[D(X\mid Y)]+D[E(X\mid Y)]=2+3=5$。
+   :::

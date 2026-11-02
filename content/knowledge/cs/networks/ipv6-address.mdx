@@ -1,0 +1,26 @@
+---
+title: IPv6地址
+description: 理解IPv6地址的十六进制分组和零压缩写法。
+---
+
+import Ipv6CompressionDemo from "@/demos/ipv6-compression-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+IPv6地址长$128$位，通常写成八组十六进制数，每组表示$16$位，组间用冒号分隔。例如
+
+```text
+2001:0db8:0000:0000:0000:0000:0000:0001
+```
+
+每组开头的零可以省略；连续的全零组可以用一次`::`代替。常用的规范写法压缩最长的一段连续全零组；等长时选靠前的一段，并不压缩单个全零组。上例可写成`2001:db8::1`。`::`在一个地址中只能出现一次，否则无法确定它代表多少组。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+切换各组是否为零，比较完整写法和遵循上述规则的压缩写法。
+
+<Ipv6CompressionDemo />

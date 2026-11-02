@@ -1,0 +1,24 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "调用如何展开，又如何返回？",
+      "description": "逐步查看阶乘的调用栈，区分等待中的栈帧与正在执行的调用。",
+      "messages": {
+        "label": "递归调用栈演示",
+        "intro": "计算$n!$：每次调用创建一个栈帧，到$0!=1$后逐层返回。这里展示教学用的调用过程，不模拟具体编译器的优化。",
+        "depth": "参数$n$",
+        "previous": "上一步",
+        "next": "下一步",
+        "progress": "第{current} / {total}步",
+        "calling": "调用`factorial({n})`；当前栈帧开始执行，其调用者等待返回。",
+        "returning": "`factorial({n})`返回${value}$，当前栈帧出栈。",
+        "stack": "当前有{count}个栈帧",
+        "active": "执行中",
+        "waiting": "等待返回",
+        "empty": "调用结束，栈已清空。"
+      },
+      "tags": ["递归", "栈"]
+    }
+  }
+}

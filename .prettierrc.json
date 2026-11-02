@@ -1,0 +1,15 @@
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "proseWrap": "always",
+  "overrides": [
+    {
+      "files": ["*.md", "*.mdx"],
+      "options": {
+        "proseWrap": "never"
+      }
+    }
+  ]
+}

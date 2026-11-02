@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "反向绕行会怎样改变曲线积分？",
+      "description": "比较圆周上两种方向的坐标曲线积分。",
+      "messages": {
+        "label": "对坐标的曲线积分",
+        "intro": "取$P=-y$、$Q=x$，沿半径$r$的圆周积分。切向箭头随方向按钮翻转；逆时针环流为正，顺时针时每一项位移都与原方向相反。",
+        "r": "半径$r$",
+        "direction": "选择方向",
+        "counterclockwise": "逆时针",
+        "clockwise": "顺时针",
+        "result": "当前积分约为{value}；反向绕行会改变符号。"
+      },
+      "tags": ["曲线积分", "方向"]
+    }
+  }
+}

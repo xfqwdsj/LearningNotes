@@ -1,0 +1,73 @@
+---
+title: 古典概型
+description: 在有限个等可能结果中，通过计数求事件的概率。
+---
+
+import ClassicalDiceDemo from "@/demos/classical-dice-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若样本空间只含有限个样本点，且每个样本点出现的可能性相同，则称该试验为**古典概型**。此时事件$A$的概率为
+
+$$
+P(A)=\frac{|A|}{|\Omega|},
+$$
+
+其中$|A|$与$|\Omega|$分别表示$A$与$\Omega$中样本点的个数。
+
+### 计数方法
+
+常用的计数公式为
+
+$$
+A_n^m=\frac{n!}{(n-m)!},\qquad
+C_n^m=\frac{n!}{m!(n-m)!},\qquad 0!=1.
+$$
+
+选择计数方式时先看两点：是否区分顺序，是否允许重复。
+
+| 选取方式 | 计数 |
+| :--- | :--- |
+| 有顺序、无放回 | $A_n^m$ |
+| 无顺序、无放回 | $C_n^m$ |
+| 有顺序、可重复 | $n^m$ |
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="不放回抽取中的次品数"}
+
+$10$件产品中有$3$件次品，不放回抽取$4$件。样本空间是从$10$件中取$4$件的所有组合，每个样本点等可能。
+
+恰有$1$件次品，需要从$3$件次品中取$1$件，再从$7$件正品中取$3$件，因此
+
+$$
+P=\frac{C_3^1C_7^3}{C_{10}^4}=\frac{3\times 35}{210}=\frac12.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+两枚均匀骰子的$36$个有序点数对等可能。改变目标和，统计满足条件的点数对并除以$36$。
+
+<ClassicalDiceDemo />
+
+## 练习
+
+::problems{#classical-practice}
+
+1. ::question{#classical-counting}
+
+   $5$件产品中有$2$件次品，不放回抽取$2$件。恰有$1$件次品的概率为:blank{#defective-value type="number"}。
+
+   :::reference
+   ::correct{blank="defective-value" value="0.6"}
+
+   样本点总数为$C_5^2=10$，恰有$1$件次品的取法为$C_2^1C_3^1=6$，所以概率为$6/10=0.6$。
+   :::

@@ -1,0 +1,154 @@
+---
+title: 正态分布
+description: 正态分布的密度、标准化与区间概率。
+---
+
+import NormalDemo from "@/demos/normal-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$\sigma>0$，$X\sim N(\mu,\sigma^2)$。密度为
+
+$$
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right],
+\qquad -\infty<x<+\infty.
+$$
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+曲线关于$x=\mu$对称，并在$x=\mu$处达到最大值；数字特征为
+
+$$
+E(X)=\mu,\qquad D(X)=\sigma^2.
+$$
+
+标准正态分布$N(0,1)$的密度与分布函数记作
+
+$$
+\varphi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2},
+\qquad
+\Phi(x)=\int_{-\infty}^{x}\varphi(t)\,\mathrm dt.
+$$
+
+**标准化**：若$X\sim N(\mu,\sigma^2)$，则
+
+$$
+Z=\frac{X-\mu}{\sigma}\sim N(0,1),
+\qquad
+F(x)=\Phi\left(\frac{x-\mu}{\sigma}\right).
+$$
+
+因此
+
+$$
+P\{a<X\le b\}
+=\Phi\left(\frac{b-\mu}{\sigma}\right)-\Phi\left(\frac{a-\mu}{\sigma}\right).
+$$
+
+由对称性$\Phi(-z)=1-\Phi(z)$，特别地
+
+$$
+P\{|X-\mu|<c\}=2\Phi\left(\frac{c}{\sigma}\right)-1\qquad(c>0).
+$$
+
+> [!NOTE]
+> **三个常用概率**
+>
+> 约$68.27\%$、$95.45\%$、$99.73\%$的概率分别落在$\mu\pm\sigma$、$\mu\pm2\sigma$、$\mu\pm3\sigma$内。
+
+> [!CAUTION]
+> $N(\mu,\sigma^2)$的第二个参数是**方差**，标准化时除以标准差$\sigma$，不是$\sigma^2$。查表前先算出$z=(x-\mu)/\sigma$。
+
+
+
+### 独立正态变量的线性组合
+
+若$X_i\sim N(\mu_i,\sigma_i^2)$相互独立，则$\sum_i a_iX_i+b$的均值为$\sum_i a_i\mu_i+b$，方差为$\sum_i a_i^2\sigma_i^2$。方差大于零时，它服从以这两个量为参数的正态分布；方差为零时，它是常数。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="正态分布的标准化"}
+
+设$X\sim N(1,4)$，即$\mu=1$，$\sigma=\sqrt4=2$。则
+
+$$
+P\{0<X<3\}
+=\Phi\left(\frac{3-1}{2}\right)-\Phi\left(\frac{0-1}{2}\right)
+=\Phi(1)-\Phi(-0.5)
+=\Phi(1)+\Phi(0.5)-1.
+$$
+
+:::
+
+:::example{title="独立正态变量的线性组合"}
+
+设$X\sim N(0,1)$，$Y\sim N(1,4)$且相互独立，令$Z=X-2Y$。正态变量的线性组合仍为正态变量，均值和方差分别为
+
+$$
+E(Z)=0-2\times1=-2,\qquad
+\operatorname{Var}(Z)=1^2\times1+(-2)^2\times4=17,
+$$
+
+所以$Z\sim N(-2,17)$。这里系数$a_1=1$、$a_2=-2$，方差按系数的平方加权，负号不影响方差。
+
+:::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变均值和标准差，比较曲线位置、形状与给定标准差范围内的概率。
+
+<NormalDemo />
+
+## 练习
+
+::problems{#practice}
+
+1. ::question{#normal-standardization}
+
+   设$X\sim N(\mu,\sigma^2)$，则$\dfrac{X-\mu}{\sigma}$服从
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $N(0,1)$
+   - :option[B]{#b} $N(\mu,\sigma^2)$
+   - :option[C]{#c} $N(0,\sigma^2)$
+   - :option[D]{#d} $N(\mu,1)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   减去均值再除以标准差，把分布平移到中心$0$并缩放到标准差$1$，得到标准正态分布。
+   :::
+
+2. ::question{#normal-linear}
+
+   设$X\sim N(0,1)$，$Y\sim N(1,4)$，且$X$与$Y$相互独立。令$Z=X-2Y$。
+
+   1. ::part{#mean}
+
+      $E(Z)=$ :blank{#mean-value type="number"}。
+
+      :::reference
+      ::correct{blank="mean-value" value="-2"}
+
+      期望是线性的：$E(Z)=E(X)-2E(Y)=0-2\times1=-2$。
+      :::
+
+   2. ::part{#variance}
+
+      $\operatorname{Var}(Z)=$ :blank{#variance-value type="number"}。
+
+      :::reference
+      ::correct{blank="variance-value" value="17"}
+
+      独立正态变量的线性组合方差为$\sum a_i^2\sigma_i^2=1^2\times1+(-2)^2\times4=1+16=17$。
+      :::

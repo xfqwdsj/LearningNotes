@@ -1,0 +1,271 @@
+---
+title: 正项级数的审敛法
+description: 用比较、比值与根值等判别法判断正项级数的收敛性。
+---
+
+import PSeriesTestDemo from "@/demos/p-series-test-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若级数$\sum_{n=1}^{\infty}u_n$的每一项都非负，即$u_n\ge0$（$n=1,2,3,\dots$），则称它为**正项级数**。
+
+正项级数的部分和数列单调不减：$s_{n+1}=s_n+u_{n+1}\ge s_n$。单调数列收敛当且仅当它有界，这一条是判断正项级数收敛的基础。
+
+**定理（正项级数收敛的充要条件）**：正项级数$\sum u_n$收敛的充要条件是它的部分和数列$\{s_n\}$有上界。
+
+:::proof
+
+部分和数列单调不减。若它有上界$M$，由单调有界准则，$\{s_n\}$收敛，级数收敛；反之，若级数收敛，则$\{s_n\}$收敛，收敛数列必有界，即存在$M$使$s_n\le M$对一切$n$成立。
+
+:::
+
+因此判断正项级数是否收敛，只需判断部分和是否有上界，不必求出和。下面各判别法都是把这一条用到不同的比较对象上。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 比较审敛法
+
+设$\sum u_n$与$\sum v_n$都是正项级数，且存在正整数$N$，当$n\ge N$时$u_n\le v_n$。则
+
+1. 若$\sum v_n$收敛，则$\sum u_n$也收敛；
+2. 若$\sum u_n$发散，则$\sum v_n$也发散。
+
+简记为：大的收敛则小的收敛，小的发散则大的发散。
+
+:::proof
+
+只需证第一条，第二条是它的逆否命题。设$n\ge N$时$u_n\le v_n$，并设$\sum v_n$收敛。对$n>N$，
+
+$$
+s_n^{(u)}=s_N^{(u)}+\sum_{k=N+1}^{n}u_k
+\le s_N^{(u)}+\sum_{k=N+1}^{n}v_k
+\le s_N^{(u)}+\sum_{k=N+1}^{\infty}v_k,
+$$
+
+右端是与$n$无关的常数，所以$\{s_n^{(u)}\}$有上界，$\sum u_n$收敛。
+
+:::
+
+比较时只需从某一项之后成立，前有限项不影响敛散性。常用的比较对象是$p$级数：
+
+$$
+\sum_{n=1}^{\infty}\frac1{n^p}\quad
+\begin{cases}
+\text{收敛}, & p>1,\\
+\text{发散}, & p\le1.
+\end{cases}
+$$
+
+若存在常数$C>0$使$n\ge N$时$u_n\le Cv_n$，则$\sum v_n$收敛时$\sum u_n$也收敛；若反向有$u_n\ge cv_n$（$c>0$），则$\sum v_n$发散时$\sum u_n$也发散。两个方向同时成立，即
+
+$$
+cv_n\le u_n\le Cv_n\qquad(n\ge N)
+$$
+
+时，两级数同敛散。
+
+### 比较审敛法的极限形式
+
+设$\sum u_n$与$\sum v_n$都是正项级数，且$v_n>0$。若
+
+$$
+\lim_{n\to\infty}\frac{u_n}{v_n}=l\qquad(0<l<+\infty),
+$$
+
+则两级数同敛散。
+
+特别地：
+
+- 若$l=0$且$\sum v_n$收敛，则$\sum u_n$收敛；
+- 若$l=+\infty$且$\sum v_n$发散，则$\sum u_n$发散。
+
+:::proof
+
+设$0<l<+\infty$。取$\varepsilon=\dfrac l2$，当$n$充分大时
+
+$$
+\frac l2<\frac{u_n}{v_n}<\frac{3l}{2},
+$$
+
+即$\dfrac l2v_n<u_n<\dfrac{3l}{2}v_n$。由比较审敛法，两级数同敛散。
+
+:::
+
+极限形式不必逐项验证不等式，只需算两个通项之比的极限，因此比直接比较更常用。
+
+> [!WARNING]
+> 另外两种组合没有结论：$l=0$且$\sum v_n$发散时，$\sum u_n$可能收敛也可能发散；$l=+\infty$且$\sum v_n$收敛时同样无法判断。这两个方向必须换比较对象重新判断。
+
+### 比值审敛法
+
+设$\sum u_n$是正项级数（$u_n>0$），若
+
+$$
+\lim_{n\to\infty}\frac{u_{n+1}}{u_n}=\rho,
+$$
+
+则
+
+1. 当$\rho<1$时，级数收敛；
+2. 当$\rho>1$（或$\rho=+\infty$）时，级数发散；
+3. 当$\rho=1$时，此方法失效，级数可能收敛也可能发散。
+
+比值审敛法也称达朗贝尔判别法，对通项含阶乘$n!$、幂$a^n$等乘积结构的级数特别有效，因为相邻两项相除能大量约去公因子。
+
+:::proof
+
+设$\rho<1$，取$q$使$\rho<q<1$。存在$N$，当$n\ge N$时$\dfrac{u_{n+1}}{u_n}\le q$，于是
+
+$$
+u_{N+k}\le u_Nq^k.
+$$
+
+右端构成收敛的等比级数，由比较审敛法，$\sum u_n$收敛。
+
+设$\rho>1$，则当$n$充分大时$u_{n+1}>u_n$，数列$\{u_n\}$从某项起单调递增，不可能趋于$0$，由收敛的必要条件，级数发散。
+
+:::
+
+### 根值审敛法
+
+设$\sum u_n$是正项级数（$u_n\ge0$），若
+
+$$
+\lim_{n\to\infty}\sqrt[n]{u_n}=\rho,
+$$
+
+则
+
+1. 当$\rho<1$时，级数收敛；
+2. 当$\rho>1$（或$\rho=+\infty$）时，级数发散；
+3. 当$\rho=1$时，此方法失效。
+
+根值审敛法也称柯西判别法，对通项本身是$n$次幂的级数特别有效：开$n$次方后底数直接显现。$\rho<1$时，同样由$u_n<q^n$（$q$满足$\rho<q<1$）与等比级数比较得到收敛。
+
+> [!NOTE]
+> 比值法与根值法的结论形式相同，都只覆盖$\rho\ne1$的情形，且都以等比级数为比较对象。通项含阶乘时比值法约分方便，通项呈$n$次幂时根值法更直接。
+
+### 极限审敛法
+
+设$\sum u_n$是正项级数。若
+
+$$
+\lim_{n\to\infty}nu_n=l>0,
+$$
+
+则级数$\sum u_n$发散。
+
+更一般地，若
+
+$$
+\lim_{n\to\infty}n^pu_n=l\qquad(0<l<+\infty),
+$$
+
+则当$p>1$时级数收敛，当$p\le1$时级数发散。
+
+其本质是取$v_n=\dfrac1{n^p}$作比较对象，用比较审敛法的极限形式：此时$\dfrac{u_n}{v_n}=n^pu_n\to l$，两级数同敛散，而$p$级数在$p>1$时收敛、$p\le1$时发散。
+
+### 如何选择审敛法
+
+:::steps
+
+1. **先检查一般项是否趋于零**
+
+   若$u_n$不趋于$0$，由收敛的必要条件直接判定发散，不必再试其他判别法。
+
+2. **按通项结构选判别法**
+
+   通项含$n!$、$a^n$等乘积结构时用比值审敛法；通项是$n$次幂$[f(n)]^n$时用根值审敛法；通项是$n$的有理式或根式时，用极限审敛法或比较审敛法，以$p$级数为比较对象。
+
+3. **极限为$1$或比较对象不好找时退回比较法**
+
+   比值、根值法在$\rho=1$时失效，此时对通项放缩，与已知敛散性的$p$级数或等比级数逐项比较。
+
+:::
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$\sum\dfrac1{n^2+1}$收敛"}
+
+当$n\ge1$时
+
+$$
+0<\frac1{n^2+1}<\frac1{n^2},
+$$
+
+而$\sum\dfrac1{n^2}$是$p=2>1$的收敛的$p$级数，由比较审敛法，原级数收敛。
+
+:::
+
+:::example{title="$\sum\dfrac{n!}{10^n}$发散"}
+
+用比值审敛法：
+
+$$
+\frac{u_{n+1}}{u_n}=\frac{(n+1)!/10^{n+1}}{n!/10^n}=\frac{n+1}{10}\to+\infty,
+$$
+
+所以级数发散。
+
+:::
+
+:::example{title="$\sum\left(\dfrac{n}{2n+1}\right)^n$收敛"}
+
+用根值审敛法：
+
+$$
+\sqrt[n]{u_n}=\frac{n}{2n+1}\to\frac12<1,
+$$
+
+所以级数收敛。
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PSeriesTestDemo />
+
+## 练习
+
+::problems{#positive-series-practice}
+
+1. ::question{#ratio-factorial}
+
+   $\displaystyle\sum_{n=1}^{\infty}\frac{n!}{10^n}$的敛散性是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 收敛
+   - :option[B]{#b} 发散
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   比值$\dfrac{u_{n+1}}{u_n}=\dfrac{n+1}{10}\to+\infty$，大于$1$，由比值审敛法，级数发散。
+   :::
+
+2. ::question{#limit-test}
+
+   设正项级数$\displaystyle\sum_{n=1}^{\infty}u_n$满足$\displaystyle\lim_{n\to\infty}nu_n=\frac12$，则该级数：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 收敛
+   - :option[B]{#b} 发散
+   - :option[C]{#c} 敛散性不能确定
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   这是极限审敛法在$p=1$的情形：$\lim nu_n=\dfrac12>0$，级数发散。也可以取$v_n=\dfrac1n$，由比较审敛法的极限形式得两级数同敛散，而调和级数发散。
+   :::

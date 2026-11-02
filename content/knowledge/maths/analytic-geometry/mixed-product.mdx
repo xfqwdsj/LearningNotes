@@ -1,0 +1,114 @@
+---
+title: 向量的混合积
+description: 向量的混合积的定义、坐标计算与几何意义。
+---
+
+import MixedProductDemo from "@/demos/mixed-product-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$\mathbf{a}=(a_1,a_2,a_3)$、$\mathbf{b}=(b_1,b_2,b_3)$、$\mathbf{c}=(c_1,c_2,c_3)$，$\theta$是非零向量$\mathbf{a}$与$\mathbf{b}$的夹角。
+
+三个向量的**混合积**是一个数：
+
+$$
+[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=(\mathbf{a}\times\mathbf{b})\cdot\mathbf{c}.
+$$
+
+坐标公式是三阶行列式：
+
+$$
+[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=
+\begin{vmatrix}
+a_1 & a_2 & a_3\\
+b_1 & b_2 & b_3\\
+c_1 & c_2 & c_3
+\end{vmatrix}.
+$$
+
+它的绝对值等于以$\mathbf{a},\mathbf{b},\mathbf{c}$为棱的平行六面体的体积。$[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]>0$当且仅当$\mathbf{a},\mathbf{b},\mathbf{c}$依次构成右手系；混合积等于$0$时三个向量共面。以这三个向量为棱的四面体体积为$\frac16|[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]|$。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+$$
+[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]
+=[\mathbf{b}\ \mathbf{c}\ \mathbf{a}]
+=[\mathbf{c}\ \mathbf{a}\ \mathbf{b}],
+\qquad
+[\mathbf{b}\ \mathbf{a}\ \mathbf{c}]=-[\mathbf{a}\ \mathbf{b}\ \mathbf{c}].
+$$
+
+轮换三个向量不改变混合积，交换任意两个向量则改变符号；这个符号差异来自行列式交换两行变号。又因为
+
+$$
+(\mathbf{a}\times\mathbf{b})\cdot\mathbf{c}=\mathbf{a}\cdot(\mathbf{b}\times\mathbf{c}),
+$$
+
+叉积的位置也可以轮换。由此得到共面判据：
+
+$$
+\mathbf{a},\mathbf{b},\mathbf{c}\ \text{共面}\iff[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=0.
+$$
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="混合积、体积与共面"}
+
+$\mathbf{i},\mathbf{j},\mathbf{k}$的混合积是单位矩阵的行列式，等于$1$，对应体积为$1$的单位正方体。
+
+再取$\mathbf{a}=(1,1,0)$，$\mathbf{b}=(1,0,1)$，$\mathbf{c}=(2,1,1)$，计算行列式
+
+$$
+\begin{vmatrix}
+1 & 1 & 0\\
+1 & 0 & 1\\
+2 & 1 & 1
+\end{vmatrix}
+=1\cdot(0\cdot1-1\cdot1)-1\cdot(1\cdot1-1\cdot2)+0
+=-1-(-1)=0,
+$$
+
+所以三个向量共面。事实上$\mathbf{c}=\mathbf{a}+\mathbf{b}$，以它们为棱的平行六面体已经压扁，体积为零。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MixedProductDemo />
+
+## 练习
+
+::problems{#mixed-product-practice}
+
+1. ::question{#coplanar}
+
+   向量$\mathbf{a}=(1,1,0)$，$\mathbf{b}=(1,0,1)$，$\mathbf{c}=(2,1,1)$是否共面？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 共面
+   - :option[B]{#b} 不共面
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   三个向量组成的行列式为零，所以共面；这里恰好有$\mathbf{c}=\mathbf{a}+\mathbf{b}$。
+   :::
+
+2. ::question{#volume}
+
+   以$\mathbf{a}=(1,1,0)$，$\mathbf{b}=(0,1,1)$，$\mathbf{c}=(1,0,1)$为棱的平行六面体体积是:blank{#volume type="number"}。
+
+   :::reference
+   ::correct{blank="volume" value="2"}
+
+   混合积的行列式为$2$，体积取其绝对值，等于$2$。
+   :::

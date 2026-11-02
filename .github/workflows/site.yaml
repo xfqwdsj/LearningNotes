@@ -1,0 +1,100 @@
+name: Build knowledge site
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [content-updated]
+permissions:
+  contents: read
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PRIVATE_CONTENT_DIR: ${{ github.workspace }}/private-content
+      SITE_URL: https://learning.ltfan.top
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: actions/cache@v6
+        with:
+          path: .dev/next
+          key:
+            "next-build-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{
+            github.sha }}"
+          restore-keys: |
+            next-build-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+      - run: pnpm install --frozen-lockfile
+      - name: Create private content token
+        if: github.event_name != 'pull_request'
+        id: content-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.CONTENT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CONTENT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: LearningNotes-Private
+          permission-contents: read
+      - name: Checkout private content
+        if: steps.content-token.outcome == 'success'
+        id: private-content
+        continue-on-error: true
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository_owner }}/LearningNotes-Private
+          token: ${{ steps.content-token.outputs.token }}
+          path: private-content
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Detect private content
+        id: private-content-ready
+        shell: bash
+        run: |
+          if [ -d "$PRIVATE_CONTENT_DIR/content" ] && \
+            find "$PRIVATE_CONTENT_DIR/content" -type f -name '*.mdx' -print -quit | grep -q .; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+      - run: pnpm check
+      - run: pnpm build
+      - run: pnpm verify:artifacts
+      - name: Browser dependencies
+        run: |
+          pnpm exec playwright install --with-deps chromium
+      - name: Deployment artifact smoke
+        run: pnpm test:deployment
+      - name: Browser acceptance
+        run: |
+          pnpm test:browser
+      - name: Deploy private static assets
+        if:
+          github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+          && vars.ACCESS_CONFIGURED == 'true' &&
+          steps.private-content-ready.outputs.available == 'true'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.private.jsonc
+      - name: Deploy public static assets
+        if:
+          github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+          && vars.ACCESS_CONFIGURED == 'true'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.public.jsonc

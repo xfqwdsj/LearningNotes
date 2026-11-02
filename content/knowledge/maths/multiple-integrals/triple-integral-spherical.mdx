@@ -1,0 +1,136 @@
+---
+title: 三重积分的球面坐标计算
+description: 用球面坐标表达空间区域并确定体积元素。
+---
+
+import SphericalVolumeDemo from "@/demos/spherical-volume-demo";
+
+## 变换与积分公式
+
+::section{#definition slot="knowledge.definition"}
+
+设$f$在有界空间区域$\Omega$上连续。以下使用的积分限应覆盖区域一次；不能用一组积分限表示时，可以先分块。
+
+球面坐标与直角坐标的关系为
+
+$$
+x=r\sin\varphi\cos\theta,\qquad y=r\sin\varphi\sin\theta,\qquad z=r\cos\varphi,
+$$
+
+其中$r\ge0$是点到原点的距离，$0\le\varphi\le\pi$是极角（与$z$轴正向的夹角），$0\le\theta\le2\pi$是方位角（点在$xOy$平面的投影与$x$轴正向的有向角）。体积元素为
+
+$$
+\mathrm dv=r^2\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta .
+$$
+
+若$\Omega$在球面坐标下表示为
+
+$$
+\theta_1\le\theta\le\theta_2,\qquad\varphi_1(\theta)\le\varphi\le\varphi_2(\theta),\qquad r_1(\theta,\varphi)\le r\le r_2(\theta,\varphi),
+$$
+
+则
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv
+=\int_{\theta_1}^{\theta_2}\int_{\varphi_1(\theta)}^{\varphi_2(\theta)}\int_{r_1(\theta,\varphi)}^{r_2(\theta,\varphi)}
+f(r\sin\varphi\cos\theta,\,r\sin\varphi\sin\theta,\,r\cos\varphi)\,
+r^2\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta .
+$$
+
+上式把代入后的被积函数简记为$f(\cdot)$，即$f$后面那一串球面坐标表达式；球体等特殊区域也沿用这个简写。
+
+**适用场景**：当$\Omega$是球体、半球、锥体等，或被积函数含$x^2+y^2+z^2$时，用球面坐标比较简便。
+
+特别地，当$\Omega$是以原点为球心、$R$为半径的球体时，
+
+$$
+\iiint_\Omega f(x,y,z)\,\mathrm dv
+=\int_0^{2\pi}\int_0^{\pi}\int_0^R f(\cdot)\,r^2\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta .
+$$
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="球面坐标：单位球的体积"}
+
+取$\Omega$是以原点为球心、$R=1$的球体。球面坐标下$0\le\theta\le2\pi$，$0\le\varphi\le\pi$，$0\le r\le1$，被积函数为$1$，于是
+
+$$
+V=\int_0^{2\pi}\int_0^{\pi}\int_0^1r^2\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta
+=2\pi\cdot2\cdot\frac13=\frac{4\pi}{3}.
+$$
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SphericalVolumeDemo />
+
+## 练习
+
+::problems{#triple-spherical}
+
+1. ::question{#spherical-element}
+
+   球面坐标下的体积元素是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $r^2\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta$
+   - :option[B]{#b} $r\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta$
+   - :option[C]{#c} $r^2\cos\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta$
+   - :option[D]{#d} $\sin\varphi\,\mathrm dr\,\mathrm d\varphi\,\mathrm d\theta$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   球面坐标变换的雅可比行列式为$r^2\sin\varphi$，所以体积元素多出因子$r^2\sin\varphi$。
+   :::
+
+
+
+2. ::question{#upper-hemisphere}
+
+   上半球$x^2+y^2+z^2\le1$，$z\ge0$的球面坐标表示是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $0\le r\le1$，$0\le\varphi\le\dfrac\pi2$，$0\le\theta\le2\pi$
+   - :option[B]{#b} $0\le r\le1$，$0\le\varphi\le\pi$，$0\le\theta\le\pi$
+   - :option[C]{#c} $0\le r\le1$，$0\le\varphi\le\dfrac\pi2$，$0\le\theta\le\pi$
+   - :option[D]{#d} $0\le r\le1$，$\dfrac\pi2\le\varphi\le\pi$，$0\le\theta\le2\pi$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $z\ge0$对应$r\cos\varphi\ge0$，即$0\le\varphi\le\dfrac\pi2$；绕$z$轴一周对应$0\le\theta\le2\pi$。
+   :::
+
+
+
+3. ::question{#spherical-fit}
+
+   下列情形中，适合用球面坐标计算三重积分的有哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\Omega$是球体或半球
+   - :option[B]{#b} 被积函数含$x^2+y^2+z^2$
+   - :option[C]{#c} $\Omega$是圆柱体，被积函数只含$x^2+y^2$
+   - :option[D]{#d} $\Omega$由锥面与球面围成
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   球面坐标适合球体、半球、锥面与球面围成的区域，以及含$x^2+y^2+z^2$的被积函数。圆柱体与只含$x^2+y^2$的函数改用柱面坐标更省事，C不选。
+   :::

@@ -1,0 +1,23 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "切片究竟选中了哪些元素？",
+      "description": "调整切片起点、终点和步长，观察选中的位置与返回顺序。",
+      "messages": {
+        "label": "Python切片演示",
+        "intro": "序列有七个元素。这里显式指定三个边界；负索引先相对序列末尾换算，终点本身不进入结果。",
+        "start": "起点`start`",
+        "stop": "终点`stop`",
+        "step": "步长`step`",
+        "reverse": "试试反向间隔取值",
+        "sequence": "原序列及选中位置",
+        "order": "取值顺序：`{value}`",
+        "empty": "空序列",
+        "invalid": "请输入整数；步长不能为零。",
+        "result": "切片结果：`{value}`"
+      },
+      "tags": ["Python", "切片"]
+    }
+  }
+}

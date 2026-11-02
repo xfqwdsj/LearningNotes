@@ -1,0 +1,83 @@
+---
+title: 几何分布
+description: 描述独立重复试验中首次成功所需的次数。
+---
+
+import GeometricWaitDemo from "@/demos/geometric-wait-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+各次试验相互独立且成功概率均为$p$（$0<p\le1$）。若$X$表示首次成功所需的试验总次数，则
+
+$$
+P(X=k)=(1-p)^{k-1}p,\qquad k=1,2,\ldots.
+$$
+
+另一种约定记录首次成功前的失败次数，取值从$0$开始，使用公式前应确认参数化。
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+对于此处从$1$开始计数的约定，$E(X)=1/p$，$D(X)=(1-p)/p^2$。
+### 无记忆性
+
+按“首次成功所需的总试验次数”定义几何分布，$P\{X=k\}=q^{k-1}p$，$k=1,2,\ldots$。它的尾概率为
+
+$$
+P\{X>m\}=q^m\qquad(m\ge 0),
+$$
+
+由此得到无记忆性：
+
+$$
+P\{X>m+n\mid X>m\}=P\{X>n\},\qquad m,n\ge 0,\quad P(X>m)>0.
+$$
+
+:::proof
+
+由$P\{X>m\}=\sum_{k=m+1}^{\infty}q^{k-1}p=\dfrac{q^m p}{1-q}=q^m$，且$\{X>m+n\}\subseteq\{X>m\}$，得
+
+$$
+P\{X>m+n\mid X>m\}
+=\frac{P\{X>m+n\}}{P\{X>m\}}
+=\frac{q^{m+n}}{q^m}
+=q^n
+=P\{X>n\}.
+$$
+
+:::
+
+已经失败$m$次，并不改变此后等待首次成功所需次数的分布。
+
+当$p=1$时，$P(X>m)=0$（$m\ge1$），相应的条件概率没有定义。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变单次成功概率，比较首次成功发生在不同试验次数的概率。
+
+<GeometricWaitDemo />
+
+## 练习
+
+::problems{#practice}
+
+1. ::question{#geometric-memoryless}
+
+   设$X$为首次成功所需的总试验次数，成功概率为$p$，$q=1-p$。则$P\{X>m+n\mid X>m\}$等于
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $P\{X>n\}$
+   - :option[B]{#b} $P\{X>m\}$
+   - :option[C]{#c} $P\{X>m+n\}$
+   - :option[D]{#d} $1-P\{X>n\}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   无记忆性表明已经失败的次数不影响之后的等待时间，条件概率仍为$q^n=P\{X>n\}$。
+   :::

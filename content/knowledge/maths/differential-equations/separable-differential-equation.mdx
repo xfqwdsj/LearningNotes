@@ -1,0 +1,193 @@
+---
+title: 可分离变量的微分方程
+description: 识别可分离变量的一阶方程，按分离、积分、还原的步骤求通解，并处理初值与被遗漏的常数解。
+---
+
+import SeparableOdeDemo from "@/demos/separable-ode-demo";
+
+## 定义与形式
+
+::section{#definition slot="knowledge.definition"}
+
+如果一个一阶微分方程可以写成
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y)
+$$
+
+或者
+
+$$
+M_1(x)N_1(y)\,\mathrm{d}x+M_2(x)N_2(y)\,\mathrm{d}y=0,
+$$
+
+则称它为**可分离变量的微分方程**。前一种形式中，右端是只含$x$的因子与只含$y$的因子的乘积；后一种形式中，两个系数也各自分解为$x$的因子与$y$的因子之积。两种写法只差整理方式：在$M_2(x)N_2(y)\ne 0$的区间上，第二种形式可以解成第一种，二者都能把含$y$的项和含$x$的项分到等号两边。
+
+本页默认$f$与$g$在讨论的区间上连续，以保证积分存在；求解通常在$g(y)\ne 0$的区间上进行。记号$y'=\dfrac{\mathrm{d}y}{\mathrm{d}x}$，以及阶、通解与初值问题的含义，见[微分方程的基本概念](/knowledge/maths/differential-equations/differential-equation-basics/)。
+
+## 求解步骤
+
+::section{#method slot="knowledge.properties"}
+
+:::steps
+
+1. **写成导数形式**
+
+   把$y'$改写成$\dfrac{\mathrm{d}y}{\mathrm{d}x}$，并将方程整理成$\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y)$。
+
+2. **分离变量**
+
+   在$g(y)\ne 0$的区间上，两边除以$g(y)$、乘以$\mathrm{d}x$：
+
+   $$
+   \frac{1}{g(y)}\,\mathrm{d}y=f(x)\,\mathrm{d}x.
+   $$
+
+   含$y$的项与$\mathrm{d}y$留在左边，含$x$的项与$\mathrm{d}x$移到右边。
+
+3. **两边积分**
+
+   $$
+   \int\frac{1}{g(y)}\,\mathrm{d}y=\int f(x)\,\mathrm{d}x.
+   $$
+
+   只需在右边写一个任意常数。
+
+4. **整理通解**
+
+   积分得$G(y)=F(x)+C$。能解出$y$时写显式通解，解不出时可保留隐式通解。
+
+5. **代入初值**
+
+   若给定$y\vert_{x=x_0}=y_0$，把$x_0,y_0$代入通解求出$C$，得到特解。
+
+:::
+
+> [!WARNING]
+> 第二步除以$g(y)$时默认$g(y)\ne 0$。若某个$y_0$使$g(y_0)=0$，常数函数$y=y_0$也可能是方程的解，而它不会出现在分离变量后得到的通解中；最后要单独检查这些解。
+
+> [!TIP]
+> 两边积分各产生一个常数，但两个常数之差仍是任意常数，所以习惯只在右边写一个$C$。整理时也可以把$C$写成$\ln\vert C\vert$、$e^C$等形式，但要同时说明新常数的取值范围。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="求$\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{x}{y}$的通解"}
+分离变量：
+
+$$
+y\,\mathrm{d}y=x\,\mathrm{d}x.
+$$
+
+两边积分：
+
+$$
+\frac{1}{2}y^2=\frac{1}{2}x^2+C_1.
+$$
+
+两边乘以$2$，并记$C=2C_1$：
+
+$$
+y^2-x^2=C.
+$$
+
+这是隐式通解，几何上是一族等轴双曲线。原方程要求$y\ne 0$，所以解取这些双曲线中$y\ne 0$的支。
+
+:::
+
+:::example{title="解初值问题$y'=2xy$，$y(0)=1$"}
+分离变量：
+
+$$
+\frac{\mathrm{d}y}{y}=2x\,\mathrm{d}x.
+$$
+
+积分得
+
+$$
+\ln\vert y\vert=x^2+C_1,
+$$
+
+即$\vert y\vert=e^{C_1}e^{x^2}$。记$C=\pm e^{C_1}$，再补上$C=0$给出的零解$y=0$，通解为
+
+$$
+y=Ce^{x^2}.
+$$
+
+代入$x=0$、$y=1$，得$C=1$，所以特解为
+
+$$
+y=e^{x^2}.
+$$
+
+:::
+
+:::example{title="分离变量漏掉的解"}
+方程$y'=y^2$在$y\ne 0$时可以分离：
+
+$$
+\frac{\mathrm{d}y}{y^2}=\mathrm{d}x
+\Longrightarrow
+-\frac{1}{y}=x+C
+\Longrightarrow
+y=-\frac{1}{x+C}.
+$$
+
+但$y=0$也满足$y'=y^2$，它是除以$y^2$时丢掉的解，不能由任何有限常数$C$得到。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SeparableOdeDemo />
+
+## 练习
+
+::problems{#separable-check}
+
+1. ::question{#separable-form}
+
+   下列方程中，可分离变量的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $y'=x+y$
+   - :option[B]{#b} $y'=xy$
+   - :option[C]{#c} $y'=x^2+y^2$
+   - :option[D]{#d} $y'=\sin(x+y)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $y'=xy$的右端已经是$x$与$y$的乘积。其余三个右端都不能分解成只含$x$的因子与只含$y$的因子的乘积。
+   :::
+
+2. ::question{#initial-constant}
+
+   初值问题$\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{x}{y}$，$y(0)=3$。其通解可写成$y^2-x^2=C$，则$C=$ :blank{#constant type="number"}。
+
+   :::reference
+   ::correct{blank="constant" value="9"}
+
+   把$x=0$、$y=3$代入$y^2-x^2=C$，得$C=3^2-0^2=9$。
+   :::
+
+3. ::question{#lost-solution}
+
+   用分离变量法解$y'=y^2$时，除了通解$y=-\dfrac{1}{x+C}$，还遗漏了哪个解？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $y=0$
+   - :option[B]{#b} $y=1$
+   - :option[C]{#c} $y=-1$
+   - :option[D]{#d} 没有遗漏的解
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   分离时除以$y^2$，排除了$y=0$。直接代入可知$y=0$满足$y'=y^2$，所以它是被遗漏的常数解。
+   :::

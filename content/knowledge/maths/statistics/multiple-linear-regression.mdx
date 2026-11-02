@@ -1,0 +1,195 @@
+---
+title: 多元线性回归
+description: 用设计矩阵建立多元线性模型，计算最小二乘解并评价拟合。
+---
+
+import MultipleRegressionDemo from "@/demos/multiple-regression-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设有$p$个解释变量和$n$组观测，含截距的多元线性回归模型为
+
+$$
+Y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_px_{ip}+\varepsilon_i,\qquad i=1,\ldots,n.
+$$
+
+把所有观测叠成向量，模型写作
+
+$$
+\boldsymbol Y=X\boldsymbol\beta+\boldsymbol\varepsilon,
+$$
+
+其中$\boldsymbol Y=(Y_1,\ldots,Y_n)^{\mathsf T}$，$\boldsymbol\beta=(\beta_0,\beta_1,\ldots,\beta_p)^{\mathsf T}$，而
+
+$$
+X=
+\begin{pmatrix}
+1&x_{11}&\cdots&x_{1p}\\
+1&x_{21}&\cdots&x_{2p}\\
+\vdots&\vdots&&\vdots\\
+1&x_{n1}&\cdots&x_{np}
+\end{pmatrix}
+$$
+
+是$n\times(p+1)$的**设计矩阵**。第一列全为$1$，对应截距。
+
+模型要求$n>p+1$且$X$满列秩。满列秩等价于各列线性无关，避免了解释变量之间完全共线；若某一列可由其他列线性表示，$X^{\mathsf T}X$不可逆，系数就无法唯一确定。
+
+这里的“线性”指对参数$\boldsymbol\beta$线性，不要求对解释变量线性。例如
+
+$$
+Y_i=\beta_0+\beta_1x_i+\beta_2x_i^2+\varepsilon_i
+$$
+
+仍是线性回归，只要把$x_i$与$x_i^2$看成两个解释变量。
+
+系数$\beta_j$表示在其他解释变量保持不变的条件下，第$j$个变量增加一个单位时条件均值$E(Y\mid \boldsymbol x)$的变化量。这个解释依赖模型同时包含这些变量；不能把它与只放入该变量的一元回归斜率混同。
+
+## 性质
+
+::section{#estimator-properties slot="knowledge.properties"}
+
+### 最小二乘估计
+
+最小二乘估计最小化残差平方和
+
+$$
+Q(\boldsymbol b)=(\boldsymbol Y-X\boldsymbol b)^{\mathsf T}(\boldsymbol Y-X\boldsymbol b).
+$$
+
+对$\boldsymbol b$求导并令其为零，得到正规方程
+
+$$
+X^{\mathsf T}X\hat{\boldsymbol\beta}=X^{\mathsf T}\boldsymbol Y.
+$$
+
+当$X$满列秩时，$X^{\mathsf T}X$可逆，理论解为
+
+$$
+\hat{\boldsymbol\beta}=(X^{\mathsf T}X)^{-1}X^{\mathsf T}\boldsymbol Y.
+$$
+
+实际数值计算通常使用QR或SVD分解求解，避免显式求逆放大舍入误差。
+
+拟合值与残差为
+
+$$
+\hat{\boldsymbol Y}=X\hat{\boldsymbol\beta},\qquad
+\boldsymbol e=\boldsymbol Y-\hat{\boldsymbol Y},\qquad
+SSE=\boldsymbol e^{\mathsf T}\boldsymbol e.
+$$
+
+误差方差$\sigma^2$的无偏估计为
+
+$$
+s^2=\frac{SSE}{n-p-1}.
+$$
+
+自由度$n-p-1$等于观测数减去$p+1$个待估系数。模型每增加一个参数，就消耗一个自由度。
+
+### 估计量的性质
+
+若误差满足
+
+$$
+E(\boldsymbol\varepsilon)=\boldsymbol 0,\qquad
+\operatorname{Cov}(\boldsymbol\varepsilon)=\sigma^2I,
+$$
+
+则最小二乘估计满足
+
+$$
+E(\hat{\boldsymbol\beta})=\boldsymbol\beta,\qquad
+\operatorname{Cov}(\hat{\boldsymbol\beta})=\sigma^2(X^{\mathsf T}X)^{-1}.
+$$
+
+也就是说，$\hat{\boldsymbol\beta}$是$\boldsymbol\beta$的无偏估计，其协方差矩阵由设计矩阵与误差方差共同决定。
+
+在上述条件下，最小二乘估计在所有线性无偏估计中方差最小，这就是**高斯—马尔可夫定理**。这一定理不要求误差服从正态分布。
+
+$t$检验、$F$检验和区间估计要给出精确分布，还需要额外假定$\varepsilon_1,\ldots,\varepsilon_n$相互独立且同分布于$N(0,\sigma^2)$；$t$、$F$分布与上侧分位点的定义见[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。条件不同，能用的结论也不同；高斯—马尔可夫定理的最优性不能当作精确推断的依据。
+
+> [!IMPORTANT]
+> **两套条件不要混用**
+>
+> 高斯—马尔可夫定理只保证线性无偏估计中的方差最优，不要求正态误差；$t$检验、$F$检验和区间估计则需要独立正态误差。写结论时把所用的条件一起写出来。
+
+### 拟合评价
+
+决定系数与调整后的决定系数分别为
+
+$$
+R^2=1-\frac{SSE}{SST},\qquad
+\bar R^2=1-\frac{SSE/(n-p-1)}{SST/(n-1)}.
+$$
+
+$R^2$随解释变量增加不会减小；调整后的$R^2$对参数数目作了惩罚，可能为负。比较解释变量个数不同的模型时，应看调整后的$R^2$，并配合嵌套检验或样本外评估。
+
+解释变量之间高度相关会造成**多重共线性**。此时$X^{\mathsf T}X$接近奇异，$(X^{\mathsf T}X)^{-1}$的对角元变大，系数的标准误随之增大，估计值对数据的微小变化很敏感。多重共线性下整体$F$检验显著而部分单个$t$检验不显著并不矛盾：整体检验问的是“至少有一个变量有用”，单个检验问的是“在其他变量已经保留时这个变量是否还有额外贡献”。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="把二次多项式写成线性回归"}
+
+模型
+
+$$
+Y_i=\beta_0+\beta_1x_i+\beta_2x_i^2+\varepsilon_i
+$$
+
+对参数是线性的。取$x=(1,2,3,4)$，设计矩阵为
+
+$$
+X=
+\begin{pmatrix}
+1&1&1\\
+1&2&4\\
+1&3&9\\
+1&4&16
+\end{pmatrix}.
+$$
+
+这里$p=2$，$n=4$，误差自由度为$n-p-1=1$。若只取前三个观测，$X$是$3\times3$方阵且满秩，最小二乘拟合会穿过三个点，$SSE=0$，但$n-p-1=0$，$s^2$没有定义，也就无法做任何基于$s^2$的检验或区间估计。这说明条件$n>p+1$不只是技术性要求。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultipleRegressionDemo />
+
+## 练习
+
+::problems{#multiple-regression-practice}
+
+1. ::question{#df}
+
+   一个含截距的多元线性回归使用$n=20$组观测和$p=3$个解释变量。误差方差估计$s^2$的自由度为:blank{#df-value type="number"}。
+
+   :::reference
+   ::correct{blank="df-value" value="16"}
+
+   自由度是$n-p-1=20-3-1=16$。
+   :::
+
+2. ::question{#adjusted-r2}
+
+   关于调整后的决定系数$\bar R^2$，下列说法正确的是
+
+   :::choices{#choice-adjusted mode="single"}
+   - :option[A]{#a} 它一定不小于$0$
+   - :option[B]{#b} 它考虑了参数数目，可能为负
+   - :option[C]{#c} 增加变量时它一定增大
+   - :option[D]{#d} 它与$R^2$总是相等
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $\bar R^2$对参数数目作了惩罚，可能为负；增加变量时它不一定增大。
+   :::

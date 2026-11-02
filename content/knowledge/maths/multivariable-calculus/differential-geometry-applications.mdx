@@ -1,0 +1,47 @@
+---
+title: 向量值函数与导向量
+description: 向量值函数与导向量的定义、计算与几何意义。
+---
+
+import VectorFunctionDemo from "@/demos/vector-function-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$x(t)$、$y(t)$、$z(t)$是定义在区间$I$上的实函数，则
+
+$$
+\mathbf r(t)
+=x(t)\mathbf i+y(t)\mathbf j+z(t)\mathbf k
+=(x(t),y(t),z(t))
+$$
+
+称为**一元向量值函数**。它的自变量是实数$t$，函数值是三维向量。随着$t$变化，向量$\mathbf r(t)$的终点描出空间中的一条曲线，$\mathbf r(t)$就是从原点指向该点的位置向量。
+
+向量值函数的极限与连续按分量定义：
+
+- 若三个分量函数的极限都存在，则
+  $$
+  \lim_{t\to t_0}\mathbf r(t)
+  =\left(\lim_{t\to t_0}x(t),\ \lim_{t\to t_0}y(t),\ \lim_{t\to t_0}z(t)\right);
+  $$
+- 若三个分量函数都在$t_0$处连续，则$\mathbf r(t)$在$t_0$处连续。
+
+若各分量均可导，$\mathbf r(t)$的导数（也称**导向量**）定义为
+
+$$
+\mathbf r'(t)
+=\lim_{\Delta t\to 0}\frac{\mathbf r(t+\Delta t)-\mathbf r(t)}{\Delta t}
+=(x'(t),y'(t),z'(t)).
+$$
+
+当$\mathbf r'(t_0)\ne\mathbf 0$时，它是曲线在对应点处的**切向量**，方向指向$t$增大的方向。若$\mathbf r'(t_0)=\mathbf 0$，曲线在该点仍可能有切线，但不能直接把导向量当作切向量。
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<VectorFunctionDemo />

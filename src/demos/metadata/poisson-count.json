@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "恰好发生指定次数的概率是多少？",
+      "description": "改变泊松分布参数与事件次数，计算对应的概率。",
+      "messages": {
+        "label": "泊松分布的点概率",
+        "intro": "泊松参数$\\lambda$是该区间内的平均发生次数，选择$k$计算恰好发生$k$次的概率。",
+        "rate": "参数$\\lambda$",
+        "count": "次数$k$",
+        "diagram": "所选次数的概率为{value}",
+        "result": "恰好发生{count}次的概率为{value}。"
+      },
+      "tags": ["概率论", "泊松分布"]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "内层积分先固定哪个变量？",
+      "description": "在方格上选择切片，比较两种积分次序。",
+      "messages": {
+        "label": "累次积分的切片",
+        "intro": "在单位正方形上取$f(x,y)=x+2y$。切换切片方向并选择条带；颜色深浅表示方格中点的函数值，线段表示固定变量后的积分路径。",
+        "direction": "切片方向",
+        "vertical": "先对纵向积分",
+        "horizontal": "先对横向积分",
+        "index": "切片编号",
+        "verticalResult": "固定$x$，内层沿$y$积分；再沿$x$积分得到整个区域的积分。",
+        "horizontalResult": "固定$y$，内层沿$x$积分；再沿$y$积分得到整个区域的积分。",
+        "verticalGraph": "第{index}条竖直切片，内层积分为{inner}。",
+        "horizontalGraph": "第{index}条水平切片，内层积分为{inner}。"
+      },
+      "tags": ["累次积分", "二重积分"]
+    }
+  }
+}

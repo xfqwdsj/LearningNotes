@@ -1,0 +1,18 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "比较结果如何控制分支？",
+      "description": "改变寄存器的值和比较指令，查看`beqz`的去向。",
+      "messages": {
+        "label": "比较与分支",
+        "intro": "第二个操作数固定为5。先比较两个寄存器，再根据比较结果执行`beqz`。",
+        "left": "`$s1`的值",
+        "comparison": "选择比较指令",
+        "continue": "比较结果为1，`beqz`不跳转，继续执行下一条指令。",
+        "jump": "比较结果为0，`beqz`跳转到`Loop`。"
+      },
+      "tags": ["指令集", "分支"]
+    }
+  }
+}

@@ -1,0 +1,56 @@
+---
+title: 几何概型
+description: 在有限测度的区域上均匀取点，用长度、面积或体积之比计算概率。
+---
+
+import UniformIntervalDemo from "@/demos/uniform-interval-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若样本空间是有限长度、面积或体积的区域$\Omega$，且样本点在$\Omega$中**均匀选取**，则事件$A$的概率为
+
+$$
+P(A)=\frac{\text{区域 }A\text{ 的度量}}{\text{区域 }\Omega\text{ 的度量}}.
+$$
+
+这里的度量按问题取长度、面积或体积。
+
+这里要求$\Omega$的度量有限且非零，事件区域也必须可以测量。随机选取不自动意味着均匀，建模时要说明均匀的是位置、角度还是其他参数。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="区间上的几何概型"}
+
+在$[0,2]$上均匀取一点$x$，事件$A=\{x\le 0.5\}$对应区间$[0,0.5]$。按长度之比，
+
+$$
+P(A)=\frac{0.5-0}{2-0}=\frac14.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+在$[0,1]$上均匀取点，改变阈值$a$。事件$X\le a$对应区间$[0,a]$，其概率等于该区间长度占总长度的比例。
+
+<UniformIntervalDemo />
+
+## 练习
+
+::problems{#geometric-practice}
+
+1. ::question{#geometric}
+
+   在$[0,2]$上均匀取一点$x$，事件$\{x\le 0.5\}$的概率为:blank{#geometric-value type="number"}。
+
+   :::reference
+   ::correct{blank="geometric-value" value="0.25"}
+
+   按长度之比，概率为$(0.5-0)/(2-0)=0.25$。
+   :::

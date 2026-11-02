@@ -1,0 +1,160 @@
+---
+title: 梯度
+description: 梯度的定义、计算与几何意义。
+---
+
+import GradientDemo from "@/demos/gradient-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$f$在平面区域$D$内具有一阶连续偏导数。对每一点$P(x,y)\in D$，把该点的两个偏导数排成一个向量
+
+$$
+\mathbf{grad}\,f(x,y)=\nabla f(x,y)
+=f_x(x,y)\,\mathbf i+f_y(x,y)\,\mathbf j,
+$$
+
+称它为$f$在点$P$的**梯度**。三元函数$u=f(x,y,z)$的梯度为
+
+$$
+\mathbf{grad}\,f=\nabla f
+=f_x\,\mathbf i+f_y\,\mathbf j+f_z\,\mathbf k .
+$$
+
+记号$\nabla$读作Nabla，称为**向量微分算子**，也叫哈密顿算子：
+
+$$
+\nabla=\frac{\partial}{\partial x}\mathbf i
++\frac{\partial}{\partial y}\mathbf j
++\frac{\partial}{\partial z}\mathbf k .
+$$
+
+它是一个运算符号，作用在标量函数$f$上直接得到$f$的梯度。
+
+梯度是向量，其模为
+
+$$
+|\nabla f|=\sqrt{f_x^2+f_y^2},
+$$
+
+三元时根号内再加$f_z^2$。梯度为零向量等价于两个（或三个）一阶偏导数同时为零。
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 与方向导数的关系
+
+把方向余弦写成单位向量$\mathbf e_l=(\cos\alpha,\cos\beta)$，方向导数的计算公式就是梯度与$\mathbf e_l$的内积：
+
+$$
+\left.\frac{\partial f}{\partial l}\right|_{P_0}
+=\nabla f(P_0)\cdot\mathbf e_l
+=|\nabla f(P_0)|\cos\theta,
+$$
+
+其中$\theta$是$\nabla f(P_0)$与$\mathbf e_l$的夹角。设$\nabla f(P_0)\ne\mathbf 0$，由$\cos\theta$的取值范围得到三条结论：
+
+1. 当$\theta=0$，即$l$取梯度方向时，方向导数最大，最大值为$|\nabla f(P_0)|$。函数在$P_0$沿梯度方向增加最快。
+2. 当$\theta=\pi$，即$l$取梯度的反方向时，方向导数最小，最小值为$-|\nabla f(P_0)|$，函数沿这个方向减小最快。
+3. 当$\theta=\pi/2$时，方向导数为$0$。与梯度垂直的方向上，函数值的一阶变化为零。
+
+> [!TIP]
+> 求“沿哪个方向增加最快”时不必逐个方向代公式：$\nabla f(P_0)$本身就是最快上升的方向，方向导数的最大值则是它的模。注意梯度是向量，最大方向导数是一个数。
+
+
+### 等值线与等值面
+
+二元函数$z=f(x,y)$的方程
+
+$$
+f(x,y)=C\qquad(C\text{ 为常数})
+$$
+
+在$xy$平面上确定的曲线称为$f$的**等值线**，等值线上各点的函数值都等于$C$。若$f$可微且$\nabla f(x,y)\ne\mathbf 0$，则$\nabla f(x,y)$是等值线在点$(x,y)$处的法向量，并且指向函数值增大的方向。
+
+之所以是法向量：沿等值线的切线方向，函数值不变，方向导数为零；而方向导数是梯度与单位切向量的内积，所以梯度与切线垂直。
+
+三元函数$u=f(x,y,z)$的方程$f(x,y,z)=C$表示空间中的一张曲面，称为**等值面**，等值面上各点的函数值相同。同样地，$\nabla f(x,y,z)$是等值面在该点的法向量。
+
+> [!NOTE]
+> 等值线（等值面）的法向量有两个方向。梯度的方向是其中指向函数值增大的那一侧，回答“法向量”时要说明取的是哪一个。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="梯度与等值线：$f(x,y)=x^2+y^2$"}
+
+在点$(1,1)$处$\nabla f=(2x,2y)=(2,2)$。这个函数的等值线是圆$x^2+y^2=C$，在$(1,1)$处的切线垂直于半径$(1,1)$，所以$(2,2)$正是等值线的法向量，指向$f$增大（半径变大）的一侧。
+
+沿单位方向$\dfrac{1}{\sqrt2}(1,1)$，方向导数最大，值为$|\nabla f(1,1)|=2\sqrt2$。沿单位方向$\dfrac{1}{\sqrt2}(-1,1)$，
+
+$$
+\frac{2}{\sqrt2}\cdot(-1)+\frac{2}{\sqrt2}\cdot1=0,
+$$
+
+这个方向正是等值线在$(1,1)$处的切线方向。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<GradientDemo />
+
+## 练习
+
+::problems{#gradient-practice}
+
+1. ::question{#gradient-properties}
+
+   设$f$在点$P_0$可微且$\nabla f(P_0)\ne\mathbf 0$。下列叙述正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 沿梯度方向的方向导数最大
+   - :option[B]{#b} 方向导数的最大值等于$|\nabla f(P_0)|$
+   - :option[C]{#c} 梯度方向与过$P_0$的等值线垂直
+   - :option[D]{#d} 若某个方向的方向导数为$0$，则该方向就是梯度方向
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   前三条都是内积表示$\nabla f\cdot\mathbf e_l=|\nabla f|\cos\theta$的直接结论。方向导数为$0$说明该方向与梯度垂直，不是梯度方向。
+   :::
+
+2. ::question{#max-value}
+
+   $f(x,y)=3x+4y$在任一点处方向导数的最大值为:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="5"}
+
+   $\nabla f=(3,4)$，$|\nabla f|=\sqrt{3^2+4^2}=5$。
+   :::
+
+3. ::question{#zero-gradient}
+
+   设$f$在$P_0$可微且$\nabla f(P_0)=\mathbf 0$。下列结论一定成立的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $f$在$P_0$沿任何方向的方向导数都为$0$
+   - :option[B]{#b} $f$在$P_0$取得极值
+   - :option[C]{#c} $f$在$P_0$的某个邻域内为常数
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   方向导数等于$\nabla f(P_0)$与单位方向的内积，梯度为零向量时对任何方向都是$0$。梯度为零只是极值的必要条件：$f(x,y)=x^2-y^2$在原点梯度为零却不取极值，所以B不成立。梯度只在一个点为零也不能推出邻域内为常数，所以C不成立。
+   :::

@@ -1,0 +1,19 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "排序后原列表和返回值分别是什么？",
+      "description": "比较`sorted`与`list.sort`的修改和返回值。",
+      "messages": {
+        "label": "Python两种排序方式",
+        "intro": "初始列表为`[3, 1, 2]`。选择排序方式，比较原列表与调用返回值。",
+        "choose": "选择排序方式",
+        "original": "调用后的原列表",
+        "returned": "返回值",
+        "sortedResult": "`sorted`返回新列表，原列表不变。",
+        "sortResult": "`list.sort`原地修改列表，返回`None`。"
+      },
+      "tags": ["Python", "排序"]
+    }
+  }
+}

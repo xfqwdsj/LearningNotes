@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "正弦曲线的切线斜率是什么？",
+      "description": "移动正弦曲线上的切点，比较切线斜率与余弦值。",
+      "messages": {
+        "label": "正弦函数导数演示",
+        "intro": "曲线为$y=\\sin x$，虚线是点$(x,\\sin x)$处的切线。观察切线斜率与$\\cos x$的关系。",
+        "angleLabel": "切点的角$x$",
+        "diagram": "正弦曲线在{angle}度处的切线",
+        "result": "在$x={angle}^\\circ$处，$\\sin x={sin}$，$\\cos x={cos}$；切线斜率等于$\\cos x$，因此$(\\sin x)'=\\cos x$。"
+      },
+      "tags": ["三角函数", "导数", "切线"]
+    }
+  }
+}

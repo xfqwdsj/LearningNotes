@@ -1,0 +1,86 @@
+---
+title: 串并联系统的可靠性
+description: 依据独立元件的工作概率计算串联系统与并联系统的可靠性。
+---
+
+import SystemReliabilityDemo from "@/demos/system-reliability-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设系统由$n$个元件组成，各元件是否正常相互独立，第$i$个元件正常的概率为$p_i$。把“系统工作”写成元件状态的交事件或它的对立事件，就能直接套用独立性的乘法公式。
+
+- **串联系统**：所有元件都正常时系统才工作，因此
+  $$
+  P(\text{系统工作})=\prod_{i=1}^{n}p_i.
+  $$
+- **并联系统**：至少一个元件正常时系统就工作。用对立事件“全部失效”计算：
+  $$
+  P(\text{系统工作})=1-\prod_{i=1}^{n}(1-p_i).
+  $$
+
+串联系统把各元件的可靠概率相乘，并联系统则把各元件的失效概率相乘后取补。混合结构先分解成串联、并联子块，再逐块套用这两条公式。
+
+> [!CAUTION]
+> **独立性必须由模型或题设给出**
+>
+> “来自同一批”“同时工作”“随机抽取”都不能单独作为元件独立的依据。串联、并联公式以及独立重复试验的乘法公式，都只在独立性成立时才能使用。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="串联与并联的可靠概率"}
+
+两个元件相互独立，正常的概率分别为$p_1=0.9$、$p_2=0.8$。
+
+串联时两个元件都要正常：
+
+$$
+P(\text{工作})=0.9\times0.8=0.72.
+$$
+
+并联时至少一个正常，用对立事件“两个都失效”：
+
+$$
+P(\text{工作})=1-(1-0.9)(1-0.8)=1-0.1\times0.2=0.98.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+假设各元件独立且有相同的工作概率。改变元件个数和单个元件的可靠性，比较全部正常与至少一个正常的概率。
+
+<SystemReliabilityDemo />
+
+## 练习
+
+::problems{#reliability-practice}
+
+1. ::question{#system-reliability}
+
+   三个元件相互独立，每个元件正常的概率都是$0.9$。
+
+   1. ::part{#series}
+
+      三者串联时系统工作的概率为:blank{#series-value type="number"}。
+
+      :::reference
+      ::correct{blank="series-value" value="0.729"}
+
+      串联要求全部正常，概率为$0.9^3=0.729$。
+      :::
+
+   2. ::part{#parallel}
+
+      三者并联时系统工作的概率为:blank{#parallel-value type="number"}。
+
+      :::reference
+      ::correct{blank="parallel-value" value="0.999"}
+
+      并联用对立事件“全部失效”：$1-(1-0.9)^3=1-0.001=0.999$。
+      :::

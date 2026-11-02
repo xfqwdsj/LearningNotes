@@ -1,0 +1,113 @@
+---
+title: 反三角函数
+description: 反正弦、反余弦、反正切与反余切的主值分支、定义域、值域和常用恒等式。
+order: 4
+---
+import InverseTrigDemo from "@/demos/inverse-trig-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+反三角函数取主值分支，定义域和值域如下：
+
+| 函数 | 定义域 | 值域 |
+| :--- | :--- | :--- |
+| $\arcsin x$ | $[-1,1]$ | $\left[-\dfrac{\pi}{2},\dfrac{\pi}{2}\right]$ |
+| $\arccos x$ | $[-1,1]$ | $[0,\pi]$ |
+| $\arctan x$ | $(-\infty,+\infty)$ | $\left(-\dfrac{\pi}{2},\dfrac{\pi}{2}\right)$ |
+| $\operatorname{arccot} x$ | $(-\infty,+\infty)$ | $(0,\pi)$ |
+
+同一主值分支下，
+
+$$
+\arcsin x+\arccos x=\frac{\pi}{2}\quad(\lvert x\rvert\le 1),\qquad
+\arctan x+\operatorname{arccot} x=\frac{\pi}{2}.
+$$
+
+反三角函数回答的是“哪个主值区间内的角，其正弦、余弦或正切等于给定值”。同一个三角函数值通常对应无穷多个角，主值分支只取其中一段连续区间，保证反函数单值。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+- $\arcsin x$的值域是$\left[-\dfrac{\pi}{2},\dfrac{\pi}{2}\right]$，在端点处取到$\pm\dfrac{\pi}{2}$。
+- $\arccos x$的值域是$[0,\pi]$，因此$\arccos x$非负；$\arccos(-x)=\pi-\arccos x$。
+- $\arctan x$的值域是$\left(-\dfrac{\pi}{2},\dfrac{\pi}{2}\right)$，$\arctan(-x)=-\arctan x$。
+- 反三角函数与三角函数复合时，只有角落在主值区间内才能直接消去；否则要先用诱导公式把角化到主值区间。
+
+> [!WARNING]
+> $\arcsin(\sin x)=x$只在$x\in\left[-\dfrac{\pi}{2},\dfrac{\pi}{2}\right]$时成立；超出这个范围时，要先用诱导公式把角化到主值区间。例如$\arcsin\left(\sin\dfrac{5\pi}{6}\right)=\arcsin\dfrac{1}{2}=\dfrac{\pi}{6}$，而不是$\dfrac{5\pi}{6}$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="反三角函数求值"}
+
+$$
+\arctan 1+\arcsin\frac{1}{2}=\frac{\pi}{4}+\frac{\pi}{6}=\frac{5\pi}{12}.
+$$
+
+:::
+
+:::example{title="先化到主值区间"}
+
+$$
+\arccos\left(\cos\frac{5\pi}{3}\right)
+=\arccos\frac{1}{2}
+=\frac{\pi}{3}.
+$$
+
+这里$\dfrac{5\pi}{3}$不在$\arccos$的主值区间$[0,\pi]$内，所以不能直接写成$\dfrac{5\pi}{3}$。
+
+:::
+
+## 练习
+
+::problems{#trigonometry-inverse}
+
+1. ::question{#arcsin-value}
+
+   $\arcsin\dfrac{1}{2}=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{\pi}{6}$
+   - :option[B]{#b} $\dfrac{5\pi}{6}$
+   - :option[C]{#c} $\dfrac{\pi}{3}$
+   - :option[D]{#d} $-\dfrac{\pi}{6}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\arcsin$的主值区间是$\left[-\dfrac{\pi}{2},\dfrac{\pi}{2}\right]$，其中正弦为$\dfrac{1}{2}$的角是$\dfrac{\pi}{6}$。
+   :::
+
+2. ::question{#principal-range}
+
+   $\arccos x$的值域是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\left[-\dfrac{\pi}{2},\dfrac{\pi}{2}\right]$
+   - :option[B]{#b} $[0,\pi]$
+   - :option[C]{#c} $(-\infty,+\infty)$
+   - :option[D]{#d} $(0,\pi)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   反余弦取主值分支$[0,\pi]$，所以它的值不会是负角。
+   :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<InverseTrigDemo />
+
+> [!NOTE]
+> 观察什么
+>
+> 给定正弦值$x$，单位圆上通常有两个角。实线点是$\arcsin x$的主值，虚线点是另一个解$\pi-\arcsin x$；主值分支只保留实线点所在的那一段。

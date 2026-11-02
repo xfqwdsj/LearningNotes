@@ -1,0 +1,214 @@
+---
+title: 递归
+description: 递归的基线条件与递归步骤，以及递归加法、汉诺塔和归并操作的写法与执行顺序。
+---
+
+递归把当前问题交给规模更小的同类问题处理，再用基线条件收口。本页说明递归的组成与终止条件，并给出递归加法、汉诺塔和归并三个典型写法。把递归用于“分解—求解—合并”的整体策略见[分治法](/knowledge/cs/algorithms/divide-and-conquer/)；每次调用在内存中的展开与回退见[函数调用与栈帧](/knowledge/cs/computer-architecture/function-call-stack/)。
+
+import RecursionTreeDemo from "@/demos/recursion-tree-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**递归**是指函数直接或间接调用自身。一个能终止的递归由两部分组成：
+
+- **基线条件**（终止条件）：规模小到可以直接得到答案，不再调用自身。
+- **递归步骤**：把当前问题化为一个或多个规模更小的同类问题，调用自身求解，再用返回值组合出当前答案。
+
+两部分缺一不可。只有递归步骤，调用不会停止；只有基线条件，函数处理不了基线以外的输入。
+
+设当前问题的规模为$n$。每次递归调用都让规模严格减小、并最终到达基线条件，是递归能够终止的依据。若某条调用路径上的规模没有变小，程序会一直调用下去，直到耗尽调用栈。
+
+> [!WARNING]
+> 递归深度受运行时栈的限制。Python默认的递归深度约为1000层，超过时抛出`RecursionError`；规模很大时，应改用迭代或显式维护一个栈。
+
+## 递归的结构
+
+::section{#structure slot="knowledge.properties"}
+
+### 写递归前先回答三个问题
+
+1. **基线是什么？** 最小规模取什么值，答案是什么？
+2. **规模如何减小？** 每一步把问题缩小多少，是否一定到达基线？
+3. **结果如何组合？** 子问题的返回值怎样合成当前问题的答案？
+
+### 执行顺序
+
+递归调用不会立刻返回结果：当前调用先暂停，等子调用结束后再继续执行它后面的语句。因此，打印语句写在递归调用之前还是之后，会得到完全不同的输出顺序。汉诺塔的移动顺序就是由三次调用的先后关系决定的。
+
+每次调用都会占用一个栈帧；调用链的展开与回退见[函数调用与栈帧](/knowledge/cs/computer-architecture/function-call-stack/)。
+
+### 线性递归与树形递归
+
+- **线性递归**：每次只调用一次自身，调用链是一条线。递归加法属于这一类，规模每步减少1。
+- **树形递归**：每次分解成多个子调用，调用过程形成一棵树。汉诺塔每次产生两个规模$n-1$的调用，移动次数满足$M(n)=2M(n-1)+1$，$M(1)=1$，解得$M(n)=2^n-1$。
+
+树形递归的调用次数可能随规模指数增长，写之前应先估计调用总量。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="递归加法"}
+
+把列表的和定义为“第一个元素加上其余元素的和”，基线是只剩一个元素。
+
+```python title="recursive-sum.py"
+def F(a):
+    if len(a) == 1:
+        return a[0]  # 终止条件非常重要
+    return F(a[1:]) + a[0]
+
+
+a = [1, 4, 9, 16]
+print(F(a))
+```
+
+调用`F([1, 4, 9, 16])`时，先递归求出`F([4, 9, 16])`，返回后再加`1`，最终得到`30`。切片`a[1:]`会复制剩余元素，所以这份实现除了调用栈之外还会产生$O(n^2)$的复制开销；它适合说明递归结构，不适合作为求和的默认写法。
+
+:::
+
+:::example{title="汉诺塔"}
+
+`Hanoi(n, A, C, B)`表示把$n$个盘子从柱`A`移到柱`C`，以柱`B`作为辅助。移动$n$个盘子可以拆成三步：先把上面$n-1$个移到辅助柱，再把最大的盘子移到目标柱，最后把$n-1$个从辅助柱移到目标柱。
+
+```python title="hanoi.py"
+count = 1
+
+
+def main():
+    n_str = input("请输入盘子个数：")
+    n = int(n_str)
+    Hanoi(n, "A", "C", "B")
+
+
+def Hanoi(n, A, C, B):
+    global count
+    if n < 1:
+        print("False")
+    elif n == 1:
+        print("%d:\t%s -> %s" % (count, A, C))
+        count += 1
+    elif n > 1:
+        Hanoi(n - 1, A, B, C)
+        Hanoi(1, A, C, B)
+        Hanoi(n - 1, B, C, A)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+三次调用的顺序不能交换：第二次调用移动的是最大的盘子，它必须在两次$n-1$规模的搬运之间执行。`count`记录当前是第几次移动，每输出一次加一；$n$个盘子共需$2^n-1$次移动。
+
+:::
+
+:::example{title="归并操作"}
+
+归并（merge）把两个已经有序的列表合并成一个有序列表。比较两个列表的首元素，取出较小者，再对剩余部分递归归并。
+
+```python title="merge.py"
+def merge(L1, L2):
+    if len(L1) == 0:
+        return L2
+    if len(L2) == 0:
+        return L1
+    if L1[0] < L2[0]:
+        return [L1[0]] + merge(L1[1 : len(L1)], L2)
+    else:
+        return [L2[0]] + merge(L1, L2[1 : len(L2)])
+
+
+X = merge([1, 4, 9], [10])
+print(X)
+```
+
+两个基线条件分别处理“一个列表已经取空”的情形，此时另一个列表的剩余部分已经有序，可以直接接上。每层递归至少消耗一个元素，所以最多递归$|L1|+|L2|$次；`merge([1, 4, 9], [10])`返回`[1, 4, 9, 10]`。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+展开斐波那契递归树，查看每个调用如何缩小到基线，以及相同子问题何时重复出现。
+
+<RecursionTreeDemo />
+
+## 练习
+
+::problems{#recursion-check}
+
+1. ::question{#sum-result}
+
+   对`a = [1, 4, 9, 16]`调用`F(a)`，返回值是:blank{#sum type="number"}。
+
+   :::reference
+   ::correct{blank="sum" value="30"}
+
+   `F`依次取出首元素并在递归返回后相加，等价于$1+4+9+16=30$。
+   :::
+
+2. ::question{#hanoi-moves}
+
+   `Hanoi(4, "A", "C", "B")`一共输出多少次移动？答案是:blank{#moves type="number"}。
+
+   :::reference
+   ::correct{blank="moves" value="15"}
+
+   $n$个盘子的移动次数为$2^n-1$，代入$n=4$得$16-1=15$。
+   :::
+
+3. ::question{#merge-base}
+
+   `merge`函数中，哪些情况会直接返回、不再递归？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `L1`为空
+   - :option[B]{#b} `L2`为空
+   - :option[C]{#c} `L1`与`L2`都只有一个元素
+   - :option[D]{#d} `L1[0] < L2[0]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   两个基线条件检查的是空列表：一个列表为空时，另一个列表整体有序，直接返回它。两个列表各有一个元素时仍要走一次比较，不属于基线；选项D是递归步骤中的比较，不是终止条件。
+   :::
+
+4. ::question{#merge-result}
+
+   `merge([1, 4, 9], [10])`的返回值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[1, 4, 9, 10]`
+   - :option[B]{#b} `[10, 9, 4, 1]`
+   - :option[C]{#c} `[1, 4, 9]`
+   - :option[D]{#d} `[1, 10, 4, 9]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   依次比较首元素，`1`、`4`、`9`都比`10`小，先进入结果；`L1`取空后把`[10]`接上，得到`[1, 4, 9, 10]`。
+   :::
+
+5. ::question{#termination}
+
+   下列哪一项最能保证递归函数一定终止？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 每次递归调用都让问题规模严格减小，并最终到达基线条件
+   - :option[B]{#b} 函数的每个分支都写了`return`
+   - :option[C]{#c} 使用全局变量记录递归次数
+   - :option[D]{#d} 基线条件写在函数的第一行
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   终止性取决于调用链上的规模是否递减到基线。返回值、全局计数和代码位置都不能阻止规模不变或增大的递归无限展开。
+   :::

@@ -1,0 +1,192 @@
+---
+title: 两个独立正态总体均值差检验
+description: 两个独立正态总体均值差检验的条件、统计量与检验方法。
+---
+
+import TwoMeanTestDemo from "@/demos/two-mean-test-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设两组样本分别独立取自正态总体$N(\mu_1,\sigma_1^2)$、$N(\mu_2,\sigma_2^2)$，样本量为$n_1,n_2$，样本均值和方差分别记为$\bar X,\bar Y,S_1^2,S_2^2$。检验以第一组减第二组或第一组除第二组的顺序书写。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+标准误怎么算，取决于两个总体的方差是否已知、是否假定相等。三种情形依次削弱条件。
+
+### 两总体方差已知
+
+两个$\sigma$都是已知常数，用
+
+$$
+Z=\frac{\bar X-\bar Y-\Delta_0}
+{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}\sim N(0,1).
+$$
+
+分母是两个样本均值各自标准误的平方和再开方：$\bar X$的标准误为$\sigma_1/\sqrt{n_1}$，$\bar Y$的标准误为$\sigma_2/\sqrt{n_2}$，独立样本的方差可以直接相加。
+
+### 方差未知但假定相等
+
+此时两个总体方差相等，记公共方差为$\sigma^2$，可以用两组信息合成**合并方差**
+
+$$
+S_p^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2},
+$$
+
+再用它代替未知的$\sigma^2$：
+
+$$
+T=\frac{\bar X-\bar Y-\Delta_0}
+{S_p\sqrt{\dfrac1{n_1}+\dfrac1{n_2}}}\sim t(n_1+n_2-2).
+$$
+
+> [!IMPORTANT]
+> **合并方差按自由度加权**
+>
+> $S_p^2$的权重是各自的自由度$n_i-1$，不是简单平均$\dfrac{S_1^2+S_2^2}{2}$。只有两个样本容量相等时，两种算法才碰巧相同。自由度$n_1+n_2-2$也正是两个样本自由度之和$(n_1-1)+(n_2-1)$，这一分布结论同时要求两个总体正态且方差相等。
+
+### 方差未知且不假定相等：Welch检验
+
+不假定方差相等时，分母只能直接拼两个样本方差：
+
+$$
+T_W=\frac{\bar X-\bar Y-\Delta_0}
+{\sqrt{S_1^2/n_1+S_2^2/n_2}}\approx t(\nu),
+$$
+
+$$
+\nu=\frac{\left(S_1^2/n_1+S_2^2/n_2\right)^2}
+{\dfrac{\left(S_1^2/n_1\right)^2}{n_1-1}
++\dfrac{\left(S_2^2/n_2\right)^2}{n_2-1}}.
+$$
+
+例如$n_1=n_2=10$、$S_1^2=8$、$S_2^2=2$时，$S_1^2/n_1=0.8$、$S_2^2/n_2=0.2$，于是
+
+$$
+\nu=\frac{(0.8+0.2)^2}{0.8^2/9+0.2^2/9}
+=\frac{1}{0.68/9}\approx13.2,
+$$
+
+比方差相等时假定的$n_1+n_2-2=18$小得多。两组样本方差和样本量共同影响这个近似自由度。
+
+> [!NOTE]
+> **Welch的自由度是近似**
+>
+> $t(\nu)$中的$\nu$由样本方差算出，本身是随机量，所以这个$t$分布只是近似分布。软件一般直接使用非整数自由度；手工查表时要取相邻的整数自由度，并说明这是近似处理。若两个样本方差看起来相差不大，改用合并$t$检验同样需要先说明“方差相等”这一假定。
+
+### 拒绝域
+
+三种情形只是统计量和自由度不同，拒绝域的形状一致。下表以$t(\nu)$为例，$\nu$取$n_1+n_2-2$（合并$t$）或Welch自由度；方差已知的$Z$情形把$t_\alpha(\nu)$换成$z_\alpha$，$\nu$不再出现。
+
+| 备择假设 | 拒绝域 |
+| :--- | :--- |
+| $\mu_1-\mu_2\ne\Delta_0$ | $\lvert T\rvert>t_{\alpha/2}(\nu)$ |
+| $\mu_1-\mu_2>\Delta_0$ | $T>t_{\alpha}(\nu)$ |
+| $\mu_1-\mu_2<\Delta_0$ | $T<t_{1-\alpha}(\nu)=-t_{\alpha}(\nu)$ |
+
+> [!WARNING]
+> **顺序与方向要一起固定**
+>
+> 分子写成$\bar X-\bar Y-\Delta_0$时，备择假设$\mu_1-\mu_2>\Delta_0$对应右尾；若把分子改成$\bar Y-\bar X-\Delta_0$，右尾对应的备择就变成$\mu_2-\mu_1>\Delta_0$。两种写法本身都对，但必须在同一道题里保持一致，不能只改分子不改方向。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="合并$t$检验：两个独立样本的均值差"}
+
+两组独立正态样本，$n_1=n_2=10$，$\bar x=12.4$，$\bar y=10.0$，$s_1^2=s_2^2=5$。检验$H_0:\mu_1=\mu_2$对$H_1:\mu_1\ne\mu_2$，取$\alpha=0.05$。
+
+合并方差为
+
+$$
+S_p^2=\frac{9\times5+9\times5}{18}=5,
+$$
+
+标准误$S_p\sqrt{1/10+1/10}=\sqrt5\cdot\sqrt{0.2}=1$，于是
+
+$$
+t=\frac{12.4-10.0-0}{1}=2.4.
+$$
+
+自由度$\nu=10+10-2=18$，临界值$t_{0.025}(18)\approx2.101$。因为$2.4>2.101$，拒绝$H_0$，认为两组均值不相等。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TwoMeanTestDemo />
+
+## 练习
+
+::problems{#two-mean-test-practice}
+
+1. ::question{#pooled-df}
+
+   两个独立正态样本的容量分别为$n_1=8$和$n_2=10$，假定两总体方差相等。合并$t$统计量服从的$t$分布的自由度为:blank{#pooled-df-value type="number"}。
+
+   :::reference
+   ::correct{blank="pooled-df-value" value="16"}
+
+   自由度为$n_1+n_2-2=8+10-2=16$，也就是$(8-1)+(10-1)$。
+   :::
+
+2. ::question{#pooled-variance}
+
+   两组样本容量都是$6$，样本方差分别为$s_1^2=4$和$s_2^2=9$，假定两总体方差相等。合并方差$S_p^2=$ :blank{#pooled-variance-value type="number"}。
+
+   :::reference
+   ::correct{blank="pooled-variance-value" value="6.5"}
+
+   $$
+   S_p^2=\frac{(6-1)\times4+(6-1)\times9}{6+6-2}
+   =\frac{20+45}{10}=6.5.
+   $$
+
+   权重是各自的自由度$5$。这里两个容量相等，加权平均与简单平均$(4+9)/2=6.5$恰好同值；容量不等时两者不同，直接把两个样本方差取算术平均就会算错。
+   :::
+
+3. ::question{#pooled-conditions}
+
+   使用合并$t$检验比较两个独立样本的均值差，需要满足的条件包括
+
+   :::choices{#choice-pooled-conditions mode="multiple"}
+   - :option[A]{#a} 两个样本相互独立
+   - :option[B]{#b} 两个总体都服从正态分布
+   - :option[C]{#c} 两个总体方差相等
+   - :option[D]{#d} 两个样本容量相等
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   合并方差$S_p^2$以“两个总体方差相同”为前提，$t(n_1+n_2-2)$的结论还要求两总体正态、两样本独立。容量相等只是让$S_p^2$退化为简单平均的特例，不是使用合并$t$的条件；容量不等时仍可用合并$t$（方差相等时）或Welch检验（方差不等时）。
+   :::
+
+4. ::question{#welch-feature}
+
+   与合并$t$检验相比，Welch检验的特点是
+
+   :::choices{#choice-welch-feature mode="single"}
+   - :option[A]{#a} 假定两总体方差相等，因此自由度更大
+   - :option[B]{#b} 不假定两总体方差相等，使用近似自由度，该自由度可能不是整数
+   - :option[C]{#c} 不需要两个样本相互独立
+   - :option[D]{#d} 统计量服从自由度为$n_1+n_2-2$的精确$t$分布
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   Welch统计量的分母直接拼两个样本方差，不引入合并方差，自由度由样本方差算出，是近似值，可能为$13.2$这样的非整数。它仍然要求两个样本相互独立；自由度也不是精确的$n_1+n_2-2$。
+   :::

@@ -1,0 +1,30 @@
+---
+title: 累次积分
+description: 按次序对不同变量积分，并说明内层积分中变量与参数的角色。
+---
+
+import IteratedSlicesDemo from "@/demos/iterated-slices-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**累次积分**是依次对不同变量求定积分：内层积分先把外层变量看成参数，得到一个关于外层变量的函数，再进行外层积分。例如
+
+$$
+\int_a^b\left[\int_c^d f(x,y)\,\mathrm dy\right]\mathrm dx
+$$
+
+先对$y$积分，再对$x$积分。累次积分与特定二重积分的等价关系还依赖积分区域和适用条件，见[二重积分的直角坐标计算](/knowledge/maths/multiple-integrals/double-integral-computation/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+对于单位正方形上的$f(x,y)=x+2y$，先对$y$积分时，固定$x$得$\int_0^1(x+2y)\,\mathrm dy=x+1$；再对$x$从$0$到$1$积分，得到$3/2$。先对$x$积分也可得到相同结果。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<IteratedSlicesDemo />

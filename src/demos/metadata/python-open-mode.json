@@ -1,0 +1,26 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "打开模式会怎样影响文件？",
+      "description": "比较Python基础模式在文件存在与不存在时的结果。",
+      "messages": {
+        "label": "Python文件打开模式",
+        "intro": "选择文件是否存在以及基础模式；这是规则模拟，不会读写实际文件。",
+        "existence": "文件状态",
+        "exists": "文件存在",
+        "missing": "文件不存在",
+        "mode": "基础模式",
+        "readExisting": "以只读方式打开现有文件。",
+        "missingError": "读取模式不创建文件，文件不存在时抛出异常。",
+        "existsError": "独占创建模式遇到现有文件时抛出异常。",
+        "createExclusive": "独占创建新文件。",
+        "createWrite": "创建新文件供写入。",
+        "createAppend": "创建新文件，后续写入追加到文件末尾。",
+        "truncate": "写入模式打开现有文件时立即截断。",
+        "append": "追加模式写入时从文件末尾追加。"
+      },
+      "tags": ["Python", "文件输入输出"]
+    }
+  }
+}

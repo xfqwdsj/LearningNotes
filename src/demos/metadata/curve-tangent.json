@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "曲线的切线由哪个向量确定？",
+      "description": "查看参数曲线在不同点的切向量。",
+      "messages": {
+        "label": "空间曲线切线",
+        "intro": "取$\\mathbf r(t)=(t,t^2,t^3)$。三维曲线上的实心点随参数移动，切线箭头方向是导向量$\\mathbf r'(t)$；第一分量恒为1，切线方向始终存在。",
+        "parameter": "参数$t$",
+        "result": "切线经过当前曲线点，方向为$\\boldsymbol r\\prime(t)$；法平面的法向量也可取$\\boldsymbol r\\prime(t)$。"
+      },
+      "tags": ["空间曲线", "切线"]
+    }
+  }
+}

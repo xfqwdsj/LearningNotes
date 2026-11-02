@@ -1,0 +1,20 @@
+---
+title: 6.1&#32;计算机的启动
+description: 按控制权交接梳理固件、内核和用户空间的启动过程。
+---
+
+## 启动链
+
+::knowledge{path="cs/operating-systems/computer-boot-process" slot="definition"}
+
+阅读本节时，先问每个阶段为下一阶段准备什么。教材区分的自检与初始化可放在固件职责中讨论；具体平台可能合并或细分步骤。
+
+## 阶段之间的依赖
+
+::knowledge{path="cs/operating-systems/computer-boot-process" slot="properties"}
+
+启动加载与内核初始化是不同工作：前者准备内核及参数，后者建立系统运行环境并启动用户空间进程。固件也可能直接加载内核，不能把独立加载程序视为所有平台的必经环节。
+
+## 复习
+
+按固件、加载程序、内核和用户空间画出一条简化控制权链。在每一步标出执行者和依赖条件，再考虑实际平台可能在哪里合并或增加阶段。系统运行后对硬件事件的响应见[硬件中断](/knowledge/cs/operating-systems/hardware-interrupt/)。

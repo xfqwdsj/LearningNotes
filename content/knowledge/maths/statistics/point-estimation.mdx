@@ -1,0 +1,28 @@
+---
+title: 点估计
+description: 用样本构造未知参数的估计量，区分估计量和估计值。
+---
+
+import PointEstimateDemo from "@/demos/point-estimate-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X_1,\ldots,X_n$是来自分布族$\{F_\theta:\theta\in\Theta\}$的独立同分布样本，其中$\theta$未知，$\Theta$是参数空间。用来估计$\theta$的统计量
+
+$$
+\hat\theta=\hat\theta(X_1,\ldots,X_n)
+$$
+
+称为**估计量**。统计量只由样本确定，不能含有未知参数；因此估计量在抽样前是随机变量。把一组观测值$x_1,\ldots,x_n$代入后得到的数值$\hat\theta(x_1,\ldots,x_n)$称为**估计值**，它是一个确定的数。
+
+点估计只给出一个数值；区间估计给出一个带有覆盖水平的区间。同一个参数可以用不同方法构造估计量，得到的结果可能不同，因此还需要用无偏性、均方误差和相合性等标准评价，见[估计量的无偏性](/knowledge/maths/statistics/estimator-properties/)。
+
+常用构造方法包括[矩估计](/knowledge/maths/statistics/moment-estimation/)和[最大似然估计](/knowledge/maths/statistics/maximum-likelihood/)。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PointEstimateDemo />

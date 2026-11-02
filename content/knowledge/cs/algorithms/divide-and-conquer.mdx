@@ -1,0 +1,317 @@
+---
+title: 分治法
+description: 分治法的分解、求解与合并，以及寻找最小值、同时求最值、归并排序和二进制加法中的实现。
+---
+
+分治法把问题分成若干同型子问题，分别求解后再合并。它和递归经常一起出现：递归是执行方式，分治是“怎么分、怎么合”的结构。本页给出分治的适用条件，并用寻找最小值、同时求最值、归并排序和二进制加法说明分解与合并如何落地。递归本身的写法见[递归](/knowledge/cs/algorithms/recursion/)；子问题大量重叠时，应改用[动态规划](/knowledge/cs/algorithms/dynamic-programming/)。
+
+import MergeStepDemo from "@/demos/merge-step-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**分治法**把复杂问题分解成两个或更多相同或相似的子问题，直到子问题可以简单地直接求解，原问题的解由子问题的解合并而成。一次分治包含三步：
+
+1. **分解**：把规模为$n$的实例划分成若干规模更小的同类实例。
+2. **求解**：对子问题递归使用同一方法；规模足够小时直接求解。
+3. **合并**：把子问题的解组合成原问题的解。
+
+这三步描述的是算法结构，不是代码模板。有的问题合并只需一次比较，有的问题需要按顺序拼接整段结果；合并方式不同，分治的收益也不同。
+
+## 适用条件
+
+::section{#conditions slot="knowledge.properties"}
+
+分治能成立，通常需要同时满足以下条件：
+
+- **子问题与原问题同型**：可以用同一个函数处理，否则只是普通的任务拆分。
+- **子问题相互独立**：同一个子问题不会被重复求解。若子问题大量重叠，分治会反复计算同一批状态，应改用动态规划。
+- **规模确实缩小**：分解后的每个子问题都严格小于原问题，递归才能终止。
+- **合并的代价可控**：如果合并比重新计算还昂贵，分解就没有收益。
+
+### 与递归、动态规划的关系
+
+分治描述“怎么分解、怎么合并”，递归是常见的实现方式；两者不是同义词。动态规划也常写成递推式，但它会保存子问题的答案。判断时先看子问题是否重叠：重叠就用动态规划，不重叠再考察分治的合并是否划算。
+
+### 代价的估计
+
+分治不保证更快。寻找最小值无论用循环还是分治，都至少检查每个元素一次；归并排序的收益来自“合并两个有序列表”这一步，代价是$O(n\log n)$的时间和$O(n)$的额外空间。分析时分别估计分解、递归调用和合并的工作量，不要只数递归调用的层数。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="寻找最小值：循环扫描"}
+
+```python title="min-loop.py"
+def M(a):
+    m = a[0]
+    for i in range(1, len(a)):
+        if a[i] < m:
+            m = a[i]
+    return m
+
+
+a = [4, 1, 3, 5]
+print(M(a))
+```
+
+循环维护“目前已扫描部分的最小值”，每读入一个元素比较一次。对$n$个元素需要$n-1$次比较。
+
+:::
+
+:::example{title="寻找最小值：线性递归"}
+
+```python title="min-recursive.py"
+def M(a):
+    print(a)
+    if len(a) == 1:
+        return a[0]
+    return min(a[len(a) - 1], M(a[0 : len(a) - 1]))
+
+
+L = [4, 1, 3, 5]
+print(M(L))
+```
+
+每层把最后一个元素与“前面部分的最小值”比较。`print(a)`用来观察每层处理的区间如何缩短，实际使用时可以删除。这个写法仍然是线性递归：每层只调用一次自身，比较次数与循环版相同。
+
+:::
+
+:::example{title="寻找最小值：二分递归"}
+
+```python title="min-divide.py"
+def M(a):
+    if len(a) == 1:
+        return a[0]
+    return min(M(a[0 : len(a) // 2]), M(a[len(a) // 2 : len(a)]))
+
+
+L = [4, 1, 3, 5]
+print(M(L))
+```
+
+把区间从中间分成两半，分别求最小值，再对两个结果取较小者。递归式为$T(n)=2T(n/2)+1$，展开后仍是$n-1$次比较；分治在这里没有减少比较次数，只是把“扫描”换成了“分解与合并”。切片会复制子列表，额外空间也更多。
+
+:::
+
+三种写法解决的是同一个问题，差异在结构而不在结果。选择哪种写法要看后续是否需要并行、是否需要保留子问题的解，而不是看“分治”这个名字。
+
+:::example{title="同时寻找最小值和最大值"}
+
+分别调用两次“找最小值”需要约$2n$次比较。把区间分成两半，让每个子问题同时返回最小值和最大值，可以在合并时把两个量一起处理，而不必分别扫描两遍。
+
+```python title="min-max.py"
+A = [3, 8, 9, 4, 10, 5, 1, 17]
+
+
+def Smin_max(a):
+    if len(a) == 1:
+        return (a[0], a[0])
+    elif len(a) == 2:
+        return (min(a), max(a))
+    m = len(a) // 2
+    lmin, lmax = Smin_max(a[:m])
+    rmin, rmax = Smin_max(a[m:])
+    return min(lmin, rmin), max(lmax, rmax)
+
+
+print("Minimum and Maximum:%d,%d" % (Smin_max(A)))
+```
+
+基线有两种规模：一个元素时最小值和最大值都是它本身；两个元素时直接调用`min`和`max`得到两者。合并时左、右两半各自已经给出了一对值，只需再比较两个最小值、两个最大值各一次。
+
+> [!TIP]
+> 这份实现在规模为2时分别调用`min`和`max`，各比较一次，所以递推是$T(2)=2$、$T(n)=2T(n/2)+2$，总比较次数仍为$2(n-1)$，与分别扫描两次相同。若把规模2的基线改成一次比较同时确定较小者和较大者，则$T(2)=1$，对$2$的幂解为$T(n)=\dfrac{3n}{2}-2$，才真正省下比较。分治能否减少工作量，取决于基线是否把两个量一起处理。
+
+:::
+
+:::example{title="归并排序"}
+
+归并排序先递归地把列表分成两半，分别排序，再用归并操作把两个有序列表合并。其中的`merge`定义在[递归](/knowledge/cs/algorithms/recursion/)的归并操作中。
+
+```python title="merge-sort.py"
+def msort(L):
+    k = len(L)
+    if k == 0:
+        return L
+    if k == 1:
+        return L
+    X1 = L[0 : k // 2]
+    X2 = L[k // 2 : k]
+    X1 = msort(X1)
+    X2 = msort(X2)
+    return merge(X1, X2)
+
+
+print(msort([3, 1, 2]))
+```
+
+长度为0或1的列表已经有序，直接返回。对长度$n>1$的列表，分解出两个规模约为$n/2$的子列表，递归排序后合并。设合并的代价为$O(n)$，则总时间为$O(n\log n)$；归并需要$O(n)$的辅助空间。
+
+> [!WARNING]
+> `merge`只负责合并两个已经有序的列表。把未排序的列表直接传给`merge`，不会得到排序结果；在归并排序中，必须先让`X1`、`X2`分别递归有序，再调用`merge`。
+
+:::
+
+::::example{title="二进制加法"}
+
+用`True`/`False`的列表表示二进制数，列表首元素是高位。全加器`FA`接收两个位和低位进位，输出本位和与向高位的进位。
+
+```python title="full-adder.py"
+def FA(a, b, c):  # Full adder
+    carry = (a and b) or (b and c) or (a and c)
+    sum = (
+        (a and b and c)
+        or (a and (not b) and (not c))
+        or ((not a) and b and (not c))
+        or ((not a) and (not b) and c)
+    )
+    return carry, sum
+```
+
+分治版先把两个数补成等长，再从中间切开。右半部分是低位，必须先算，因为它产生的进位要传给左半部分（高位）。
+
+```python title="binary-add.py"
+def add_divide(x, y, c=False):
+    # x、y是True/False列表，c是低位进位
+    # 返回向更高位的进位和x+y的结果列表
+    while len(x) < len(y):
+        x = [False] + x
+    while len(y) < len(x):
+        y = [False] + y
+    if len(x) == 1:
+        ctemp, stemp = FA(x[0], y[0], c)
+        return (ctemp, [stemp])
+    if len(x) == 0:
+        return c, []
+    c1, s1 = add_divide(x[len(x) // 2 : len(x)], y[len(y) // 2 : len(y)], c)
+    c2, s2 = add_divide(x[0 : len(x) // 2], y[0 : len(y) // 2], c1)  # 依赖低位进位
+    return (c2, s2 + s1)
+```
+
+计算过程可以分成三步：
+
+:::steps
+
+1. **补齐长度**
+
+   在较短的数前面补`False`（高位补0），使两个列表等长。这样切分出的左右两半位数一致。
+
+2. **先算低位，再算高位**
+
+   右半部分整体是低位，先递归计算，得到本位结果和向高位的进位；把该进位作为参数传给左半部分的递归调用。两个子问题的计算有先后依赖，不能交换顺序。
+
+3. **拼接结果**
+
+   左半部分返回的进位是最终向更高位的进位；把左半部分的结果（高位）与右半部分的结果（低位）按顺序拼接，得到完整的结果列表。
+
+:::
+
+例如`add_divide([True, False, True], [True, True])`计算$5+3$，返回`(True, [False, False, False])`：结果列表加上最高位的进位是`1000`，即十进制的8。
+
+> [!IMPORTANT]
+> 列表首元素是高位，所以`x[len(x) // 2 :]`是低位的一半，`x[:len(x) // 2]`是高位的一半。进位从低位向高位传递，因此代码先递归右半部分，再把返回的进位传给左半部分。
+
+::::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对两段已排序的数据逐步执行合并，比较两段首元素并保持输出有序。
+
+<MergeStepDemo />
+
+## 练习
+
+::problems{#divide-and-conquer-check}
+
+1. ::question{#three-steps}
+
+   分治法的一次完整过程按什么顺序进行？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 分解 → 求解 → 合并
+   - :option[B]{#b} 合并 → 分解 → 求解
+   - :option[C]{#c} 求解 → 分解 → 合并
+   - :option[D]{#d} 分解 → 合并 → 求解
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   先把原问题分成子问题，再递归求解子问题，最后把子问题的解合并成原问题的解。
+   :::
+
+2. ::question{#min-result}
+
+   对`L = [4, 1, 3, 5]`调用分治版的`M(L)`，返回值是:blank{#min type="number"}。
+
+   :::reference
+   ::correct{blank="min" value="1"}
+
+   二分递归只是在比较两个子区间的最小值，结果与循环版相同，都是列表中的最小值`1`。
+   :::
+
+3. ::question{#min-max-result}
+
+   对`A = [3, 8, 9, 4, 10, 5, 1, 17]`调用`Smin_max(A)`，返回值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `(1, 17)`
+   - :option[B]{#b} `(17, 1)`
+   - :option[C]{#c} `(1, 10)`
+   - :option[D]{#d} `(3, 17)`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   合并时左、右子区间分别返回各自的最小值和最大值，再对两个最小值取`min`、两个最大值取`max`，得到`(1, 17)`。
+   :::
+
+4. ::question{#merge-sort-result}
+
+   `msort([3, 1, 2])`的输出是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[1, 2, 3]`
+   - :option[B]{#b} `[3, 1, 2]`
+   - :option[C]{#c} `[1, 3, 2]`
+   - :option[D]{#d} `[2, 1, 3]`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   列表分成`[3]`和`[1, 2]`；`[1, 2]`再分成两个单元素列表并合并为`[1, 2]`；最后`merge([3], [1, 2])`得到`[1, 2, 3]`。
+   :::
+
+5. ::question{#binary-sum}
+
+   `add_divide([True, False, True], [True, True])`的结果表示的十进制数是:blank{#sum type="number"}。
+
+   :::reference
+   ::correct{blank="sum" value="8"}
+
+   列表`[True, False, True]`是二进制`101`，即5；`[True, True]`补齐为`011`，即3；返回的进位与结果列表合起来是`1000`，即8。
+   :::
+
+6. ::question{#not-divide}
+
+   下列哪种情形最不适合继续使用分治法？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 子问题大量重叠，同一个子问题会被反复求解
+   - :option[B]{#b} 子问题规模不断缩小，且可以独立求解
+   - :option[C]{#c} 合并两个子问题的结果只需要常数时间
+   - :option[D]{#d} 原问题与子问题可以使用同一个函数处理
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   子问题重叠时，分治会重复计算同一批状态，应该保存子问题的答案，改用动态规划。其余三项都是分治的有利条件。
+   :::

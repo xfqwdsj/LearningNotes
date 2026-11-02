@@ -1,0 +1,22 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "重复调用时，局部变量何时重新初始化？",
+      "description": "比较自动变量和静态局部变量在多次调用中的状态。",
+      "messages": {
+        "label": "C局部变量的存储期",
+        "intro": "函数每次将`count`加一。选择声明方式，反复调用，比较输出；切换方式会重新开始。",
+        "choose": "选择声明方式",
+        "automatic": "自动局部变量",
+        "static": "静态局部变量（`static`）",
+        "call": "调用一次",
+        "reset": "重新开始",
+        "initial": "尚未调用。",
+        "autoResult": "已调用{calls}次，本次输出{value}；自动变量每次进入时重新初始化。",
+        "staticResult": "已调用{calls}次，本次输出{value}；`static`局部变量保留上一次的值。"
+      },
+      "tags": ["C语言", "存储期"]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "圆上的切线斜率如何随位置变化？",
+      "description": "用隐函数求导计算单位圆上半圆的斜率。",
+      "messages": {
+        "label": "隐函数求导",
+        "intro": "在$x^2+y^2=1$的上半圆上，取$-1<x<1$，因此$y>0$。实心点随$x$移动，切线斜率由$\\mathrm dy/\\mathrm dx=-x/y$给出。",
+        "x": "横坐标$x$",
+        "result": "对等式两边求导得$\\mathrm dy/\\mathrm dx=-x/y$，当前约为{slope}。"
+      },
+      "tags": ["导数", "隐函数"]
+    }
+  }
+}

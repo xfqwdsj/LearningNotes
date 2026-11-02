@@ -1,0 +1,78 @@
+---
+title: 用户态与内核态
+description: 通过执行特权级和内存权限理解用户态与内核态的隔离。
+---
+
+import PrivilegeDemo from "@/demos/privilege-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+x86在硬件层面把代码的运行权限分成4级，编号0到3，通常称为保护环。当前代码所在的环记在段寄存器的CPL（当前特权级）字段中，CPU执行指令和访问内存时都按它检查权限。
+
+| 特权级 | 常称 | 可执行的指令 | 内存访问 | 典型代码 |
+| :--- | :--- | :--- | :--- | :--- |
+| Ring 0 | 内核态 | 包括特权指令在内的全部指令 | 由页表及硬件配置控制 | 内核核心代码：调度、内存管理、驱动 |
+| Ring 3 | 用户态 | 只有非特权指令 | 由映射和权限控制 | 浏览器、编辑器、Python解释器 |
+| Ring 1、Ring 2 | — | 介于两者之间 | 介于两者之间 | 原本为驱动等中间层预留，主流系统不使用 |
+
+运行在Ring 0的代码处于**内核态**，运行在Ring 3的代码处于**用户态**。Ring 1和Ring 2的设计初衷是给设备驱动一类中间层使用，但现代Linux与Windows基本只用Ring 0和Ring 3，把需要特权的操作全部收进内核。
+
+部分需要较高特权级才能执行的指令称为**特权指令**。修改页表、用`cli`关中断、用`in`和`out`访问I/O端口都属于这一类。用户态执行特权指令不是被忽略，而是由CPU报错，交给内核处理。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+特权级限制某些指令，页表和其他硬件机制限制内存访问。用户态访问受保护的内核内存或执行受限指令时，处理器会产生异常，由操作系统决定后续处理；这不等于所有程序无响应或崩溃都由越权造成。
+
+隔离依赖硬件配置和内核正确实现。用户程序可以通过[系统调用](/knowledge/cs/operating-systems/system-call/)请求受控服务，但不会因此获得任意内核权限。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+切换用户态与内核态，比较普通计算、特权指令和受保护内存访问。
+
+<PrivilegeDemo />
+
+## 练习
+
+::problems{#cpu-privilege-practice}
+
+1. ::question{#ring}
+
+   在x86的4个特权级中，Linux内核代码通常运行在哪个环？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} Ring 0
+   - :option[B]{#b} Ring 1
+   - :option[C]{#c} Ring 2
+   - :option[D]{#d} Ring 3
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   内核需要执行修改页表、关中断等特权指令，必须处于权限最高的Ring 0；用户程序在Ring 3。
+   :::
+
+2. ::question{#privileged}
+
+   下列哪些操作需要在内核态完成？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 修改页表
+   - :option[B]{#b} 关中断
+   - :option[C]{#c} 访问I/O端口
+   - :option[D]{#d} 两个整数相加
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   修改页表、关中断和访问I/O端口都会改变机器全局状态或直接接触硬件，属于特权指令；整数加法在用户态就能执行。
+   :::

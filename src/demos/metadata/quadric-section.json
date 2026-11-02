@@ -1,0 +1,23 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "截面如何区分二次曲面？",
+      "description": "比较球面和双曲抛物面的水平截痕。",
+      "messages": {
+        "label": "二次曲面的截痕",
+        "intro": "比较单位球面与双曲抛物面的水平截痕。球面的截痕由圆缩成点后消失；马鞍面的截痕在两条相交直线与双曲线之间变化。",
+        "choose": "选择曲面",
+        "sphere": "球面",
+        "saddle": "鞍面",
+        "z": "截平面高度$z$",
+        "sphereEmpty": "此高度没有球面截痕。",
+        "spherePoint": "截痕退化为一个点。",
+        "sphereCircle": "截痕是圆。",
+        "saddleLines": "截痕是两条相交直线$y=\\pm x$。",
+        "saddleHyperbola": "截痕是双曲线；正负高度的开口方向不同。"
+      },
+      "tags": ["空间几何", "二次曲面"]
+    }
+  }
+}

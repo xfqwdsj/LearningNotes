@@ -1,0 +1,27 @@
+---
+title: 级数的柯西乘积
+description: 按下标之和组合两个级数的项，并说明乘积收敛的条件。
+---
+
+import CauchyProductDemo from "@/demos/cauchy-product-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设两个级数分别为$\sum u_n$与$\sum v_n$。构造级数$\sum w_n$，其中
+
+$$
+w_n=u_1v_n+u_2v_{n-1}+\cdots+u_nv_1=\sum_{k=1}^{n}u_kv_{n+1-k}.
+$$
+
+级数$\sum w_n$称为$\sum u_n$与$\sum v_n$的**柯西乘积**。它的第$n$项把所有下标之和为$n+1$的乘积$u_iv_j$汇总在一起。
+
+
+若两个级数都收敛，且至少一个绝对收敛，则柯西乘积收敛，其和等于两个级数的和的乘积。仅有两个级数收敛不足以保证柯西乘积收敛。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CauchyProductDemo />

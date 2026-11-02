@@ -1,0 +1,181 @@
+---
+title: 曲线积分与路径无关
+description: 曲线积分与路径无关的条件、性质和应用。
+---
+
+import PathIndependentDemo from "@/demos/path-independent-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$G$是一个开区域，函数$P(x,y)$、$Q(x,y)$在$G$内具有一阶连续偏导数。若对于$G$内任意两点$A$、$B$，以及$G$内从$A$到$B$的任意两条路径$L_1$和$L_2$，都有
+
+$$
+\int_{L_1}P\,\mathrm{d}x+Q\,\mathrm{d}y
+=\int_{L_2}P\,\mathrm{d}x+Q\,\mathrm{d}y,
+$$
+
+则称曲线积分$\displaystyle\int_L P\,\mathrm{d}x+Q\,\mathrm{d}y$在$G$内**与路径无关**。
+
+反之，若存在两点$A$、$B$及两条路径使得积分值不等，则称积分**与路径有关**，也称路径相关。
+
+### 等价条件
+
+以下四个条件在单连通区域$G$内相互等价：
+
+1. 曲线积分$\displaystyle\int_L P\,\mathrm{d}x+Q\,\mathrm{d}y$在$G$内与路径无关；
+2. 对$G$内的任意闭曲线$C$，有$\displaystyle\oint_C P\,\mathrm{d}x+Q\,\mathrm{d}y=0$；
+3. 在$G$内恒有$\displaystyle\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}$；
+4. $P\,\mathrm{d}x+Q\,\mathrm{d}y$是$G$内某个函数$u(x,y)$的全微分，即$\mathrm{d}u=P\,\mathrm{d}x+Q\,\mathrm{d}y$。
+
+### 判定定理
+
+设区域$G$是一个**单连通区域**，函数$P(x,y)$、$Q(x,y)$在$G$内具有一阶连续偏导数，则以下两个条件等价：
+
+1. 曲线积分$\displaystyle\int_L P\,\mathrm{d}x+Q\,\mathrm{d}y$在$G$内与路径无关，或沿$G$内任意闭曲线的积分为零；
+2. 在$G$内恒有
+
+$$
+\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}.
+$$
+
+**单连通区域**这个条件不能省。复连通区域中即使处处满足$\partial P/\partial y=\partial Q/\partial x$，曲线积分也不一定与路径无关：绕“洞”的闭曲线积分可能不为零，例子中的$\dfrac{x\,\mathrm{d}y-y\,\mathrm{d}x}{x^2+y^2}$就是这种情况。
+
+### 原函数
+
+当积分与路径无关时，从定点$A(x_0,y_0)$到动点$B(x,y)$的曲线积分只与起点和终点有关，可记为
+
+$$
+u(x,y)=\int_{(x_0,y_0)}^{(x,y)}P\,\mathrm{d}x+Q\,\mathrm{d}y.
+$$
+
+这个$u(x,y)$就是$P\,\mathrm{d}x+Q\,\mathrm{d}y$的一个原函数，并且
+
+$$
+\frac{\partial u}{\partial x}=P,\qquad \frac{\partial u}{\partial y}=Q.
+$$
+
+于是$\mathrm{d}u=P\,\mathrm{d}x+Q\,\mathrm{d}y$，沿任意路径从$A$到$B$的积分都等于$u(B)-u(A)$。
+
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="验证路径无关：$(2x+y)\,\mathrm{d}x+(x+2y)\,\mathrm{d}y$"}
+
+这里$P=2x+y$，$Q=x+2y$，在全平面上
+
+$$
+\frac{\partial P}{\partial y}=1=\frac{\partial Q}{\partial x}.
+$$
+
+全平面是单连通区域，所以积分与路径无关。取从$(0,0)$到$(1,1)$的直线段$y=x$：
+
+$$
+\int_L (2x+y)\,\mathrm{d}x+(x+2y)\,\mathrm{d}y
+=\int_0^1\bigl[(2x+x)+(x+2x)\bigr]\,\mathrm{d}x
+=\int_0^1 6x\,\mathrm{d}x=3.
+$$
+
+也可以先看出原函数$u(x,y)=x^2+xy+y^2$，再用$u(1,1)-u(0,0)=3$。
+
+:::
+
+:::example{title="复连通区域的反例：绕原点的闭曲线"}
+
+设
+
+$$
+P=\frac{-y}{x^2+y^2},\qquad Q=\frac{x}{x^2+y^2},
+$$
+
+它们在不含原点的区域$G=\mathbb R^2\setminus\{(0,0)\}$内有定义且具有连续偏导数。直接求偏导可得
+
+$$
+\frac{\partial P}{\partial y}
+=\frac{y^2-x^2}{(x^2+y^2)^2}
+=\frac{\partial Q}{\partial x}.
+$$
+
+但取$C$为绕原点一周的逆时针圆周$x=r\cos t$、$y=r\sin t$（$0\le t\le 2\pi$），则
+
+$$
+x\,\mathrm{d}y-y\,\mathrm{d}x=r^2\,\mathrm{d}t,
+\qquad x^2+y^2=r^2,
+$$
+
+所以
+
+$$
+\oint_C \frac{x\,\mathrm{d}y-y\,\mathrm{d}x}{x^2+y^2}
+=\int_0^{2\pi}\mathrm{d}t=2\pi\ne 0.
+$$
+
+$G$不是单连通区域，偏导数相等仍不能推出路径无关。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PathIndependentDemo />
+
+## 练习
+
+::problems{#path-independent-practice}
+
+1. ::question{#path-independent}
+
+   在全平面上，
+   $\displaystyle\int_{(0,0)}^{(1,1)}(2x+y)\,\mathrm{d}x+(x+2y)\,\mathrm{d}y=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="3"}
+
+   $P_y=1=Q_x$，全平面单连通，积分与路径无关。取路径$y=x$，$x$从$0$到$1$，得
+   $$
+   \int_0^1 6x\,\mathrm{d}x=3.
+   $$
+   也可用原函数$u=x^2+xy+y^2$，$u(1,1)-u(0,0)=3$。
+   :::
+
+2. ::question{#equivalent}
+
+   设$P$、$Q$在单连通区域$G$内具有一阶连续偏导数。下列哪些条件与曲线积分$\displaystyle\int_L P\,\mathrm{d}x+Q\,\mathrm{d}y$与路径无关等价？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 沿$G$内任意闭曲线的积分为零
+   - :option[B]{#b} 在$G$内恒有$\dfrac{\partial P}{\partial y}=\dfrac{\partial Q}{\partial x}$
+   - :option[C]{#c} $P\,\mathrm{d}x+Q\,\mathrm{d}y$是某个函数的全微分
+   - :option[D]{#d} $P$、$Q$在$G$内有界
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   这三条都是路径无关的等价条件。有界性只是积分存在的辅助条件，并不等价于路径无关。
+   :::
+
+3. ::question{#multiply-connected}
+
+   关于复连通区域上的曲线积分，下列哪条正确？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 只要$\dfrac{\partial P}{\partial y}=\dfrac{\partial Q}{\partial x}$，积分就一定与路径无关
+   - :option[B]{#b} 绕“洞”的闭曲线积分一定为零
+   - :option[C]{#c} 即使$\dfrac{\partial P}{\partial y}=\dfrac{\partial Q}{\partial x}$，积分也可能与路径有关
+   - :option[D]{#d} 格林公式在复连通区域上不成立
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   复连通区域中可能有绕洞的闭曲线给出非零积分；格林公式仍成立，但边界要取全部边界并注意方向。
+   :::

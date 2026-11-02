@@ -1,0 +1,23 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "有洞的区域怎样确定正向边界？",
+      "description": "比较圆盘与圆环的内外边界方向。",
+      "messages": {
+        "label": "区域的正向边界",
+        "intro": "沿边界行走时，区域始终位于左侧。图中的箭头给出绕行方向；切换为圆环后，可以看到外边界仍逆时针，而洞的边界必须顺时针。",
+        "choose": "选择区域",
+        "disk": "圆盘",
+        "annulus": "圆环",
+        "outer": "外边界",
+        "inner": "内边界",
+        "counterclockwise": "逆时针",
+        "clockwise": "顺时针",
+        "diskResult": "圆盘的正向边界为逆时针。",
+        "annulusResult": "圆环的外边界逆时针、内边界顺时针；两条边界都要计入。"
+      },
+      "tags": ["曲线积分", "边界方向"]
+    }
+  }
+}

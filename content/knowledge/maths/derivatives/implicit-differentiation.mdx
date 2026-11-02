@@ -1,0 +1,126 @@
+---
+title: 隐函数求导
+description: 对方程$F(x,y)=0$确定的隐函数两边求导，把$y$看作$x$的函数并解出$y'$。
+---
+
+import ImplicitSlopeDemo from "@/demos/implicit-slope-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若变量$y$与$x$的关系由方程
+
+$$
+F(x,y)=0
+$$
+
+给出，而不是写成$y=f(x)$的显式形式，则称$y$是由该方程确定的**隐函数**。
+
+例如$x^2+y^2=1$在上半平面确定$y=\sqrt{1-x^2}$，在下半平面确定$y=-\sqrt{1-x^2}$；但在求导时不必先解出$y$，可以直接对方程两边关于$x$求导。
+
+{/* more */}
+
+隐函数求导的前提是：在所讨论的点附近，方程确实确定了一个可导函数$y=y(x)$。本页默认这一条件成立，具体的存在条件见[隐函数的求导公式](/knowledge/maths/multivariable-calculus/implicit-function-theorem/)。
+
+## 方法
+
+::section{#properties slot="knowledge.properties"}
+
+1. 对方程$F(x,y)=0$两边关于$x$求导。
+2. 把$y$看作$x$的函数。对含$y$的项使用链式法则，例如
+   $$
+   \frac{\mathrm{d}}{\mathrm{d}x}(y^2)=2y\cdot y',\qquad
+   \frac{\mathrm{d}}{\mathrm{d}x}(\sin y)=\cos y\cdot y'.
+   $$
+3. 把含$y'$的项移到一边，解出$y'$。结果通常同时含有$x$和$y$，这是正常的。
+
+> [!WARNING]
+> 对$y$求导时不要漏乘$y'$。把$y$当作常数是隐函数求导中最常见的错误。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="圆$x^2+y^2=1$"}
+
+两边对$x$求导：
+
+$$
+2x+2y\cdot y'=0.
+$$
+
+解出
+
+$$
+y'=-\frac{x}{y}\quad (y\ne 0).
+$$
+
+在点$(0,1)$处$y'=0$，切线水平；在点$(1,0)$处切线竖直，$y'$不存在。
+
+:::
+
+:::example{title="$e^y+xy=1$"}
+
+两边对$x$求导，注意$e^y$与$xy$都要用链式法则或乘积法则：
+
+$$
+e^y y'+y+xy'=0.
+$$
+
+整理得
+
+$$
+y'=-\frac{y}{e^y+x}\quad (e^y+x\ne 0).
+$$
+
+:::
+
+:::example{title="先取对数再求导"}
+
+方程$y=x^x$两边取对数得$\ln y=x\ln x$，再对$x$求导：
+
+$$
+\frac{y'}{y}=\ln x+1,
+$$
+
+所以$y'=x^x(\ln x+1)$。这类幂指函数的处理见[幂指函数](/knowledge/maths/limits/power-exponential-function/)。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ImplicitSlopeDemo />
+
+## 练习
+
+::problems{#implicit-check}
+
+1. ::question{#circle-slope}
+
+   圆$x^2+y^2=25$在点$(3,4)$处的切线斜率是:blank{#slope type="number"}。
+
+   :::reference
+   ::correct{blank="slope" value="-0.75"}
+
+   两边求导得$2x+2yy'=0$，所以$y'=-x/y=-3/4$。
+   :::
+
+2. ::question{#y-square}
+
+   对$x^2+y^2=1$两边关于$x$求导，$y^2$这一项得到：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $2y$
+   - :option[B]{#b} $2yy'$
+   - :option[C]{#c} $2x$
+   - :option[D]{#d} $y'$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $y$是$x$的函数，由链式法则$(y^2)'=2y\cdot y'$。
+   :::

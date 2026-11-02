@@ -1,0 +1,30 @@
+# IDE and operating system
+.idea/
+.vscode/
+.DS_Store
+
+# Local configuration
+.env*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Next.js and generated artifacts
+.next/
+.next-*/
+.wrangler/
+out/
+.dev/
+.generated/
+dist/
+public/
+private-content/
+next-env.d.ts
+*.tsbuildinfo
+
+# Test and lint output
+.eslintcache
+coverage/
+playwright-report/
+test-results/

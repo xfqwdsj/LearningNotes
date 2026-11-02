@@ -1,0 +1,16 @@
+---
+title: 9.1&#32;单因素方差分析
+description: 用组间与组内变异比较多个总体均值，并解释检验结论。
+---
+
+## 模型与假设
+
+::knowledge{path="maths/statistics/anova" slot="definition"}
+
+## 平方和分解与检验
+
+::knowledge{path="maths/statistics/anova" slot="properties"}
+
+组间和组内平方和的自由度分别为$k-1$和$N-k$。先将平方和除以自由度，再比较两个均方；与[两个总体的方差比检验](/knowledge/maths/statistics/variance-ratio-test/)使用相同的分布族，但自由度来自不同的模型。
+
+拒绝总体均值都相等的假设，只能说明至少有两个总体均值不同。确定具体哪些组有差异需要进一步比较，并控制多重比较带来的误拒绝风险。

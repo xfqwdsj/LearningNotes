@@ -1,0 +1,300 @@
+---
+title: 大数定律
+description: 用依概率收敛刻画样本均值的稳定性，给出切比雪夫、伯努利与辛钦大数定律的条件、结论和样本量的保守估算。
+---
+
+import LargeNumbersDemo from "@/demos/large-numbers-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+大数定律刻画样本均值的稳定性：随着样本量增大，样本均值偏离其期望的可能性越来越小。要让“可能性越来越小”有确切含义，先引入依概率收敛。
+
+设$Y_1,Y_2,\ldots$是定义在同一概率空间上的随机变量序列，$a$为常数。若对任意$\varepsilon>0$都有
+
+$$
+\lim_{n\to\infty}P\{|Y_n-a|\ge\varepsilon\}=0,
+$$
+
+则称$Y_n$ **依概率收敛**于$a$，记作$Y_n\xrightarrow{P}a$。
+
+它只说明“偏差超过固定误差$\varepsilon$的概率”趋于零，不说明某个有限的$n$之后偏差永远小于$\varepsilon$，也不要求每个样本结果逐点趋近$a$。
+
+> [!WARNING]
+> **依概率收敛不是逐点收敛**
+>
+> 给定一次试验，$Y_n$的取值序列可能反复偏离$a$；定理控制的始终是偏离事件发生的概率，而不是单次结果。也不能把$Y_n\xrightarrow{P}a$理解为存在某个$N$，使得$n>N$时$|Y_n-a|<\varepsilon$必然成立。
+
+本页记$E(X)$为数学期望，$D(X)=E\{[X-E(X)]^2\}$为方差（也写作$\operatorname{Var}(X)$），$\bar X_n=\dfrac1n\sum_{i=1}^nX_i$为样本均值。期望的定义和性质见[数学期望](/knowledge/maths/probability/expectation/)，随机变量的独立性见[随机变量的独立性](/knowledge/maths/probability/random-variable-independence/)。
+
+于是大数定律就是一类断言：在适当条件下，样本均值与它的期望之差依概率收敛于$0$。不同的大数定律差别在于对$X_i$的独立性、同分布性和矩条件的要求。
+
+## 三个大数定律
+
+::section{#theorems slot="knowledge.properties"}
+
+证明中反复用到**切比雪夫不等式**：若$D(Y)$存在，则对任意$\varepsilon>0$，
+
+$$
+P\{|Y-E(Y)|\ge\varepsilon\}\le\frac{D(Y)}{\varepsilon^2}.
+$$
+
+### 切比雪夫大数定律
+
+设$X_1,X_2,\ldots$相互独立，方差存在且一致有界：存在常数$C$，使$D(X_i)\le C$对所有$i$成立。则
+
+$$
+\frac1n\sum_{i=1}^nX_i-\frac1n\sum_{i=1}^nE(X_i)\xrightarrow{P}0.
+$$
+
+更一般地，只要
+
+$$
+\frac1{n^2}\sum_{i=1}^nD(X_i)\to0,
+$$
+
+相同结论也成立。相互独立可以减弱为两两不相关：证明只用到方差的可加性，而两两不相关已足够保证这一点。
+
+:::proof
+
+记$\bar X_n=\frac1n\sum_{i=1}^nX_i$。由期望的线性性，
+
+$$
+E(\bar X_n)=\frac1n\sum_{i=1}^nE(X_i).
+$$
+
+因为$X_i$两两不相关（相互独立时自然成立），方差可以相加：
+
+$$
+D(\bar X_n)=\frac1{n^2}\sum_{i=1}^nD(X_i)\le\frac{C}{n}.
+$$
+
+对任意$\varepsilon>0$，把切比雪夫不等式用于$\bar X_n$：
+
+$$
+P\{|\bar X_n-E(\bar X_n)|\ge\varepsilon\}
+\le\frac{D(\bar X_n)}{\varepsilon^2}
+\le\frac{C}{n\varepsilon^2}\to0.
+$$
+
+所以$\bar X_n-E(\bar X_n)\xrightarrow{P}0$。若只假设$\frac1{n^2}\sum_{i=1}^nD(X_i)\to0$，最后一步换成
+
+$$
+P\{|\bar X_n-E(\bar X_n)|\ge\varepsilon\}
+\le\frac1{n^2\varepsilon^2}\sum_{i=1}^nD(X_i)\to0,
+$$
+
+结论仍然成立。
+
+:::
+
+### 独立同分布、方差有限的情形
+
+这是最常用的形式。若$X_1,X_2,\ldots$独立同分布，$E(X_i)=\mu$，$D(X_i)=\sigma^2<\infty$，则
+
+$$
+\bar X_n\xrightarrow{P}\mu,
+$$
+
+并且切比雪夫不等式给出收敛速度的估计：
+
+$$
+P\{|\bar X_n-\mu|\ge\varepsilon\}\le\frac{\sigma^2}{n\varepsilon^2}\to0.
+$$
+
+同分布使方差自动一致有界，所以这是切比雪夫大数定律的直接推论。
+
+### 伯努利大数定律
+
+在成功概率为$p$的$n$次独立重复试验中，令$N_n$为成功次数。则$N_n$服从二项分布$B(n,p)$（见[二项分布](/knowledge/maths/probability/binomial-distribution/)），
+
+$$
+E\left(\frac{N_n}{n}\right)=p,\qquad
+D\left(\frac{N_n}{n}\right)=\frac{p(1-p)}{n}\le\frac1{4n}.
+$$
+
+由切比雪夫不等式，
+
+$$
+P\left\{\left|\frac{N_n}{n}-p\right|\ge\varepsilon\right\}
+\le\frac{p(1-p)}{n\varepsilon^2}\to0,
+$$
+
+即
+
+$$
+\frac{N_n}{n}\xrightarrow{P}p.
+$$
+
+频率$\frac{N_n}{n}$依概率收敛于概率$p$，这正是用大量重复试验的频率估计概率的依据。
+
+> [!NOTE]
+> **频率不会单调靠近$p$**
+>
+> 伯努利大数定律只说明频率与$p$的偏差超过$\varepsilon$的概率趋于零。频率仍可能在某次试验后远离$p$，也不存在“试验次数足够多后频率必然等于$p$”的结论。
+
+### 辛钦大数定律
+
+若$X_1,X_2,\ldots$独立同分布，且$E|X_i|<\infty$，记$\mu=E(X_i)$，则
+
+$$
+\bar X_n\xrightarrow{P}\mu.
+$$
+
+与有限方差版本相比，辛钦大数定律不要求$D(X_i)$有限，只要求一阶绝对矩存在，因此适用于方差无穷但均值有限的分布。它的证明需要特征函数等工具，这里直接使用结论。
+
+> [!CAUTION]
+> **一阶矩条件不能省**
+>
+> $E|X_i|<\infty$既保证$\mu$存在，也是定理成立的条件。若独立同分布的$X_i$连期望都不存在，例如标准柯西分布，样本均值不会依概率收敛到常数。
+
+### 条件的比较
+
+| 定理 | 条件 | 结论 |
+| :--- | :--- | :--- |
+| 切比雪夫大数定律 | 相互独立（可减弱为两两不相关），$D(X_i)$存在且一致有界；更一般地，$\frac1{n^2}\sum_iD(X_i)\to0$ | $\frac1n\sum_iX_i-\frac1n\sum_iE(X_i)\xrightarrow{P}0$ |
+| 伯努利大数定律 | $n$次独立重复试验，成功概率为$p$，$N_n$为成功次数 | $\frac{N_n}{n}\xrightarrow{P}p$ |
+| 辛钦大数定律 | 独立同分布，一阶绝对矩有限，均值$\mu=E(X_i)$ | $\bar X_n\xrightarrow{P}\mu$ |
+
+> [!IMPORTANT]
+> **先确认条件再选定理**
+>
+> 三者的差别在条件而不是结论形式：切比雪夫版本允许不同分布，但要求方差可控；辛钦版本要求同分布，只要求一阶绝对矩有限；伯努利版本只处理独立重复试验的成功频率。引用时写清用的是哪一个定理，避免把某个定理的结论套到不满足条件的序列上。
+
+### 样本量的保守估算
+
+设$X_1,X_2,\ldots$独立同分布，$E(X_i)=\mu$，$D(X_i)=\sigma^2<\infty$。若希望
+
+$$
+P\{|\bar X_n-\mu|<\varepsilon\}\ge1-\alpha,
+$$
+
+切比雪夫不等式给出一个**充分条件**。由
+
+$$
+P\{|\bar X_n-\mu|<\varepsilon\}\ge1-\frac{\sigma^2}{n\varepsilon^2}
+$$
+
+可知，只要$\frac{\sigma^2}{n\varepsilon^2}\le\alpha$，即
+
+$$
+n\ge\frac{\sigma^2}{\alpha\varepsilon^2},
+$$
+
+要求就能满足；实际取不小于该值的整数。
+
+对成功频率，$D\left(\frac{N_n}{n}\right)=\frac{p(1-p)}{n}$且$p(1-p)\le\frac14$，所以未知$p$时可用
+
+$$
+n\ge\frac1{4\alpha\varepsilon^2},
+$$
+
+再向上取整。这是保守保证：切比雪夫不等式不依赖具体分布，代价是通常比用正态近似算出的样本量大。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用切比雪夫不等式估算样本量"}
+
+设总体方差$\sigma^2=4$，要求样本均值与总体均值之差小于$0.5$的概率至少为$0.95$。取$\varepsilon=0.5$、$\alpha=0.05$，则
+
+$$
+n\ge\frac{4}{0.05\times0.5^2}=320.
+$$
+
+所以至少需要$320$个样本。这里的$320$是充分条件给出的保守值，实际所需样本量可能更小。
+
+:::
+
+:::example{title="未知成功概率时的样本量"}
+
+要求频率与成功概率$p$的偏差小于$0.01$的概率至少为$0.95$，但不知道$p$。利用$p(1-p)\le\frac14$，取$\varepsilon=0.01$、$\alpha=0.05$，得
+
+$$
+n\ge\frac{1}{4\times0.05\times0.01^2}=50000.
+$$
+
+即使不知道$p$，也能给出保证，代价是样本量较大。
+
+:::
+
+:::example{title="切比雪夫界有多保守"}
+
+设$p=\frac12$，做$n=10000$次独立重复试验，取$\varepsilon=0.01$。切比雪夫不等式给出
+
+$$
+P\left\{\left|\frac{N_n}{n}-p\right|\ge0.01\right\}
+\le\frac{0.25}{10000\times0.0001}=0.25.
+$$
+
+而$\frac{N_n}{n}$的标准差为$0.005$。记$\Phi$为标准正态分布函数（见[正态分布](/knowledge/maths/probability/normal-distribution/)），用正态近似估计同一概率约为$2(1-\Phi(2))\approx0.0455$。两者相差一个数量级：切比雪夫不等式只提供宽松的上界，不适合用来精确计算概率。
+
+:::
+
+:::example{title="方差无穷时仍可使用辛钦大数定律"}
+
+设$X_i$独立同分布，服从尾指数$1<\alpha<2$的帕累托分布。此时$E|X_i|<\infty$但$D(X_i)=\infty$。切比雪夫大数定律不适用，因为方差不存在；辛钦大数定律仍给出$\bar X_n\xrightarrow{P}\mu$。这说明“方差有限”只是切比雪夫版本的条件，不是大数定律本身必需的。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+用伪随机数模拟成功概率为$1/2$的独立重复试验，调整次数可查看同一序列的不同前缀，刷新可观察另一条模拟路径。频率会波动；模拟帮助理解现象，不能代替定理的证明。
+
+<LargeNumbersDemo />
+
+## 练习
+
+::problems{#law-of-large-numbers-check}
+
+1. ::question{#sample-size}
+
+   某总体方差为$9$。用切比雪夫不等式估计，要使样本均值与总体均值之差小于$0.3$的概率至少为$0.95$，样本量至少为多少？
+
+   :blank{#n type="number"}
+
+   :::reference
+   ::correct{blank="n" value="2000"}
+
+   由$n\ge\dfrac{\sigma^2}{\alpha\varepsilon^2}=\dfrac{9}{0.05\times0.3^2}=2000$。
+   :::
+
+2. ::question{#conditions}
+
+   下列条件中，哪些能保证大数定律的结论成立？
+
+   :::choices{#options-conditions mode="multiple"}
+   - :option[A]{#a} 相互独立，方差存在且一致有界
+   - :option[B]{#b} 独立同分布，且$E|X_i|<\infty$
+   - :option[C]{#c} 独立同分布，且方差有限
+   - :option[D]{#d} 相互独立，但$\frac1{n^2}\sum_iD(X_i)$不趋于$0$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   前三项分别对应切比雪夫大数定律、辛钦大数定律和切比雪夫大数定律的独立同分布情形。第四项不满足切比雪夫大数定律的方差条件，不能由此保证结论成立。
+   :::
+
+3. ::question{#frequency}
+
+   关于伯努利大数定律，下列哪一项正确？
+
+   :::choices{#options-frequency mode="single"}
+   - :option[A]{#a} 频率随试验次数增加一定单调接近$p$
+   - :option[B]{#b} 频率依概率收敛于$p$，但有限次试验的偏差仍可能超过任意给定误差
+   - :option[C]{#c} 当$n$足够大时频率必然等于$p$
+   - :option[D]{#d} 它要求成功概率已知且$p=\frac12$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   依概率收敛只控制偏差超过$\varepsilon$的概率，不保证单次试验序列的偏差，也不保证单调或最终相等；定理对任意$0<p<1$都成立。
+   :::

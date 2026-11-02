@@ -1,0 +1,23 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "UDP数据报可能怎样到达？",
+      "description": "模拟两个UDP数据报正常、乱序或丢失的结果。",
+      "messages": {
+        "label": "UDP数据报的交付情形",
+        "intro": "发送方依次发送数据报`A`和`B`。选择一种模拟情形，比较接收方观察到的数据报。",
+        "choose": "选择模拟情形",
+        "normal": "正常",
+        "reorder": "乱序",
+        "loss": "丢失",
+        "sent": "发送",
+        "received": "接收",
+        "normalResult": "两个数据报按发送顺序到达。",
+        "reorderResult": "数据报可能乱序到达；UDP不负责重排。",
+        "lossResult": "数据报可能丢失；UDP不负责自动重传。"
+      },
+      "tags": ["计算机网络", "UDP"]
+    }
+  }
+}

@@ -1,0 +1,122 @@
+---
+title: 平面点集与邻域
+description: 平面点集与邻域的定义与基本性质。
+---
+
+import PointSetDemo from "@/demos/point-set-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+多元函数的自变量是平面上的点，定义域和极限都要在平面点集上讨论。本页用$P(x,y)$表示平面上的点，两点之间的距离取欧氏距离
+
+$$
+d(P,P_0)=\sqrt{(x-x_0)^2+(y-y_0)^2}.
+$$
+
+### 邻域与去心邻域
+
+设$P_0(x_0,y_0)$是平面上一点，$\delta>0$。满足
+
+$$
+d(P,P_0)<\delta
+$$
+
+的点$P$的全体称为$P_0$的$\delta$邻域，记作$U(P_0,\delta)$。几何上它是$P_0$为圆心、$\delta$为半径的圆盘内部，不含圆周。
+
+在邻域中去掉中心点，得到的集合
+
+$$
+0<d(P,P_0)<\delta
+$$
+
+称为$P_0$的**去心邻域**，记作$\mathring U(P_0,\delta)$。
+
+### 点与点集的关系
+
+设$E$是平面点集，$P$是平面上一点。
+
+- **内点**：存在$P$的某个邻域$U(P)$，使$U(P)\subset E$。
+- **外点**：存在$P$的某个邻域$U(P)$，使$U(P)\cap E=\varnothing$。
+- **边界点**：$P$的任何邻域内都既有属于$E$的点，又有不属于$E$的点。
+- **边界**：$E$的全部边界点构成的集合，记作$\partial E$。
+- **聚点**：对任意$\delta>0$，去心邻域$\mathring U(P,\delta)$内总含有$E$中的点。
+
+:::example{title="聚点可以不属于集合"}
+
+设
+
+$$
+E=\{(x,y):0<x^2+y^2<1\}.
+$$
+
+原点$O$不属于$E$，但对任意$\delta>0$，去心邻域$\mathring U(O,\delta)$都含有$E$中的点，所以$O$是$E$的聚点。$E$中的每一点也都是$E$的聚点。
+
+> [!NOTE]
+> 聚点本身可以属于$E$，也可以不属于$E$。判断时只看去心邻域里有没有$E$的点，与$P$是否在$E$中无关。
+
+:::
+
+### 点集的分类
+
+- **开集**：$E$中的点全是内点。
+- **闭集**：$E$的补集是开集；等价地，$E$包含它的全部聚点。
+- **连通集**：$E$不能分成两个非空、互不相交且在$E$的相对拓扑中都开集的部分。对开集，连通等价于任意两点可用完全属于该集合的折线连接。
+- **区域（开区域）**：连通的开集。
+- **闭区域**：开区域$D$与它的边界之并，记作$\bar D=D\cup\partial D$。
+- **有界集**：存在以原点为圆心的圆盘，能把$E$整个包含在内。
+- **无界集**：不是有界集的点集。
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### n维空间
+
+设$n$是正整数。全部$n$元有序实数组$(x_1,x_2,\dots,x_n)$构成的集合，连同其中定义的加法、数乘，以及两点
+
+$$
+P(x_1,\dots,x_n),\qquad Q(y_1,\dots,y_n)
+$$
+
+之间的距离
+
+$$
+d(P,Q)=\sqrt{\sum_{i=1}^n (x_i-y_i)^2},
+$$
+
+构成的空间称为 **$n$维空间**，记作$\mathbb R^n$。$n=2$时它是坐标平面，$n=3$时它是通常的几何空间。以下只讨论二元函数，但极限与连续性的定义可以逐字推广到$\mathbb R^n$。
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PointSetDemo />
+
+## 练习
+
+::problems{#point-set-practice}
+
+1. ::question{#point-set}
+
+   $E=\{(x,y):0<x^2+y^2<1\}$具有哪些性质？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 开集
+   - :option[B]{#b} 有界集
+   - :option[C]{#c} 连通集
+   - :option[D]{#d} 闭集
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   $E$是挖去原点的单位圆盘，点全是内点，所以是开集；它被单位圆盘包含，所以有界；任意两点可用绕开原点的折线连接，所以连通。$E$不含边界点，不是闭集。
+   :::
