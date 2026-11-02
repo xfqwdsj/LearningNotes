@@ -1,0 +1,15 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "相同表达式在C和Python中怎样分组？",
+      "description": "比较位与运算和相等比较的优先级。",
+      "messages": {
+        "label": "C与Python的表达式分组",
+        "intro": "调整非负整数`a`、`b`、`c`；同一表达式`a & b == c`在两门语言中按不同括号分组。",
+        "result": "C的结果为{cValue}；Python的结果为{pythonValue}。"
+      },
+      "tags": ["C语言", "Python", "运算符优先级"]
+    }
+  }
+}

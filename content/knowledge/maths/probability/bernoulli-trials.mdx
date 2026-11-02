@@ -1,0 +1,80 @@
+---
+title: 伯努利试验序列
+description: 用独立且同成功概率的重复试验描述成功次数。
+---
+
+import BernoulliTrialsDemo from "@/demos/bernoulli-trials-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+每次试验只关心“成功”与“失败”两种结果，成功概率恒为$p$（$0<p<1$），且各次试验相互独立，这样的序列称为**伯努利试验序列**，也称作$n$重伯努利试验。
+
+$n$次试验中恰好成功$k$次（$k=0,1,\dots,n$）的概率为
+
+$$
+P\{\text{恰好成功 }k\text{ 次}\}=C_n^k p^k(1-p)^{n-k},
+\qquad C_n^k=\frac{n!}{k!\,(n-k)!}.
+$$
+
+至少成功一次的概率用对立事件“一次都不成功”计算：
+
+$$
+P\{\text{至少成功一次}\}=1-P\{\text{一次都不成功}\}=1-(1-p)^n.
+$$
+
+若要求至少成功一次的概率不小于$q$（$0<q<1$），则需要
+
+$$
+1-(1-p)^n\ge q
+\quad\Longleftrightarrow\quad
+(1-p)^n\le 1-q.
+$$
+
+因为$0<1-p<1$，所以$\ln(1-p)<0$；两边取对数后再除以这个负数时，不等号方向改变：
+
+$$
+n\ge\frac{\ln(1-q)}{\ln(1-p)}.
+$$
+
+满足该式的最小正整数就是所需的试验次数。
+
+> [!TIP]
+> **两种常见问法**
+>
+> “恰好成功$k$次”用二项概率公式，系数$C_n^k$不能漏；“至少成功一次”先取对立事件，再解关于$n$的不等式。后者的概率随$n$增大迅速趋近$1$，不要与“恰好一次”混淆。
+
+试验独立性的判定见[事件的独立性](/knowledge/maths/probability/independence/)。成功次数的分布可进一步联系[二项分布](/knowledge/maths/probability/binomial-distribution/)。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变单次成功概率$p$和试验次数$n$，比较至少成功一次的概率。各次试验相互独立且成功概率相同，所以一次都不成功的概率是$(1-p)^n$。
+
+<BernoulliTrialsDemo />
+
+## 练习
+
+::problems{#bernoulli-practice}
+
+1. ::question{#bernoulli-exactly}
+
+   进行$5$次独立重复试验，每次成功的概率为$0.2$。恰好成功$2$次的概率为:blank{#exactly-two type="number"}。
+
+   :::reference
+   ::correct{blank="exactly-two" value="0.2048"}
+
+   由二项概率公式，$C_5^2(0.2)^2(0.8)^3=10\times0.04\times0.512=0.2048$。
+   :::
+
+2. ::question{#at-least-once}
+
+   进行$3$次独立重复试验，每次成功的概率为$0.1$。至少成功一次的概率为:blank{#at-least type="number"}。
+
+   :::reference
+   ::correct{blank="at-least" value="0.271"}
+
+   取对立事件“三次都失败”：$1-(0.9)^3=1-0.729=0.271$。
+   :::

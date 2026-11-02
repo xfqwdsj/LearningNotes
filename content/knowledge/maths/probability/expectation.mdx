@@ -1,0 +1,269 @@
+---
+title: 数学期望
+description: 用概率加权平均定义期望，说明函数的期望与线性性质。
+---
+
+import MeanVarianceDemo from "@/demos/mean-variance-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+期望是随机变量的**概率加权平均**，不一定是变量能够实际取到的值。例如掷一枚均匀骰子，点数本身只能是$1$到$6$，而点数的期望是$\frac{1+2+\cdots+6}{6}=\frac72$。
+
+按随机变量的类型，期望的定义分为两种形式（参见[离散型随机变量](/knowledge/maths/probability/discrete-distributions/)与[连续型随机变量](/knowledge/maths/probability/continuous-distributions/)）：
+
+- **离散型**：若$X$的分布律为$P\{X=x_k\}=p_k$，则
+  $$
+  E(X)=\sum_k x_kp_k,
+  $$
+  要求$\sum_k|x_k|p_k<\infty$。
+- **连续型**：若$X$的概率密度为$f$，则
+  $$
+  E(X)=\int_{-\infty}^{+\infty}xf(x)\,\mathrm dx,
+  $$
+  要求$\int_{-\infty}^{+\infty}|x|f(x)\,\mathrm dx<\infty$。
+
+两种定义都可以看作“取值乘以相应概率”再累加，离散型用求和、连续型用积分。满足上述绝对收敛条件时，期望是唯一确定的实数；不满足时称期望不存在。
+
+> [!WARNING]
+> **绝对收敛的要求不能省**
+>
+> 若正、负两部分的积分都发散，不能借助对称性抵消来定义期望。标准柯西分布的密度为
+> $$
+> f(x)=\frac{1}{\pi(1+x^2)},\qquad -\infty<x<+\infty,
+> $$
+> 它关于$y$轴对称，但$\int_{-\infty}^{+\infty}|x|f(x)\,\mathrm dx$发散，所以柯西分布的期望不存在，不能说它等于$0$。对称性只说明正负两部分的“贡献”相互抵消，不说明整体可积。
+
+## 期望的性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 随机变量函数的期望
+
+::section{#function-expectation}
+
+求$E[g(X)]$时**不必先求$g(X)$的分布**，直接按原来的分布加权即可：
+
+$$
+E[g(X)]=\sum_k g(x_k)p_k
+\qquad\text{或}\qquad
+E[g(X)]=\int_{-\infty}^{+\infty}g(x)f(x)\,\mathrm dx,
+$$
+
+前者对应离散型，后者对应连续型。这一步只要求$g$在取值范围内有意义，以及相应的绝对收敛性。
+
+二维情形同理，设$(X,Y)$的联合分布律为$p_{ij}=P\{X=x_i,Y=y_j\}$，联合密度为$f(x,y)$，则
+
+$$
+E[g(X,Y)]=\sum_i\sum_j g(x_i,y_j)p_{ij}
+$$
+
+或
+
+$$
+E[g(X,Y)]=\iint_{\mathbb R^2}g(x,y)f(x,y)\,\mathrm dx\,\mathrm dy.
+$$
+
+这里也必须检查相应的绝对可积性：离散型要求$\sum_i\sum_j|g(x_i,y_j)|p_{ij}<\infty$，连续型要求$\iint_{\mathbb R^2}|g(x,y)|f(x,y)\,\mathrm dx\,\mathrm dy<\infty$。
+
+> [!NOTE]
+> **两种算法的区别**
+>
+> 先求$g(X)$的分布再按定义算期望，需要求出新分布的分布律或密度；直接套用上面的公式只需用到$X$原来的分布。两者结果相同，后者省去了求分布这一步，是常用的算法。
+
+
+### 常数与线性
+
+$$
+E(C)=C,\qquad
+E\left(\sum_{i=1}^{n} a_iX_i+b\right)=\sum_{i=1}^{n} a_iE(X_i)+b.
+$$
+
+:::proof
+以连续型两个变量为例，设$(X,Y)$的联合密度为$f(x,y)$，$a$、$b$、$c$为常数。由二元函数的期望公式，
+
+$$
+\begin{aligned}
+E(aX+bY+c)
+&=\iint_{\mathbb R^2}(ax+by+c)f(x,y)\,\mathrm dx\,\mathrm dy\\
+&=a\iint_{\mathbb R^2}xf(x,y)\,\mathrm dx\,\mathrm dy
++b\iint_{\mathbb R^2}yf(x,y)\,\mathrm dx\,\mathrm dy
++c\iint_{\mathbb R^2}f(x,y)\,\mathrm dx\,\mathrm dy\\
+&=aE(X)+bE(Y)+c,
+\end{aligned}
+$$
+
+最后一步用到$E(X)=\int xf_X(x)\,\mathrm dx$，而边缘密度$f_X$由联合密度对$y$积分得到。逐项相加即可推广到有限个变量，全过程没有用到独立性。离散型把积分换成求和，论证相同。
+:::
+
+> [!IMPORTANT]
+> 线性性质对任意随机变量成立，不要求独立，也不要求同分布，只要各期望存在。
+
+### 乘积的期望
+
+若$X$与$Y$相互独立，且$E(X)$、$E(Y)$都存在，则
+
+$$
+E(XY)=E(X)E(Y).
+$$
+
+:::proof
+以连续型为例，独立时联合密度分解为$f(x,y)=f_X(x)f_Y(y)$，于是
+
+$$
+E(XY)=\iint_{\mathbb R^2}xy\,f_X(x)f_Y(y)\,\mathrm dx\,\mathrm dy
+=\left(\int_{-\infty}^{+\infty}xf_X(x)\,\mathrm dx\right)
+\left(\int_{-\infty}^{+\infty}yf_Y(y)\,\mathrm dy\right)
+=E(X)E(Y).
+$$
+:::
+
+反过来，$E(XY)=E(X)E(Y)$推不出独立。这个等式只说明两个变量不相关，比相互独立弱；讨论协方差与相关系数时会再用到这一区别。
+
+### 期望不能穿过一般函数
+
+一般地
+
+$$
+E[g(X)]\ne g\bigl(E(X)\bigr),
+$$
+
+只有$g$是线性函数时才恒有等号。以$X\sim B(1,p)$为例，$P\{X=1\}=p$，故$E(X)=p$，而
+
+$$
+E(X^2)=1^2\times p+0^2\times(1-p)=p,
+$$
+
+当$0<p<1$时
+
+$$
+E(X^2)=p\ne p^2=[E(X)]^2.
+$$
+
+这说明“先平方再取期望”与“先取期望再平方”是两件事。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="二项分布的期望"}
+
+设$X\sim B(n,p)$，把$X$看作$n$次试验中成功的次数。令$I_i$为第$i$次试验成功的指示变量，则$X=\sum_{i=1}^nI_i$，且$E(I_i)=p$，所以
+
+$$
+E(X)=\sum_{i=1}^nE(I_i)=np.
+$$
+
+推导只用到每次试验成功的概率都是$p$，没有用到试验之间的独立性。因此即使各次试验不独立，只要每次的边缘成功概率相同，结论仍成立：例如从$N$件产品（其中$M$件次品）中不放回抽取$n$件，次品数$X$服从超几何分布，其期望同样是$n\cdot\frac{M}{N}$，而这时各次抽取并不独立。
+
+:::
+
+:::example{title="不必先求$X^2$的分布"}
+
+设$X$在$(0,1)$上服从均匀分布，密度为$f(x)=1$（$0<x<1$），求$E(X^2)$。
+
+按定义先求$X^2$的密度会比较麻烦，直接用函数的期望公式：
+
+$$
+E(X^2)=\int_0^1x^2\cdot1\,\mathrm dx=\frac13.
+$$
+
+同理$E(X)=\int_0^1x\,\mathrm dx=\frac12$，而$\left[E(X)\right]^2=\frac14\ne\frac13=E(X^2)$，这再次说明期望不能穿过平方。
+
+:::
+
+:::example{title="按情形加权的平均长度"}
+
+某批零件由两台设备加工，$60\%$来自甲设备，$40\%$来自乙设备。甲设备加工的零件长度均值为$10.2$ mm，乙设备为$9.8$ mm。随机抽一件，记长度为$X$，来源设备为$Y$，则$E(X\mid Y=\text{甲})=10.2$，$E(X\mid Y=\text{乙})=9.8$，由全期望公式
+
+$$
+E(X)=0.6\times10.2+0.4\times9.8=6.12+3.92=10.04\ \text{mm}.
+$$
+
+结果等于两批均值按批量的加权平均。若两批比例各占一半，同一公式给出$10.0$ mm，说明加权平均依赖各层的比例。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+调整两点分布的概率，比较加权平均$E(X)$与变量可能取到的值。均值可以落在两个取值之间。
+
+<MeanVarianceDemo />
+
+## 练习
+
+::problems{#expectation-practice}
+
+1. ::question{#discrete-mean}
+
+   设$P\{X=0\}=0.2$，$P\{X=1\}=0.5$，$P\{X=2\}=0.3$，则$E(X)=$ :blank{#discrete-value type="number"}。
+
+   :::reference
+   ::correct{blank="discrete-value" value="1.1"}
+
+   按定义加权求和：$E(X)=0\times0.2+1\times0.5+2\times0.3=0.5+0.6=1.1$。
+   :::
+
+2. ::question{#linearity}
+
+   已知$E(X)=2$，$E(Y)=3$，则$E(3X-2Y+1)=$ :blank{#linearity-value type="number"}。
+
+   :::reference
+   ::correct{blank="linearity-value" value="1"}
+
+   由线性性质，$E(3X-2Y+1)=3E(X)-2E(Y)+1=6-6+1=1$。这里没有给出$X$与$Y$的独立性，也不需要在计算中用到。
+   :::
+
+3. ::question{#product-expectation}
+
+   设$X$与$Y$相互独立，$E(X)=2$，$E(Y)=3$，则$E(XY)=$ :blank{#product-value type="number"}。
+
+   :::reference
+   ::correct{blank="product-value" value="6"}
+
+   独立时乘积的期望等于期望的乘积：$E(XY)=E(X)E(Y)=2\times3=6$。
+   :::
+
+4. ::question{#square-gap}
+
+   设$X\sim B(1,p)$，$p=0.5$。
+
+   1. ::part{#second-moment}
+
+      $E(X^2)=$ :blank{#second-moment-value type="number"}。
+
+      :::reference
+      ::correct{blank="second-moment-value" value="0.5"}
+
+      $X$只取$0$、$1$，两者平方不变，所以$E(X^2)=1^2\times0.5+0^2\times0.5=0.5$。
+      :::
+
+   2. ::part{#square-of-mean}
+
+      $[E(X)]^2=$ :blank{#square-of-mean-value type="number"}。
+
+      :::reference
+      ::correct{blank="square-of-mean-value" value="0.25"}
+
+      $E(X)=0.5$，故$[E(X)]^2=0.25$。两个结果不同，说明$E(X^2)\ne[E(X)]^2$。
+      :::
+
+5. ::question{#nonexistent}
+
+   下列随机变量中，数学期望**不存在**的是
+
+   :::choices{#choice-nonexistent mode="single"}
+   - :option[A]{#a} 标准正态分布变量
+   - :option[B]{#b} $(0,1)$上的均匀分布变量
+   - :option[C]{#c} 标准柯西分布变量
+   - :option[D]{#d} 参数为$1$的指数分布变量
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   标准柯西分布的密度为$\dfrac{1}{\pi(1+x^2)}$，$\int_{-\infty}^{+\infty}|x|f(x)\,\mathrm dx$发散，所以期望不存在。它的密度关于零对称，但不能因此把期望规定为$0$；其余三个分布的期望都存在，分别为$0$、$\dfrac12$、$1$。
+   :::

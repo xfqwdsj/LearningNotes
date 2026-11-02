@@ -1,0 +1,44 @@
+---
+title: 离散型随机变量
+description: 用分布律描述有限或可列个取值的随机变量。
+---
+
+import DiscreteMassDemo from "@/demos/discrete-mass-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若随机变量$X$的全部可能取值是有限个或可列个，即$x_1,x_2,\ldots$，则称$X$为**离散型随机变量**。它由每个取值的概率完整描述：
+
+$$
+P\{X=x_k\}=p_k,\qquad p_k\ge 0,\qquad \sum_k p_k=1.
+$$
+
+这组概率称为$X$的**分布律**（也叫分布列）。两条要求缺一不可：每个$p_k$非负，所有取值的概率之和为$1$。
+
+事件$\{X\in A\}$的概率按取值相加：
+
+$$
+P\{X\in A\}=\sum_{x_k\in A}p_k.
+$$
+
+{/* more */}
+
+分布律与分布函数$F(x)=P\{X\le x\}$互相决定。离散型的$F$是阶梯函数，在每个取值$x_k$处向上跳跃$p_k$：
+
+$$
+F(x)=\sum_{x_k\le x}p_k.
+$$
+
+## 常用模型
+
+具体模型见[二项分布](/knowledge/maths/probability/binomial-distribution/)、[泊松分布](/knowledge/maths/probability/poisson-distribution/)、[几何分布](/knowledge/maths/probability/geometric-distribution/)和[超几何分布](/knowledge/maths/probability/hypergeometric-distribution/)。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+调整三个取值的概率，检查非负性和总和为$1$的约束。
+
+<DiscreteMassDemo />

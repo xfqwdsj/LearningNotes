@@ -1,0 +1,224 @@
+---
+title: 一元线性回归
+description: 建立一元线性回归模型，计算最小二乘直线并分析拟合程度。
+---
+
+import SimpleRegressionDemo from "@/demos/simple-regression-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+给定解释变量的观测值$x_1,\ldots,x_n$，一元线性回归模型设为
+
+$$
+Y_i=\beta_0+\beta_1x_i+\varepsilon_i,\qquad i=1,\ldots,n,
+$$
+
+其中$\beta_0$是截距，$\beta_1$是斜率，$\varepsilon_i$是不可观测的随机误差。$Y_i$是随机变量，$x_i$当作已知常数。
+
+计算最小二乘估计本身不需要误差分布假设；讨论它的无偏性、方差和后续推断时，通常假定三条基本条件：$E(\varepsilon_i)=0$；每个误差的方差相同，即$D(\varepsilon_i)=\sigma^2$；不同误差不相关，即$\operatorname{Cov}(\varepsilon_i,\varepsilon_j)=0$（$i\ne j$）。若要使用精确的$t$、$F$推断，还要进一步假定$\varepsilon_1,\ldots,\varepsilon_n$相互独立且服从正态分布。此外要求$n>2$，并且$x_1,\ldots,x_n$不全相同；否则$L_{xx}=0$，斜率无法识别。
+
+斜率$\beta_1$表示$x$增加一个单位时**条件均值** $E(Y\mid x)$的变化量。单个$Y$还受随机误差影响，观测值不会恰好按$\beta_1$变化。回归关系说明的是条件均值随$x$如何变化，本身不自动说明$x$是$Y$的原因。
+
+## 性质
+
+::section{#fit-properties slot="knowledge.properties"}
+
+### 最小二乘估计
+
+用直线$\hat y=b_0+b_1x$拟合数据，最小二乘法选择使残差平方和
+
+$$
+Q(b_0,b_1)=\sum_{i=1}^n(y_i-b_0-b_1x_i)^2
+$$
+
+达到最小的$b_0,b_1$。记样本均值$\bar x=\frac1n\sum_i x_i$、$\bar y=\frac1n\sum_i y_i$，以及
+
+$$
+L_{xx}=\sum_{i=1}^n(x_i-\bar x)^2,\qquad
+L_{yy}=\sum_{i=1}^n(y_i-\bar y)^2,\qquad
+L_{xy}=\sum_{i=1}^n(x_i-\bar x)(y_i-\bar y).
+$$
+
+当$L_{xx}>0$时，最小二乘估计为
+
+$$
+\hat\beta_1=\frac{L_{xy}}{L_{xx}},\qquad
+\hat\beta_0=\bar y-\hat\beta_1\bar x.
+$$
+
+:::proof{title="由正规方程解出截距与斜率"}
+
+对$Q$分别求偏导并令其为零：
+
+$$
+\frac{\partial Q}{\partial b_0}
+=-2\sum_{i=1}^n(y_i-b_0-b_1x_i)=0,
+$$
+
+$$
+\frac{\partial Q}{\partial b_1}
+=-2\sum_{i=1}^n x_i(y_i-b_0-b_1x_i)=0.
+$$
+
+第一式给出$b_0=\bar y-b_1\bar x$。代入第二式，并利用$\sum_i x_i=n\bar x$与$n\bar x\bar y=\bar y\sum_i x_i$，得到
+
+$$
+\sum_i x_iy_i-n\bar x\bar y
++b_1\left(n\bar x^2-\sum_i x_i^2\right)=0.
+$$
+
+左边第一项正是$L_{xy}$，而
+
+$$
+\sum_i x_i^2-n\bar x^2=\sum_i(x_i-\bar x)^2=L_{xx},
+$$
+
+所以$L_{xy}-b_1L_{xx}=0$，即$b_1=L_{xy}/L_{xx}$。
+
+:::
+
+拟合值为$\hat y_i=\hat\beta_0+\hat\beta_1x_i$，残差为$e_i=y_i-\hat y_i$。含截距时，最小二乘解满足
+
+$$
+\sum_{i=1}^n e_i=0,\qquad
+\sum_{i=1}^n x_ie_i=0,
+$$
+
+因此回归直线经过点$(\bar x,\bar y)$。
+
+残差$e_i$由同一组数据拟合得到，彼此通常并不独立；它也不等于不可观测的随机误差$\varepsilon_i$。不能把残差当作误差的独立样本。
+
+### 平方和分解与拟合程度
+
+含截距时，总平方和$SST$、回归平方和$SSR$与残差平方和$SSE$满足
+
+$$
+SST=L_{yy}=SSR+SSE,
+$$
+
+其中
+
+$$
+SSR=\sum_{i=1}^n(\hat y_i-\bar y)^2=\frac{L_{xy}^2}{L_{xx}},\qquad
+SSE=\sum_{i=1}^n e_i^2=L_{yy}-\frac{L_{xy}^2}{L_{xx}}.
+$$
+
+误差方差$\sigma^2$的无偏估计为
+
+$$
+s^2=\frac{SSE}{n-2}.
+$$
+
+自由度是$n-2$，因为模型中估计了截距和斜率两个参数。
+
+当$L_{yy}>0$时，决定系数为
+
+$$
+R^2=1-\frac{SSE}{SST}=\frac{SSR}{SST}=r^2,
+$$
+
+其中
+
+$$
+r=\frac{L_{xy}}{\sqrt{L_{xx}L_{yy}}}
+$$
+
+是样本相关系数。
+
+$R^2$度量的是样本内的线性拟合程度。它随样本变化，不能说明模型条件成立，也不保证对新的观测预测准确。$R^2=r^2$只在含截距的一元线性回归中成立；换成多元回归或去掉截距，这个等式不再成立。
+
+> [!WARNING]
+> **高$R^2$不是模型合格的证明**
+>
+> 拟合度高只说明这组样本上的残差平方和相对总平方和小，线性、独立、等方差、正态这些条件仍要单独检查；用它外推时还要确认$x_0$没有超出观测范围。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由三组数据算出回归直线与误差方差"}
+
+数据为$(x,y)=(1,2),(2,3),(3,5)$。此时$\bar x=2$，$\bar y=10/3$，并且
+
+$$
+L_{xx}=2,\qquad L_{xy}=3.
+$$
+
+于是
+
+$$
+\hat\beta_1=\frac32,\qquad
+\hat\beta_0=\frac13,\qquad
+\hat y=\frac13+\frac32x.
+$$
+
+三个拟合值为$11/6,20/6,29/6$，残差依次为$1/6,-1/3,1/6$，所以
+
+$$
+SSE=\frac16,\qquad
+s^2=\frac{SSE}{n-2}=\frac16.
+$$
+
+本例中$R^2=27/28\approx0.964$，样本内拟合看起来很好，但误差方差估计的自由度只有$1$。能算出回归直线，并不表示这组数据已经提供了足够证据支持可靠的推断。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SimpleRegressionDemo />
+
+## 练习
+
+::problems{#simple-regression-practice}
+
+1. ::question{#slope-compute}
+
+   对数据$(x,y)=(1,2),(2,3),(3,5)$，斜率的最小二乘估计为:blank{#slope-value type="number"}。
+
+   :::reference
+   ::correct{blank="slope-value" value="1.5"}
+
+   由$L_{xy}=3$、$L_{xx}=2$，得$\hat\beta_1=3/2=1.5$。
+   :::
+
+2. ::question{#r-squared}
+
+   对含截距的一元线性回归，决定系数$R^2$与样本相关系数$r$的关系是
+
+   :::choices{#choice-r mode="single"}
+   - :option[A]{#a} $R^2=r$
+   - :option[B]{#b} $R^2=r^2$
+   - :option[C]{#c} $R^2=1-r$
+   - :option[D]{#d} 两者没有固定关系
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   在含截距的一元线性回归中
+   $$
+   R^2=\frac{SSR}{SST}=\frac{L_{xy}^2}{L_{xx}L_{yy}}=r^2.
+   $$
+   :::
+
+3. ::question{#residual-property}
+
+   含截距的一元线性回归的残差$e_i=y_i-\hat y_i$一定满足
+
+   :::choices{#choice-residual mode="multiple"}
+   - :option[A]{#a} $\sum_i e_i=0$
+   - :option[B]{#b} $\sum_i x_ie_i=0$
+   - :option[C]{#c} 各$e_i$相互独立
+   - :option[D]{#d} $e_i$与随机误差$\varepsilon_i$相同
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+
+   前两条是最小二乘正规方程的直接结果。残差由同一组数据共同拟合得到，通常并不独立，也不等于不可观测的随机误差。
+   :::

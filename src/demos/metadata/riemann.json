@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "矩形怎样逼近面积？",
+      "description": "改变矩形个数，观察右端点和怎样逼近曲线下的面积。",
+      "messages": {
+        "label": "定积分矩形逼近演示",
+        "count": "{count}个矩形",
+        "intro": "曲线为$y=x^2$，区间为$[0,1]$。每个矩形取右端点的高，增加矩形个数，观察总和怎样变化。",
+        "countLabel": "矩形个数",
+        "graphLabel": "{count}个矩形，右端点和为{sum}",
+        "reset": "重新观察",
+        "conclusion": "右端点和为${sum}$，与精确值$\\frac{1}{3}$相差${error}$。矩形越窄，误差越小；极限就是定积分。"
+      },
+      "tags": ["积分", "黎曼积分", "面积"]
+    }
+  }
+}

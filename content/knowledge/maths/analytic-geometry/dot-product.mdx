@@ -1,0 +1,127 @@
+---
+title: 向量的数量积
+description: 向量的数量积的定义、坐标计算与几何意义。
+---
+
+import DotProductDemo from "@/demos/dot-product-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$\mathbf{a}=(a_1,a_2,a_3)$、$\mathbf{b}=(b_1,b_2,b_3)$、$\mathbf{c}=(c_1,c_2,c_3)$，$\theta$是非零向量$\mathbf{a}$与$\mathbf{b}$的夹角。
+
+两个向量的**数量积**（点积、内积）是一个数：
+
+$$
+\mathbf{a}\cdot\mathbf{b}=|\mathbf{a}|\,|\mathbf{b}|\cos\theta.
+$$
+
+只要有一个因子是零向量，数量积规定为$0$。在坐标下
+
+$$
+\mathbf{a}\cdot\mathbf{b}=a_1b_1+a_2b_2+a_3b_3.
+$$
+
+它的几何意义是“一个向量的模乘以另一个向量在它方向上的投影”：
+
+$$
+\mathbf{a}\cdot\mathbf{b}=|\mathbf{a}|\operatorname{Prj}_{\mathbf a}\mathbf{b}
+=|\mathbf{b}|\operatorname{Prj}_{\mathbf b}\mathbf{a},
+$$
+
+其中投影的定义见[向量及其线性运算](/knowledge/maths/analytic-geometry/vectors/)。恒力$\mathbf{F}$沿位移$\mathbf{s}$做的功就是$W=\mathbf{F}\cdot\mathbf{s}$，这是数量积最直接的物理来源。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+$$
+\mathbf{a}\cdot\mathbf{b}=\mathbf{b}\cdot\mathbf{a},\qquad
+\mathbf{a}\cdot(\mathbf{b}+\mathbf{c})=\mathbf{a}\cdot\mathbf{b}+\mathbf{a}\cdot\mathbf{c},\qquad
+(\lambda\mathbf{a})\cdot\mathbf{b}=\lambda(\mathbf{a}\cdot\mathbf{b}),
+$$
+
+$$
+\mathbf{a}\cdot\mathbf{a}=|\mathbf{a}|^2,\qquad
+|\mathbf{a}\cdot\mathbf{b}|\le|\mathbf{a}|\,|\mathbf{b}|.
+$$
+
+后一条是柯西不等式。由定义还能得到两个常用判据：
+
+$$
+\cos\theta=\frac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|\,|\mathbf{b}|}
+\quad(\mathbf{a},\mathbf{b}\ne\mathbf{0}),
+\qquad
+\mathbf{a}\perp\mathbf{b}\iff\mathbf{a}\cdot\mathbf{b}=0\quad(\mathbf{a},\mathbf{b}\ne\mathbf{0}).
+$$
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="数量积、夹角与垂直"}
+
+取$\mathbf{a}=(1,2,2)$，$\mathbf{b}=(2,-1,0)$，则
+
+$$
+\mathbf{a}\cdot\mathbf{b}=1\cdot2+2\cdot(-1)+2\cdot0=0,
+$$
+
+所以两向量垂直。若改取$\mathbf{u}=(1,0,0)$，$\mathbf{v}=(1,1,0)$，则
+
+$$
+\cos\theta=\frac{\mathbf{u}\cdot\mathbf{v}}{|\mathbf{u}|\,|\mathbf{v}|}
+=\frac{1}{1\cdot\sqrt2}=\frac{\sqrt2}{2},
+$$
+
+即夹角为$45^\circ$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<DotProductDemo />
+
+## 练习
+
+::problems{#dot-product-check}
+
+1. ::question{#dot}
+
+   设$\mathbf{a}=(1,2,2)$，$\mathbf{b}=(2,0,1)$，则$\mathbf{a}\cdot\mathbf{b}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="4"}
+
+   按分量相乘再相加：$1\cdot2+2\cdot0+2\cdot1=4$。
+   :::
+
+2. ::question{#angle}
+
+   向量$(1,0,0)$与$(1,1,0)$的夹角是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $30^\circ$
+   - :option[B]{#b} $45^\circ$
+   - :option[C]{#c} $60^\circ$
+   - :option[D]{#d} $90^\circ$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   数量积为$1$，两向量的模分别为$1$与$\sqrt2$，所以$\cos\theta=\frac{\sqrt2}{2}$。
+   :::
+
+3. ::question{#perpendicular}
+
+   设$\mathbf{a}=(1,2,\lambda)$与$\mathbf{b}=(2,3,1)$垂直，则$\lambda=$ :blank{#lambda type="number"}。
+
+   :::reference
+   ::correct{blank="lambda" value="-8"}
+
+   由数量积为零得$1\cdot2+2\cdot3+\lambda\cdot1=0$，即$\lambda=-8$。
+   :::

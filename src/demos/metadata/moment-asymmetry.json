@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "原点矩与中心矩怎样随分布变化？",
+      "description": "改变两点分布的权重，比较原点矩和三阶中心矩。",
+      "messages": {
+        "label": "两点分布的原点矩与中心矩",
+        "intro": "随机变量取$-1$或$2$；改变取$2$的概率，比较围绕零与围绕均值计算的矩。",
+        "probability": "取$2$的概率",
+        "diagram": "当前均值为{mean}",
+        "result": "均值{mean}，二阶原点矩{second}，三阶原点矩{third}，三阶中心矩{central}。"
+      },
+      "tags": ["概率论", "矩"]
+    }
+  }
+}

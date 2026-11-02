@@ -1,0 +1,104 @@
+---
+title: 定积分的对称与周期性
+description: 利用奇偶性和周期性简化定积分。
+---
+
+import IntegralSymmetryDemo from "@/demos/integral-symmetry-demo";
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 奇偶性
+
+设$f$在$[-a,a]$上连续，$a>0$。
+
+- 若$f$是奇函数，即$f(-x)=-f(x)$，则
+
+  $$
+  \int_{-a}^a f(x)\,\mathrm{d}x=0.
+  $$
+
+- 若$f$是偶函数，即$f(-x)=f(x)$，则
+
+  $$
+  \int_{-a}^a f(x)\,\mathrm{d}x=2\int_0^a f(x)\,\mathrm{d}x.
+  $$
+
+两条合起来常记作“偶倍奇零”。
+
+:::proof{title="“偶倍奇零”的来源"}
+
+在$[-a,0]$上令$x=-t$，则
+
+$$
+\int_{-a}^0 f(x)\,\mathrm{d}x=\int_a^0 f(-t)(-\mathrm{d}t)=\int_0^a f(-t)\,\mathrm{d}t,
+$$
+
+于是
+
+$$
+\int_{-a}^a f(x)\,\mathrm{d}x=\int_0^a\bigl[f(x)+f(-x)\bigr]\,\mathrm{d}x.
+$$
+
+$f$为奇函数时括号内为$0$；为偶函数时括号内为$2f(x)$，结论成立。
+
+:::
+
+> [!WARNING]
+> 反常积分上的“偶倍奇零”只在积分收敛时成立。$\int_{-\infty}^{+\infty}x\,\mathrm{d}x$的被积函数是奇函数，但两个半区间上的积分都发散，原积分发散，不能写$0$（除非另行定义柯西主值）。
+
+### 周期性
+
+设$f$是以$T$为周期的连续函数，则对任意实数$a$，
+
+$$
+\int_a^{a+T}f(x)\,\mathrm{d}x=\int_0^T f(x)\,\mathrm{d}x.
+$$
+
+也就是说，长度为一个周期的区间上的积分值与起点无关。把$[a,a+T]$拆成$[a,0]$、$[0,T]$、$[T,a+T]$三段，对最后一段作平移$x=t+T$，它与第一段正好相消。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="偶倍奇零：$\displaystyle\int_{-1}^1(x^3+x^2)\,\mathrm{d}x$"}
+
+$x^3$是奇函数，在$[-1,1]$上的积分为$0$；$x^2$是偶函数，所以
+
+$$
+\int_{-1}^1(x^3+x^2)\,\mathrm{d}x
+=0+2\int_0^1x^2\,\mathrm{d}x
+=\frac{2}{3}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<IntegralSymmetryDemo />
+
+## 练习
+
+::problems{#integral-symmetry-practice}
+
+1. ::question{#zero-or-not}
+
+   下列各式中，值一定为$0$的有哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\displaystyle\int_{-1}^1x^3\,\mathrm{d}x$
+   - :option[B]{#b} $\displaystyle\int_{-1}^1x^2\,\mathrm{d}x$
+   - :option[C]{#c} $\displaystyle\int_{-\infty}^{+\infty}x\,\mathrm{d}x$
+   - :option[D]{#d} $\displaystyle\int_{-1}^1\sin^3x\,\mathrm{d}x$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="d"}
+
+   A、D的被积函数是奇函数，积分区间关于原点对称，积分为$0$。B的被积函数是偶函数，值为$\frac{2}{3}$。C的两个半区间上的积分都发散，整个积分发散，不能按奇函数写成$0$。
+   :::

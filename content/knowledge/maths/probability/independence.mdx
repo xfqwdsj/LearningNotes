@@ -1,0 +1,164 @@
+---
+title: 事件的独立性
+description: 用乘法关系刻画事件的独立性，并区分两两独立和相互独立。
+---
+
+import IndependenceDemo from "@/demos/independence-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$A$、$B$是样本空间$\Omega$上的两个事件，$P$为概率。若
+
+$$
+P(AB)=P(A)P(B),
+$$
+
+则称$A$与$B$ **相互独立**。这里$AB$表示交事件$A\cap B$，即两个事件同时发生。
+
+乘法形式是最通用的判定式：它不要求$P(A)$、$P(B)$为正，因此概率为零的事件也可以讨论独立性。例如$P(A)=0$时，对任意事件$B$都有$P(AB)=0=P(A)P(B)$，所以零概率事件与任意事件独立。
+
+当$P(B)>0$时，由[条件概率的定义](/knowledge/maths/probability/conditional-probability/)$P(A\mid B)=\dfrac{P(AB)}{P(B)}$，独立性等价于
+
+$$
+P(A\mid B)=P(A).
+$$
+
+也就是说，知道$B$发生并不改变$A$的概率。对称地，当$P(A)>0$时也可以写成$P(B\mid A)=P(B)$。
+
+### 多个事件的独立性
+
+::section{#multiple-events}
+
+设$A_1,A_2,\dots,A_n$是$n$个事件。
+
+- **两两独立**：对任意$i\ne j$，都有$P(A_iA_j)=P(A_i)P(A_j)$。
+- **相互独立**：对任意$k\ge 2$和任意$1\le i_1<i_2<\dots<i_k\le n$，都有
+  $$
+  P(A_{i_1}A_{i_2}\cdots A_{i_k})=P(A_{i_1})P(A_{i_2})\cdots P(A_{i_k}).
+  $$
+
+相互独立要求所有子组都满足乘法关系，因此相互独立一定推出两两独立，反之不成立。
+
+### 三个事件的情形
+
+$A$、$B$、$C$相互独立，需要同时满足四个等式：
+
+$$
+\begin{gathered}
+P(AB)=P(A)P(B),\quad P(AC)=P(A)P(C),\\
+P(BC)=P(B)P(C),\quad P(ABC)=P(A)P(B)P(C).
+\end{gathered}
+$$
+
+前三个等式只说明三者两两独立。缺少第四个等式时，即使两两独立，也不能称三者相互独立。
+
+> [!IMPORTANT]
+> **两两独立不能推出相互独立**
+>
+> 两两独立只验证了每两个事件之间的乘法关系，没有约束三者同时发生的情形。反例见下面的掷硬币例子。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 对立事件也独立
+
+若$A$与$B$独立，则$A$与$\bar B$、$\bar A$与$B$、$\bar A$与$\bar B$也都分别独立。
+
+以$A$与$\bar B$为例，由$A=A\bar B\cup AB$及$A\bar B$与$AB$互斥，
+
+$$
+P(A\bar B)=P(A)-P(AB)=P(A)-P(A)P(B)=P(A)\bigl(1-P(B)\bigr)=P(A)P(\bar B).
+$$
+
+其余两组同理。
+
+> [!WARNING]
+> **互斥不等于独立**
+>
+> 若$A$与$B$互斥，则$P(AB)=0$。当$P(A)P(B)>0$时，$0\ne P(A)P(B)$，两者一定不独立。只有至少一个事件的概率为零时，互斥与独立才可能同时成立。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两两独立但不相互独立"}
+
+独立掷两枚公平硬币。令$A$为第一枚正面，$B$为第二枚正面，$C$为两枚同面。样本空间有$4$个等可能样本点，且
+
+$$
+P(A)=P(B)=P(C)=\frac12.
+$$
+
+两两的交事件都只含“两枚都正面”这一个样本点，所以
+
+$$
+P(AB)=P(AC)=P(BC)=\frac14=\frac12\cdot\frac12,
+$$
+
+三者两两独立。但三者同时发生仍只有“两枚都正面”，
+
+$$
+P(ABC)=\frac14\ne\frac18=P(A)P(B)P(C).
+$$
+
+所以$A$、$B$、$C$不相互独立。第四个等式正是相互独立比两两独立多出来的条件。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+保持两个事件的概率都是$1/2$，改变它们的交集概率。独立时交集概率等于$1/2\times1/2=1/4$；相同的边缘概率可以对应不同的交集，不能单凭边缘概率判断独立。
+
+<IndependenceDemo />
+
+## 练习
+
+::problems{#independence-practice}
+
+1. ::question{#multiplication-form}
+
+   设$P(A)=0.5$，$P(B)=0.4$。若$A$与$B$独立，则$P(AB)=$ :blank{#product type="number"}。
+
+   :::reference
+   ::correct{blank="product" value="0.2"}
+
+   由独立性定义$P(AB)=P(A)P(B)=0.5\times0.4=0.2$。
+   :::
+
+2. ::question{#exclusive-and-independent}
+
+   设$P(A)=0.3$，$P(B)=0.5$，且$A$与$B$互斥。
+
+   1. ::part{#union}
+
+      $P(A\cup B)=$ :blank{#union-value type="number"}。
+
+      :::reference
+      ::correct{blank="union-value" value="0.8"}
+
+      互斥时$P(AB)=0$，所以$P(A\cup B)=P(A)+P(B)=0.8$。
+      :::
+
+   2. ::part{#independent}
+
+      $A$与$B$是否独立？
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 独立
+      - :option[B]{#b} 不独立
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      两个事件的概率都为正，而$P(AB)=0\ne P(A)P(B)=0.15$，所以不独立。
+      :::
+
+3. ::question{#explain-exclusion}
+
+   说明为什么两个概率都为正的互斥事件一定不独立。

@@ -1,0 +1,48 @@
+---
+title: 配对样本均值差的置信区间
+description: 将成对观测化为差值，再构造均值区间。
+---
+
+import PairedMeanConfidenceIntervalDemo from "@/demos/paired-mean-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+同一对象上的两次测量$X_i$与$Y_i$可能相关；将它们化成差值
+
+$$
+D_i=X_i-Y_i,\qquad i=1,\ldots,n.
+$$
+
+若各对之间相互独立，且差值服从正态分布，则对$\mu_D=E(D)$使用单样本$t$区间：
+
+$$
+\mu_D\in \bar D\pm t_{\alpha/2}(n-1)\frac{S_D}{\sqrt n},
+$$
+
+其中$\bar D$与$S_D$是差值的样本均值与样本标准差。配对把比较化成单样本差值问题。两次测量相关时，把它们当成两个独立样本会忽略这种相关性，错误估计标准误。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="配对样本的区间"}
+
+$10$对数据的差值均值为$\bar d=1.5$，差值标准差为$s_D=1.2$，$\alpha=0.05$，$t_{0.025}(9)=2.2622$。半宽为
+
+$$
+2.2622\times\frac{1.2}{\sqrt{10}}\approx0.858,
+$$
+
+$\mu_D$的$95\%$区间约为$[0.642,\ 2.358]$。区间不含$0$，说明配对差值的均值与$0$有可检出的差异。若误把两组测量当作独立样本，标准误会忽略配对相关性；偏大还是偏小取决于相关性的方向。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PairedMeanConfidenceIntervalDemo />

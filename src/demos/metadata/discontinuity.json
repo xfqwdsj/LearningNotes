@@ -1,0 +1,28 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "左右极限如何区分间断点？",
+      "description": "对照可去、跳跃与无穷间断点。",
+      "messages": {
+        "label": "间断点类型",
+        "graphNote": "图中空心点表示函数在该处没有取值；无穷间断的曲线超出显示范围。",
+        "graphLabel": "当前展示{kind}的函数曲线。",
+        "intro": "三个函数在$x=0$处都未定义。切换函数，比较左右极限；这些值是理论极限。",
+        "choose": "选择间断类型",
+        "removable": "可去",
+        "jump": "跳跃",
+        "infinite": "无穷",
+        "removableFormula": "f(x) = sin(x)/x",
+        "jumpFormula": "f(x) = x/|x|",
+        "infiniteFormula": "f(x) = 1/x",
+        "left": "左极限",
+        "right": "右极限",
+        "removableResult": "左右极限都为$1$，补定义$f(0)=1$可使函数连续。",
+        "jumpResult": "左右极限均有限但不相等，这是跳跃间断点。",
+        "infiniteResult": "左右极限无穷，这是无穷间断点。"
+      },
+      "tags": ["极限", "间断点"]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "交换次序后如何重写积分限？",
+      "description": "用两种方向的切片描述同一三角形区域。",
+      "messages": {
+        "label": "三角形区域与积分次序",
+        "intro": "切换切片方向，再移动切片。阴影区域保持不变，粗线表示固定外层变量时内层变量的范围。",
+        "direction": "选择切片方向",
+        "vertical": "竖直切片",
+        "horizontal": "水平切片",
+        "position": "切片位置",
+        "verticalResult": "竖直切片先对$y$积分；外层变量$x$从$0$到$1$。",
+        "horizontalResult": "水平切片先对$x$积分；外层变量$y$从$0$到$1$。",
+        "verticalGraph": "竖直切片位于x等于{position}，从y等于零延伸到y等于x。",
+        "horizontalGraph": "水平切片位于y等于{position}，从x等于y延伸到x等于一。"
+      },
+      "tags": ["二重积分", "积分次序"]
+    }
+  }
+}

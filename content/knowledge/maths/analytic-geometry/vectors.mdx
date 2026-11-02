@@ -1,0 +1,312 @@
+---
+title: 向量及其线性运算
+description: 用空间直角坐标系表示向量，给出线性运算、平行条件、模、方向角与投影的坐标算法。
+---
+
+import VectorAdditionDemo from "@/demos/vector-addition-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+空间中既有大小又有方向的量称为**向量**，用粗体字母$\mathbf{a},\mathbf{b},\mathbf{c}$表示。向量的长度称为**模**，记作$|\mathbf{a}|$。模为$1$的向量称为**单位向量**，模为$0$的向量称为**零向量**，记作$\mathbf{0}$。
+
+向量由模和方向确定，与起点的位置无关：模相等、方向相同的两个向量视为同一个向量，因此可以平移后再比较。模相等、方向相反的向量互为**负向量**，$\mathbf{a}$的负向量记作$-\mathbf{a}$。方向相同或相反的非零向量称为**共线向量**，也称平行向量，记作$\mathbf{a}\parallel\mathbf{b}$；并规定零向量与任何向量平行。
+
+对非零向量$\mathbf{a}$，与它同向的单位向量为
+
+$$
+\mathbf{e}_a=\frac{\mathbf{a}}{|\mathbf{a}|}.
+$$
+
+### 空间直角坐标系
+
+取两两垂直的$x$轴、$y$轴、$z$轴，使$x\to y\to z$的方向符合右手定则，得到右手系$O-xyz$。沿三个轴的正向各取单位向量$\mathbf{i},\mathbf{j},\mathbf{k}$，它们构成一组基。空间任一点$P$的位置向量$\overrightarrow{OP}$可以唯一地写成
+
+$$
+\overrightarrow{OP}=a_x\mathbf{i}+a_y\mathbf{j}+a_z\mathbf{k}=(a_x,a_y,a_z),
+$$
+
+有序三元组$(a_x,a_y,a_z)$就是向量$\overrightarrow{OP}$在这组基下的**坐标**，$a_x,a_y,a_z$分别称为它在$x,y,z$轴方向上的分量。
+
+以$M_1(x_1,y_1,z_1)$为起点、$M_2(x_2,y_2,z_2)$为终点的向量按“终点减起点”计算：
+
+$$
+\overrightarrow{M_1M_2}=(x_2-x_1,\ y_2-y_1,\ z_2-z_1).
+$$
+
+{/* more */}
+
+零向量的坐标是$(0,0,0)$。坐标依赖所选的基，本节所有坐标公式都在同一组基下计算。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 线性运算
+
+设$\mathbf{a}=(a_1,a_2,a_3)$，$\mathbf{b}=(b_1,b_2,b_3)$，$\lambda\in\mathbb{R}$，则加减法与数乘都按分量进行：
+
+$$
+\mathbf{a}\pm\mathbf{b}=(a_1\pm b_1,\ a_2\pm b_2,\ a_3\pm b_3),\qquad
+\lambda\mathbf{a}=(\lambda a_1,\ \lambda a_2,\ \lambda a_3).
+$$
+
+由定义可直接得到
+
+$$
+\mathbf{a}+\mathbf{b}=\mathbf{b}+\mathbf{a},\qquad
+(\mathbf{a}+\mathbf{b})+\mathbf{c}=\mathbf{a}+(\mathbf{b}+\mathbf{c}),
+$$
+
+$$
+\lambda(\mathbf{a}+\mathbf{b})=\lambda\mathbf{a}+\lambda\mathbf{b},\qquad
+(\lambda+\mu)\mathbf{a}=\lambda\mathbf{a}+\mu\mathbf{a},\qquad
+1\mathbf{a}=\mathbf{a}.
+$$
+
+### 平行与共线
+
+对$\mathbf{b}\ne\mathbf{0}$，$\mathbf{a}\parallel\mathbf{b}$当且仅当存在唯一实数$\lambda$使
+
+$$
+\mathbf{a}=\lambda\mathbf{b},
+$$
+
+即$(a_1,a_2,a_3)=\lambda(b_1,b_2,b_3)$。若$b_1,b_2,b_3$都不为零，这个条件可以写成比值形式
+
+$$
+\frac{a_1}{b_1}=\frac{a_2}{b_2}=\frac{a_3}{b_3}=\lambda.
+$$
+
+$\lambda>0$时两向量同向，$\lambda<0$时反向，$|\lambda|$是两者模之比。
+
+**比值形式默认分母不为零。** 若$\mathbf{b}$有分量为$0$，对应的$\mathbf{a}$分量也必须为$0$，这时应回到$\mathbf{a}=\lambda\mathbf{b}$判断；直接写比值会漏掉这类情形。
+
+### 模
+
+$$
+|\mathbf{a}|=\sqrt{a_1^2+a_2^2+a_3^2},
+$$
+
+且$|\mathbf{a}|\ge 0$，$|\mathbf{a}|=0$当且仅当$\mathbf{a}=\mathbf{0}$。数乘满足$|\lambda\mathbf{a}|=|\lambda|\,|\mathbf{a}|$，模还满足三角不等式
+
+$$
+|\mathbf{a}+\mathbf{b}|\le|\mathbf{a}|+|\mathbf{b}|.
+$$
+
+### 方向角与方向余弦
+
+非零向量$\mathbf{a}$与$x,y,z$轴正向的夹角$\alpha,\beta,\gamma\in[0,\pi]$称为它的**方向角**，其余弦称为**方向余弦**：
+
+$$
+\cos\alpha=\frac{a_1}{|\mathbf{a}|},\qquad
+\cos\beta=\frac{a_2}{|\mathbf{a}|},\qquad
+\cos\gamma=\frac{a_3}{|\mathbf{a}|}.
+$$
+
+三者满足
+
+$$
+\cos^2\alpha+\cos^2\beta+\cos^2\gamma=1,
+$$
+
+并且$(\cos\alpha,\cos\beta,\cos\gamma)$正是与$\mathbf{a}$同向的单位向量$\mathbf{e}_a$的坐标。
+
+方向角量的是与三条坐标轴**正向**的夹角，不是与坐标轴所在直线的夹角，也不是与坐标平面的夹角。零向量没有方向，因此没有方向角。
+
+### 投影
+
+设$\theta$是非零向量$\mathbf{a}$与$\mathbf{b}$的夹角，则$\mathbf{a}$在$\mathbf{b}$方向上的**投影**是一个数
+
+$$
+\operatorname{Prj}_{\mathbf b}\mathbf{a}=|\mathbf{a}|\cos\theta.
+$$
+
+$\theta$为锐角时投影为正，为钝角时为负，$\theta=90^\circ$时投影为零。把投影乘上$\mathbf{b}$方向的单位向量，得到**投影向量**
+
+$$
+(\operatorname{Prj}_{\mathbf b}\mathbf{a})\,\mathbf{e}_b.
+$$
+
+投影对第一个向量是线性的：
+
+$$
+\operatorname{Prj}_{\mathbf b}(\mathbf{a}_1+\mathbf{a}_2)=\operatorname{Prj}_{\mathbf b}\mathbf{a}_1+\operatorname{Prj}_{\mathbf b}\mathbf{a}_2,
+\qquad
+\operatorname{Prj}_{\mathbf b}(\lambda\mathbf{a})=\lambda\operatorname{Prj}_{\mathbf b}\mathbf{a}.
+$$
+
+用数量积表示就是$\operatorname{Prj}_{\mathbf b}\mathbf{a}=\mathbf{a}\cdot\mathbf{e}_b$，数量积的定义见[数量积](/knowledge/maths/analytic-geometry/dot-product/)。
+
+> [!IMPORTANT]
+> 平行、模、投影是三个不同的判断：平行看两个向量的坐标能否互相表示，模只量长度、不区分方向，投影则把向量压成一个带符号的数，所以它可以是负的。做题时先写清楚要求的是哪一个量，再选公式。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+**方向余弦的平方和**
+
+把三个方向余弦平方后相加，并代入它们的坐标表达式：
+
+$$
+\cos^2\alpha+\cos^2\beta+\cos^2\gamma
+=\frac{a_1^2}{|\mathbf{a}|^2}+\frac{a_2^2}{|\mathbf{a}|^2}+\frac{a_3^2}{|\mathbf{a}|^2}
+=\frac{a_1^2+a_2^2+a_3^2}{|\mathbf{a}|^2}.
+$$
+
+由模的坐标公式，分子等于$|\mathbf{a}|^2$，所以
+
+$$
+\cos^2\alpha+\cos^2\beta+\cos^2\gamma=\frac{|\mathbf{a}|^2}{|\mathbf{a}|^2}=1.
+$$
+
+这个等式说明方向余弦不能随意给定：确定其中两个后，第三个的绝对值随之确定，符号仍要看向量的方向。它也说明单位向量的坐标就是一组方向余弦。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由两点求向量、模与方向余弦"}
+
+设$A(2,-1,1)$，$B(4,1,2)$，则
+
+$$
+\overrightarrow{AB}=(4-2,\ 1-(-1),\ 2-1)=(2,2,1),
+$$
+
+$$
+|\overrightarrow{AB}|=\sqrt{2^2+2^2+1^2}=3.
+$$
+
+方向余弦为$\cos\alpha=\frac23$、$\cos\beta=\frac23$、$\cos\gamma=\frac13$，与$\overrightarrow{AB}$同向的单位向量为
+
+$$
+\mathbf{e}_{AB}=\left(\frac23,\frac23,\frac13\right).
+$$
+
+代回平方和验证：$\left(\frac23\right)^2+\left(\frac23\right)^2+\left(\frac13\right)^2=1$。
+
+:::
+
+:::example{title="平行与数乘"}
+
+取$\mathbf{a}=(1,-2,3)$，$\mathbf{b}=(-2,4,-6)$。因为$\mathbf{b}=-2\mathbf{a}$，所以两向量平行且方向相反，且$|\mathbf{b}|=2|\mathbf{a}|$。
+
+再算$2\mathbf{a}+\mathbf{b}$：
+
+$$
+(2,-4,6)+(-2,4,-6)=(0,0,0),
+$$
+
+结果为零向量，这正是$\mathbf{b}=-2\mathbf{a}$的另一种写法。
+
+:::
+
+:::example{title="投影可以是负数"}
+
+取$\mathbf{a}=(1,2,2)$，$\mathbf{b}=(0,0,1)$。$\mathbf{b}$是$z$轴正方向的单位向量，所以$\mathbf{a}$在$\mathbf{b}$方向上的投影就是$\mathbf{a}$的$z$分量：
+
+$$
+\operatorname{Prj}_{\mathbf b}\mathbf{a}=a_z=2.
+$$
+
+若改取$\mathbf{a}'=(-1,-2,-2)$，则$\operatorname{Prj}_{\mathbf b}\mathbf{a}'=-2$。此时夹角为钝角，投影为负，而模$|\mathbf{a}'|=3$仍然为正。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<VectorAdditionDemo />
+
+## 练习
+
+::problems{#vector-basics}
+
+1. ::question{#from-points}
+
+   已知$A(1,1,1)$，$B(2,3,3)$，则$|\overrightarrow{AB}|=$ :blank{#norm type="number"}。
+
+   :::reference
+   ::correct{blank="norm" value="3"}
+
+   $\overrightarrow{AB}=(1,2,2)$，模为$\sqrt{1^2+2^2+2^2}=3$。
+   :::
+
+2. ::question{#unit-vector}
+
+   与$\mathbf{a}=(1,2,2)$同向的单位向量是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $(1,2,2)$
+   - :option[B]{#b} $\left(\frac13,\frac23,\frac23\right)$
+   - :option[C]{#c} $\left(\frac23,\frac23,\frac13\right)$
+   - :option[D]{#d} $\left(\frac13,\frac13,\frac13\right)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $|\mathbf{a}|=3$，把每个分量除以$3$即可。
+   :::
+
+3. ::question{#parallel}
+
+   设$\mathbf{a}=(1,-2,3)$，$\mathbf{b}=(-2,4,-6)$。
+
+   1. ::part{#lambda}
+
+      使$\mathbf{b}=\lambda\mathbf{a}$的$\lambda=$ :blank{#lambda type="number"}。
+
+      :::reference
+      ::correct{blank="lambda" value="-2"}
+
+      逐分量比较，$(-2,4,-6)=-2(1,-2,3)$。
+      :::
+
+   2. ::part{#direction}
+
+      两个向量的关系是：
+
+      :::choices{#choice mode="single"}
+      - :option[A]{#a} 平行且同向
+      - :option[B]{#b} 平行且反向
+      - :option[C]{#c} 垂直
+      - :option[D]{#d} 既不平行也不垂直
+      :::
+
+      :::reference
+      ::correct{option="b"}
+
+      $\lambda=-2<0$，所以方向相反。
+      :::
+
+4. ::question{#projection}
+
+   设$\mathbf{a}=(2,1,-2)$，$\mathbf{b}=(0,0,1)$，则$\operatorname{Prj}_{\mathbf b}\mathbf{a}=$ :blank{#prj type="number"}。
+
+   :::reference
+   ::correct{blank="prj" value="-2"}
+
+   $\mathbf{b}$是单位向量，投影等于$a_z=-2$。夹角为钝角，所以投影为负。
+   :::
+
+5. ::question{#direction-angle}
+
+   非零向量$\mathbf{a}$与$x$轴正向、$y$轴正向的夹角分别为$60^\circ$与$45^\circ$，则它与$z$轴正向的夹角是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 只能是$60^\circ$
+   - :option[B]{#b} 只能是$120^\circ$
+   - :option[C]{#c} $60^\circ$或$120^\circ$
+   - :option[D]{#d} $45^\circ$或$135^\circ$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   由平方和等于$1$得$\cos^2\gamma=1-\frac14-\frac12=\frac14$，所以$\cos\gamma=\pm\frac12$，对应$60^\circ$与$120^\circ$。方向余弦的符号由向量指向决定，两种情形都能取到。
+   :::

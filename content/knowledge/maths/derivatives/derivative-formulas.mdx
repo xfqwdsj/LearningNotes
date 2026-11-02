@@ -1,0 +1,131 @@
+---
+title: 基本求导公式与四则运算法则
+description: 汇总基本初等函数的导数公式，以及和差、积、商的求导法则和适用条件。
+---
+
+## 公式
+
+::section{#formulas slot="knowledge.definition"}
+
+### 基本初等函数的导数
+
+| 函数$y=f(x)$ | 导函数$y'=f'(x)$ | 条件 |
+| :--- | :--- | :--- |
+| $C$ | $0$ | $C$为常数 |
+| $x^n$ | $nx^{n-1}$ | $n$为任意实数 |
+| $a^x$ | $a^x\ln a$ | $a>0$且$a\ne 1$ |
+| $e^x$ | $e^x$ | — |
+| $\log_a x$ | $\dfrac{1}{x\ln a}$ | $a>0$且$a\ne 1$，$x>0$ |
+| $\ln x$ | $\dfrac{1}{x}$ | $x>0$ |
+| $\sin x$ | $\cos x$ | — |
+| $\cos x$ | $-\sin x$ | — |
+| $\tan x$ | $\sec^2 x=\dfrac{1}{\cos^2 x}$ | $\cos x\ne 0$ |
+| $\cot x$ | $-\csc^2 x=-\dfrac{1}{\sin^2 x}$ | $\sin x\ne 0$ |
+| $\arcsin x$ | $\dfrac{1}{\sqrt{1-x^2}}$ | $\lvert x\rvert<1$ |
+| $\arccos x$ | $-\dfrac{1}{\sqrt{1-x^2}}$ | $\lvert x\rvert<1$ |
+| $\arctan x$ | $\dfrac{1}{1+x^2}$ | — |
+| $\operatorname{arccot} x$ | $-\dfrac{1}{1+x^2}$ | — |
+
+{/* more */}
+
+### 四则运算的求导法则
+
+设$u=u(x)$、$v=v(x)$都可导，则
+
+$$
+[Cu]'=Cu',\qquad [u\pm v]'=u'\pm v',
+$$
+
+$$
+[uv]'=u'v+uv',\qquad
+\left[\frac{u}{v}\right]'=\frac{u'v-uv'}{v^2}\quad (v\ne 0).
+$$
+
+三个函数相乘时，
+
+$$
+[uvw]'=u'vw+uv'w+uvw'.
+$$
+
+商法则有一个常用特例：
+
+$$
+\left[\frac{C}{v}\right]'=-\frac{Cv'}{v^2}\quad (v\ne 0).
+$$
+
+> [!WARNING]
+> 求导法则只保证“可导函数的和、差、积、商仍可导”。使用商法则前要先确认分母在该点不为零；使用幂函数公式时，指数可以是任意实数，但底数为负数时定义域可能受限。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="多项式逐项求导"}
+
+求$f(x)=3x^2-2x+1$的导数。
+
+逐项使用幂函数与常数公式：
+
+$$
+f'(x)=3\cdot 2x-2+0=6x-2.
+$$
+
+:::
+
+:::example{title="乘积法则"}
+
+求$f(x)=x^2\sin x$的导数。
+
+$$
+f'(x)=(x^2)'\sin x+x^2(\sin x)'
+=2x\sin x+x^2\cos x.
+$$
+
+:::
+
+:::example{title="商法则"}
+
+求$f(x)=\dfrac{x+1}{x-1}$的导数。
+
+$$
+f'(x)=\frac{(x+1)'(x-1)-(x+1)(x-1)'}{(x-1)^2}
+=\frac{(x-1)-(x+1)}{(x-1)^2}
+=-\frac{2}{(x-1)^2}.
+$$
+
+:::
+
+## 练习
+
+::problems{#derivative-formulas-check}
+
+1. ::question{#power}
+
+   $f(x)=x^3$在$x=1$处的导数是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="3"}
+
+   $f'(x)=3x^2$，所以$f'(1)=3$。
+   :::
+
+2. ::question{#product}
+
+   $f(x)=x\sin x$的导数是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\sin x+x\cos x$
+   - :option[B]{#b} $\cos x$
+   - :option[C]{#c} $x\cos x$
+   - :option[D]{#d} $\sin x-x\cos x$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由乘积法则，$(x)'\sin x+x(\sin x)'=\sin x+x\cos x$。
+   :::
+
+## 与其他求导方法的关系
+
+公式表只覆盖基本初等函数。遇到复合函数、隐函数、反函数或参数方程时，需要配合[链式法则](/knowledge/maths/derivatives/chain-rule/)、[隐函数求导](/knowledge/maths/derivatives/implicit-differentiation/)、[反函数的导数](/knowledge/maths/derivatives/inverse-function-derivative/)和[参数方程求导](/knowledge/maths/derivatives/parametric-derivative/)。幂指函数的求导见[幂指函数](/knowledge/maths/limits/power-exponential-function/)。

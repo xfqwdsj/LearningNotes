@@ -1,0 +1,180 @@
+---
+title: 网络分层模型
+description: 理解网络五层模型的职责、数据单位与逐层封装。
+---
+
+计算机网络要把一台主机上某个进程的数据送到另一台主机的某个进程，中间要经过网卡、交换机、路由器、光纤或无线电波。把这件事一次讲完会把寻址、可靠性和应用语义混在一起，所以网络用分层模型拆开：每一层只解决一类问题，并向下层请求服务。TCP/IP五层模型是最常采用的一种划分。本页说明五层各自的职责、数据单位和封装关系。
+
+import NetworkEncapsulationDemo from "@/demos/network-encapsulation-demo";
+
+## 五层模型
+
+::section{#layers slot="knowledge.definition"}
+
+| 层 | 主要职责 | 数据单位 | 典型设备或协议 |
+| :--- | :--- | :--- | :--- |
+| 物理层 | 在物理媒介上传输原始比特流 | 比特 | 中继器、集线器 |
+| 数据链路层 | 在相邻节点之间传输帧 | 帧 | 交换机、网卡；以太网、Wi-Fi |
+| 网络层 | 把数据从源主机送到目标主机，负责路由与逻辑寻址 | 数据包 | 路由器；IP |
+| 传输层 | 在进程之间提供端到端通信 | 段或数据报 | TCP、UDP |
+| 应用层 | 为应用程序提供网络服务 | 报文 | HTTP、DNS、SMTP、FTP、SSH |
+
+### 物理层
+
+物理层是网络的最底层，负责在物理媒介上传输原始的比特流。
+
+- **功能**：定义物理设备的电气、机械、功能和过程特性，例如用电压高低表示1和0，以及接口的形状。
+- **传输介质**：有线介质包括双绞线（网线）、光纤和同轴电缆，其中光纤利用光的全反射传输，速度快、损耗低；无线介质包括无线电波（Wi-Fi）、微波和红外线。
+- **设备**：中继器、集线器。
+- **单位**：比特。
+
+### 数据链路层
+
+数据链路层负责在相邻的两个节点之间传输数据，把比特流组装成帧。它不关心跨越多少个网络，只处理一段链路上的传递。
+
+- **物理寻址**：用MAC地址标识网络设备，MAC地址用于链路层寻址，例如`00:1A:2B:3C:4D:5E`。
+- **差错检测**：检测传输过程中是否发生比特翻转，例如用CRC循环冗余校验。
+- **介质访问控制**：决定谁可以在什么时候发送数据，例如以太网的CSMA/CD机制。
+- **协议**：以太网、Wi-Fi（802.11）。
+- **设备**：交换机、网卡。
+- **单位**：帧。
+
+### 网络层
+
+网络层负责把数据从源主机传输到目标主机，途中可能跨越多个不同的网络，核心任务是路由和逻辑寻址。
+
+- **单位**：数据包。
+- **设备**：路由器。
+
+IPv4的[地址](/knowledge/cs/networks/ipv4/)、[数据包](/knowledge/cs/networks/ipv4-packet/)和[路由](/knowledge/cs/networks/ip-routing/)分别有独立说明。
+
+### 传输层
+
+传输层负责端到端的通信，也就是进程与进程之间的通信。端口号属于这一层，用来区分同一台主机上的不同应用程序。
+
+- **单位**：段或数据报。
+
+TCP与UDP的机制和取舍见[TCP与UDP的传输形式](/knowledge/cs/networks/tcp-udp/)。
+
+### 应用层
+
+应用层直接为用户的应用程序提供网络服务，定义运行在不同端系统上的应用进程如何相互传递报文。
+
+- **常见协议**：HTTP/HTTPS用于万维网访问；DNS是域名系统，把域名转换为IP地址；SMTP、POP3、IMAP用于电子邮件的传输与接收；FTP用于文件传输；SSH用于安全远程登录。
+- **通信模式**：C/S模式由客户端请求、服务器响应，例如Web；P2P模式是对等连接，每个节点既是客户端也是服务器，例如BitTorrent。
+
+> [!NOTE]
+> 分层是逻辑划分，不是物理位置。同一台主机上会同时实现五层；路由器通常只处理到网络层，交换机通常只处理到数据链路层。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="一次网页请求如何穿过五层"}
+
+浏览器发出HTTP请求时，应用层生成HTTP报文；传输层用TCP把它切成段，写上源端口和目的端口；网络层封装成IP数据包，写上源IP和目的IP；数据链路层再封装成帧，写上这一跳的源MAC和目的MAC；物理层把帧变成比特发送出去。
+
+在不涉及地址转换等处理的普通转发中，每经过一个路由器，链路帧重新封装，本跳的MAC地址会改变，而IP地址保持不变。这说明MAC地址只在相邻节点之间有效，IP地址才负责跨网络的端到端寻址。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+逐层查看应用报文、传输层信息、网络层地址和链路层信息的封装顺序。
+
+<NetworkEncapsulationDemo />
+
+## 练习
+
+::problems{#network-layers-practice}
+
+1. ::question{#frame-layer}
+
+   把比特流组装成帧，并负责相邻节点之间传输的是哪一层？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 物理层
+   - :option[B]{#b} 数据链路层
+   - :option[C]{#c} 网络层
+   - :option[D]{#d} 传输层
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   数据链路层把比特流组装成帧，只处理一段链路两端的相邻节点。
+   :::
+
+2. ::question{#mac-layer}
+
+   MAC地址在哪一层使用？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 物理层
+   - :option[B]{#b} 数据链路层
+   - :option[C]{#c} 网络层
+   - :option[D]{#d} 应用层
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   MAC地址是数据链路层的物理地址，用于同一链路上相邻节点之间的寻址。
+   :::
+
+3. ::question{#router-layer}
+
+   路由器主要工作在哪一层？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 数据链路层
+   - :option[B]{#b} 网络层
+   - :option[C]{#c} 传输层
+   - :option[D]{#d} 应用层
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   路由器根据目的IP地址选择下一跳，处理的是网络层的数据包。
+   :::
+
+4. ::question{#port-layer}
+
+   用端口号区分同一台主机上不同应用程序的是哪一层？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 物理层
+   - :option[B]{#b} 网络层
+   - :option[C]{#c} 传输层
+   - :option[D]{#d} 应用层
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   传输层在主机之间提供进程到进程的通信，端口号用来区分同一主机上的不同进程。
+   :::
+
+5. ::question{#application-protocols}
+
+   下列哪些属于应用层协议？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} HTTP
+   - :option[B]{#b} DNS
+   - :option[C]{#c} TCP
+   - :option[D]{#d} SMTP
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   HTTP、DNS、SMTP都直接为应用程序提供网络服务；TCP属于传输层。
+   :::

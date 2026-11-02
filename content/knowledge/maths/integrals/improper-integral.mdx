@@ -1,0 +1,199 @@
+---
+title: 反常积分
+description: 用极限定义无穷限积分与瑕积分，给出两类$p$-积分与比较判别法。
+---
+
+import ImproperPDemo from "@/demos/improper-p-demo";
+
+[定积分](/knowledge/maths/integrals/definite-integral/)要求积分区间有限、被积函数有界。把这两个条件之一去掉，积分就要用极限重新定义，这类积分统称**反常积分**，也称广义积分。本页先分别定义两类反常积分，再给出判断敛散时最常用的p-积分与比较判别法，并以$\Gamma$函数作为后续应用。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### 无穷限的反常积分
+
+设$f$在$[a,+\infty)$上连续，取$t>a$。若极限$\lim_{t\to+\infty}\int_a^tf(x)\,\mathrm{d}x$存在，则称它为$f$在$[a,+\infty)$上的反常积分，记作
+
+$$
+\int_a^{+\infty}f(x)\,\mathrm{d}x=\lim_{t\to+\infty}\int_a^tf(x)\,\mathrm{d}x,
+$$
+
+此时称积分**收敛**；若极限不存在，则称积分**发散**。
+
+类似地：
+
+- 在$(-\infty,b]$上，$\displaystyle\int_{-\infty}^bf(x)\,\mathrm{d}x=\lim_{t\to-\infty}\int_t^bf(x)\,\mathrm{d}x$。
+- 在$(-\infty,+\infty)$上，任取$c$，
+  $\displaystyle\int_{-\infty}^{+\infty}f(x)\,\mathrm{d}x=\int_{-\infty}^cf(x)\,\mathrm{d}x+\int_c^{+\infty}f(x)\,\mathrm{d}x$；右端两个积分都收敛时，原积分才收敛。
+
+> [!IMPORTANT]
+> $(-\infty,+\infty)$上的积分不能把两个极限合并成一个对称极限来算。$\int_{-\infty}^{+\infty}x\,\mathrm{d}x$按定义发散，而$\lim_{t\to+\infty}\int_{-t}^{t}x\,\mathrm{d}x=0$只是柯西主值，不属于这里定义的反常积分。
+
+若$f(x)\ge 0$，$\int_a^{+\infty}f(x)\,\mathrm{d}x$收敛表示曲线$y=f(x)$、直线$x=a$与$x$轴围成的无界区域面积有限。这是反常积分与定积分共享的几何意义。
+
+### 无界函数的反常积分
+
+设$f$在$(a,b]$上连续，在$a$的右侧邻域内无界，称$a$为$f$的**瑕点**。取$t\in(a,b)$，若极限$\lim_{t\to a^+}\int_t^bf(x)\,\mathrm{d}x$存在，则称它为$f$在$[a,b]$上的反常积分，也称**瑕积分**，记作
+
+$$
+\int_a^bf(x)\,\mathrm{d}x=\lim_{t\to a^+}\int_t^bf(x)\,\mathrm{d}x.
+$$
+
+类似地：
+
+- 瑕点在上限$b$：$\displaystyle\int_a^bf(x)\,\mathrm{d}x=\lim_{t\to b^-}\int_a^tf(x)\,\mathrm{d}x$。
+- 瑕点在内部$c\in(a,b)$：$\displaystyle\int_a^bf(x)\,\mathrm{d}x=\int_a^cf(x)\,\mathrm{d}x+\int_c^bf(x)\,\mathrm{d}x$，两个积分都收敛时原积分才收敛。
+
+> [!WARNING]
+> 一个积分可以同时有无穷限和瑕点，例如$\displaystyle\int_0^{+\infty}\frac{\mathrm{d}x}{\sqrt{x}\,(1+x)}$。这时必须先把它拆成若干段，使每段只含一个“问题端点”，再逐段判断。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 两类p-积分
+
+| 类型 | 积分 | 收敛 | 发散 | 收敛时的值 |
+| :--- | :--- | :--- | :--- | :--- |
+| 无穷限 | $\displaystyle\int_1^{+\infty}\frac{\mathrm{d}x}{x^p}$ | $p>1$ | $p\le 1$ | $\dfrac{1}{p-1}$ |
+| 瑕积分（瑕点$x=0$，$p>0$） | $\displaystyle\int_0^1\frac{\mathrm{d}x}{x^p}$ | $0<p<1$ | $p\ge 1$ | $\dfrac{1}{1-p}$ |
+
+> [!NOTE]
+> 瑕积分一行以$p>0$为前提。$p\le 0$时$x^{-p}$在$(0,1]$上有界，$x=0$不是瑕点，$\int_0^1x^{-p}\,\mathrm{d}x$是通常的定积分。
+
+:::proof{title="两类p-积分的计算"}
+
+先看无穷限。当$p\ne 1$，
+
+$$
+\int_1^A\frac{\mathrm{d}x}{x^p}=\frac{A^{1-p}-1}{1-p}.
+$$
+
+$p>1$时$1-p<0$，$A^{1-p}\to 0$，极限为$\frac{1}{p-1}$；$p<1$时$A^{1-p}\to+\infty$，积分发散。$p=1$时$\int_1^A\frac{\mathrm{d}x}{x}=\ln A\to+\infty$，同样发散。
+
+再看瑕积分。当$p\ne 1$，
+
+$$
+\int_\varepsilon^1\frac{\mathrm{d}x}{x^p}=\frac{1-\varepsilon^{1-p}}{1-p}.
+$$
+
+$0<p<1$时$1-p>0$，$\varepsilon^{1-p}\to 0$，极限为$\frac{1}{1-p}$；$p>1$时$1-p<0$，$\varepsilon^{1-p}\to+\infty$，积分发散。$p=1$时$\int_\varepsilon^1\frac{\mathrm{d}x}{x}=-\ln\varepsilon\to+\infty$。
+
+:::
+
+> [!TIP]
+> **两类p-积分的收敛范围相反**
+>
+> 无穷限的$\int_1^{+\infty}x^{-p}\,\mathrm{d}x$在$p>1$时收敛：分母次数越高，尾部衰减越快。以$x=0$为瑕点的$\int_0^1x^{-p}\,\mathrm{d}x$在$p<1$时收敛：分母次数越低，瑕点附近增长越慢。可以记成“无穷限大1收敛，瑕积分小1收敛”，套用前先确认是哪一类。
+
+### 比较判别法
+
+设在$[a,+\infty)$上$0\le f(x)\le g(x)$，且两个函数都连续。
+
+- 若$\int_a^{+\infty}g(x)\,\mathrm{d}x$收敛，则$\int_a^{+\infty}f(x)\,\mathrm{d}x$收敛（大收则小收）。
+- 若$\int_a^{+\infty}f(x)\,\mathrm{d}x$发散，则$\int_a^{+\infty}g(x)\,\mathrm{d}x$发散（小发则大发）。
+
+极限形式：设$f(x)\ge 0$，$g(x)>0$，且
+
+$$
+\lim_{x\to+\infty}\frac{f(x)}{g(x)}=\lambda.
+$$
+
+- 若$0<\lambda<+\infty$，则两个积分同敛散。
+- 若$\lambda=0$，且$\int_a^{+\infty}g(x)\,\mathrm{d}x$收敛，则$\int_a^{+\infty}f(x)\,\mathrm{d}x$收敛。
+- 若$\lambda=+\infty$，且$\int_a^{+\infty}g(x)\,\mathrm{d}x$发散，则$\int_a^{+\infty}f(x)\,\mathrm{d}x$发散。
+
+常用比较对象是$g(x)=\frac{1}{x^p}$；瑕点$x=a$附近改用$g(x)=\frac{1}{(x-a)^p}$，并把极限过程换成$x\to a^+$，其余结论相同。判断时先估计$f$在问题端点附近的主部，再挑$p$使比较对象的敛散已知。
+
+> [!WARNING]
+> 比较判别法要求$f$与$g$非负。被积函数变号时不能把它直接与$g$比较；另外，判别法只回答敛散，不给出积分值。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="无穷限：$\displaystyle\int_1^{+\infty}\frac{\mathrm{d}x}{x^2}$"}
+
+$p=2>1$，收敛，值为$\frac{1}{2-1}=1$。
+
+:::
+
+:::example{title="瑕积分：$\displaystyle\int_0^1\frac{\mathrm{d}x}{\sqrt{x}}$"}
+
+$x=0$是瑕点，$p=\frac{1}{2}<1$，收敛，值为$\frac{1}{1-\frac{1}{2}}=2$。
+
+:::
+
+:::example{title="比较判别：$\displaystyle\int_1^{+\infty}\frac{\mathrm{d}x}{x^2+1}$"}
+
+在$[1,+\infty)$上$\frac{1}{x^2+1}<\frac{1}{x^2}$，而$\int_1^{+\infty}\frac{\mathrm{d}x}{x^2}$收敛，所以原积分收敛。这里只判断敛散；它的值是$\frac{\pi}{4}$。
+
+:::
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ImproperPDemo />
+
+## 练习
+
+::problems{#improper-integral-check}
+
+1. ::question{#p-infinite}
+
+   $\displaystyle\int_1^{+\infty}\frac{\mathrm{d}x}{x^{3/2}}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="2"}
+
+   这是$p=\frac{3}{2}>1$的无穷限p-积分，值为$\frac{1}{\frac{3}{2}-1}=2$。
+   :::
+
+2. ::question{#p-singular}
+
+   $\displaystyle\int_0^1\frac{\mathrm{d}x}{x^{2/3}}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="3"}
+
+   $x=0$是瑕点，$p=\frac{2}{3}<1$，积分收敛，值为$\frac{1}{1-\frac{2}{3}}=3$。
+   :::
+
+3. ::question{#whole-line}
+
+   关于$\displaystyle\int_{-\infty}^{+\infty}x\,\mathrm{d}x$，下列说法正确的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 收敛，值为$0$
+   - :option[B]{#b} 发散，因为两个半区间上的积分都发散
+   - :option[C]{#c} 收敛，值为$+\infty$
+   - :option[D]{#d} 必须先算柯西主值才能判断
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $\int_0^{+\infty}x\,\mathrm{d}x$与$\int_{-\infty}^0x\,\mathrm{d}x$都发散，所以原积分发散。奇偶性不能越过收敛性直接使用。
+   :::
+
+4. ::question{#comparison-scope}
+
+   关于比较判别法，下列叙述正确的有哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 若$0\le f(x)\le g(x)$且$\int_a^{+\infty}g(x)\,\mathrm{d}x$收敛，则$\int_a^{+\infty}f(x)\,\mathrm{d}x$收敛
+   - :option[B]{#b} 若$0\le f(x)\le g(x)$且$\int_a^{+\infty}f(x)\,\mathrm{d}x$收敛，则$\int_a^{+\infty}g(x)\,\mathrm{d}x$收敛
+   - :option[C]{#c} 若$0\le f(x)\le g(x)$且$\int_a^{+\infty}f(x)\,\mathrm{d}x$发散，则$\int_a^{+\infty}g(x)\,\mathrm{d}x$发散
+   - :option[D]{#d} 对变号的被积函数，可以直接用$0\le f(x)\le g(x)$比较
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="c"}
+
+   比较判别法只把已知敛散的积分传给比较对象：大的收敛推出小的收敛，小的发散推出大的发散。反向不成立，变号时也不能直接使用。
+   :::

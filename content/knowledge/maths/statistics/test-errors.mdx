@@ -1,0 +1,54 @@
+---
+title: 假设检验中的错误与功效
+description: 区分两类错误、显著性水平与检验功效。
+---
+
+import TestErrorsDemo from "@/demos/test-errors-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+检验的结论可能与真实情况不符，有两种错误：
+
+- **第一类错误**：$H_0$为真却拒绝了$H_0$，也称“弃真”。其概率通常记为$\alpha$，由显著性水平控制。
+- **第二类错误**：$H_0$为假却没有拒绝$H_0$，也称“取伪”。其概率记为$\beta(\theta)$，依赖真实的参数值$\theta$。
+- **功效**：$1-\beta(\theta)$，即$H_0$为假时正确拒绝的概率。真实参数离$\theta_0$越远，功效通常越高。
+
+在复合原假设$H_0:\theta\in\Theta_0$下，“水平为$\alpha$”的准确含义是对所有$\theta\in\Theta_0$都有
+
+$$
+\sup_{\theta\in\Theta_0}P_\theta\{\text{拒绝 }H_0\}\le\alpha,
+$$
+
+即最坏情形下的第一类错误概率不超过$\alpha$。
+
+固定样本量时，减小第一类错误通常会使第二类错误增大：把拒绝门槛收紧，真正有差异时也更难拒绝。增加样本量可以在保持$\alpha$不变的前提下降低$\beta$，提高对固定差异的检验功效。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TestErrorsDemo />
+
+## 练习
+
+::problems{#test-errors-practice}
+
+1. ::question{#error-types}
+
+   关于两类错误，下列说法正确的是
+
+   :::choices{#choice-error-types mode="single"}
+   - :option[A]{#a} 第一类错误是$H_0$为真却拒绝$H_0$
+   - :option[B]{#b} 第二类错误是$H_0$为真却未拒绝$H_0$
+   - :option[C]{#c} 功效是犯第一类错误的概率
+   - :option[D]{#d} 固定样本量时，减小$\alpha$一定同时减小第二类错误的概率
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   第二类错误是$H_0$为假却未拒绝；功效是$1-\beta(\theta)$，不是第一类错误的概率；固定样本量时两类错误通常此消彼长。
+   :::

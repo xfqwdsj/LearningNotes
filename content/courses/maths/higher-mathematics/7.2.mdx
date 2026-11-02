@@ -1,0 +1,40 @@
+---
+title: 7.2&#32;可分离变量的微分方程
+description: 记录可分离变量方程的课堂口诀、解题约定与分离变量时容易丢解的地方。
+---
+## 阅读入口
+
+- [可分离变量的微分方程](/knowledge/maths/differential-equations/separable-differential-equation/)
+- [微分方程的基本概念](/knowledge/maths/differential-equations/differential-equation-basics/)
+
+## 可分离变量的形式
+
+::knowledge{path="maths/differential-equations/separable-differential-equation" slot="definition"}
+
+两种写法只差整理方式；本节先按$\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y)$读，遇到已经是微分形式的题目再对照第二种。
+
+## 求解步骤
+
+::knowledge{path="maths/differential-equations/separable-differential-equation" slot="properties"}
+
+五步里最容易跳过的是最后一步：题目给了初始条件却没有代回去求$C$，答案就还停在通解上。
+
+## 学习安排
+
+7.2紧接7.1的术语，是第7章第一个给出完整求解流程的小节。本节先给两种等价写法，再按“分离—积分—整理”三步走，最后用两个例题分别演示求通解和代初值。7.3的齐次方程换元后得到的仍是可分离变量方程，因此要熟练执行这三步。
+
+两个例题的用途不同：$\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{x}{y}$练隐式通解和积分常数合并，$y'=2xy$练从通解代初值。做作业时先判断能不能分离，再动笔。
+
+## 课程约定
+
+- 课堂口诀是“各找各妈，两边积分”：含$y$的项和$\mathrm{d}y$归一边，含$x$的项和$\mathrm{d}x$归另一边。
+- 遇到$y'$先改写成$\dfrac{\mathrm{d}y}{\mathrm{d}x}$，再决定怎么分离。
+- 积分常数只写一个$C$；需要配合对数或指数整理时，可以改写成$\ln\vert C\vert$、$e^C$，但要说明新常数的取值范围。
+- 答案允许保留隐式形式；只有题目要求“求$y$”时才必须解出显函数。
+
+## 易错点
+
+- 分离时除以$g(y)$，却漏掉$g(y)=0$对应的常数解。考试中要单独写一句检验。
+- 两边积分各写一个常数，最后多出一个无法确定的常数；正确做法是合并成一个$C$。
+- 把$\int\dfrac{1}{g(y)}\,\mathrm{d}y$写成对$x$积分，或把$\mathrm{d}y$、$\mathrm{d}x$放错边。
+- 用初值求$C$时，把$x_0,y_0$代进分离前的原方程而不是通解，得到恒等式，算不出$C$。

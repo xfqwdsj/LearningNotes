@@ -1,0 +1,229 @@
+---
+title: 统计量与样本特征
+description: 定义统计量并计算样本均值、样本方差与样本矩。
+---
+
+import SampleSummaryDemo from "@/demos/sample-summary-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**统计量**是样本的函数
+
+$$
+T=T(X_1,\ldots,X_n),
+$$
+
+并且$T$的表达式中不含任何未知的总体参数。$\bar X$、$\sum_{i=1}^nX_i^2$、$\max_iX_i$都是统计量；若$\mu$未知，则$\bar X-\mu$不是统计量，因为它无法只由样本算出数值。
+
+统计量的分布称为**抽样分布**，它是统计推断的基础，具体结论见[抽样分布](/knowledge/maths/statistics/sampling-distributions/)。
+
+> [!NOTE]
+> **枢轴量与统计量的区别**
+>
+> 用于区间估计的**枢轴量**允许含有未知参数，但它的分布不能依赖这些未知参数。正态样本的$(\bar X-\mu)/(S/\sqrt n)$含未知参数$\mu$，但服从$t(n-1)$，与$\mu$、$\sigma^2$的取值无关，所以它是枢轴量而不是统计量。
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 常用样本特征
+
+样本均值与样本方差分别为
+
+$$
+\bar X=\frac1n\sum_{i=1}^nX_i,\qquad
+S^2=\frac1{n-1}\sum_{i=1}^n(X_i-\bar X)^2,\qquad n\ge2.
+$$
+
+样本方差另有一个只用原始平方和的算法：
+
+$$
+S^2=\frac{\sum_{i=1}^nX_i^2-n\bar X^2}{n-1}.
+$$
+
+样本的$k$阶原点矩与$k$阶中心矩分别为
+
+$$
+A_k=\frac1n\sum_{i=1}^nX_i^k,\qquad
+B_k=\frac1n\sum_{i=1}^n(X_i-\bar X)^k.
+$$
+
+> [!CAUTION]
+> **$B_2$与$S^2$的分母不同**
+>
+> $B_2$的分母是$n$，$S^2$的分母是$n-1$，二者相差因子$(n-1)/n$，即$B_2=\dfrac{n-1}{n}S^2$。手写答案时不要顺手把$B_2$的分母改成$n-1$，它就不再是二阶中心矩了。
+
+
+### 样本均值与方差的期望
+
+设总体均值与方差分别为$\mu$与$\sigma^2$，样本为简单随机样本，则
+
+$$
+E(\bar X)=\mu,\qquad
+D(\bar X)=\frac{\sigma^2}{n},\qquad
+E(S^2)=\sigma^2.
+$$
+
+三式都只要求总体的均值与方差存在，即$E|X|<\infty$且$D(X)<\infty$，都不要求总体服从正态分布。
+
+:::proof
+**样本均值**
+
+由同分布，$E(X_i)=\mu$，再由期望的线性性质，
+
+$$
+E(\bar X)=\frac1n\sum_{i=1}^nE(X_i)=\frac1n\cdot n\mu=\mu.
+$$
+
+由独立性，和的方差等于方差之和，
+
+$$
+D(\bar X)=\frac1{n^2}\sum_{i=1}^nD(X_i)=\frac1{n^2}\cdot n\sigma^2=\frac{\sigma^2}{n}.
+$$
+
+这里用到独立性；$D(\bar X)=\sigma^2/n$是样本容量增大后均值更稳定的定量表述。
+
+**样本方差**
+
+先展开离差平方和。把$X_i-\bar X$写成$(X_i-\mu)-(\bar X-\mu)$，并利用$\sum_i(X_i-\mu)=n(\bar X-\mu)$合并交叉项，得
+
+$$
+\sum_{i=1}^n(X_i-\bar X)^2
+=\sum_{i=1}^n(X_i-\mu)^2-n(\bar X-\mu)^2.
+$$
+
+两边取期望：由同分布，$E\left[\sum_i(X_i-\mu)^2\right]=n\sigma^2$；由上面已证的$E(\bar X)=\mu$与$D(\bar X)=\sigma^2/n$，$E\left[(\bar X-\mu)^2\right]=\sigma^2/n$。于是
+
+$$
+E\left[\sum_{i=1}^n(X_i-\bar X)^2\right]=n\sigma^2-n\cdot\frac{\sigma^2}{n}=(n-1)\sigma^2,
+$$
+
+除以$n-1$得$E(S^2)=\sigma^2$。
+:::
+
+分母取$n-1$而不是$n$，正是为了让$S^2$的期望恰好等于$\sigma^2$；若用$B_2$，则
+
+$$
+E(B_2)=\frac{n-1}{n}\sigma^2,
+$$
+
+系统性地偏小。
+
+> [!IMPORTANT]
+> **无偏的是$S^2$，不是$S$**
+>
+> $E(S^2)=\sigma^2$并不推出$E(S)=\sigma$。开方不是线性运算，通常$E(S)<\sigma$，即样本标准差是总体标准差的有偏估计。看到“标准差的无偏估计”时不能默认是$S$。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="一组数据的样本特征"}
+
+某样本的观测值为$2,4,4,6,9$，$n=5$。样本均值为
+
+$$
+\bar x=\frac{2+4+4+6+9}{5}=\frac{25}{5}=5.
+$$
+
+离差为$-3,-1,-1,1,4$，平方和为$9+1+1+1+16=28$，于是
+
+$$
+s^2=\frac{28}{5-1}=7,\qquad
+B_2=\frac{28}{5}=5.6.
+$$
+
+两者满足$B_2=\frac{4}{5}\times7=5.6$，与$B_2=\frac{n-1}{n}S^2$一致。经验分布函数在$x=4$处的值为$F_n(4)=\frac35$，因为不超过$4$的观测值有三个。
+
+:::
+
+:::example{title="判断哪些表达式是统计量"}
+
+设总体$X\sim N(\mu,\sigma^2)$，其中$\mu$、$\sigma^2$都未知，$X_1,\ldots,X_n$为样本。
+
+- $\bar X$、$S^2$、$\max_iX_i$、$\sum_iX_i^2$只用到样本，都是统计量；
+- $\bar X-\mu$含未知的$\mu$，不是统计量；
+- $S^2/\sigma^2$含未知的$\sigma^2$，不是统计量；但它的分布不含任何未知参数，所以是枢轴量，可用它构造$\sigma^2$的区间估计。
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SampleSummaryDemo />
+
+## 练习
+
+::problems{#sample-summary-practice}
+
+1. ::question{#mean-value}
+
+   某样本的观测值为$1,2,3,4,5$，则样本均值$\bar x=$ :blank{#mean-value type="number"}。
+
+   :::reference
+   ::correct{blank="mean-value" value="3"}
+
+   $\bar x=\dfrac{1+2+3+4+5}{5}=3$。
+   :::
+
+2. ::question{#sample-moments}
+
+   仍取观测值$1,2,3,4,5$。
+
+   1. ::part{#variance}
+
+      样本方差$s^2=$ :blank{#variance-value type="number"}。
+
+      :::reference
+      ::correct{blank="variance-value" value="2.5"}
+
+      离差为$-2,-1,0,1,2$，平方和为$4+1+0+1+4=10$，故$s^2=\dfrac{10}{5-1}=2.5$。
+      :::
+
+   2. ::part{#second-central-moment}
+
+      二阶中心矩$B_2=$ :blank{#central-moment-value type="number"}。
+
+      :::reference
+      ::correct{blank="central-moment-value" value="2"}
+
+      $B_2$的分母是$n=5$，故$B_2=\dfrac{10}{5}=2$，等于$\dfrac45\times2.5$。
+      :::
+
+3. ::question{#statistic-or-not}
+
+   设总体服从$N(\mu,\sigma^2)$，其中$\mu$与$\sigma^2$都未知。下列表达式中是统计量的是
+
+   :::choices{#choice-statistic mode="multiple"}
+   - :option[A]{#a} $\bar X$
+   - :option[B]{#b} $\bar X-\mu$
+   - :option[C]{#c} $\max_iX_i$
+   - :option[D]{#d} $S^2/\sigma^2$
+   - :option[E]{#e} $\sum_{i=1}^nX_i^2$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   ::correct{option="e"}
+
+   统计量只能含样本，不能含未知参数。$\bar X-\mu$与$S^2/\sigma^2$分别含未知的$\mu$与$\sigma^2$，因此不是统计量。
+   :::
+
+4. ::question{#unbiased-variance}
+
+   总体方差$\sigma^2=9$，取容量为$10$的简单随机样本，则$E(S^2)=$ :blank{#unbiased-value type="number"}。
+
+   :::reference
+   ::correct{blank="unbiased-value" value="9"}
+
+   $S^2$是$\sigma^2$的无偏估计，$E(S^2)=\sigma^2=9$，与样本容量无关。
+   :::

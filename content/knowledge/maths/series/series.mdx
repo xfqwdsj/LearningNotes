@@ -1,0 +1,238 @@
+---
+title: 常数项级数的概念与性质
+description: 用部分和数列定义常数项级数的收敛与发散，整理收敛级数的基本性质，并给出等比级数、调和级数与$p$级数的敛散性。
+---
+
+import GeometricSeriesDemo from "@/demos/geometric-series-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+给定数列$\{u_n\}$，把它的项依次相加得到的表达式
+
+$$
+u_1+u_2+u_3+\cdots+u_n+\cdots
+$$
+
+称为（常数项）**无穷级数**，简称**级数**，记作$\sum_{n=1}^{\infty}u_n$。其中$u_n$称为级数的**一般项**，也叫通项。
+
+级数的前$n$项之和
+
+$$
+s_n=u_1+u_2+\cdots+u_n=\sum_{k=1}^{n}u_k
+$$
+
+称为**部分和**，$s_1,s_2,\dots,s_n,\dots$构成部分和数列$\{s_n\}$。
+
+若部分和数列的极限存在，即
+
+$$
+\lim_{n\to\infty}s_n=s,
+$$
+
+则称级数$\sum_{n=1}^{\infty}u_n$ **收敛**，$s$称为级数的**和**，记作$\sum_{n=1}^{\infty}u_n=s$。若$\{s_n\}$的极限不存在，则称级数**发散**。
+
+级数收敛时，和与部分和之差
+
+$$
+r_n=s-s_n
+$$
+
+称为级数的**余项**。
+
+判断级数收敛，就是判断部分和数列是否有有限极限；求级数的和，就是求这个极限。一般项$u_n$描述级数的结构，但判断敛散性仍要回到$\{s_n\}$，不能只看某一项或某几项。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+以下性质都针对收敛级数。记$\sum_{n=1}^{\infty}u_n=s$，$\sum_{n=1}^{\infty}v_n=\sigma$。
+
+### 线性与加减
+
+若$\sum u_n$收敛于$s$，$k$为常数，则$\sum ku_n$也收敛，且
+
+$$
+\sum_{n=1}^{\infty}ku_n=ks.
+$$
+
+若$\sum u_n$、$\sum v_n$分别收敛于$s$、$\sigma$，则$\sum(u_n\pm v_n)$也收敛，且
+
+$$
+\sum_{n=1}^{\infty}(u_n\pm v_n)=s\pm\sigma.
+$$
+
+### 添去或改变有限项
+
+在级数中去掉、加上或改变有限项，不改变级数的收敛性或发散性；收敛时，级数的和一般会改变。
+
+这条性质说明级数可以从任意一项开始写，起点不同只差有限项，所以$p$级数、等比级数常从$n=0$或$n=1$写起。
+
+### 加括号
+
+收敛级数任意加括号后所得的新级数仍然收敛，且和不变。也就是说，把相邻若干项先求和再相加，不会改变收敛级数的和。这条性质也常称为级数的结合律。
+
+> [!WARNING]
+> **逆命题不成立**
+>
+> 加括号后收敛，不能推出原级数收敛。例如$1-1+1-1+\cdots$按两项一组加括号得到$0+0+\cdots$，收敛于$0$，但原级数的部分和在$1$与$0$之间跳动，本身发散。
+>
+> 补上一般项的条件后结论成立：若加括号后的级数收敛，**并且**原级数的一般项$u_n\to0$，则原级数收敛。
+
+### 收敛的必要条件
+
+若$\sum u_n$收敛，则
+
+$$
+\lim_{n\to\infty}u_n=0.
+$$
+
+:::proof
+
+设$\sum u_n$收敛于$s$，则$s_n\to s$，且$s_{n-1}\to s$。由$u_n=s_n-s_{n-1}$得
+
+$$
+\lim_{n\to\infty}u_n=\lim_{n\to\infty}s_n-\lim_{n\to\infty}s_{n-1}=s-s=0.
+$$
+
+:::
+
+> [!WARNING]
+> **逆命题不成立**
+>
+> $u_n\to0$只是收敛的必要条件，不是充分条件。调和级数$\sum 1/n$的一般项趋于$0$，级数却发散，见下文。
+>
+> 使用时据此区分两个方向：$\lim u_n\ne0$可以直接判定发散，$\lim u_n=0$不能判定收敛。
+
+## 典型级数
+
+::section{#examples slot="knowledge.examples"}
+
+### 等比级数
+
+形如
+
+$$
+\sum_{n=0}^{\infty}aq^n=a+aq+aq^2+\cdots+aq^n+\cdots\qquad(a\ne0)
+$$
+
+的级数称为**等比级数**，也叫几何级数，$q$称为公比。当$q\ne1$时，部分和为
+
+$$
+s_n=a+aq+\cdots+aq^{n-1}=a\frac{1-q^n}{1-q}.
+$$
+
+- 当$|q|<1$时，$q^n\to0$，级数收敛，和为$s=\dfrac{a}{1-q}$；
+- 当$|q|\ge1$时，$q^n$不趋于$0$（$q=1$时$s_n=na$），级数发散。
+
+等比级数的和可以直接写出，在幂级数等场合常作为比较对象。
+
+### 调和级数
+
+$$
+\sum_{n=1}^{\infty}\frac1n=1+\frac12+\frac13+\cdots+\frac1n+\cdots
+$$
+
+称为**调和级数**。它的一般项$\dfrac1n\to0$，满足收敛的必要条件，但级数发散。
+
+:::proof{title="调和级数发散"}
+
+把级数按$2$的幂分组：
+
+$$
+1+\frac12+\left(\frac13+\frac14\right)+\left(\frac15+\cdots+\frac18\right)+\cdots
+$$
+
+第$k$组从$\dfrac1{2^{k-1}+1}$到$\dfrac1{2^k}$，共$2^{k-1}$项，每项都不小于$\dfrac1{2^k}$，所以第$k$组的和不小于
+
+$$
+2^{k-1}\cdot\frac1{2^k}=\frac12.
+$$
+
+于是
+
+$$
+s_{2^k}\ge 1+\frac k2\to+\infty,
+$$
+
+部分和数列无上界，调和级数发散。
+
+:::
+
+调和级数是“一般项趋于零不能保证收敛”的标准反例。
+
+### p级数
+
+$$
+\sum_{n=1}^{\infty}\frac1{n^p}=1+\frac1{2^p}+\frac1{3^p}+\cdots+\frac1{n^p}+\cdots
+$$
+
+称为 **$p$级数**，$p$为常数。其敛散性为：
+
+- 当$p>1$时收敛；
+- 当$p\le1$时发散。
+
+$p=1$时就是调和级数。$p$级数是正项级数最常用的比较对象，具体的比较方式见[常数项级数的审敛法](/knowledge/maths/series/series-convergence-tests/)。
+
+:::example{title="与$p$级数比较"}
+
+$\sum\dfrac1{n^2+1}$的通项小于$\dfrac1{n^2}$，而$p=2>1$的$p$级数收敛，所以原级数收敛。
+
+$\sum\dfrac1{\sqrt n}$就是$p=\dfrac12\le1$的$p$级数，发散。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<GeometricSeriesDemo />
+
+## 练习
+
+::problems{#series-basics}
+
+1. ::question{#geometric-sum}
+
+   等比级数$\displaystyle\sum_{n=0}^{\infty}3\left(\frac12\right)^n$的和为:blank{#sum type="number"}。
+
+   :::reference
+   ::correct{blank="sum" value="6"}
+
+   这里$a=3$，$q=\dfrac12$，且$|q|<1$，所以和为$\dfrac{3}{1-\frac12}=6$。
+   :::
+
+2. ::question{#p-test}
+
+   $\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^{3/2}}$的敛散性是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 收敛
+   - :option[B]{#b} 发散
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   这是$p=\dfrac32>1$的$p$级数，收敛。
+   :::
+
+3. ::question{#properties}
+
+   若$\displaystyle\sum_{n=1}^{\infty}u_n$收敛，下列结论哪些一定成立？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $\lim_{n\to\infty}u_n=0$
+   - :option[B]{#b} $\displaystyle\sum_{n=1}^{\infty}100u_n$收敛
+   - :option[C]{#c} 对级数的项任意加括号后所得级数收敛
+   - :option[D]{#d} $\displaystyle\sum_{n=1}^{\infty}|u_n|$收敛
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   A是收敛的必要条件；B是线性性质；C是加括号性质。D只在绝对收敛时成立，条件收敛的级数$\sum\frac{(-1)^{n-1}}{n}$满足题设，但$\sum|u_n|$发散。
+   :::

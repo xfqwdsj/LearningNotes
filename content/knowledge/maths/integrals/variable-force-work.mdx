@@ -1,0 +1,49 @@
+---
+title: 变力做功
+description: 用定积分累加沿路径变化的力所做的功。
+---
+
+import VariableWorkDemo from "@/demos/variable-work-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+物体在沿$x$轴方向的变力$F(x)$作用下从$x=a$移到$x=b$。位移$\mathrm{d}x$很小时$F(x)$可近似看作常数，功微元为
+
+$$
+\mathrm{d}W=F(x)\,\mathrm{d}x,\qquad W=\int_a^bF(x)\,\mathrm{d}x.
+$$
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="变力做功：$F(x)=kx$，从$0$到$a$"}
+
+$$
+W=\int_0^akx\,\mathrm{d}x=\frac{ka^2}{2}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<VariableWorkDemo />
+
+## 练习
+
+::problems{#variable-work-practice}
+
+1. ::question{#work-value}
+
+   变力$F(x)=2x$把物体从$x=0$推到$x=3$所做的功为:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="9"}
+
+   $W=\int_0^32x\,\mathrm{d}x=\bigl[x^2\bigr]_0^3=9$。
+   :::

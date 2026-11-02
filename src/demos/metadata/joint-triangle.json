@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "三角形支持区域内的概率怎样计算？",
+      "description": "改变竖直边界，比较事件区域与支持区域。",
+      "messages": {
+        "label": "三角形支持区域与积分",
+        "intro": "联合密度在$0<x<y<1$上为$2$，其他位置为零。深色部分表示与$X\\le a$的交集。",
+        "boundary": "边界$a$",
+        "diagram": "阴影区域的概率为{val}",
+        "result": "阴影区域的概率为$P(X\\le a)={val}$。"
+      },
+      "tags": ["概率论", "联合概率密度"]
+    }
+  }
+}

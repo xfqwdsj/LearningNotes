@@ -1,0 +1,48 @@
+---
+title: 9.2&#32;偏导数
+description: 记录偏导数的引入顺序、记号约定、一元化求法与高阶偏导数的重点，并提供知识点入口。
+---
+
+## 阅读入口
+
+- [偏导数](/knowledge/maths/multivariable-calculus/partial-derivative/)
+- [导数的定义与几何意义](/knowledge/maths/derivatives/derivative/)：固定其余变量后，偏导数就是一元导数。
+
+## 学习安排
+
+本节先给出两个差商极限的定义，再集中列出记号，然后说明“其余变量看作常数”的求法，最后用二阶偏导数和混合偏导数定理收尾。后面的全微分和复合函数求导继续沿用这套写法。
+
+## 定义与记号
+
+::knowledge{path="maths/multivariable-calculus/partial-derivative" slot="definition"}
+
+定义了偏导数，接下来要能算；下一段把计算归结为一元求导。
+
+## 一元化求法
+
+::include{src="/knowledge/maths/multivariable-calculus/partial-derivative/" section="technique"}
+
+会求一阶偏导之后，二阶偏导只是再做一次，求导顺序的问题到下一段才出现。
+
+## 高阶偏导数
+
+::include{src="/knowledge/maths/multivariable-calculus/partial-derivative/" section="higher-order"}
+
+高阶偏导的记号最容易写乱；课程约定把$f_{xy}$与$\dfrac{\partial^2 z}{\partial x\partial y}$的顺序固定下来。
+
+## 课程约定
+
+- $\left.\dfrac{\partial z}{\partial x}\right|_{(x_0,y_0)}$、$f_x(x_0,y_0)$与$z_x$是同义记号。
+- 二阶混合偏导数$\dfrac{\partial^2 z}{\partial x\partial y}=f_{xy}$表示先对$x$后对$y$求偏导；写$f_{yx}$时顺序相反。
+
+## 重点
+
+- 一元化是求偏导的主线：固定其余变量，按一元公式逐项求导。
+- 几何意义：$f_x(x_0,y_0)$是曲面被平面$y=y_0$截出的曲线在$P_0$处的切线斜率。
+- 混合偏导数相等要以两个混合偏导数在该点连续为前提；初等函数在定义区域内满足条件，计算时可以按方便的顺序求导。
+
+## 易错点
+
+- 偏导数存在推不出连续，不能照搬一元的“可导必连续”。
+- 对$x$求偏导时$y$是常数，但含$y$的项不一定为零，例如$\dfrac{\partial}{\partial x}(3xy)=3y$。
+- 交换混合偏导数的求导顺序前，先确认两个混合偏导数在该点连续。

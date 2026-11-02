@@ -1,0 +1,55 @@
+---
+title: 正态总体方差比的置信区间
+description: 用独立正态样本的$F$枢轴量构造方差比区间。
+---
+
+import VarianceRatioConfidenceIntervalDemo from "@/demos/variance-ratio-confidence-interval-demo";
+
+## 定义与构造
+
+::section{#definition slot="knowledge.definition"}
+
+以下区间以$1-\alpha$为置信水平，分位点采用[上侧分位点约定](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设$X_1,\ldots,X_{n_1}$与$Y_1,\ldots,Y_{n_2}$分别来自$N(\mu_1,\sigma_1^2)$与$N(\mu_2,\sigma_2^2)$，两个样本相互独立，$n_1,n_2\ge2$，样本均值与样本方差记为
+
+$$
+\bar X,\ \bar Y,\ S_1^2,\ S_2^2,
+$$
+
+其中$S_i^2$的分母是$n_i-1$。下面把区间写成“中心$\pm$半宽”，$\pm$表示闭区间的两个端点。
+
+由$\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F(n_1-1,n_2-1)$得
+
+$$
+\frac{\sigma_1^2}{\sigma_2^2}\in\left[\frac{S_1^2/S_2^2}{F_{\alpha/2}(n_1-1,n_2-1)},\ \frac{S_1^2/S_2^2}{F_{1-\alpha/2}(n_1-1,n_2-1)}\right].
+$$
+
+这个区间不要求两个总体方差相等，只要求样本独立且都来自正态总体。$F$分布不对称，两个分位点不能交换；$F_{1-\alpha/2}$可用$\dfrac{1}{F_{\alpha/2}(n_2-1,n_1-1)}$换算，但两个自由度要同时交换位置。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<VarianceRatioConfidenceIntervalDemo />
+
+## 练习
+
+::problems{#variance-ratio-confidence-interval}
+
+1. ::question{#ratio-degrees}
+
+   两个独立正态样本的容量都是$10$，$\sigma_1^2/\sigma_2^2$的置信区间使用$F$分布。两个自由度为
+
+   :::choices{#choice-ratio-degrees mode="single"}
+   - :option[A]{#a} $F(10,10)$
+   - :option[B]{#b} $F(9,9)$
+   - :option[C]{#c} $F(18,18)$
+   - :option[D]{#d} $F(9,10)$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   方差比的枢轴量为$\dfrac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F(n_1-1,n_2-1)$，两个自由度都是$10-1=9$。
+   :::

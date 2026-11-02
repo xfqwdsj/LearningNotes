@@ -1,0 +1,95 @@
+---
+title: Python列表的append与extend
+description: 比较添加一个对象与逐个添加可迭代对象中的元素。
+---
+
+import PythonAppendDemo from "@/demos/python-append-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+`a.append(b)`将`b`整体作为一个元素添加到列表末尾；`a.extend(b)`遍历`b`并将其中元素逐个添加。`append`可以接收任意对象，`extend`需要可迭代对象。两者都原地修改列表并返回`None`。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="`append`与`extend`的区别"}
+
+```python title="append-extend.py"
+a = [1, 2]
+a.append([3, 4])
+print(a)   # [1, 2, [3, 4]]
+
+b = [1, 2]
+b.extend([3, 4])
+print(b)   # [1, 2, 3, 4]
+```
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+对同一个列表参数切换两种方法，比较最终列表的结构和长度。
+
+<PythonAppendDemo />
+
+## 练习
+
+::problems{#list-append-practice}
+
+1. ::question{#append-return}
+
+   设`a = [1, 2]`，执行`b = a.append(3)`后，`b`的值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `None`
+   - :option[B]{#b} `[1, 2, 3]`
+   - :option[C]{#c} `3`
+   - :option[D]{#d} 抛出异常
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `append()`原地修改列表并返回`None`，所以`b`是`None`，而`a`变成`[1, 2, 3]`。
+   :::
+
+2. ::question{#extend-result}
+
+   对`a = [1, 2]`调用`a.extend([3, 4])`后，`a`的值是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `[1, 2, 3, 4]`
+   - :option[B]{#b} `[1, 2, [3, 4]]`
+   - :option[C]{#c} `[3, 4]`
+   - :option[D]{#d} `None`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `extend`把列表中的元素逐个追加，得到`[1, 2, 3, 4]`；如果写成`append`，结果会是`[1, 2, [3, 4]]`。
+   :::
+
+3. ::question{#methods-claims}
+
+   关于这几个函数与方法，下列说法正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `append`把参数整体作为一个元素加入列表
+   - :option[B]{#b} `extend`的参数必须是可迭代对象
+   - :option[C]{#c} `append`与`extend`都返回`None`
+   - :option[D]{#d} `extend`会返回一个新列表
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   `extend`原地修改列表并返回`None`，不会创建新列表，D错。
+   :::

@@ -1,0 +1,67 @@
+---
+title: 二维离散型分布
+description: 用联合分布律描述二维离散型随机变量的取值概率。
+---
+
+import JointTableDemo from "@/demos/joint-table-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若$X$、$Y$都只取有限个或可列个值，则称$(X,Y)$为**二维离散型随机变量**。记
+
+$$
+p_{ij}=P\{X=x_i,\;Y=y_j\},\qquad i,j=1,2,\dots
+$$
+
+称为$(X,Y)$的**联合分布律**，它必须满足
+
+$$
+p_{ij}\ge 0,\qquad \sum_i\sum_j p_{ij}=1.
+$$
+
+联合分布律通常列成二维表：固定$i$是一行，固定$j$是一列，表内每个单元格就是$(X,Y)$取相应值对的概率。求某个事件的概率，就是把表内满足该条件的单元格相加。
+
+例如求$P\{X<Y\}$，应选出所有满足$x_i<y_j$的单元格再相加，不能只比较行号与列号的大小：行、列的位置取决于取值的排列顺序，与取值大小无关。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+表中每一格是两个变量同时取值的概率。改变输入，比较联合概率与行列之和。
+
+<JointTableDemo />
+
+## 练习
+
+::problems{#joint-discrete-practice}
+
+1. ::question{#discrete-table}
+
+   设$(X,Y)$的联合分布律为
+
+   | $X\backslash Y$ | $0$ | $1$ |
+   | :--- | :--- | :--- |
+   | $0$ | $0.1$ | $0.2$ |
+   | $1$ | $0.3$ | $0.4$ |
+
+   1. ::part{#less-than}
+
+      $P\{X<Y\}=$ :blank{#less-than-value type="number"}。
+
+      :::reference
+      ::correct{blank="less-than-value" value="0.2"}
+
+      满足$x_i<y_j$的只有$(0,1)$一格，概率为$0.2$。
+      :::
+
+   2. ::part{#equal}
+
+      $P\{X=Y\}=$ :blank{#equal-value type="number"}。
+
+      :::reference
+      ::correct{blank="equal-value" value="0.5"}
+
+      满足$x_i=y_j$的是$(0,0)$与$(1,1)$两格，概率相加：$0.1+0.4=0.5$。
+      :::

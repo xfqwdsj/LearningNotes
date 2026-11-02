@@ -1,0 +1,147 @@
+---
+title: 二重积分的极坐标计算
+description: 将平面区域和面积元素变换到极坐标，确定角度与径向积分限。
+---
+
+import PolarAreaDemo from "@/demos/polar-area-demo";
+
+## 极坐标变换与积分公式
+
+::section{#definition slot="knowledge.definition"}
+
+### 适用场景
+
+当$D$的边界由圆弧、射线组成，或者被积函数含$x^2+y^2$、$\dfrac yx$等形式时，用极坐标通常更简单。
+
+### 变换与面积元素
+
+极坐标与直角坐标的关系为
+
+$$
+x=r\cos\theta,\qquad y=r\sin\theta,\qquad r\ge0 .
+$$
+
+这个变换的雅可比行列式是
+
+$$
+\frac{\partial(x,y)}{\partial(r,\theta)}=r ,
+$$
+
+于是
+
+$$
+\mathrm d\sigma=\mathrm dx\,\mathrm dy=r\,\mathrm dr\,\mathrm d\theta .
+$$
+
+面积元素中多出的因子$r$来自坐标变换，不能漏写。
+
+### 极坐标下的公式
+
+若区域可以沿每条选定射线写成单个径向区间，且角度范围不重复覆盖区域，即
+
+$$
+D=\{(r,\theta):\alpha\le\theta\le\beta,\ r_1(\theta)\le r\le r_2(\theta)\},
+$$
+
+则
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\int_\alpha^\beta\left[\int_{r_1(\theta)}^{r_2(\theta)}f(r\cos\theta,r\sin\theta)\,r\,\mathrm dr\right]\mathrm d\theta .
+$$
+
+### 两类常见区域
+
+**极点在区域外部且各射线与区域的交集为单个区间。** 此时$\theta$从$\alpha$变到$\beta$，$r$从内边界$r_1(\theta)$变到外边界$r_2(\theta)$，直接使用上面的公式。
+
+**极点在区域内部且区域关于极点是星形。** 若$D$的边界曲线为$r=r(\theta)$，极角范围是$0\le\theta\le2\pi$，则内层积分的下限为$r=0$，公式简化为
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\int_0^{2\pi}\left[\int_0^{r(\theta)}f(r\cos\theta,r\sin\theta)\,r\,\mathrm dr\right]\mathrm d\theta .
+$$
+
+特别地，$D$是以原点为圆心、$R$为半径的圆域时$r(\theta)=R$，此时
+
+$$
+\iint_D f(x,y)\,\mathrm d\sigma=\int_0^{2\pi}\left[\int_0^R f(r\cos\theta,r\sin\theta)\,r\,\mathrm dr\right]\mathrm d\theta .
+$$
+
+极点在边界上时，若所取射线与区域的交集都从极点开始，$r$的下限为$0$，$\theta$只覆盖区域张开的角。例如$x^2+y^2\le2x$的边界为$r=2\cos\theta$，对应$-\dfrac\pi2\le\theta\le\dfrac\pi2$。不满足单区间条件的区域需要分块。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="极点在内部：$\displaystyle\iint_{x^2+y^2\le1}e^{-x^2-y^2}\,\mathrm d\sigma$"}
+
+取单位圆域$D$，极点在内部，$0\le\theta\le2\pi$，$0\le r\le1$，且$x^2+y^2=r^2$，于是
+
+$$
+\iint_De^{-x^2-y^2}\,\mathrm d\sigma
+=\int_0^{2\pi}\left[\int_0^1e^{-r^2}r\,\mathrm dr\right]\mathrm d\theta
+=2\pi\cdot\frac12\left(1-\frac1e\right)
+=\pi\left(1-\frac1e\right).
+$$
+
+:::
+
+
+
+:::example{title="极点在边界上：圆域$x^2+y^2\le2x$的面积"}
+
+把$x^2+y^2=2x$配方得$(x-1)^2+y^2=1$，这是圆心在$(1,0)$、半径为$1$的圆。代入$x=r\cos\theta$、$y=r\sin\theta$，边界化为$r^2=2r\cos\theta$，即$r=2\cos\theta$。极点在圆周上，$\theta$取$-\dfrac\pi2$到$\dfrac\pi2$，$r$从$0$到$2\cos\theta$，所以
+
+$$
+A=\int_{-\pi/2}^{\pi/2}\left[\int_0^{2\cos\theta}r\,\mathrm dr\right]\mathrm d\theta
+=\int_{-\pi/2}^{\pi/2}2\cos^2\theta\,\mathrm d\theta
+=2\cdot\frac\pi2=\pi .
+$$
+
+:::
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PolarAreaDemo />
+
+## 练习
+
+::problems{#polar-double-integral}
+
+1. ::question{#polar-element}
+
+   极坐标下二重积分的面积元素是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $r\,\mathrm dr\,\mathrm d\theta$
+   - :option[B]{#b} $\mathrm dr\,\mathrm d\theta$
+   - :option[C]{#c} $r^2\,\mathrm dr\,\mathrm d\theta$
+   - :option[D]{#d} $\dfrac1r\,\mathrm dr\,\mathrm d\theta$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   变换的雅可比行列式等于$r$，所以$\mathrm d\sigma=r\,\mathrm dr\,\mathrm d\theta$。
+   :::
+
+
+
+2. ::question{#polar-region}
+
+   圆域$D:x^2+y^2\le2x$的极坐标表示是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $-\dfrac\pi2\le\theta\le\dfrac\pi2$，$0\le r\le2\cos\theta$
+   - :option[B]{#b} $0\le\theta\le2\pi$，$0\le r\le2$
+   - :option[C]{#c} $0\le\theta\le\pi$，$0\le r\le2\sin\theta$
+   - :option[D]{#d} $0\le\theta\le\dfrac\pi2$，$0\le r\le2\cos\theta$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   代入$x=r\cos\theta$、$y=r\sin\theta$得$r\le2\cos\theta$。$r\ge0$要求$\cos\theta\ge0$，即$-\dfrac\pi2\le\theta\le\dfrac\pi2$，这一段覆盖整个圆。
+   :::

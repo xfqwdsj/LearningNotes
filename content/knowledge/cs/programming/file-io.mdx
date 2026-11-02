@@ -1,0 +1,351 @@
+---
+title: Python与C的文件操作
+description: 对照Python的open文件对象与C的stdio流，说明打开与关闭、读写、定位，以及两套接口在错误处理和文本解码上的差异。
+---
+
+import FilePositionDemo from "@/demos/file-position-demo";
+
+程序读写持久化数据要经过操作系统提供的文件接口。Python在`open()`之上封装了文件对象，C用标准库`<stdio.h>`的流和`FILE *`指针。两套接口解决同一个问题，但打开失败、关闭时机、文本解码和定位方式都不同。本页按“打开、读写、定位、关闭”的顺序逐项对照。模式规则分别见[Python文件打开模式](/knowledge/cs/programming/python/file-open-modes/)和[C文件流的打开模式](/knowledge/cs/programming/c/file-open-modes/)，二者最终都通过系统调用进入内核，系统调用层见[系统调用](/knowledge/cs/operating-systems/system-call/)。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### Python的文件对象
+
+`open(file, mode="r")`返回一个文件对象，`mode`中含`b`时是二进制文件对象，否则是文本文件对象。对象内部保存打开的文件描述符、缓冲区、当前位置和解码器，后续的读取、写入、定位都作用在这个对象上。
+
+```python
+f = open("data.txt", "r")
+text = f.read()
+f.close()
+```
+
+文本模式返回`str`，二进制模式返回`bytes`。文本模式的编码由`encoding`参数决定，省略时使用平台相关的默认编码。
+
+### C的流与FILE指针
+
+C把文件抽象成**流**：一个有序的字节序列，附带缓冲区、当前位置、错误指示器和文件结束标志。`FILE`是保存这些状态的结构体，程序拿到的始终是`FILE *`类型的**文件指针**。
+
+```c
+FILE *fopen(const char *filename, const char *mode);
+int fclose(FILE *stream);
+```
+
+`fopen`成功时返回文件指针，失败时返回`NULL`；`fclose`成功返回0，失败返回`EOF`。
+
+> [!NOTE]
+> `FILE`的成员由具体实现决定，C标准只规定库函数的行为。代码不要直接读写结构体成员，一律通过`fgetc`、`fprintf`、`fseek`等函数操作流，否则换一个编译器或平台就会失效。
+
+### 关闭文件
+
+关闭动作把缓冲区里尚未写出的数据刷到设备，并释放文件描述符。Python的`close()`和C的`fclose()`都承担这件事，区别在于语言是否替你保证调用：
+
+- **Python**：用`with open(...) as f:`时，离开代码块会自动调用`close()`，即使块内抛出异常也会执行。手写的`f.close()`在异常路径上容易被跳过。
+- **C**：没有语言级的自动关闭，必须显式`fclose()`。进程正常退出时标准库会刷新并关闭仍打开的流，但依赖这一点会掩盖错误，长期运行的程序还可能耗尽文件描述符。
+
+## 读写与定位
+
+::section{#properties slot="knowledge.properties"}
+
+### Python的读取与写入
+
+| 操作 | 行为 |
+| :--- | :--- |
+| `read(size=-1)` | 读取至多`size`个字符（文本）或字节（二进制），省略时读到文件末尾。 |
+| `readline(size=-1)` | 读取一行，返回的字符串保留行尾换行符；最后一行没有换行符时原样返回。 |
+| `readlines(hint=-1)` | 一次读完，返回由各行组成的列表。 |
+| `write(s)` | 写入字符串或字节，返回写入的字符数；不会自动补换行符。 |
+
+文件对象本身可以迭代，`for line in f:`逐行读取，比`readlines()`更省内存：后者会把整个文件装进列表。
+
+### C的读写
+
+C的stdio按处理单位分成几层，各有对应的函数：
+
+| 层次 | 读 | 写 | 典型用途 |
+| :--- | :--- | :--- | :--- |
+| 字符 | `fgetc(stream)` | `fputc(c, stream)` | 逐字符处理 |
+| 行 | `fgets(s, n, stream)` | `fputs(s, stream)` | 按行处理文本，不解析格式 |
+| 格式化 | `fscanf(stream, format, ...)` | `fprintf(stream, format, ...)` | 字段格式已知的结构化文本 |
+| 块 | `fread(ptr, size, nmemb, stream)` | `fwrite(ptr, size, nmemb, stream)` | 二进制数据、结构体数组 |
+
+几个容易误读的返回值：
+
+- `fscanf`返回成功赋值的输入项个数，不是读到的字节数。`fscanf(fp, "%d %s", &id, name)`成功读到两个字段时返回2。
+- `fread`和`fwrite`返回成功读写的**元素个数**，每个元素占`size`字节。只有返回值等于`nmemb`才算完整成功，返回0可能表示读到末尾，也可能表示出错。
+
+### 定位
+
+Python用`tell()`取当前位置，用`seek(offset, whence=0)`移动，`whence`取0、1、2表示相对文件开头、当前位置和文件末尾。文本模式下的`offset`不是可靠的字节偏移，而是编码器给出的位置值；可靠的做法是只使用0、`tell()`的返回值和文件末尾。要按字节精确定位，改用二进制模式。
+
+C用`ftell(fp)`取位置，用`fseek(fp, offset, whence)`移动，`whence`取`SEEK_SET`、`SEEK_CUR`、`SEEK_END`。`rewind(fp)`等价于移到文件开头并清除文件结束标志。`fseek`成功返回0，失败返回非0。
+
+两种接口都带缓冲，写到文件的数据可能还留在内存里。需要将语言库中的输出缓冲交给底层文件接口时，Python调用`flush()`，C调用`fflush(fp)`；关闭文件也会尝试刷新缓冲区。刷新库缓冲并不保证数据已经持久写入存储介质。
+
+### 一次读写操作的顺序
+
+:::steps
+
+1. **打开并检查结果**
+
+   Python把打开放在`with`里，失败时直接抛出异常；C判断`fopen`是否返回`NULL`，失败时读取`errno`再决定退出还是重试。
+
+2. **确定起始位置**
+
+   新打开的文件按模式决定起点。要从头读刚写过的内容，用`seek(0)`或`rewind`回到开头。
+
+3. **读写并检查数量**
+
+   Python按字符或字节计数，短读要自己循环补足；C检查`fread`、`fwrite`的返回值是否等于`nmemb`，用`feof`与`ferror`区分读到末尾和出错。
+
+4. **刷新并关闭**
+
+   需要刷新输出缓冲时先`flush()`或`fflush()`，再关闭文件。Python的`with`在退出时自动完成关闭，C必须显式`fclose()`并检查返回值。
+
+:::
+
+### 两种接口的差异
+
+| 维度 | Python | C |
+| :--- | :--- | :--- |
+| 打开结果 | 文件对象 | `FILE *` |
+| 打开失败 | 抛出`OSError`的子类，如`FileNotFoundError` | 返回`NULL`，原因记录在`errno` |
+| 关闭 | `close()`或`with` | `fclose()`，手动调用 |
+| 文本处理 | 按`encoding`解码和编码 | 只做换行转换，不处理字符编码 |
+| 读写单位 | 字符、行、整块等高层方法 | 字符、行、格式化、块四层函数 |
+| 定位 | `tell()` / `seek()` | `ftell()` / `fseek()` |
+| 错误检查 | 异常 | 返回值、`feof()`、`ferror()` |
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="Python：逐行读取文件"}
+
+```python title="read.py"
+f = open("./Task1.txt", "r")
+fls = f.readlines()
+for line in fls:
+    line = line.strip()
+    print(line)
+f.close()
+```
+
+`readlines()`一次读出所有行，`strip()`去掉两端空白后再打印。这段代码依赖末尾的`f.close()`释放文件。
+
+:::
+
+:::example{title="Python：用上下文管理器保证关闭"}
+
+```python title="read_with.py"
+with open("./Task1.txt", "r") as f:
+    fls = f.readlines()
+    for line in fls:
+        line = line.strip()
+        print(line)
+```
+
+逻辑和上例相同，但离开`with`块时无论是否发生异常都会关闭文件，不需要手写`close()`。
+
+:::
+
+:::example{title="Python：读取后计算并写回"}
+
+```python title="update.py"
+f = open("./Task1.txt", "r+")
+fls = f.readlines()
+for line in fls:
+    line = line.strip()
+    lstr = line.split()
+    if lstr[0] == "3":
+        res = 0
+        for e in lstr[1:]:
+            res += int(e)
+f.write("\n4 " + str(res))
+f.close()
+```
+
+文件以`"r+"`打开，可以读也可以写。`readlines()`读完后位置已经在文件末尾，所以后面的`write`是追加，而不是覆盖开头的内容。
+
+> [!WARNING]
+> 这段代码有两个边界没有处理。空行经`strip()`后`split()`得到空列表，`lstr[0]`会抛`IndexError`；如果没有任何一行的第一个字段是`3`，`res`从未赋值，`write`时抛`NameError`。实际使用时先初始化`res`，并在取`lstr[0]`前判断列表非空。
+
+:::
+
+:::example{title="C：写入后回读"}
+
+```c title="scores.c"
+#include <stdio.h>
+
+int main(void) {
+    FILE *fp = fopen("scores.txt", "w+");
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+
+    fprintf(fp, "%d %s\n", 1, "Alice");
+    rewind(fp);
+
+    int id;
+    char name[32];
+    if (fscanf(fp, "%d %31s", &id, name) == 2) {
+        printf("%d %s\n", id, name);
+    }
+
+    fclose(fp);
+    return 0;
+}
+```
+
+`"w+"`先截断再以读写方式打开；写入后必须`rewind`把位置移回开头，才能读到刚写的内容。`fopen`的返回值先判空，`fclose`放在最后释放流。格式化读入字符串时用`%31s`限定宽度，避免超出`name`的容量。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<FilePositionDemo />
+
+## 练习
+
+::problems{#file-io-practice}
+
+1. ::question{#default-mode}
+
+   `open("data.txt")`等价于下列哪种写法？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `open("data.txt", "w")`
+   - :option[B]{#b} `open("data.txt", "rt")`
+   - :option[C]{#c} `open("data.txt", "rb")`
+   - :option[D]{#d} `open("data.txt", "a")`
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   默认模式是`"r"`，即只读文本模式，等价于`"rt"`。
+   :::
+
+2. ::question{#readlines-count}
+
+   文件`data.txt`恰好有两行。`len(open("data.txt").readlines())`的值是:blank{#count type="number"}。
+
+   :::reference
+   ::correct{blank="count" value="2"}
+
+   `readlines()`为每一行返回一个列表元素，两行就是两个元素，元素中的字符串保留行尾换行符。
+   :::
+
+3. ::question{#w-plus}
+
+   `"w"`与`"w+"`的区别是什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `"w+"`可以读取，`"w"`只能写入
+   - :option[B]{#b} `"w+"`追加内容，`"w"`清空内容
+   - :option[C]{#c} `"w+"`不创建文件，`"w"`创建文件
+   - :option[D]{#d} 两者完全相同
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   两种模式都会清空已有文件、在文件不存在时创建；`+`只增加读取能力。
+   :::
+
+4. ::question{#fopen-failure}
+
+   C的`fopen`打开失败时返回什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `EOF`
+   - :option[B]{#b} `0`
+   - :option[C]{#c} `NULL`
+   - :option[D]{#d} 一个指向空文件的指针
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   `fopen`失败返回空指针，具体原因记录在`errno`中，可以用`perror`打印。`EOF`是`fclose`失败等场景的返回值。
+   :::
+
+5. ::question{#c-position}
+
+   关于C的文件定位与状态判断，哪些叙述正确？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} `rewind(fp)`把位置移回文件开头
+   - :option[B]{#b} `fseek`可以用`SEEK_END`相对文件末尾定位
+   - :option[C]{#c} `ftell(fp)`返回的是已读写的元素个数
+   - :option[D]{#d} `feof(fp)`用来判断上一次读操作是否遇到了文件末尾
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   `ftell`返回当前位置指示值，不是元素个数；文本流的位置值不应一概当作字节偏移。元素个数是`fread`、`fwrite`的返回值。
+   :::
+
+6. ::question{#fread-return}
+
+   `fread(ptr, size, nmemb, stream)`的返回值表示什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 实际读到的字节数
+   - :option[B]{#b} 成功读到的元素个数
+   - :option[C]{#c} 成功返回0，失败返回`EOF`
+   - :option[D]{#d} 文件中剩余的元素个数
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   返回值以元素为单位，元素大小由`size`指定。只有返回值等于`nmemb`才表示完整读到了请求的数量。
+   :::
+
+7. ::question{#with-purpose}
+
+   Python中`with open(...) as f:`的主要作用是什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 自动加锁，防止其他进程写同一文件
+   - :option[B]{#b} 离开代码块时关闭文件，异常路径也会执行
+   - :option[C]{#c} 自动把文件内容读入内存
+   - :option[D]{#d} 自动创建不存在的文件
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   `with`保证退出代码块时调用`close()`，包括因异常退出的情况；它不加锁，也不负责读取或创建文件。
+   :::
+
+8. ::question{#text-binary}
+
+   关于两套接口的文本与二进制处理，哪些叙述正确？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} Python文本模式按`encoding`解码字节
+   - :option[B]{#b} Python二进制模式的读写对象是`bytes`
+   - :option[C]{#c} C的`"rb"`在Windows上不做换行转换
+   - :option[D]{#d} Python文本模式可以直接写入`bytes`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   文本模式要求写入`str`，写`bytes`会抛`TypeError`；需要按字节读写时应显式使用二进制模式。
+   :::

@@ -1,0 +1,321 @@
+---
+title: 分部积分法
+description: 由乘积求导法则导出分部积分公式，说明选择$u$与$\mathrm{d}v$的原则，并处理常见的乘积型被积函数。
+---
+
+import PartsBoundaryDemo from "@/demos/parts-boundary-demo";
+
+## 公式
+
+::section{#formula slot="knowledge.definition"}
+
+设$u=u(x)$与$v=v(x)$都在区间$I$上可导。由乘积的求导法则
+
+$$
+[u(x)v(x)]'=u'(x)v(x)+u(x)v'(x),
+$$
+
+移项并在两边求不定积分，得到**分部积分公式**
+
+$$
+\int u(x)\,\mathrm{d}v(x)=u(x)v(x)-\int v(x)\,\mathrm{d}u(x),
+$$
+
+写成展开形式为
+
+$$
+\int u(x)v'(x)\,\mathrm{d}x
+=u(x)v(x)-\int u'(x)v(x)\,\mathrm{d}x.
+$$
+
+公式把积分$\int u\,\mathrm{d}v$换成了积分$\int v\,\mathrm{d}u$，所以它并不直接算出结果，而是把问题转成另一个积分。只有当新的积分更容易求时，这个替换才有意义——这正是选择$u$与$\mathrm{d}v$时要争取的效果。
+
+{/* more */}
+
+### 使用条件
+
+公式要求$u$、$v$可导，且右端的$\int v\,\mathrm{d}u$存在。求$v$时任取$\mathrm{d}v$的一个原函数即可：不同的原函数只差一个常数，这个常数只会改变最终结果中的常数项，不影响积分能否求出。
+
+## 推导
+
+::section{#derivation slot="knowledge.proof"}
+
+对乘积$u(x)v(x)$用乘积求导法则：
+
+$$
+[u(x)v(x)]'=u'(x)v(x)+u(x)v'(x).
+$$
+
+把$u(x)v'(x)$留在一边，其余项移到另一边：
+
+$$
+u(x)v'(x)=[u(x)v(x)]'-u'(x)v(x).
+$$
+
+两边对$x$积分。左边是$u(x)v'(x)$的原函数，右边第一项是$u(x)v(x)$，第二项则写成$-\int u'(x)v(x)\,\mathrm{d}x$：
+
+$$
+\int u(x)v'(x)\,\mathrm{d}x
+=u(x)v(x)-\int u'(x)v(x)\,\mathrm{d}x.
+$$
+
+写成微分形式就是$\int u\,\mathrm{d}v=uv-\int v\,\mathrm{d}u$。推导只用到了乘积求导法则和积分的线性性质，没有对$u$、$v$的形状作额外要求。
+
+## 选择$u$与$\mathrm{d}v$
+
+::section{#choice slot="knowledge.properties"}
+
+分组是否恰当决定分部积分能否奏效。理想的选择要同时满足两点：
+
+1. **$u$求导后更简单。** 幂函数求导降次，对数函数与反三角函数求导后化为有理函数，求导能使复杂因子消失。
+2. **$\mathrm{d}v$容易积分。** 要能立刻写出$v=\int \mathrm{d}v$，例如指数函数、正弦、余弦。
+
+这两条常常互相冲突：对数函数求导变简单却不容易积分，指数函数恰好相反。口诀就是用来打破僵局的。
+
+### 口诀“反对幂三指”
+
+在一个乘积中，按下列顺序从高到低排列，排在最前的函数取作$u$，其余部分连同$\mathrm{d}x$一起作为$\mathrm{d}v$。
+
+| 顺序 | 类型 | 典型函数 | 处理 |
+| :--- | :--- | :--- | :--- |
+| 反 | 反三角函数 | $\arctan x$，$\arcsin x$ | 取作$u$ |
+| 对 | 对数函数 | $\ln x$ | 取作$u$ |
+| 幂 | 幂函数 | $x^n$，$\dfrac{1}{x^n}$ | 通常取作$u$ |
+| 三 | 三角函数 | $\sin x$，$\cos x$ | 通常取作$\mathrm{d}v$ |
+| 指 | 指数函数 | $e^{ax}$，$a^x$ | 取作$\mathrm{d}v$ |
+
+例如$\int x\ln x\,\mathrm{d}x$中，“对”优先于“幂”，所以取$u=\ln x$、$\mathrm{d}v=x\,\mathrm{d}x$；$\int x^2e^x\,\mathrm{d}x$中，“幂”优先于“指”，所以取$u=x^2$、$\mathrm{d}v=e^x\,\mathrm{d}x$。
+
+> [!TIP]
+> 单独出现的$\ln x$或$\arctan x$也可以分部积分：把它看成$\ln x\cdot 1$或$\arctan x\cdot 1$，取$\mathrm{d}v=\mathrm{d}x$，于是$v=x$。
+
+### 三类常见形态
+
+- **对数或反三角乘幂函数**：一次分部就把$u$化成有理函数，剩下的积分用凑微分处理。
+- **幂函数乘指数或三角函数**：每分部一次幂函数的次数降低一次，$x^n$需要连续做$n$次，直到幂函数变成常数。
+- **指数函数乘三角函数**：降次行不通，两次分部后右端重新出现原积分，于是把原积分当作未知量，解一次方程。
+
+> [!WARNING]
+> 循环型两次分部必须坚持同一类函数作$u$。第一次取三角函数，第二次仍取三角函数；两次都取指数函数也可以。中途换类会把原积分原样搬回来，得不到关于$I$的方程。
+
+### 定积分的分部积分
+
+设$u(x)$、$v(x)$在$[a,b]$上具有连续导数，则
+
+$$
+\int_a^b u(x)v'(x)\,\mathrm{d}x=[u(x)v(x)]_a^b-\int_a^b v(x)u'(x)\,\mathrm{d}x,
+$$
+
+简写为
+
+$$
+\int_a^b u\,\mathrm{d}v=[uv]_a^b-\int_a^b v\,\mathrm{d}u.
+$$
+
+:::steps
+
+1. **选取$u$与$\mathrm{d}v$**
+
+   把被积表达式看成两类函数的乘积。优先选择求导后会简化的因子作$u$，其余部分连同$\mathrm{d}x$作为$\mathrm{d}v$；口诀只能作为选取的提示。
+
+2. **求$v$与$\mathrm{d}u$**
+
+   对$\mathrm{d}v$积分得$v$，对$u$求导得$\mathrm{d}u$。$v$只取一个原函数，不加任意常数。
+
+3. **代入公式**
+
+   先算边界项$[uv]_a^b$，再处理$\int_a^b v\,\mathrm{d}u$。边界项必须在这一步就代入上下限，不能留到最后。
+
+:::
+
+
+
+> [!WARNING]
+> 反常积分应先在有限区间分部积分，再分别检查边界项与余下积分的极限。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$\int x\ln x\,\mathrm{d}x$"}
+
+“对”优先于“幂”，取$u=\ln x$，$\mathrm{d}v=x\,\mathrm{d}x$。于是
+
+$$
+\mathrm{d}u=\frac{1}{x}\,\mathrm{d}x,\qquad v=\frac{1}{2}x^2.
+$$
+
+代入公式：
+
+$$
+\begin{aligned}
+\int x\ln x\,\mathrm{d}x
+&=\frac{1}{2}x^2\ln x-\int \frac{1}{2}x^2\cdot\frac{1}{x}\,\mathrm{d}x\\
+&=\frac{1}{2}x^2\ln x-\frac{1}{4}x^2+C.
+\end{aligned}
+$$
+
+:::
+
+:::example{title="$\int \arctan x\,\mathrm{d}x$"}
+
+$\arctan x$单独出现，按$\arctan x\cdot 1$处理，取$u=\arctan x$，$\mathrm{d}v=\mathrm{d}x$。于是
+
+$$
+\mathrm{d}u=\frac{1}{1+x^2}\,\mathrm{d}x,\qquad v=x,
+$$
+
+$$
+\int \arctan x\,\mathrm{d}x
+=x\arctan x-\int\frac{x}{1+x^2}\,\mathrm{d}x.
+$$
+
+剩下的积分用凑微分：$\dfrac{x}{1+x^2}\,\mathrm{d}x=\dfrac{1}{2}\,\mathrm{d}\ln(1+x^2)$，所以
+
+$$
+\int \arctan x\,\mathrm{d}x
+=x\arctan x-\frac{1}{2}\ln(1+x^2)+C.
+$$
+
+:::
+
+:::example{title="$\int x^2e^x\,\mathrm{d}x$"}
+
+“幂”优先于“指”，取$u=x^2$，$\mathrm{d}v=e^x\,\mathrm{d}x$，则$v=e^x$，$\mathrm{d}u=2x\,\mathrm{d}x$：
+
+$$
+\int x^2e^x\,\mathrm{d}x=x^2e^x-2\int xe^x\,\mathrm{d}x.
+$$
+
+右端的$\int xe^x\,\mathrm{d}x$再分部一次，取$u=x$，$\mathrm{d}v=e^x\,\mathrm{d}x$：
+
+$$
+\int xe^x\,\mathrm{d}x=xe^x-\int e^x\,\mathrm{d}x=(x-1)e^x.
+$$
+
+代回：
+
+$$
+\int x^2e^x\,\mathrm{d}x
+=x^2e^x-2(x-1)e^x+C
+=e^x(x^2-2x+2)+C.
+$$
+
+幂函数的次数每分部一次降低一次，$x^2$因此需要两次。
+
+:::
+
+:::example{title="$I=\int e^x\sin x\,\mathrm{d}x$"}
+
+两次都取三角函数作$u$。第一次取$u=\sin x$，$\mathrm{d}v=e^x\,\mathrm{d}x$：
+
+$$
+I=e^x\sin x-\int e^x\cos x\,\mathrm{d}x.
+$$
+
+对右端的积分再分部，仍取三角函数作$u$，即$u=\cos x$，$\mathrm{d}v=e^x\,\mathrm{d}x$：
+
+$$
+\int e^x\cos x\,\mathrm{d}x
+=e^x\cos x-\int e^x(-\sin x)\,\mathrm{d}x
+=e^x\cos x+I.
+$$
+
+代回原式，右端重新出现了$I$：
+
+$$
+I=e^x\sin x-\left(e^x\cos x+I\right).
+$$
+
+移项解方程：
+
+$$
+2I=e^x(\sin x-\cos x),\qquad
+I=\frac{1}{2}e^x(\sin x-\cos x)+C.
+$$
+
+:::
+
+:::example{title="分部积分：$\displaystyle\int_0^1xe^x\,\mathrm{d}x$"}
+
+取$u=x$，$\mathrm{d}v=e^x\,\mathrm{d}x$，则$\mathrm{d}u=\mathrm{d}x$，$v=e^x$，所以
+
+$$
+\int_0^1xe^x\,\mathrm{d}x
+=[xe^x]_0^1-\int_0^1e^x\,\mathrm{d}x
+=e-(e-1)=1.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PartsBoundaryDemo />
+
+## 练习
+
+::problems{#integration-by-parts-check}
+
+1. ::question{#power-exp}
+
+   $\int xe^x\,\mathrm{d}x$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $(x-1)e^x+C$
+   - :option[B]{#b} $(x+1)e^x+C$
+   - :option[C]{#c} $xe^x+C$
+   - :option[D]{#d} $\frac{1}{2}x^2e^x+C$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   取$u=x$，$\mathrm{d}v=e^x\,\mathrm{d}x$，则$v=e^x$，$\mathrm{d}u=\mathrm{d}x$。于是$\int xe^x\,\mathrm{d}x=xe^x-\int e^x\,\mathrm{d}x=(x-1)e^x+C$。
+   :::
+
+2. ::question{#log}
+
+   $\int\ln x\,\mathrm{d}x$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $x\ln x-x+C$
+   - :option[B]{#b} $x\ln x+x+C$
+   - :option[C]{#c} $\frac{1}{2}(\ln x)^2+C$
+   - :option[D]{#d} $x\ln x-\frac{1}{2}x^2+C$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   把$\ln x$看成$\ln x\cdot 1$，取$u=\ln x$，$\mathrm{d}v=\mathrm{d}x$，得$\int\ln x\,\mathrm{d}x=x\ln x-\int 1\,\mathrm{d}x=x\ln x-x+C$。
+   :::
+
+3. ::question{#arctan}
+
+   $\int\arctan x\,\mathrm{d}x$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $x\arctan x-\frac{1}{2}\ln(1+x^2)+C$
+   - :option[B]{#b} $x\arctan x+\frac{1}{2}\ln(1+x^2)+C$
+   - :option[C]{#c} $\frac{1}{2}(\arctan x)^2+C$
+   - :option[D]{#d} $x\arctan x-\ln(1+x^2)+C$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   取$u=\arctan x$，$\mathrm{d}v=\mathrm{d}x$，则$v=x$，$\mathrm{d}u=\frac{\mathrm{d}x}{1+x^2}$。剩下的$\int\frac{x}{1+x^2}\,\mathrm{d}x=\frac{1}{2}\ln(1+x^2)$。
+   :::
+
+4. ::question{#definite}
+
+   $\int_0^1 xe^x\,\mathrm{d}x=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   由$(x-1)e^x$是$xe^x$的一个原函数，代入上下限：$(1-1)e^1-(0-1)e^0=0+1=1$。
+   :::

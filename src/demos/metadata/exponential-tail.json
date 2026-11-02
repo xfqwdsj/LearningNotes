@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "等待时间超过阈值的概率怎样变化？",
+      "description": "改变指数分布的速率和等待时间，查看尾概率。",
+      "messages": {
+        "label": "指数分布的尾概率",
+        "intro": "曲线表示$P(X>t)=e^{-\\lambda t}$；调整速率和时间，读取对应的尾概率。",
+        "rate": "速率$\\lambda$",
+        "time": "等待时间$t$",
+        "diagram": "尾概率为{value}",
+        "result": "$P(X>t)={value}$。"
+      },
+      "tags": ["概率论", "指数分布"]
+    }
+  }
+}

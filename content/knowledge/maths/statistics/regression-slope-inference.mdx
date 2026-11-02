@@ -1,0 +1,49 @@
+---
+title: 一元回归斜率的推断
+description: 在正态误差模型下构造斜率区间并检验斜率。
+---
+
+import RegressionSlopeInferenceDemo from "@/demos/regression-slope-inference-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+在[一元线性回归](/knowledge/maths/statistics/simple-linear-regression/)中，设$n>2$、$L_{xx}=\sum_i(x_i-\bar x)^2>0$，$s^2=SSE/(n-2)$，且误差独立同分布为正态，$s>0$。
+
+以下结论都在正态误差模型下成立；$t$分布与上侧分位点的定义见[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。估计量的方差为
+
+$$
+D(\hat\beta_1)=\frac{\sigma^2}{L_{xx}},\qquad
+D(\hat\beta_0)=\sigma^2\left(\frac1n+\frac{\bar x^2}{L_{xx}}\right).
+$$
+
+用$s^2$代替$\sigma^2$后，斜率的$1-\alpha$置信区间为
+
+$$
+\hat\beta_1\pm t_{\alpha/2}(n-2)\frac{s}{\sqrt{L_{xx}}},
+$$
+
+其中$s=\sqrt{s^2}$，$t_{\alpha/2}(n-2)$是自由度为$n-2$的$t$分布上侧$\alpha/2$分位点。
+
+检验$H_0:\beta_1=\beta_{1,0}$时，使用统计量
+
+$$
+T=\frac{\hat\beta_1-\beta_{1,0}}{s/\sqrt{L_{xx}}}\sim t(n-2),
+$$
+
+双侧拒绝域为$|T|>t_{\alpha/2}(n-2)$。
+
+对$H_0:\beta_1=0$，也可以用
+
+$$
+F=\frac{SSR}{SSE/(n-2)}\sim F(1,n-2),
+$$
+
+并且$F=T^2$。对同一个原假设，单侧$F$检验与双侧$t$检验给出相同的结论。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<RegressionSlopeInferenceDemo />

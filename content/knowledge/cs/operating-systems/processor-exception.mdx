@@ -1,0 +1,68 @@
+---
+title: 处理器异常
+description: 区分由指令执行同步触发的异常及其可能的处理结果。
+---
+
+import ExceptionCasesDemo from "@/demos/exception-cases-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+处理器异常通常由当前指令执行时的条件同步触发，例如缺页、整数除零或无效指令。异常会把控制交给处理程序；是否能继续执行取决于异常原因、体系结构与操作系统的处理方式。
+
+异常与[硬件中断](/knowledge/cs/operating-systems/hardware-interrupt/)的区别在于触发关系：前者通常与当前指令同步，后者通常是设备或定时器发出的异步请求。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+在常见的x86分类中，故障可在处理后重新执行引发它的指令；陷阱通常报告已执行指令后的状态；终止类异常通常不保证能继续执行。具体返回位置和能否恢复仍需看异常类型和系统处理，不能仅凭名称断定某个进程一定结束。
+
+缺页不一定表示必须从磁盘读取：有效地址可能需要建立映射或准备页面，也可能是无法满足的访问。除零通常不能通过原样重试解决。系统调用是应用主动请求内核服务的受控入口；不同体系结构的系统调用指令和异常分类并不完全相同。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+比较可处理的缺页与除零，注意实际结果取决于异常原因和系统处理。
+
+<ExceptionCasesDemo />
+
+## 练习
+
+::problems{#processor-exception-practice}
+
+1. ::question{#divide-zero}
+
+   程序执行`x / 0`触发的除零事件属于哪一类？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 异步硬件中断
+   - :option[B]{#b} 同步异常
+   - :option[C]{#c} 系统调用
+   - :option[D]{#d} 时钟中断
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   除零由当前指令触发，属于同步异常中的故障。
+   :::
+
+2. ::question{#page-fault}
+
+   缺页异常发生后，假设缺页可以被操作系统处理，页面准备好后通常会？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 终止进程
+   - :option[B]{#b} 重新执行触发缺页的指令
+   - :option[C]{#c} 返回到上一条指令
+   - :option[D]{#d} 关闭中断
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   可处理的缺页属于故障，页面准备好后可以重新执行触发缺页的指令。
+   :::

@@ -1,0 +1,53 @@
+---
+title: 嵌套回归模型的比较
+description: 比较约束模型与完整模型的残差平方和。
+---
+
+import NestedRegressionDemo from "@/demos/nested-regression-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+考虑含截距的[多元线性回归](/knowledge/maths/statistics/multiple-linear-regression/)：有$n$个观测与$p$个斜率，设计矩阵满列秩，$n>p+1$。假定误差相互独立且服从$N(0,\sigma^2)$，记误差方差估计为$s^2=SSE/(n-p-1)$，并采用[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+设完整模型含$p$个斜率，约束模型是它的特例，对完整模型施加了$q$个独立约束。例如完整模型含$x_1,x_2,x_3$，约束模型删去$x_3$，则$q=1$。
+
+记约束模型与完整模型的残差平方和分别为$SSE_R$与$SSE_F$。在约束成立（即$H_0$）且正态误差下，
+
+$$
+F=\frac{(SSE_R-SSE_F)/q}{SSE_F/(n-p-1)}\sim F(q,n-p-1).
+$$
+
+$F$值较大时拒绝约束，认为被约束的系数提供了显著的解释能力。
+
+比较的两个模型必须使用同一批观测，并且约束模型确实嵌套在完整模型中。增加解释变量后$SSE$不会增大，$R^2$也不会减小，所以不能只看$R^2$变大就断定新模型更好；嵌套$F$检验把新增参数消耗的自由度也计入了比较。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<NestedRegressionDemo />
+
+## 练习
+
+::problems{#nested-regression-comparison}
+
+1. ::question{#nested}
+
+   在嵌套模型比较中，下列说法正确的是
+
+   :::choices{#choice-nested mode="multiple"}
+   - :option[A]{#a} 两个模型必须使用同一批观测
+   - :option[B]{#b} 约束模型必须是完整模型的特例
+   - :option[C]{#c} 完整模型的$SSE$不会大于约束模型的$SSE$
+   - :option[D]{#d} 只要完整模型的$R^2$更大，就必须拒绝约束模型
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="c"}
+
+   嵌套检验要求同一批观测和真正的嵌套关系；增加变量后$SSE$不增。$R^2$变大不足以拒绝约束模型，还要看新增参数是否显著。
+   :::

@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "线性近似与真实变化有多接近？",
+      "description": "在4附近用微分近似平方根。",
+      "messages": {
+        "label": "微分近似",
+        "intro": "对$f(x)=\\sqrt{x}$，在$x=4$处用$\\sqrt{4+\\Delta x}\\approx2+\\Delta x/4$。虚线是展开点的切线，实线是函数曲线；两个点之间的竖线显示线性近似与真实值的差。",
+        "dx": "增量$\\Delta x$",
+        "approx": "线性近似值",
+        "exact": "函数值",
+        "result": "近似值减去函数值约为{error}；靠近展开点时误差趋于零。"
+      },
+      "tags": ["导数", "微分"]
+    }
+  }
+}

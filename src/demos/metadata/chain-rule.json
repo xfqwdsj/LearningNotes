@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "复合函数的变化率如何相乘？",
+      "description": "分解sin(x²) 的内层和外层变化率。",
+      "messages": {
+        "label": "链式法则",
+        "intro": "令$u=x^2$，$y=\\sin u$。曲线是复合函数$y=\\sin(x^2)$，实心点标出当前$x$，切线斜率由内层变化率与外层变化率相乘得到。",
+        "x": "$x$的取值",
+        "result": "$\\mathrm dy/\\mathrm dx=(\\mathrm dy/\\mathrm du)(\\mathrm du/\\mathrm dx)$，此处约为{value}。"
+      },
+      "tags": ["导数", "链式法则"]
+    }
+  }
+}

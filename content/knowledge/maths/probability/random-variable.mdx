@@ -1,0 +1,36 @@
+---
+title: 随机变量
+description: 将随机试验的样本点映射为实数，用数值描述随机结果。
+---
+
+import RandomVariableMappingDemo from "@/demos/random-variable-mapping-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设随机试验的样本空间为$\Omega$。**随机变量** $X$将每个样本点$\omega$映射为一个实数$X(\omega)$，并且对每个实数$x$，集合$\{\omega:X(\omega)\le x\}$都是事件，因此可以计算其概率。
+
+随机变量是函数，$X(\omega)$是一次结果对应的数值；同一个随机变量在不同试验结果下可以取不同值。每个结果必须有确定的对应值，但不同结果可以映射为同一个数。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="两次掷硬币的正面次数"}
+
+设样本空间为$\{正正,正反,反正,反反\}$，令$X$为正面的次数。则$X(正正)=2$，$X(正反)=X(反正)=1$，$X(反反)=0$。两个不同样本点可以对应同一个$X$值。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+将骰子点数映射为一个指示变量：达到阈值时取$1$，否则取$0$。改变阈值，比较各样本点的映射结果。
+
+<RandomVariableMappingDemo />
+
+## 进一步阅读
+
+[分布函数](/knowledge/maths/probability/distribution-function/)用概率描述随机变量落在各个范围内的情况。

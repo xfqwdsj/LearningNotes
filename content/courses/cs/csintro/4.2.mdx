@@ -1,0 +1,75 @@
+---
+title: 4.2&#32;C程序设计基础
+description: 对照4.1的Python内容，按类型、输入输出、指针与预处理四条线整理C的阅读入口、课程约定与易错点。
+---
+
+## 阅读入口
+
+- [C数据类型与大小](/knowledge/cs/programming/c/data-types/)
+- [C格式化输出](/knowledge/cs/programming/c/format-io/)
+- [C格式化输入](/knowledge/cs/programming/c/scanf/)
+- [C指针与数组](/knowledge/cs/programming/c/pointers-arrays/)
+- [C预处理](/knowledge/cs/programming/c/preprocessor-storage/)
+- [运算符优先级](/knowledge/cs/programming/operator-precedence/)
+
+## 类型与字节数
+
+::knowledge{path="cs/programming/c/data-types" slot="definition"}
+
+本节先给类型表，再讨论溢出与截断；题目未指定环境时按LP64取`long`为8字节，其余按表处理。
+
+## 格式串的细节
+
+::knowledge{path="cs/programming/c/format-io" slot="properties"}
+
+::knowledge{path="cs/programming/c/scanf" slot="properties"}
+
+格式串是本节最容易在选择题里失分的部分。读的时候把宽度与精度、空白符、返回值分成三组记，后面“与4.1的对应关系”再把两门语言逐项对照。
+
+## 预处理与存储类
+
+::knowledge{path="cs/programming/c/preprocessor-storage" slot="definition"}
+
+::knowledge{path="cs/programming/c/storage-classes" slot="definition"}
+
+## 学习安排
+
+本节汇总C程序中需要按考试细节核对的规则。四块内容分别回答四类问题：
+
+- 一个值占几个字节、能表示多大范围：类型、`sizeof`、溢出与截断；
+- 读进来的是什么、输出长什么样：格式串、空白符、返回值与缓冲区；
+- 地址怎么算、数组和指针是什么关系：退化、指针算术与结尾的`\0`；
+- 编译之前源码被改了什么：宏替换、头文件、条件编译与存储类。
+
+四块之间有依赖，建议按教材顺序读：先类型，它决定后面所有格式符和指针步长；再输入输出，可以立刻用上类型；然后指针，地址要按元素大小算；最后比较预处理和存储类：前者在翻译时处理源码，后者描述对象的存储期等属性。
+
+格式串和指针运算最容易在选择题里失分，留到最后复查。每块读完先合上表格手算两三个表达式，再用题集核对。
+
+## 与4.1的对应关系
+
+4.1与4.2是同一批考点的两种语言版本，可以逐项对照：Python的整数与切片对应C的定宽整数与数组下标，`str.format`与`%`对应`printf`、`scanf`的格式串，Python的优先级表对应C的15级表。
+
+差异集中在三处：整数除法与取模的符号、可变参数的类型提升、字符串用`\0`还是长度来标记结尾。做题前先确认手里是哪种语言，再套该语言的规则。
+
+## 课程约定
+
+- 题目没给环境时按64位平台（LP64）作答：`int` 4字节、`long` 8字节、指针8字节。同一份代码在Windows上`long`只有4字节；题目给了环境就以题目为准。
+- 整数除法按C的规则向零截断，不要沿用4.1的向下取整：`-5 / 2`是`-2`，`-5 % 2`是`-1`。
+- `scanf`读`double`用`%lf`，`printf`输出`double`用`%f`；格式符与参数类型必须配对。
+- 题中的“字符串长度”默认指`strlen`的结果，不含结尾的`\0`。
+- 运算符优先级按C的表判断，完整顺序、经典陷阱与两种语言的差异见[运算符优先级](/knowledge/cs/programming/operator-precedence/)。
+- 本节只讨论C。Python的规则见[4.1 Python程序设计基础](/courses/cs/csintro/4.1/)。
+
+## 易错点
+
+- 格式符与类型不匹配不是“输出一个奇怪的值”，而是未定义行为：整数与浮点参数走不同的传递方式，`%d`配`double`读到的是无关数据。
+- `%c`不跳过空白，读字符前要先处理上一行留下的换行。
+- 数组名作实参后退化成指针，函数里`sizeof`拿不到数组长度，长度必须另传。
+- 对`static`只记住“延长生命周期”不够：修饰文件作用域的变量或函数时，它改变的是链接，名字变成只在当前文件可见。
+- 宏展开后在纸面上补括号再计算，`SQUARE(1 + 2)`得到5而不是9。
+
+## 复习要点
+
+复习时按“声明 → 读入 → 定位 → 展开”自测一遍：先默写各类型的字节数与格式符；再手写一段`scanf`并检查返回值；然后把`*p++`、`(*p)++`、`a[i]`、`*(a+i)`各展开一次；最后用`SQUARE(1 + 2)`检查宏的括号。
+
+指针题只要把地址和值分两列写，基本不会混。

@@ -1,0 +1,22 @@
+---
+title: 传输层与端口
+description: 用传输协议和端口将主机收到的数据交给对应的应用。
+---
+
+import PortDemuxDemo from "@/demos/port-demux-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+传输层为应用进程提供端到端通信。端口号用于区分同一主机上的通信端点；协议、地址、端口及连接状态共同参与实际分用。TCP与UDP的端口空间分别处理，因此相同的数字端口不必指向同一个端点。
+
+例如网页服务常监听TCP端口$80$，客户端通常使用临时源端口连接服务；端口$80$不是所有浏览器进程自身固定使用的端口。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择目的端口，查看一个简化主机中数据可能交给的服务。
+
+<PortDemuxDemo />

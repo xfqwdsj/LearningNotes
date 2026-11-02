@@ -1,0 +1,81 @@
+---
+title: 定积分的元素法
+description: 通过分段、微元和极限构造定积分。
+---
+
+import ElementSumDemo from "@/demos/element-sum-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设量$Q$分布在区间$[a,b]$上，并且对区间**可加**：把$[a,b]$分成若干小段，各段对应的量之和等于$Q$。在$[x,x+\mathrm{d}x]$上，若$Q$的增量$\Delta Q$可近似写成
+
+$$
+\Delta Q\approx\mathrm{d}Q=f(x)\,\mathrm{d}x,
+$$
+
+其中$\mathrm{d}Q$与$\Delta Q$的误差在分段细化时受到一致控制，例如误差为一致的$o(\mathrm{d}x)$，则称$\mathrm{d}Q=f(x)\,\mathrm{d}x$为量$Q$的**积分微元**（简称微元），并且
+
+$$
+Q=\int_a^bf(x)\,\mathrm{d}x.
+$$
+
+“可加性”保证各段能累加成积分，“线性主部”与对余项的一致控制保证分段累加后的总误差趋于零。两个条件缺一不可。
+
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+:::steps
+
+1. **建立坐标系**
+
+   按问题的几何特征选自变量（$x$或$y$），确定积分区间$[a,b]$。
+
+2. **取微元**
+
+   在区间内任取小区间$[x,x+\mathrm{d}x]$，写出对应增量$\Delta Q$的近似式$\mathrm{d}Q=f(x)\,\mathrm{d}x$。$\mathrm{d}Q$必须是$\mathrm{d}x$的线性函数，$\mathrm{d}x$的高阶无穷小一律略去。
+
+3. **列积分式**
+
+   把微元在$[a,b]$上累加，写成$Q=\int_a^bf(x)\,\mathrm{d}x$。
+
+4. **计算积分**
+
+   用[牛顿–莱布尼茨公式](/knowledge/maths/integrals/newton-leibniz/)求出定积分的值。
+
+:::
+
+> [!IMPORTANT]
+> 元素法的关键是写出正确的$\mathrm{d}Q$。写完后先检查两件事：$\mathrm{d}Q$与$\Delta Q$是否只差$\mathrm{d}x$的高阶无穷小；$Q$是否真的等于各段微元之和。有一条不满足，后面的积分就没有意义。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ElementSumDemo />
+
+## 练习
+
+::problems{#element-sum-practice}
+
+1. ::question{#microelement}
+
+   关于微元与元素法，下列说法正确的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\mathrm{d}Q$与小区间上的增量$\Delta Q$只相差$\mathrm{d}x$的高阶无穷小
+   - :option[B]{#b} 元素法要求量$Q$对区间不可加
+   - :option[C]{#c} 微元可以保留$\mathrm{d}x$的高次项，不影响积分值
+   - :option[D]{#d} 只要被积函数连续，任何量都能写成定积分
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   微元是增量的线性主部，误差必须是$\mathrm{d}x$的高阶无穷小。元素法还要求量对区间可加；被积函数连续只保证定积分存在，不能保证量本身能写成积分。
+   :::

@@ -1,0 +1,21 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "$\\mu$与$\\sigma$怎样改变正态曲线？",
+      "description": "移动均值和缩放标准差，观察正态密度和区间概率。",
+      "messages": {
+        "label": "正态分布交互演示",
+        "probability": "$P={value}\\%$",
+        "intro": "曲线是$N(\\mu,\\sigma^2)$的密度。改变$\\mu$、$\\sigma$和区间倍数$z$，观察曲线形状与阴影面积。",
+        "mean": "均值$\\mu$",
+        "sigma": "标准差$\\sigma$",
+        "interval": "区间",
+        "graphLabel": "均值{mu}、标准差{sigma}的正态曲线，距离均值{z}个标准差的区间概率为{value}%",
+        "reset": "恢复标准正态",
+        "conclusion": "阴影面积为$P(\\mu-z\\sigma<X<\\mu+z\\sigma)={value}\\%$。改变$\\mu$只平移曲线，改变$\\sigma$会改变曲线的宽窄与峰值。"
+      },
+      "tags": ["概率论", "正态分布", "概率分布"]
+    }
+  }
+}

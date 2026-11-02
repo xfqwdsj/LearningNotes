@@ -1,0 +1,153 @@
+---
+title: 基本积分公式
+description: 汇总不定积分的基本公式，涵盖幂函数、指数函数、三角函数、反三角函数与常见根式，并说明积分常数和公式成立的区间。
+---
+
+## 记号与约定
+
+::section{#notation slot="knowledge.definition"}
+
+设函数$f$在区间$I$上有定义。若$F'(x)=f(x)$对$I$内每一点成立，则称$F$是$f$在$I$上的一个**原函数**。$f$的全体原函数记作
+
+$$
+\int f(x)\,\mathrm{d}x=F(x)+C,
+$$
+
+其中$C$是任意常数，称为**积分常数**。这个记号表示一个函数族：给$F$加上不同的常数，得到的仍然是$f$的原函数；反过来，同一区间上的任意两个原函数只相差一个常数。
+
+积分号中的$\mathrm{d}x$与积分号配对，说明对哪个变量积分，不是与$f(x)$相乘的因子。换用其它字母作积分变量时公式形式不变，例如$\int f(t)\,\mathrm{d}t=F(t)+C$。
+
+### 常数与适用区间
+
+- 每个公式只在被积函数有定义的区间上成立。区间不能跨越被积函数的间断点；例如$\int \frac{1}{x}\,\mathrm{d}x=\ln\lvert x\rvert+C$分别在$(-\infty,0)$和$(0,+\infty)$上成立，两段上的常数可以取不同的值。
+- 写不定积分的结果时不能漏掉$C$。需要确定某一个具体的原函数时，再用附加条件定出$C$。
+- 对结果求导可以检验公式：若右边求导后等于被积函数，公式在该区间上就成立。
+
+> [!TIP]
+> 基本积分表是求导公式的反向记录。记不清某条公式时，把右边的结果求导，看是否回到被积函数。
+
+## 公式
+
+::section{#formulas slot="knowledge.properties"}
+
+以下默认$C$为任意常数，$\alpha$为实数，$a$与$k$为常数。个别公式对$a$的范围有额外要求时写在条件栏。每一条公式都在被积函数有定义的任意区间上成立。
+
+### 基础函数
+
+这些公式是微分运算的逆运算，是积分计算的核心。
+
+| 积分 | 结果 | 条件 |
+| :--- | :--- | :--- |
+| $\int 0\,\mathrm{d}x$ | $C$ | — |
+| $\int k\,\mathrm{d}x$ | $kx+C$ | $k$为常数 |
+| $\int x^{\alpha}\,\mathrm{d}x$ | $\dfrac{x^{\alpha+1}}{\alpha+1}+C$ | $\alpha\ne-1$；在$x^{\alpha}$有定义的区间上 |
+| $\int \dfrac{1}{x}\,\mathrm{d}x$ | $\ln\lvert x\rvert+C$ | $x\ne 0$ |
+| $\int a^{x}\,\mathrm{d}x$ | $\dfrac{a^{x}}{\ln a}+C$ | $a>0$，$a\ne 1$ |
+| $\int e^{x}\,\mathrm{d}x$ | $e^{x}+C$ | — |
+
+### 三角函数
+
+| 积分 | 结果 | 条件 |
+| :--- | :--- | :--- |
+| $\int \cos x\,\mathrm{d}x$ | $\sin x+C$ | — |
+| $\int \sin x\,\mathrm{d}x$ | $-\cos x+C$ | — |
+| $\int \sec^{2}x\,\mathrm{d}x$ | $\tan x+C$ | $\cos x\ne 0$ |
+| $\int \csc^{2}x\,\mathrm{d}x$ | $-\cot x+C$ | $\sin x\ne 0$ |
+| $\int \sec x\tan x\,\mathrm{d}x$ | $\sec x+C$ | $\cos x\ne 0$ |
+| $\int \csc x\cot x\,\mathrm{d}x$ | $-\csc x+C$ | $\sin x\ne 0$ |
+
+### 常用扩展
+
+这些公式在涉及分式和三角函数时非常常用。
+
+| 积分 | 结果 | 条件 |
+| :--- | :--- | :--- |
+| $\int \tan x\,\mathrm{d}x$ | $-\ln\lvert\cos x\rvert+C$ | $\cos x\ne 0$ |
+| $\int \cot x\,\mathrm{d}x$ | $\ln\lvert\sin x\rvert+C$ | $\sin x\ne 0$ |
+| $\int \sec x\,\mathrm{d}x$ | $\ln\lvert\sec x+\tan x\rvert+C$ | $\cos x\ne 0$ |
+| $\int \csc x\,\mathrm{d}x$ | $\ln\lvert\csc x-\cot x\rvert+C$ | $\sin x\ne 0$ |
+
+### 反三角与复杂根式
+
+这些积分的结果通常用于有理分式和根式代换后的计算。
+
+| 积分 | 结果 | 条件 |
+| :--- | :--- | :--- |
+| $\int \dfrac{1}{a^{2}+x^{2}}\,\mathrm{d}x$ | $\dfrac{1}{a}\arctan\dfrac{x}{a}+C$ | $a\ne 0$ |
+| $\int \dfrac{1}{\sqrt{a^{2}-x^{2}}}\,\mathrm{d}x$ | $\arcsin\dfrac{x}{a}+C$ | $a>0$，$\lvert x\rvert<a$ |
+| $\int \dfrac{1}{\sqrt{x^{2}\pm a^{2}}}\,\mathrm{d}x$ | $\ln\left\lvert x+\sqrt{x^{2}\pm a^{2}}\right\rvert+C$ | $a\ne 0$，$x^{2}\pm a^{2}>0$ |
+| $\int \dfrac{1}{x^{2}-a^{2}}\,\mathrm{d}x$ | $\dfrac{1}{2a}\ln\left\lvert\dfrac{x-a}{x+a}\right\rvert+C$ | $a\ne 0$，$x\ne\pm a$ |
+
+第三行的两个根式要分别看待：取$x^{2}+a^{2}$时对任意$x$都有定义；取$x^{2}-a^{2}$时要求$\lvert x\rvert>\lvert a\rvert$。
+
+### 特殊积分
+
+这些公式通常由分部积分法或三角代换得到，建议连同条件一起记住结果。
+
+| 积分 | 结果 | 条件 |
+| :--- | :--- | :--- |
+| $\int \ln x\,\mathrm{d}x$ | $x\ln x-x+C$ | $x>0$ |
+| $\int \arctan x\,\mathrm{d}x$ | $x\arctan x-\dfrac{1}{2}\ln(1+x^{2})+C$ | — |
+| $\int \sqrt{a^{2}-x^{2}}\,\mathrm{d}x$ | $\dfrac{x}{2}\sqrt{a^{2}-x^{2}}+\dfrac{a^{2}}{2}\arcsin\dfrac{x}{a}+C$ | $a>0$，$\lvert x\rvert\le a$ |
+| $\int \sqrt{x^{2}\pm a^{2}}\,\mathrm{d}x$ | $\dfrac{x}{2}\sqrt{x^{2}\pm a^{2}}\pm\dfrac{a^{2}}{2}\ln\left\lvert x+\sqrt{x^{2}\pm a^{2}}\right\rvert+C$ | $a\ne 0$，$x^{2}\pm a^{2}>0$ |
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="逐项使用公式表求$\int\left(3x^{2}+\dfrac{1}{x}\right)\mathrm{d}x$"}
+
+被积函数是两项之和，先逐项积分：
+
+$$
+\int 3x^{2}\,\mathrm{d}x=x^{3}+C_{1},\qquad
+\int \frac{1}{x}\,\mathrm{d}x=\ln\lvert x\rvert+C_{2}.
+$$
+
+合并时把两个任意常数写成一个，
+
+$$
+\int\left(3x^{2}+\frac{1}{x}\right)\mathrm{d}x=x^{3}+\ln\lvert x\rvert+C.
+$$
+
+结果在$x>0$与$x<0$两个区间上分别成立。
+
+:::
+
+## 练习
+
+::problems{#integral-formulas-check}
+
+1. ::question{#power-rule}
+
+   $\int x^{4}\,\mathrm{d}x$的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{x^{5}}{5}+C$
+   - :option[B]{#b} $x^{5}+C$
+   - :option[C]{#c} $5x^{3}+C$
+   - :option[D]{#d} $\dfrac{x^{5}}{5}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   幂函数公式给出$\int x^{4}\,\mathrm{d}x=\dfrac{x^{4+1}}{4+1}+C=\dfrac{x^{5}}{5}+C$。
+   :::
+
+2. ::question{#reciprocal}
+
+   $\int \dfrac{1}{x}\,\mathrm{d}x$的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\ln x+C$
+   - :option[B]{#b} $\ln\lvert x\rvert+C$
+   - :option[C]{#c} $-\dfrac{1}{x^{2}}+C$
+   - :option[D]{#d} $\dfrac{1}{x^{2}}+C$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   被积函数在$x>0$与$x<0$上都有定义，所以结果要写$\ln\lvert x\rvert+C$；只写$\ln x$会漏掉负半轴。
+   :::

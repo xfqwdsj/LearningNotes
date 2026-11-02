@@ -1,0 +1,318 @@
+---
+title: 对弧长的曲线积分
+description: 第一类曲线积分的定义与性质，以及参数方程、直角坐标、极坐标和空间曲线下的计算方法。
+---
+
+import ArcIntegralDemo from "@/demos/arc-integral-demo";
+
+对弧长的曲线积分把被积函数沿一条曲线累加，累加的依据是弧长。本页讨论平面曲线$L$与空间曲线$\Gamma$上的第一类曲线积分，记弧长元素为$\mathrm{d}s$。这里的曲线都指光滑曲线：存在参数方程，各分量有一阶连续导数，且导函数不同时为零。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$L$为$xOy$平面内的一条光滑曲线弧，函数$f(x,y)$在$L$上有界。将$L$任意分成$n$个小弧段
+
+$$
+\Delta s_1,\Delta s_2,\dots,\Delta s_n,
+$$
+
+其中$\Delta s_i$也表示第$i$个小弧段的长度。在每个小弧段上任取一点$(\xi_i,\eta_i)$，作和式
+
+$$
+\sum_{i=1}^{n}f(\xi_i,\eta_i)\,\Delta s_i.
+$$
+
+记$\lambda$为各小弧段长度的最大值。若极限
+
+$$
+\lim_{\lambda\to 0}\sum_{i=1}^{n}f(\xi_i,\eta_i)\,\Delta s_i
+$$
+
+存在，且与$L$的分法及点$(\xi_i,\eta_i)$的取法无关，则称此极限为函数$f(x,y)$在曲线弧$L$上**对弧长的曲线积分**，也称**第一类曲线积分**，记作
+
+$$
+\int_L f(x,y)\,\mathrm{d}s.
+$$
+
+其中$L$称为积分弧段，$f(x,y)$称为被积函数，$\mathrm{d}s$称为弧长元素。若$f$在$L$上连续，则上述积分存在。
+
+对空间曲线$\Gamma$上的第一类曲线积分，定义完全类似，记作
+
+$$
+\int_\Gamma f(x,y,z)\,\mathrm{d}s.
+$$
+
+**物理意义**：若曲线形构件占据位置$L$，线密度为$\rho(x,y)$，则构件的质量为
+
+$$
+M=\int_L \rho(x,y)\,\mathrm{d}s.
+$$
+
+因为$\rho(x,y)\,\mathrm{d}s$是一小段弧的质量微元，沿曲线累加就得到总质量。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+**线性**：设$\alpha,\beta$为常数，则
+
+$$
+\int_L \bigl[\alpha f(x,y)+\beta g(x,y)\bigr]\,\mathrm{d}s
+=\alpha\int_L f(x,y)\,\mathrm{d}s+\beta\int_L g(x,y)\,\mathrm{d}s.
+$$
+
+**对弧段可加**：若$L=L_1+L_2$，其中$L_1$与$L_2$首尾相接且只在端点相交，则
+
+$$
+\int_L f(x,y)\,\mathrm{d}s
+=\int_{L_1} f(x,y)\,\mathrm{d}s+\int_{L_2} f(x,y)\,\mathrm{d}s.
+$$
+
+**与方向无关**：设$L^-$表示与$L$方向相反的弧，则
+
+$$
+\int_{L^-}f(x,y)\,\mathrm{d}s=\int_L f(x,y)\,\mathrm{d}s.
+$$
+
+原因是弧长元素$\mathrm{d}s>0$，只记录小弧段的长度，不记录沿哪个方向走过。这一点与[对坐标的曲线积分](/knowledge/maths/line-integrals/line-integral-coordinates/)不同，后者反向时积分变号。
+
+把对弧长的曲线积分化成定积分时，**积分下限必须小于上限**。$\mathrm{d}s$恒为正，参数区间反向时应先把参数范围改写成从小到大的形式，不能靠交换上下限制造符号。
+
+### 计算方法
+
+::section{#computation}
+
+把曲线参数化后，$\mathrm{d}s$就是参数增量的长度倍数，曲线积分随即化为普通定积分。计算时按下面的顺序进行。
+
+:::steps
+
+1. **写出参数方程并确定参数范围**
+
+   选取使曲线只被经过一次的参数区间，并保证区间下限小于上限。空间曲线还要写出$z$的参数表达式。
+
+2. **计算弧长元素**
+
+   由$\mathrm{d}s=\sqrt{(\mathrm{d}x)^2+(\mathrm{d}y)^2}$写出$\mathrm{d}s$关于参数增量的表达式，例如参数为$t$时
+   $$
+   \mathrm{d}s=\sqrt{[\varphi'(t)]^2+[\psi'(t)]^2}\,\mathrm{d}t.
+   $$
+
+3. **把被积函数用参数表示**
+
+   将$x=\varphi(t)$、$y=\psi(t)$代入$f(x,y)$，被积函数变成只含$t$的函数。
+
+4. **计算定积分**
+
+   用所得的定积分公式计算。结果是一个数，与曲线的参数化方式无关。
+
+:::
+
+### 参数方程
+
+设$f(x,y)$在曲线弧$L$上连续，$L$的参数方程为
+
+$$
+\begin{cases}
+x=\varphi(t),\\
+y=\psi(t),
+\end{cases}
+\qquad \alpha\le t\le \beta,
+$$
+
+其中$\varphi(t)$、$\psi(t)$在$[\alpha,\beta]$上具有一阶连续导数，且
+
+$$
+[\varphi'(t)]^2+[\psi'(t)]^2\ne 0.
+$$
+
+则曲线积分存在，且
+
+$$
+\int_L f(x,y)\,\mathrm{d}s
+=\int_\alpha^\beta f\bigl[\varphi(t),\psi(t)\bigr]
+\sqrt{[\varphi'(t)]^2+[\psi'(t)]^2}\,\mathrm{d}t.
+$$
+
+右端是普通定积分，下限$\alpha$小于上限$\beta$。
+
+### 直角坐标
+
+若曲线$L$由$y=y(x)$（$a\le x\le b$）给出，把$x$看作参数，则$\mathrm{d}s=\sqrt{1+[y'(x)]^2}\,\mathrm{d}x$，于是
+
+$$
+\int_L f(x,y)\,\mathrm{d}s
+=\int_a^b f\bigl[x,y(x)\bigr]\sqrt{1+[y'(x)]^2}\,\mathrm{d}x.
+$$
+
+### 极坐标
+
+若曲线$L$由极坐标$r=r(\theta)$（$\alpha\le\theta\le\beta$）给出，则
+
+$$
+x=r\cos\theta,\qquad y=r\sin\theta,
+$$
+
+并且
+
+$$
+\mathrm{d}s=\sqrt{r^2+[r'(\theta)]^2}\,\mathrm{d}\theta.
+$$
+
+因此
+
+$$
+\int_L f(x,y)\,\mathrm{d}s
+=\int_\alpha^\beta f(r\cos\theta,r\sin\theta)
+\sqrt{r^2+[r'(\theta)]^2}\,\mathrm{d}\theta.
+$$
+
+### 空间曲线
+
+若空间曲线$\Gamma$的参数方程为
+
+$$
+x=\varphi(t),\qquad y=\psi(t),\qquad z=\omega(t),
+\qquad \alpha\le t\le \beta,
+$$
+
+则
+
+$$
+\int_\Gamma f(x,y,z)\,\mathrm{d}s
+=\int_\alpha^\beta f\bigl[\varphi(t),\psi(t),\omega(t)\bigr]
+\sqrt{[\varphi'(t)]^2+[\psi'(t)]^2+[\omega'(t)]^2}\,\mathrm{d}t.
+$$
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="直线段上的积分：$L$为$y=x$，$0\le x\le 1$"}
+
+取$x$为参数，$y=x$，$y'=1$，所以
+
+$$
+\mathrm{d}s=\sqrt{1+1}\,\mathrm{d}x=\sqrt{2}\,\mathrm{d}x.
+$$
+
+被积函数$x+y=2x$，于是
+
+$$
+\int_L (x+y)\,\mathrm{d}s
+=\int_0^1 2x\cdot\sqrt{2}\,\mathrm{d}x
+=\sqrt{2}.
+$$
+
+:::
+
+:::example{title="上半圆周：$L$为$x^2+y^2=1$，$y\ge 0$"}
+
+用极坐标，$r=1$，$0\le\theta\le\pi$，则$r'=0$，
+
+$$
+\mathrm{d}s=\sqrt{1^2+0^2}\,\mathrm{d}\theta=\mathrm{d}\theta.
+$$
+
+被积函数$y=\sin\theta$，所以
+
+$$
+\int_L y\,\mathrm{d}s=\int_0^\pi \sin\theta\,\mathrm{d}\theta=2.
+$$
+
+这里参数区间从$0$到$\pi$，下限小于上限；曲线从$(1,0)$沿上半圆走到$(-1,0)$，第一类积分不关心这个走向。
+
+:::
+
+:::example{title="空间曲线：$\Gamma$为$x=y=z=t$，$0\le t\le 1$"}
+
+此时
+
+$$
+\mathrm{d}s=\sqrt{1^2+1^2+1^2}\,\mathrm{d}t=\sqrt{3}\,\mathrm{d}t,
+$$
+
+被积函数$x+y+z=3t$，于是
+
+$$
+\int_\Gamma (x+y+z)\,\mathrm{d}s
+=\int_0^1 3t\cdot\sqrt{3}\,\mathrm{d}t
+=\frac{3\sqrt{3}}{2}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ArcIntegralDemo />
+
+## 练习
+
+::problems{#arc-length-integrals}
+
+1. ::question{#direction}
+
+   关于对弧长的曲线积分，下列哪条叙述正确？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 把曲线方向反过来，积分值变号
+   - :option[B]{#b} 积分值与曲线方向无关
+   - :option[C]{#c} 化成定积分时，下限可以大于上限
+   - :option[D]{#d} 弧长元素$\mathrm{d}s$可正可负
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   $\mathrm{d}s>0$只记录长度，不记录方向；化成定积分时必须让下限小于上限。
+   :::
+
+2. ::question{#segment}
+
+   $L$为从$(0,0)$到$(3,0)$的直线段，则$\displaystyle\int_L (x+y)\,\mathrm{d}s=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="4.5"}
+
+   在$L$上$y=0$，$\mathrm{d}s=\mathrm{d}x$，所以
+   $$
+   \int_0^3 x\,\mathrm{d}x=\frac{9}{2}.
+   $$
+   :::
+
+3. ::question{#semicircle}
+
+   $L$为单位圆的上半圆周，则$\displaystyle\int_L y\,\mathrm{d}s=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="2"}
+
+   令$x=\cos\theta$，$y=\sin\theta$，$0\le\theta\le\pi$，则$\mathrm{d}s=\mathrm{d}\theta$，
+   $$
+   \int_0^\pi \sin\theta\,\mathrm{d}\theta=2.
+   $$
+   :::
+
+4. ::question{#circle}
+
+   $L$为圆周$x^2+y^2=4$，则$\displaystyle\int_L (x^2+y^2)\,\mathrm{d}s=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $4\pi$
+   - :option[B]{#b} $8\pi$
+   - :option[C]{#c} $16\pi$
+   - :option[D]{#d} $32\pi$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   在$L$上$x^2+y^2=4$，而圆的周长为$2\pi\cdot 2=4\pi$，所以积分为$4\cdot 4\pi=16\pi$。
+   :::
+
+## 使用要点
+
+> [!TIP]
+> 计算第一类曲线积分时，先选参数化并写出$\mathrm{d}s$，再代入被积函数。$\mathrm{d}s$恒为正，所以下限小于上限，曲线方向不影响结果。

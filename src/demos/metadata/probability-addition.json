@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "为什么计算并事件要减去交集？",
+      "description": "改变事件及其重叠的概率，对照加法公式。",
+      "messages": {
+        "label": "概率加法公式面积模型",
+        "intro": "浅色表示$A$，深色表示$B$；颜色叠加的区域是交集。分别调整$A$的比例和$B$在两个部分的占比。",
+        "a": "$P(A)$",
+        "bInA": "$P(B\\mid A)$",
+        "bOutside": "$P(B\\mid \\bar A)$",
+        "diagram": "并事件概率为{union}",
+        "result": "$P(A)={a}$，$P(B)={b}$，交集概率为{overlap}，并事件概率为{union}。"
+      },
+      "tags": ["概率论", "加法"]
+    }
+  }
+}

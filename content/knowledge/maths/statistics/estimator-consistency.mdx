@@ -1,0 +1,121 @@
+---
+title: 估计量的相合性
+description: 用依概率收敛描述估计量随样本量增大的表现。
+---
+
+import EstimatorConsistencyDemo from "@/demos/estimator-consistency-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$\hat\theta_n$是基于容量为$n$的样本得到的估计量。若
+
+$$
+\hat\theta_n\xrightarrow{P}\theta,
+$$
+
+即对任意$\varepsilon>0$都有
+
+$$
+\lim_{n\to\infty}P\{|\hat\theta_n-\theta|\ge\varepsilon\}=0,
+$$
+
+则称$\hat\theta_n$为$\theta$的**相合估计量**，也称**一致估计量**。相合性描述样本量增大时的表现，不等同于有限样本下的无偏性。
+
+一个常用的充分条件是
+
+$$
+E(\hat\theta_n)\to\theta,\qquad D(\hat\theta_n)\to0.
+$$
+
+也就是说，偏差和方差都趋于零时，估计量依概率收敛到真值。
+
+:::proof
+
+由切比雪夫不等式，
+
+$$
+P\{|\hat\theta_n-\theta|\ge\varepsilon\}
+\le\frac{E[(\hat\theta_n-\theta)^2]}{\varepsilon^2}
+=\frac{D(\hat\theta_n)+[\operatorname{Bias}(\hat\theta_n)]^2}{\varepsilon^2}.
+$$
+
+当$E(\hat\theta_n)\to\theta$、$D(\hat\theta_n)\to0$时，右边趋于$0$，所以$\hat\theta_n\xrightarrow{P}\theta$。这也说明均方误差趋于零是相合性的一个充分条件。
+
+:::
+
+独立同分布且均值存在时，由辛钦大数定律，$\bar X_n$是总体均值的相合估计。
+
+> [!NOTE]
+> **两种评价回答不同问题**
+>
+> 无偏性看固定样本量下估计量的平均表现，相合性看样本量趋于无穷时的极限行为。一个估计量可以有偏而相合，也可以无偏而不相合；两者不能互相替代。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="均匀总体最大值的修正"}
+
+设$X_1,\ldots,X_n$独立同分布于$U[0,\theta]$，$\theta>0$，$X_{(n)}=\max\{X_1,\ldots,X_n\}$。则
+
+$$
+E(X_{(n)})=\frac n{n+1}\theta,\qquad
+D(X_{(n)})=\frac{n\theta^2}{(n+1)^2(n+2)}.
+$$
+
+由前一式可知，最大似然估计$X_{(n)}$有偏，因为$E(X_{(n)})\ne\theta$。把它修正为
+
+$$
+\tilde\theta=\frac{n+1}{n}X_{(n)},
+$$
+
+则
+
+$$
+E(\tilde\theta)=\frac{n+1}{n}\cdot\frac n{n+1}\theta=\theta,
+$$
+
+所以$\tilde\theta$是无偏估计。
+
+另一方面，对$0<\varepsilon<\theta$，
+
+$$
+P\{|X_{(n)}-\theta|\ge\varepsilon\}
+=P\{X_{(n)}\le\theta-\varepsilon\}
+=\left(\frac{\theta-\varepsilon}{\theta}\right)^n\to0,
+$$
+
+因此$X_{(n)}$依概率收敛到$\theta$，是有偏但相合的估计。修正后的$\tilde\theta$仍相合。这说明“有偏”和“随样本量增大能否逼近真值”是两种不同的评价。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<EstimatorConsistencyDemo />
+
+## 练习
+
+::problems{#estimator-consistency-practice}
+
+1. ::question{#criteria}
+
+   关于点估计的评价标准，下列说法正确的是
+
+   :::choices{#choice-criteria mode="multiple"}
+   - :option[A]{#a} 无偏估计的均方误差一定小于有偏估计
+   - :option[B]{#b} 两个无偏估计比较时，方差更小者更有效
+   - :option[C]{#c} 相合性描述的是固定样本量下的精度
+   - :option[D]{#d} 均方误差可以分解为方差与偏差平方之和
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   无偏估计只说明平均无系统偏差，方差很大时均方误差仍可能更大；相合性讨论的是样本量趋于无穷时的极限行为；均方误差分解为方差加偏差平方。
+   :::

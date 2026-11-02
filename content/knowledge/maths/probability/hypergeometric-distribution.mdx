@@ -1,0 +1,64 @@
+---
+title: 超几何分布
+description: 描述有限总体不放回抽样中目标的个数。
+---
+
+import HypergeometricDemo from "@/demos/hypergeometric-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+总体有$N$件，其中$M$件属于目标类，等可能地不放回抽取$n$件。令$X$为抽中的目标数，则
+
+$$
+P(X=k)=\frac{\binom Mk\binom{N-M}{n-k}}{\binom Nn},
+\qquad \max(0,n-N+M)\le k\le\min(n,M).
+$$
+
+其中$0\le M\le N$、$0\le n\le N$，各参数均为整数；超出取值范围时概率为零。分子分别选择目标与非目标，分母计数所有抽取组合。
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="超几何分布的一次计算"}
+
+从10件产品（其中3件次品）中不放回抽取4件，记$X$为抽到的次品数。这里$N=10$，$M=3$，$n=4$，$X$服从超几何分布，且
+
+$$
+P\{X=1\}=\frac{C_3^1 C_7^3}{C_{10}^4}
+=\frac{3\cdot 35}{210}
+=\frac12.
+$$
+
+:::
+
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变总体目标数、抽取数和目标命中数；不可能的组合会得到零概率。
+
+<HypergeometricDemo />
+
+## 练习
+
+::problems{#practice}
+
+1. ::question{#model-choice}
+
+   从20件产品（其中4件次品）中不放回抽取5件，记$X$为抽到的次品数。$X$服从
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 二项分布
+   - :option[B]{#b} 泊松分布
+   - :option[C]{#c} 超几何分布
+   - :option[D]{#d} 几何分布
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   这一题中不放回抽样使各次结果不独立，抽取过程中次品比例会随已抽结果改变，因此用超几何分布。
+   :::

@@ -1,0 +1,175 @@
+---
+title: C运算符优先级
+description: C的表达式分组、结合方向以及位运算、比较和指针表达式的常见误判。
+---
+
+import CPointerPrecedenceDemo from "@/demos/c-pointer-precedence-demo";
+
+## 定义
+
+::section{#c-precedence slot="knowledge.definition"}
+
+C的表分15级，同一行的运算符优先级相同。判定规则与Python一致：优先级高的先结合，同一优先级按结合方向分组。但两级之间的分界不同，C把按位运算放在比较之下，这是最容易误判的一处。
+
+| 优先级 | 运算符 | 结合性 | 描述与示例 |
+| :--- | :--- | :--- | :--- |
+| 1 | `()` `[]` `->` `.` `++` `--`（后缀） | 左到右 | 函数调用、数组下标、成员访问、后缀自增自减 |
+| 2 | `!` `~` `++` `--`（前缀）`+` `-`（一元）`*` `&` `(type)` `sizeof` | 右到左 | 单目运算符。`*p++`等价于`*(p++)`：先取值，再让指针自增 |
+| 3 | `*` `/` `%` | 左到右 | 乘、除、取模。`5 / 2`得`2`，整数除法截断 |
+| 4 | `+` `-` | 左到右 | 加、减 |
+| 5 | `<<` `>>` | 左到右 | 移位 |
+| 6 | `<` `<=` `>` `>=` | 左到右 | 关系运算 |
+| 7 | `==` `!=` | 左到右 | 等于、不等于。`if (a = b)`是赋值表达式，不是比较 |
+| 8 | `&` | 左到右 | 按位与 |
+| 9 | `^` | 左到右 | 按位异或 |
+| 10 | `\|` | 左到右 | 按位或 |
+| 11 | `&&` | 左到右 | 逻辑与，短路。优先级**低于**按位与`&` |
+| 12 | `\|\|` | 左到右 | 逻辑或，短路 |
+| 13 | `?:` | 右到左 | 三目运算符 |
+| 14 | `=` `+=` `-=` `*=` `/=` `%=` `<<=` `>>=` `&=` `^=` `\|=` | 右到左 | 赋值 |
+| 15 | `,` | 左到右 | 逗号运算符，值取最后一个表达式 |
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 结合方向
+
+C中只有单目运算符、三目运算符和赋值运算符右结合，其余左结合：
+
+- `a = b = c`等价于`a = (b = c)`，赋值从右往左串起来；
+- `a ? b : c ? d : e`等价于`a ? b : (c ? d : e)`；
+- `i = 2, i + 3`先执行`i = 2`，整个表达式的值是`i + 3`。
+
+### 经典陷阱
+
+> [!WARNING]
+> **`*p++`与`(*p)++`**
+>
+> 后缀`++`的优先级高于一元`*`，所以`*p++`等价于`*(p++)`：先取`*p`的值，再让指针后移一位。`(*p)++`是把指针指向的值加1，指针不动。两者只差一对括号，作用对象却从地址换成了数据。
+
+> [!WARNING]
+> **位运算与比较混写**
+>
+> `a & b == c`等价于`a & (b == c)`，因为`==`的优先级高于`&`。本意是`(a & b) == c`时必须加括号；同理，`a | b == c`、`a ^ b == c`也先算比较。
+
+> [!NOTE]
+> **`if (a = b)`不是比较**
+>
+> 赋值表达式的值就是被赋的值，所以`if (a = b)`只在`b`为0时为假，其余情况都进入分支。比较要写`==`；开启`-Wall`后编译器通常会提示这种写法。
+
+:::example{title="`*p++`与`(*p)++`的效果"}
+
+```c title="deref-increment.c"
+#include <stdio.h>
+
+int main(void) {
+    int a[3] = {1, 2, 3};
+    int *p = a;
+
+    int x = *p++;     /* x = 1，p移到a[1] */
+    int y = (*p)++;   /* y = 2，a[1]变成3，p不动 */
+    printf("%d %d %d %d\n", x, y, a[0], a[1]);   /* 1 2 1 3 */
+    return 0;
+}
+```
+
+第一行移动的是指针，第二行修改的是数据。读这类表达式时，先按优先级补出括号，再判断动的是地址还是值。
+
+:::
+
+:::example{title="`a & b == c`的分组"}
+
+```c title="bitwise-compare.c"
+#include <stdio.h>
+
+int main(void) {
+    int a = 6, b = 3, c = 2;
+
+    printf("%d\n", a & b == c);      /* 6 & (3 == 2) = 6 & 0 = 0 */
+    printf("%d\n", (a & b) == c);    /* (6 & 3) == 2，即2 == 2，得1 */
+    return 0;
+}
+```
+
+两个表达式只差括号，结果一个是0、一个是1。位运算与比较同时出现时，按本意加括号。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CPointerPrecedenceDemo />
+
+## 练习
+
+::problems{#operator-precedence-c-practice}
+
+1. ::question{#c-bitwise-compare}
+
+   `int a = 6, b = 3, c = 2;`时，表达式`a & b == c`的值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0"}
+
+   比较先算，`3 == 2`为0，再算`6 & 0`，结果为0。本意若是`(a & b) == c`，要自己加括号。
+   :::
+
+2. ::question{#c-deref-increment}
+
+   `int a[3] = {1, 2, 3}; int *p = a; int x = *p++;`之后，`x`的值是:blank{#x type="number"}，`*p`的值是:blank{#next type="number"}。
+
+   :::reference
+   ::correct{blank="x" value="1"}
+   ::correct{blank="next" value="2"}
+
+   `*p++`等价于`*(p++)`：先取`a[0]`的值给`x`，再把`p`移到`a[1]`，所以`*p`是2。
+   :::
+
+3. ::question{#c-assign-condition}
+
+   `int a = 5; if (a = 0) { /* 分支 */ }`中条件的结果是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 值为0，条件为假，不进入分支
+   - :option[B]{#b} 值为5，条件为真，进入分支
+   - :option[C]{#c} 编译错误，赋值不能出现在条件里
+   - :option[D]{#d} 未定义行为
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   赋值表达式把0赋给`a`，整个表达式的值就是0，因此条件为假。C允许赋值出现在条件中，编译器通常只警告；比较应写`a == 0`。
+   :::
+
+4. ::question{#c-comma}
+
+   `int i = 0;`之后，表达式`i = 2, i + 3`的值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="5"}
+
+   逗号运算符的优先级最低，先执行`i = 2`，再求`i + 3`，整个表达式的值取最后一个，即5。
+   :::
+
+5. ::question{#c-ternary}
+
+   表达式`0 ? 1 : 2 ? 3 : 4`的值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="3"}
+
+   三目运算符右结合，等价于`0 ? 1 : (2 ? 3 : 4)`。条件0为假，取后一支；内层条件2为真，取3。
+   :::
+
+6. ::question{#c-negative-division}
+
+   在32位`int`的平台上，`-7 / 2`的值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="-3"}
+
+   C的整数除法向零截断，商的整数部分是$-3$。同样的式子写成Python的`-7 // 2`，结果是$-4$，因为Python向下取整。
+   :::

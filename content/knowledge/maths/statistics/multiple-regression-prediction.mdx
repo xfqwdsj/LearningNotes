@@ -1,0 +1,38 @@
+---
+title: 多元回归的均值区间与预测区间
+description: 比较预测点处的均值响应与独立新观测的区间。
+---
+
+import MultipleRegressionPredictionDemo from "@/demos/multiple-regression-prediction-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+考虑含截距的[多元线性回归](/knowledge/maths/statistics/multiple-linear-regression/)：有$n$个观测与$p$个斜率，设计矩阵满列秩，$n>p+1$。假定误差相互独立且服从$N(0,\sigma^2)$，记误差方差估计为$s^2=SSE/(n-p-1)$，并采用[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。
+
+在$\boldsymbol x_0=(1,x_{01},\ldots,x_{0p})^{\mathsf T}$处，点预测为
+
+$$
+\hat y_0=\boldsymbol x_0^{\mathsf T}\hat{\boldsymbol\beta}.
+$$
+
+条件均值$E(Y\mid \boldsymbol x_0)$的$1-\alpha$置信区间半宽为
+
+$$
+t_{\alpha/2}(n-p-1)s\sqrt{\boldsymbol x_0^{\mathsf T}C\boldsymbol x_0}.
+$$
+
+与已有观测独立、在$\boldsymbol x_0$处服从同一模型且具有相同误差方差的新观测$Y_0$的预测区间，根号内还要再加$1$，半宽为
+
+$$
+t_{\alpha/2}(n-p-1)s\sqrt{1+\boldsymbol x_0^{\mathsf T}C\boldsymbol x_0}.
+$$
+
+多出的$1$对应新个体自身的随机波动，所以预测区间总比同一位置的均值响应区间宽。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultipleRegressionPredictionDemo />

@@ -1,0 +1,51 @@
+---
+title: 多元函数在区域上的最值
+description: 多元函数在区域上的最值的定义、判定与计算。
+---
+
+import GlobalExtremaDemo from "@/demos/global-extrema-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+在有界闭区域$D$上连续的多元函数一定取得最大值和最小值，见[多元函数的连续性](/knowledge/maths/multivariable-calculus/multivariable-continuity/)中的有界闭区域性质。求连续函数$f(x,y)$在有界闭区域$D$上的最值，一般按以下步骤进行：
+
+:::steps
+
+1. **收集区域内部的候选点**
+
+   求出$D$内部的所有驻点，以及偏导数不存在但函数有定义的点，计算这些点处的函数值。
+
+2. **求边界上的最值**
+
+   把边界曲线代入$f$，化为一元函数的最值问题；边界也可以按条件极值处理。
+
+3. **比较所有候选值**
+
+   内部候选值与边界最值中，最大的就是$D$上的最大值，最小的就是最小值。
+
+:::
+
+> [!IMPORTANT]
+> 最值可能出现在边界上，只在内部驻点中寻找会漏解。极值是局部概念，最值是整体概念：一个函数可以有多个极大值，但最大值至多一个。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="有界闭区域上的最值：$f(x,y)=x^2+y^2$在$x^2+y^2\le 1$上"}
+
+区域内部只有驻点$(0,0)$，$f(0,0)=0$。边界是单位圆，在边界上$f=1$。比较所有候选值，最大值为$1$（边界上每一点都取到），最小值为$0$（在原点取到）。
+
+若把区域换成开圆盘$x^2+y^2<1$，最小值仍是$0$，但最大值不存在：函数值可以任意接近$1$，却取不到$1$。这说明最值定理要求区域有界且闭。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<GlobalExtremaDemo />

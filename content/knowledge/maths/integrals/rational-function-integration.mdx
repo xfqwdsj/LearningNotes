@@ -1,0 +1,281 @@
+---
+title: 有理函数的积分
+description: 把有理函数化为多项式与最简部分分式之和，说明拆分规则、待定系数法与四类基本积分。
+---
+
+import PartialFractionsDemo from "@/demos/partial-fractions-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+由两个多项式之比给出的函数
+
+$$
+R(x)=\frac{P(x)}{Q(x)}
+$$
+
+称为**有理函数**，其中$P(x)$、$Q(x)$是实系数多项式，$Q(x)$不恒为零。$R$的定义域是使$Q(x)\ne 0$的一切$x$。
+
+按分子与分母的次数分为两类：
+
+- **真分式**：$\deg P<\deg Q$，分子的次数严格小于分母的次数；
+- **假分式**：$\deg P\ge\deg Q$，分子的次数大于或等于分母的次数。
+
+{/* more */}
+
+有理函数在定义区间内连续，它的原函数总能由三类函数拼成：多项式、对数函数与反正切函数。求有理函数积分的全部工作，就是把$R$化成这三类函数的组合，再逐项积分。
+
+## 三步法
+
+::section{#strategy slot="knowledge.properties"}
+
+求解有理函数积分有固定的流程，三步按顺序做，不要跳步。
+
+:::steps
+
+1. **假分式先降次**
+
+   当$\deg P\ge\deg Q$时，用多项式长除法把$R$拆成商式与真分式之和：
+
+   $$
+   \frac{P(x)}{Q(x)}=S(x)+\frac{R_0(x)}{Q(x)},\qquad \deg R_0<\deg Q.
+   $$
+
+   其中$S(x)$是多项式，直接逐项积分；后面只需处理真分式$\dfrac{R_0(x)}{Q(x)}$。
+
+2. **分母在实数范围内彻底分解**
+
+   把$Q(x)$写成一次因式$(x-a)^k$与不可约二次因式$(x^2+px+q)^m$的乘积。不可约指数判别式$p^2-4q<0$，这样的二次因式在实数范围内不能再分解。
+
+3. **拆成最简部分分式**
+
+   按分母因式的形状写出带待定系数的和，再用待定系数法确定系数。
+
+:::
+
+> [!WARNING]
+> 假分式不先降次就套用拆分规则，会漏掉商式$S(x)$对应的整个多项式项，结果必然错误。
+
+### 拆分形式
+
+分母中的每个因式都要按它的幂次展开成若干项：
+
+| 分母中的因式 | 对应的部分分式 |
+| :--- | :--- |
+| $(x-a)^k$ | $\dfrac{A_1}{x-a}+\dfrac{A_2}{(x-a)^2}+\cdots+\dfrac{A_k}{(x-a)^k}$ |
+| $(x^2+px+q)^m$ | $\dfrac{B_1x+C_1}{x^2+px+q}+\cdots+\dfrac{B_mx+C_m}{(x^2+px+q)^m}$ |
+
+重因式必须从一次幂一直写到$k$次幂，一项都不能少。二次因式的分子要写成一次式$Bx+C$，不能只写常数。
+
+### 待定系数法
+
+把拆分式通分、去掉分母，得到一个关于$x$的恒等式，再确定其中的系数。常用三种做法：
+
+1. **比较系数法**：按$x$的同次幂系数相等列出方程组。
+2. **取值法**：代入分母的实根，使含其他因式的项为零，直接解出对应系数。
+3. **混合法**：先用取值法求出容易确定的系数，再用比较系数法解剩下的。
+
+> [!TIP]
+> 分母有重根时，取值法一次只能定出最高次幂那一项的系数，例如$(x-a)^3$只能直接得到$A_3$；其余系数仍要用比较系数法或代入其他便于计算的值。
+
+### 最简部分分式的积分
+
+拆分完成后，每一项都是下面几种形式之一。
+
+#### 多项式项
+
+$\int S(x)\,\mathrm{d}x$逐项使用幂函数积分公式。
+
+#### 一次因式项
+
+$k=1$时，
+
+$$
+\int\frac{A}{x-a}\,\mathrm{d}x=A\ln|x-a|+C.
+$$
+
+$k>1$时用凑微分，
+
+$$
+\int\frac{A}{(x-a)^k}\,\mathrm{d}x
+=A\int (x-a)^{-k}\,\mathrm{d}(x-a)
+=\frac{A}{(1-k)(x-a)^{k-1}}+C.
+$$
+
+### 二次因式项
+
+对$\dfrac{Ax+B}{x^2+px+q}$，先配方：令$b=\dfrac{p}{2}$，$c^2=q-b^2>0$，$u=x+b$，则分母为$u^2+c^2$。再把分子拆成与分母导数成比例的部分和常数部分：
+
+$$
+Ax+B=\frac{A}{2}\cdot 2u+(B-Ab),
+$$
+
+于是
+
+$$
+\int\frac{Ax+B}{x^2+px+q}\,\mathrm{d}x
+=\frac{A}{2}\ln(u^2+c^2)+\frac{B-Ab}{c}\arctan\frac{u}{c}+C.
+$$
+
+第一项来自$\dfrac{2u\,\mathrm{d}u}{u^2+c^2}=\mathrm{d}\ln(u^2+c^2)$，第二项来自$\int\dfrac{\mathrm{d}u}{u^2+c^2}=\dfrac{1}{c}\arctan\dfrac{u}{c}$。
+
+### 二次因式的高次幂
+
+$m\ge 2$时仍按同样的方式拆分子：
+
+- 微分项化为$\int\dfrac{\mathrm{d}w}{w^m}$（$w=u^2+c^2$），用幂函数公式即可；
+- 常数项化为$\int\dfrac{\mathrm{d}u}{(u^2+c^2)^m}$，用三角代换$u=c\tan t$或递推公式求解。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="拆分$\dfrac{x+2}{(2x+1)(x^2+x+1)}$"}
+
+分母已是一个一次因式与一个不可约二次因式的乘积（$x^2+x+1$的判别式为$1-4=-3<0$），所以设
+
+$$
+\frac{x+2}{(2x+1)(x^2+x+1)}
+=\frac{A}{2x+1}+\frac{Bx+C}{x^2+x+1}.
+$$
+
+通分去分母：
+
+$$
+x+2=A(x^2+x+1)+(Bx+C)(2x+1).
+$$
+
+**求$A$（取值法）**：令$2x+1=0$，即$x=-\dfrac{1}{2}$，代入得
+
+$$
+-\frac{1}{2}+2=A\left(\frac{1}{4}-\frac{1}{2}+1\right),
+\qquad
+\frac{3}{2}=A\cdot\frac{3}{4},
+$$
+
+所以$A=2$。
+
+**求$B$、$C$（比较系数法）**：展开右边，
+
+$$
+x+2=(A+2B)x^2+(A+B+2C)x+(A+C).
+$$
+
+比较$x^2$项系数得$A+2B=0$，即$B=-1$；比较常数项得$A+C=2$，即$C=0$。代回中间项检验：$A+B+2C=2-1+0=1$，与左边的$x$项系数一致。
+
+最终
+
+$$
+\frac{x+2}{(2x+1)(x^2+x+1)}
+=\frac{2}{2x+1}-\frac{x}{x^2+x+1}.
+$$
+
+:::
+
+:::example{title="把拆分结果积分"}
+
+继续上面的结果。第一项
+
+$$
+\int\frac{2}{2x+1}\,\mathrm{d}x=\ln|2x+1|+C.
+$$
+
+第二项是二次因式项，这里$A=1$、$B=0$、$b=\dfrac{1}{2}$、$c=\dfrac{\sqrt{3}}{2}$，于是$B-Ab=-\dfrac{1}{2}$：
+
+$$
+\int\frac{x}{x^2+x+1}\,\mathrm{d}x
+=\frac{1}{2}\ln(x^2+x+1)
+-\frac{1}{\sqrt{3}}\arctan\frac{2x+1}{\sqrt{3}}+C.
+$$
+
+所以
+
+$$
+\int\frac{x+2}{(2x+1)(x^2+x+1)}\,\mathrm{d}x
+=\ln|2x+1|-\frac{1}{2}\ln(x^2+x+1)
++\frac{1}{\sqrt{3}}\arctan\frac{2x+1}{\sqrt{3}}+C.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PartialFractionsDemo />
+
+## 练习
+
+::problems{#rational-integration-check}
+
+1. ::question{#improper}
+
+   下列有理函数中，属于假分式的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{x+1}{x^2+1}$
+   - :option[B]{#b} $\dfrac{x^3+1}{x^2+1}$
+   - :option[C]{#c} $\dfrac{1}{x^2-1}$
+   - :option[D]{#d} $\dfrac{x}{x^2+x+1}$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   假分式要求分子的次数不小于分母的次数。只有$\dfrac{x^3+1}{x^2+1}$的分子是三次、分母是二次。
+   :::
+
+2. ::question{#decompose}
+
+   $\dfrac{1}{(x-1)(x+2)}$的部分分式形式是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{A}{x-1}+\dfrac{B}{x+2}$
+   - :option[B]{#b} $\dfrac{A}{x-1}+\dfrac{Bx+C}{x+2}$
+   - :option[C]{#c} $\dfrac{A}{(x-1)(x+2)}$
+   - :option[D]{#d} $\dfrac{A}{(x-1)^2}+\dfrac{B}{(x+2)^2}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   分母是两个互不相同的一次因式，每个一次因式各对应一个常数分子的部分分式。
+   :::
+
+3. ::question{#repeated}
+
+   分母中含有因式$(x-1)^3$时，它对应的部分分式共有:blank{#count type="number"}项。
+
+   :::reference
+   ::correct{blank="count" value="3"}
+
+   重因式要从一次幂写到三次幂：$\dfrac{A_1}{x-1}+\dfrac{A_2}{(x-1)^2}+\dfrac{A_3}{(x-1)^3}$。
+   :::
+
+4. ::question{#coefficient}
+
+   在$\dfrac{x+2}{(2x+1)(x^2+x+1)}=\dfrac{A}{2x+1}+\dfrac{Bx+C}{x^2+x+1}$中，$A=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="2"}
+
+   通分去分母后令$x=-\dfrac{1}{2}$，得$\dfrac{3}{2}=A\cdot\dfrac{3}{4}$，所以$A=2$。
+   :::
+
+5. ::question{#log-integral}
+
+   $\int\dfrac{3}{x-2}\,\mathrm{d}x$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $3\ln|x-2|+C$
+   - :option[B]{#b} $3\ln(x-2)+C$
+   - :option[C]{#c} $\dfrac{3}{(x-2)^2}+C$
+   - :option[D]{#d} $3\ln|x-2|$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\int\dfrac{A}{x-a}\,\mathrm{d}x=A\ln|x-a|+C$。定义域可能落在$x<2$一侧，所以要加绝对值；不定积分还要补$+C$。
+   :::

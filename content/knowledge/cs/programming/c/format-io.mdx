@@ -1,0 +1,90 @@
+---
+title: C格式化输出
+description: 用printf的转换说明控制输出，理解参数类型、字段宽度与精度。
+---
+
+import CPrintfFieldDemo from "@/demos/c-printf-field-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+`printf`根据格式串输出文本。普通字符原样输出；以`%`开始的转换说明取用相应实参，并决定它的显示方式。转换说明与实参类型必须匹配，否则行为未定义。
+
+```c
+printf("%d %.2f\n", 12, 3.14159);
+```
+
+`%d`输出整数，`%f`输出浮点数；可变参数调用会把`float`提升为`double`。`%%`输出一个百分号，返回值是输出的字符数，输出错误时为负值。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+一个转换说明可包含标志、最小字段宽度、精度、长度修饰符和转换字符。宽度不足时默认在左侧补空格；`-`改为左对齐，`0`可在数值左侧补零。宽度是最小值，不会截短更长的输出。
+
+对于`%f`，精度表示小数点后的位数；对于`%s`，精度限制最多输出的字符数。不同转换字符对精度的解释可能不同。
+
+| 写法 | 含义 | 示例输出 |
+| :--- | :--- | :--- |
+| `%5d` | 右对齐，宽度至少为5 | `   12` |
+| `%-5d` | 左对齐，宽度至少为5 | `12   ` |
+| `%05d` | 不足的宽度补零 | `00012` |
+| `%8.3f` | 宽度至少为8，小数点后3位 | `   3.142` |
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="宽度、补零与精度"}
+
+```c title="format.c"
+#include <stdio.h>
+
+int main(void) {
+    printf("[%5d]\n", 12);          /* [   12] */
+    printf("[%-5d]\n", 12);         /* [12   ] */
+    printf("[%05d]\n", 12);         /* [00012] */
+    printf("[%+d]\n", 12);          /* [+12] */
+    printf("[%.2f]\n", 3.14159);    /* [3.14] */
+    printf("[%8.3f]\n", 3.14159);   /* [   3.142] */
+    printf("[%.5s]\n", "abcdefg");  /* [abcde] */
+    printf("100%%\n");              /* 100% */
+    return 0;
+}
+```
+
+同一份数据换一个宽度或精度，输出长度会变，但数值本身不变。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CPrintfFieldDemo />
+
+## 练习
+
+::problems{#c-format-io-practice}
+
+1. ::question{#zero-pad}
+
+   `printf("%05d", 12)`的输出是:blank{#out type="text"}。
+
+   :::reference
+   ::correct{blank="out" value="00012"}
+
+   宽度5是最小总宽度，不足的部分用`0`补齐，`12`占2位，前面补3个零。
+   :::
+
+2. ::question{#width-precision}
+
+   `printf("%8.3f", 3.14159)`中，小数部分保留:blank{#prec type="number"}位，输出字段的最小总宽度是:blank{#width type="number"}。
+
+   :::reference
+   ::correct{blank="prec" value="3"}
+   ::correct{blank="width" value="8"}
+
+   `.3`是精度，`8`是最小宽度。`3.142`只有5个字符，左侧补3个空格后总宽为8。
+   :::

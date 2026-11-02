@@ -1,0 +1,82 @@
+---
+title: 卡方分布
+description: 卡方分布的定义与性质。
+---
+
+import ChiSquareDemo from "@/demos/chi-square-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$Z_1,Z_2,\ldots,Z_\nu$相互独立，且都服从$N(0,1)$，则
+
+$$
+U=\sum_{i=1}^{\nu}Z_i^2\sim\chi^2(\nu),
+$$
+
+其中$\nu$称为**自由度**。它的数字特征为
+
+$$
+E(U)=\nu,\qquad D(U)=2\nu.
+$$
+
+这两个式子来自单个标准正态变量：$E(Z_i^2)=D(Z_i)=1$，而
+
+$$
+D(Z_i^2)=E(Z_i^4)-\bigl[E(Z_i^2)\bigr]^2=3-1=2,
+$$
+
+再由独立性把$\nu$项相加。
+
+卡方分布只在$[0,+\infty)$上取值，通常不对称，右尾较长。相互独立的卡方变量可以相加，**自由度也相加**：若$U_1\sim\chi^2(\nu_1)$与$U_2\sim\chi^2(\nu_2)$独立，则$U_1+U_2\sim\chi^2(\nu_1+\nu_2)$。这里独立性不能省。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="卡方变量的自由度相加"}
+
+设$U_1\sim\chi^2(3)$与$U_2\sim\chi^2(4)$相互独立，则$U_1+U_2\sim\chi^2(7)$，因此
+
+$$
+E(U_1+U_2)=7,\qquad D(U_1+U_2)=14.
+$$
+
+若样本容量$n=6$，总体正态，则$\dfrac{(n-1)S^2}{\sigma^2}=\dfrac{5S^2}{\sigma^2}\sim\chi^2(5)$，期望为$5$、方差为$10$。卡方结论只由自由度决定，与$\mu$、$\sigma^2$的具体取值无关，这也是把$\dfrac{(n-1)S^2}{\sigma^2}$当作枢轴量的依据。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<ChiSquareDemo />
+
+## 练习
+
+::problems{#chi-square-practice}
+
+1. ::question{#chi-square-moments}
+
+   设$U\sim\chi^2(8)$。
+
+   1. ::part{#mean}
+
+      $E(U)=$ :blank{#chi-mean type="number"}。
+
+      :::reference
+      ::correct{blank="chi-mean" value="8"}
+
+      卡方分布的期望等于自由度，$E(U)=\nu=8$。
+      :::
+
+   2. ::part{#variance}
+
+      $D(U)=$ :blank{#chi-variance type="number"}。
+
+      :::reference
+      ::correct{blank="chi-variance" value="16"}
+
+      $D(U)=2\nu=2\times8=16$。
+      :::

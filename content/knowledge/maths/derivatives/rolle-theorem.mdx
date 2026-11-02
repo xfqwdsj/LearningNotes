@@ -1,0 +1,77 @@
+---
+title: 罗尔定理
+description: 罗尔定理的条件、结论与证明。
+---
+
+import RolleDemo from "@/demos/rolle-demo";
+
+## 定理
+
+::section{#definition slot="knowledge.definition"}
+
+若$f$满足
+
+1. 在闭区间$[a,b]$上连续；
+2. 在开区间$(a,b)$内可导；
+3. $f(a)=f(b)$，
+
+则存在$\xi\in(a,b)$，使得
+
+$$
+f'(\xi)=0.
+$$
+
+几何上，一段连续光滑、两端等高的曲线弧上，至少有一点的切线是水平的。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+$f$在闭区间$[a,b]$上连续，所以取得最大值$M$与最小值$m$。
+
+若$M=m$，则$f$在$[a,b]$上为常数，$f'\equiv0$，任取$\xi\in(a,b)$都满足$f'(\xi)=0$。
+
+若$M>m$，由$f(a)=f(b)$，最大值与最小值中至少有一个在开区间$(a,b)$内的某点$c$取得；否则最大值与最小值都在端点取得，而两端函数值相等，将推出$M=m$。函数在$c$处取得极值，又$c\in(a,b)$且$f$在$c$处可导，由费马引理得$f'(c)=0$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="验证罗尔定理：$f(x)=x^2-4x+3$在$[1,3]$上"}
+
+$f(1)=0=f(3)$，且$f$在$[1,3]$上连续、在$(1,3)$内可导。由$f'(x)=2x-4$，令$f'(\xi)=0$得$\xi=2\in(1,3)$。
+
+:::
+
+:::example{title="条件缺失时结论不成立：$f(x)=|x|$在$[-1,1]$上"}
+
+$f$在$[-1,1]$上连续，且$f(-1)=f(1)=1$，但$f$在$x=0$处不可导。除$x=0$外$f'(x)=\pm1$，导数值从不为零，所以区间内不存在满足$f'(\xi)=0$的点。这说明罗尔定理中的可导性条件不能省去。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<RolleDemo />
+
+## 练习
+
+::problems{#rolle-theorem-practice}
+
+1. ::question{#rolle-extra}
+
+   与拉格朗日中值定理相比，罗尔定理多出的条件是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $f(a)=f(b)$
+   - :option[B]{#b} $f$在闭区间上连续
+   - :option[C]{#c} $f$在开区间内可导
+   - :option[D]{#d} $f'$在开区间内有界
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   两条定理都要求闭区间上连续、开区间内可导；罗尔定理另外要求两端函数值相等。
+   :::

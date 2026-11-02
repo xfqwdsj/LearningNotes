@@ -1,0 +1,139 @@
+---
+title: 二维连续型分布
+description: 用联合密度和区域积分描述二维连续型随机变量。
+---
+
+import JointRegionDemo from "@/demos/joint-region-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若存在非负可积函数$f(x,y)$，使
+
+$$
+F(x,y)=\int_{-\infty}^{x}\int_{-\infty}^{y}f(u,v)\,\mathrm dv\,\mathrm du,
+$$
+
+则称$(X,Y)$为**二维连续型随机变量**，$f$称为**联合密度**。联合密度满足
+
+$$
+f(x,y)\ge 0,\qquad \iint_{\mathbb{R}^2} f(x,y)\,\mathrm dx\,\mathrm dy=1.
+$$
+
+对平面区域$D$，
+
+$$
+P\{(X,Y)\in D\}=\iint_D f(x,y)\,\mathrm dx\,\mathrm dy.
+$$
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+计算区域概率可以按以下步骤进行：
+
+:::steps
+
+1. **画出联合密度的支持区域**
+
+   即$f(x,y)>0$的点集。它由分段条件给出，通常是三角形、矩形或带边界的曲边区域。
+
+2. **与事件区域取交集**
+
+   把满足事件条件$\{(x,y):\text{事件发生}\}$的区域和上一步的支持区域求交。只有交集上密度才不为零，积分也只在交集上做。
+
+3. **确定积分次序**
+
+   按交集区域的形状选择先对哪个变量积分，把边界用$x$或$y$表示清楚后再写积分限。
+
+:::
+
+> [!IMPORTANT]
+> 分布函数$F(x,y)=\int_{-\infty}^{x}\int_{-\infty}^{y}f(u,v)\,\mathrm dv\,\mathrm du$的积分同样受支持区域约束。当$(x,y)$落在支持区域内部时，真正的积分范围是$(-\infty,x]\times(-\infty,y]$与支持区域的交集，不能机械地按矩形积分到$x,y$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="三角形区域上的归一化与区域概率"}
+
+设
+
+$$
+f(x,y)=\begin{cases}
+c,&0<x<y<1,\\
+0,&\text{其他}.
+\end{cases}
+$$
+
+支持区域是三角形$0<x<y<1$。由归一化条件，
+
+$$
+1=c\int_0^1\int_0^y \mathrm dx\,\mathrm dy=c\int_0^1 y\,\mathrm dy=\frac c2,
+$$
+
+所以$c=2$。
+
+再求$P\{X+Y<1\}$。事件区域$x+y<1$与支持区域$0<x<y<1$的交集是$0<x<\dfrac12$、$x<y<1-x$：
+
+$$
+P\{X+Y<1\}
+=\int_0^{1/2}\int_x^{1-x}2\,\mathrm dy\,\mathrm dx
+=2\int_0^{1/2}(1-2x)\,\mathrm dx
+=2\left[x-x^2\right]_0^{1/2}
+=\frac12.
+$$
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+在单位正方形上的均匀联合密度下，改变事件区域并计算其面积。
+
+<JointRegionDemo />
+
+## 练习
+
+::problems{#joint-density-practice}
+
+1. ::question{#triangle-coefficient}
+
+   设$(X,Y)$的联合密度为
+
+   $$
+   f(x,y)=\begin{cases}
+   c,&0<x<y<1,\\
+   0,&\text{其他},
+   \end{cases}
+   $$
+
+   则$c=$ :blank{#triangle-c type="number"}。
+
+   :::reference
+   ::correct{blank="triangle-c" value="2"}
+
+   由归一化条件$1=c\displaystyle\int_0^1\int_0^y \mathrm dx\,\mathrm dy=\frac c2$，得$c=2$。
+   :::
+
+2. ::question{#triangle-probability}
+
+   仍设$f(x,y)=2$（$0<x<y<1$），其他位置为$0$。则$P\{X+Y<1\}=$ :blank{#triangle-sum type="number"}。
+
+   :::reference
+   ::correct{blank="triangle-sum" value="0.5"}
+
+   交集区域为$0<x<\dfrac12$、$x<y<1-x$，积分得$\displaystyle\int_0^{1/2}\int_x^{1-x}2\,\mathrm dy\,\mathrm dx=\frac12$。
+   :::
+
+3. ::question{#rectangle-density}
+
+   设$(X,Y)$的联合密度为$f(x,y)=cxy$（$0<x<1$，$0<y<1$），其他位置为$0$，则$c=$ :blank{#rectangle-c type="number"}。
+
+   :::reference
+   ::correct{blank="rectangle-c" value="4"}
+
+   $\displaystyle\int_0^1\int_0^1 cxy\,\mathrm dy\,\mathrm dx=c\cdot\frac12\cdot\frac12=\frac c4=1$，所以$c=4$。
+   :::

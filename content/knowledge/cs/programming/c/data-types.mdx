@@ -1,0 +1,228 @@
+---
+title: C数据类型与大小
+description: 说明C基本类型的字节大小、取值范围、溢出与整型除法，并把它们与Python的整数模型对照。
+---
+
+import CDataModelDemo from "@/demos/c-data-model-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+C的每个对象在编译时就有确定的类型，类型决定三件事：占多少个字节、这串位按什么规则解释、能做哪些运算。变量必须先声明类型再使用。
+
+`char`、`short`、`int`、`long`、`long long`是整数类型，`float`、`double`是浮点类型，`size_t`是无符号整数类型，`void *`是指针类型。标准只保证大小顺序，不规定具体位数：`sizeof(char)`恒为1，且`sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long)`。具体的位数由平台ABI决定。32位和Windows 64位（ILP32 / LLP64）中`long`是4字节，Linux与macOS的64位（LP64）中`long`是8字节。
+
+常见取值如下。大小一列以常见平台为准，写代码时应使用`sizeof`而不是记住具体数字。
+
+| 类型 | 常见大小 | 有符号范围 | 说明 |
+| :--- | :--- | :--- | :--- |
+| `char` | 1 byte | $-128\sim 127$ | 至少8位；是否有符号由实现决定 |
+| `short` | 2 bytes | $-32768\sim 32767$ | |
+| `int` | 4 bytes | $-2^{31}\sim 2^{31}-1$ | 约$\pm 21$亿 |
+| `long` | 4或8 bytes | 随平台 | Windows 64位为4，Linux/macOS 64位为8 |
+| `long long` | 8 bytes | $-2^{63}\sim 2^{63}-1$ | 约$\pm 9\times 10^{18}$ |
+| `float` | 4 bytes | 约$6\sim 7$位有效数字 | 单精度 |
+| `double` | 8 bytes | 约$15\sim 16$位有效数字 | 双精度 |
+| `size_t` | 4或8 bytes | 无符号 | `sizeof`的返回类型 |
+| `void *` | 4或8 bytes | 无符号 | 指针的字节宽度 |
+
+整数在内存中用补码表示，负数编码与范围见[补码与带符号整数运算](/knowledge/cs/data-representation/twos-complement/)；浮点数的字段划分与精度见[浮点数与IEEE 754](/knowledge/cs/data-representation/floating-point/)。
+
+普通`char`是否有符号取决于编译器和平台，需要明确范围时应写`signed char`或`unsigned char`，不要依赖`char`的符号性。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 溢出与回绕
+
+无符号整数按$2^n$取模回绕，这是有定义的行为：`unsigned char`的$255$加$1$得到$0$。
+
+有符号整数的溢出在标准中是**未定义行为**，编译器可以假设它不发生，并据此优化代码。典型实现会按补码回绕，例如`int`的最大值加$1$得到最小值，但这不能依赖，也不能作为判断溢出的手段。检查有符号加法是否溢出，要在运算前比较：
+
+```c title="检查加法是否溢出" showLineNumbers=false
+if (a > INT_MAX - b) { /* a + b会溢出 */ }
+```
+
+### 整数除法向零截断
+
+两个整数相除，结果仍是整数，小数部分直接丢弃，并且是**向零截断**而不是向下取整：
+
+| 表达式 | C的结果 | Python的对应结果 |
+| :--- | :---: | :---: |
+| `5 / 2` | `2` | `2.5`（`5 // 2`为`2`） |
+| `-5 / 2` | `-2` | `-3`（`//`为`-3`） |
+| `-5 % 2` | `-1` | `1` |
+
+`%`的符号随被除数，这是C与Python最容易对不上的地方。要做浮点除法，两个操作数中至少一个必须是浮点类型，例如`5 / 2.0`。
+
+### 字面量的进制与前缀
+
+整型字面量的前缀决定它的值：以`0`开头是八进制，以`0x`开头是十六进制，十进制没有前缀。
+
+| 字面量 | 十进制值 |
+| :--- | :---: |
+| `10` | 10 |
+| `010` | 8 |
+| `0x10` | 16 |
+| `0b1010` | 10（C23起，编译器通常作为扩展支持） |
+
+> [!NOTE]
+> 前缀在编译期就决定了值，与后面用哪个格式符打印无关：`printf("%d", 010)`输出的是`8`。把`010`读成十进制的10是最常见的读题错误。
+
+无符号类型用`%u`输出，各类型对应的格式符单独整理在[C格式化输入输出](/knowledge/cs/programming/c/format-io/)。
+
+### `sizeof`的性质
+
+`sizeof`是编译期运算符，返回`size_t`（无符号），打印时要配`%zu`。
+
+- `sizeof(char)`恒为1，C中的“1字节”就是`char`的大小。
+- `sizeof`的操作数不会被求值，`sizeof(i++)`不会让`i`自增；变长数组是例外。
+- `sizeof(数组名)`得到整个数组的字节数，`sizeof(指针)`得到指针本身的字节数，两者含义不同。
+
+### 与Python的差异
+
+| 方面 | C | Python |
+| :--- | :--- | :--- |
+| 整数宽度 | 由类型定宽，越界即溢出 | 任意精度，不会溢出 |
+| 整数除法 | `/`仍得整数，向零截断 | `/`得浮点数，`//`向下取整 |
+| 取模符号 | 随被除数，`-5 % 2`为`-1` | 随除数，`-5 % 2`为`1` |
+| 类型声明 | 先声明类型 | 动态类型 |
+| 字符与字符串 | `char`是1字节整数 | `str`是Unicode序列，没有单字节字符类型 |
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="打印各类型的大小"}
+
+```c title="sizes.c"
+#include <stdio.h>
+
+int main(void) {
+    printf("char=%zu short=%zu int=%zu long=%zu\n",
+           sizeof(char), sizeof(short), sizeof(int), sizeof(long));
+    printf("long long=%zu float=%zu double=%zu\n",
+           sizeof(long long), sizeof(float), sizeof(double));
+    printf("size_t=%zu pointer=%zu\n", sizeof(size_t), sizeof(void *));
+    return 0;
+}
+```
+
+在LP64平台上输出`char=1 short=2 int=4 long=8`、`long long=8 float=4 double=8`、`size_t=8 pointer=8`；在Windows 64位（LLP64）上`long`是4。
+
+:::
+
+:::example{title="无符号回绕与有符号溢出"}
+
+```c title="overflow.c"
+#include <stdio.h>
+#include <limits.h>
+
+int main(void) {
+    unsigned int u = 0;
+    u = u - 1;                 /* 有定义：回绕成UINT_MAX */
+    printf("%u\n", u);
+
+    int x = INT_MAX;
+    printf("%d\n", x);         /* 再加1是未定义行为，不能依赖结果 */
+    return 0;
+}
+```
+
+第一行输出`4294967295`（32位`unsigned int`）。第二处只打印最大值，故意不做$+1$：一旦溢出，标准不再保证结果。
+
+:::
+
+:::example{title="整数除法的两种语言结果"}
+
+```c title="division.c"
+#include <stdio.h>
+
+int main(void) {
+    printf("%d %d %d\n", 5 / 2, -5 / 2, -5 % 2);   /* 2 -2 -1 */
+    return 0;
+}
+```
+
+同样的值在Python里写`5 // 2`、`-5 // 2`、`-5 % 2`，得到`2`、`-3`、`1`。两个语言对“商”的定义不同，做题时按各自语言的规则计算。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CDataModelDemo />
+
+## 练习
+
+::problems{#c-data-types-practice}
+
+1. ::question{#char-size}
+
+   `sizeof(char)`的值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   C标准规定`sizeof(char)`恒为1，“1字节”就是`char`的大小。
+   :::
+
+2. ::question{#octal-literal}
+
+   整型字面量`010`作为数值是:blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="8"}
+
+   以`0`开头表示八进制，`010`即$1\times 8+0=8$。
+   :::
+
+3. ::question{#truncation}
+
+   在32位`int`的平台上，`-5 / 2`的值是:blank{#div type="number"}，`-5 % 2`的值是:blank{#mod type="number"}。
+
+   :::reference
+   ::correct{blank="div" value="-2"}
+   ::correct{blank="mod" value="-1"}
+
+   整数除法向零截断，商的整数部分是$-2$；余数的符号随被除数，所以是$-1$。
+   :::
+
+4. ::question{#size-t-format}
+
+   `size_t`类型的值应该用哪个格式符输出？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `%zu`
+   - :option[B]{#b} `%d`
+   - :option[C]{#c} `%u`
+   - :option[D]{#d} `%lu`
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   `size_t`是无符号类型，`%zu`是它对应的长度修饰符与格式符组合；写`%d`在64位平台上会读错字节。
+   :::
+
+5. ::question{#overflow-statements}
+
+   关于C的整数溢出，下列说法正确的是：
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 无符号整数溢出按$2^n$取模回绕，是有定义的行为
+   - :option[B]{#b} 有符号整数溢出是未定义行为
+   - :option[C]{#c} 改用`long`就不会溢出
+   - :option[D]{#d} 同样宽度的无符号与有符号类型编码个数相同，只是把负数区间换成了更大的正数区间
+   :::
+
+   :::reference
+   ::correct{option="a"}
+   ::correct{option="b"}
+   ::correct{option="d"}
+
+   无符号运算按模$2^n$定义，有符号溢出不在标准保证范围内。换成`long`只改变位宽，输入足够大时仍会溢出。8位为例，有符号是$-128\sim 127$，无符号是$0\sim 255$，个数同为256。
+   :::

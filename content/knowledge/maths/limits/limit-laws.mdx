@@ -1,0 +1,245 @@
+---
+title: 极限的四则运算与比较法则
+description: 极限存在且有限时的四则运算法则、夹逼定理、保号性与不等式性质，以及代入、代数变形和消去不定型的常用求极限方法。
+---
+
+import LimitCancellationDemo from "@/demos/limit-cancellation-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+极限的四则运算法则解决的是这样一类问题：已知$f$与$g$各自的极限，求$f\pm g$、$fg$、$f/g$等组合的极限。
+
+设$\lim_{x \to x_0}f(x)=A$，$\lim_{x \to x_0}g(x)=B$。当$A$、$B$都是有限数时，组合的极限由$A$、$B$唯一确定，这就是四则运算法则成立的前提。若组合的极限不能由各部分的极限直接确定，这类情形称为**不定型**，包括
+
+$$
+\frac{0}{0},\quad \frac{\infty}{\infty},\quad 1^\infty,\quad 0^0,\quad \infty^0,\quad \infty-\infty,\quad 0\cdot\infty.
+$$
+
+出现不定型时四则运算法则失效，必须先做变形，再重新求极限。
+
+## 四则运算与比较法则
+
+::section{#laws slot="knowledge.properties"}
+
+### 四则运算法则
+
+若$\lim f(x)=A$，$\lim g(x)=B$，且$A$、$B$都是有限数，则
+
+1. 和差法则：$\lim[f(x)\pm g(x)]=\lim f(x)\pm\lim g(x)=A\pm B$。
+2. 常数乘法法则：$\lim[Cf(x)]=C\lim f(x)=CA$，其中$C$为常数。
+3. 积法则：$\lim[f(x)\cdot g(x)]=\lim f(x)\cdot\lim g(x)=AB$。
+4. 商法则：$\lim\dfrac{f(x)}{g(x)}=\dfrac{\lim f(x)}{\lim g(x)}=\dfrac{A}{B}$，前提是$B\ne 0$。
+5. 幂法则：$\lim[f(x)]^n=[\lim f(x)]^n=A^n$，其中$n$为常数。
+
+> [!WARNING]
+> **法则的前提**
+>
+> 上述法则要求所有涉及的极限都存在且为有限值。商法则还要求分母的极限不为$0$：出现$A/0$（$A\ne 0$）时商法则不成立，出现$\dfrac{\infty}{\infty}$、$\dfrac{0}{0}$等不定型时也不能直接套用，两者都必须先变形。
+
+### 夹逼定理
+
+设$f(x)$、$g(x)$、$h(x)$在$x_0$的某去心邻域内（或$x\to\infty$时）满足
+
+$$
+f(x)\le g(x)\le h(x),
+$$
+
+且$\lim f(x)=\lim h(x)=L$，则$\lim g(x)=L$。
+
+:::proof
+设$\lim f(x)=\lim h(x)=L$。任给$\varepsilon>0$，存在$x_0$的去心邻域，使其中同时有
+
+$$
+L-\varepsilon<f(x),\qquad h(x)<L+\varepsilon.
+$$
+
+在该邻域内，
+
+$$
+L-\varepsilon<f(x)\le g(x)\le h(x)<L+\varepsilon,
+$$
+
+即$|g(x)-L|<\varepsilon$。因此$\lim g(x)=L$。
+:::
+
+> [!TIP]
+> **适用场景**
+>
+> 夹逼定理适合处理含$\sin\dfrac{1}{x}$、$\cos\dfrac{1}{x}$等有界振荡因子的极限：先把这个因子放缩到两个趋于同一值的界之间，或先证明它有界、另一个因子趋于$0$，再夹逼。它也可以用来证明较复杂的数列极限。
+
+### 保号性
+
+若$\lim_{x \to x_0}f(x)=A$且$A>0$（或$A<0$），则在$x_0$的某一去心邻域内有$f(x)>0$（或$f(x)<0$）。
+
+### 极限值与不等式
+
+若在$x_0$的某一去心邻域内$f(x)\le g(x)$，且$\lim f(x)$、$\lim g(x)$都存在，则
+
+$$
+\lim f(x)\le \lim g(x).
+$$
+
+> [!WARNING]
+> 严格不等式在取极限后可能变成等号。$f(x)=0$与$g(x)=x^2$在$x\to 0$时满足$f(x)<g(x)$，但两者的极限都等于$0$。
+
+### 常用求极限方法
+
+求极限时先直接代入（连续点），不能代入就考察类型，再选择变形方法。
+
+### 代入法
+
+若$f$在$x_0$处连续，则$\lim_{x \to x_0}f(x)=f(x_0)$。初等函数在其定义区间内都连续，所以这类极限可以直接代入。连续性的定义与判断见[函数在一点的连续性](/knowledge/maths/limits/continuity/)。
+
+### 消去不定型
+
+针对不同的不定型，常用以下变形手段。
+
+#### 代数变形
+
+- **因式分解与约分**：针对$\dfrac{0}{0}$型的有理式。例如
+  $$
+  \lim_{x \to 1}\frac{x^2-1}{x-1}
+  =\lim_{x \to 1}\frac{(x-1)(x+1)}{x-1}
+  =\lim_{x \to 1}(x+1)=2.
+  $$
+- **根式有理化**：针对含根式的$\dfrac{0}{0}$型或$\infty-\infty$型，乘以共轭表达式消去根式。
+- **提取最高次幂**：针对$x\to\infty$时的$\dfrac{\infty}{\infty}$型，分子分母同除以$x$的最高次幂。
+
+#### 洛必达法则
+
+若$\lim_{x \to x_0}f(x)=\lim_{x \to x_0}g(x)=0$（或都趋于$\infty$），$f$、$g$在$x_0$的去心邻域内可导且$g'(x)\ne 0$，并且$\lim_{x \to x_0}\dfrac{f'(x)}{g'(x)}$存在（或为$\infty$），则
+
+$$
+\lim_{x \to x_0}\frac{f(x)}{g(x)}=\lim_{x \to x_0}\frac{f'(x)}{g'(x)}.
+$$
+
+> [!WARNING]
+> 洛必达法则只适用于$\dfrac{0}{0}$型与$\dfrac{\infty}{\infty}$型。$1^\infty$、$0\cdot\infty$、$\infty-\infty$等其他不定型必须先转化成这两种形式。
+
+#### 等价无穷小代换
+
+当$x\to 0$时，若$\alpha(x)\sim\beta(x)$，则乘积或商中的因子$\alpha(x)$可以用$\beta(x)$替换；和差中的项不能直接逐项替换。基本等价关系与替换条件见[等价无穷小](/knowledge/maths/limits/equivalent-infinitesimals/)。
+
+#### 泰勒展开
+
+对于含多种初等函数的$\dfrac{0}{0}$型，若洛必达法则求导次数多、计算量大，可把分子分母分别展开到最低非零次幂再比较。
+
+#### 转化为指数形式
+
+对于幂指函数产生的$1^\infty$、$\infty^0$、$0^0$型，先利用对数恒等式把$f(x)^{g(x)}$写成$e^{g(x)\ln f(x)}$，求出指数部分的极限$L$，原极限为$e^L$。
+
+#### 两个重要极限
+
+第一个重要极限处理$\dfrac{0}{0}$型的三角函数，第二个重要极限处理$1^\infty$型。两者的结构、变形方法和几何意义见[两个重要极限](/knowledge/maths/limits/important-limits/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="有理化处理根式"}
+$$
+\lim_{x \to 0}\frac{\sqrt{1+x}-1}{x}
+=\lim_{x \to 0}\frac{(\sqrt{1+x}-1)(\sqrt{1+x}+1)}{x(\sqrt{1+x}+1)}
+=\lim_{x \to 0}\frac{1}{\sqrt{1+x}+1}
+=\frac{1}{2}.
+$$
+:::
+
+:::example{title="提取最高次幂"}
+$$
+\lim_{x \to \infty}\frac{3x^2+x}{2x^2-1}
+=\lim_{x \to \infty}\frac{3+\dfrac{1}{x}}{2-\dfrac{1}{x^2}}
+=\frac{3}{2}.
+$$
+:::
+
+:::example{title="用夹逼定理处理有界振荡因子"}
+当$x\ne 0$时，$0\le\left|x\sin\dfrac{1}{x}\right|\le|x|$。由$\lim_{x \to 0}|x|=0$及夹逼定理，
+
+$$
+\lim_{x \to 0}x\sin\frac{1}{x}=0.
+$$
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<LimitCancellationDemo />
+
+## 练习
+
+::problems{#limit-laws-practice}
+
+1. ::question{#factor-limit}
+
+   $\lim_{x \to 1}\dfrac{x^2-1}{x-1}=$ :blank{#factor-value type="number"}。
+
+   :::reference
+   ::correct{blank="factor-value" value="2"}
+
+   分子分母都趋于$0$，约去零因子$x-1$后得$\lim_{x \to 1}(x+1)=2$。
+   :::
+
+2. ::question{#highest-power-limit}
+
+   $\lim_{x \to \infty}\dfrac{3x^2+x}{2x^2-1}=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $0$
+   - :option[B]{#b} $\dfrac{3}{2}$
+   - :option[C]{#c} $3$
+   - :option[D]{#d} $+\infty$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   分子分母同除以$x^2$，得$\lim_{x \to \infty}\dfrac{3+1/x}{2-1/x^2}=\dfrac{3}{2}$。
+   :::
+
+3. ::question{#squeeze-limit}
+
+   $\lim_{x \to 0}x\sin\dfrac{1}{x}=$ :blank{#squeeze-value type="number"}。
+
+   :::reference
+   ::correct{blank="squeeze-value" value="0"}
+
+   由$0\le\left|x\sin\dfrac{1}{x}\right|\le|x|$和夹逼定理得到。
+   :::
+
+4. ::question{#inequality-property}
+
+   关于极限与不等式，下列说法正确的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 若$f(x)<g(x)$恒成立，则$\lim f(x)<\lim g(x)$
+   - :option[B]{#b} 若$f(x)\le g(x)$恒成立且两个极限都存在，则$\lim f(x)\le \lim g(x)$
+   - :option[C]{#c} 若$\lim f(x)\le \lim g(x)$，则必有$f(x)\le g(x)$恒成立
+   - :option[D]{#d} 四则运算法则只要求极限存在，不要求极限为有限值
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   取极限会把严格不等式放宽为非严格不等式，$f(x)=0$与$g(x)=x^2$在$x\to 0$时就是反例；四则运算法则要求极限存在且为有限值。
+   :::
+
+5. ::question{#indeterminate-form}
+
+   下列各式中，不是不定型的是
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{0}{0}$
+   - :option[B]{#b} $\dfrac{\infty}{\infty}$
+   - :option[C]{#c} $1^\infty$
+   - :option[D]{#d} $\dfrac{1}{0}$
+   :::
+
+   :::reference
+   ::correct{option="d"}
+
+   $\dfrac{1}{0}$的分子不趋于$0$，函数值的绝对值趋于无穷，不属于不定型；但商法则要求分母极限不为$0$，所以也不能直接套用。
+   :::

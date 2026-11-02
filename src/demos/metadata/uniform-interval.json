@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "阈值左侧占多大比例？",
+      "description": "在单位区间上改变阈值，比较事件长度和概率。",
+      "messages": {
+        "label": "单位区间上的几何概率",
+        "intro": "在$[0,1]$上均匀取点，调整阈值$a$，深色线段表示事件$X\\le a$。",
+        "threshold": "阈值$a$",
+        "diagram": "深色区间长度为{value}",
+        "result": "$P(X\\le a)={value}$；事件区间长度除以总长度$1$。"
+      },
+      "tags": ["概率论", "均匀分布"]
+    }
+  }
+}

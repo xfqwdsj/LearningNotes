@@ -1,0 +1,47 @@
+---
+title: 1.1&#32;随机事件
+description: 按教材顺序整理随机试验的建模与事件运算，并给出知识点入口。
+---
+## 阅读入口
+
+- [随机事件](/knowledge/maths/probability/random-events/)
+
+## 样本空间与事件
+
+::knowledge{path="maths/probability/sample-space" slot="definition"}
+
+::knowledge{path="maths/probability/random-events" slot="definition"}
+
+教材把三条试验要求放在最前，是为了先固定$\Omega$再谈事件；事件是$\Omega$的子集，换一个样本空间就等于换了一道题。
+
+## 事件的关系与运算
+
+::knowledge{path="maths/probability/random-events" slot="properties"}
+
+这里只做事件层面的翻译，还没有引入概率；等1.2定义$P$之后，这些运算式才真正进入计算。
+
+## 探索事件运算
+
+::knowledge{path="maths/probability/random-events" slot="exploration"}
+
+## 学习安排
+
+先把试验结果组织成样本空间，再讨论事件之间的关系与运算。事件运算与集合运算平行，德摩根律用于在“至少一个”“一个都不发生”之间转换。
+
+建模时先根据记录的结果选择样本空间，再判断各样本点是否等可能。这一步决定后面能否直接用计数方法，也决定“恰有一个发生”这类说法能否准确翻译成事件运算。
+
+## 课程约定
+
+- 事件用大写字母$A,B$表示，样本空间记$\Omega$，样本点记$\omega$。
+- 积事件简写为$AB$，与$A\cap B$同义。
+- 对立事件记$\bar A$，与$\Omega-A$同义。
+
+## 易错点
+
+- 互斥只要求$AB=\varnothing$，不要求$A\cup B=\Omega$；对立一定互斥，互斥未必对立。
+- “恰有一个发生”不等于“至少一个发生”，后者的并事件还包含同时发生的情形。
+- 掷两枚可区分的均匀骰子时，有序点数对等可能；点数和可以作为样本点，但不能视为等可能。
+
+## 复习要点
+
+复习时先写出$\Omega$，再把题目中的“至少一个”“一个都不发生”“恰有一个”逐句翻译成事件运算，最后才代入概率或计数。检查时优先确认有没有把非互斥的情形直接相加。

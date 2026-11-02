@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "向量相加时坐标怎样变化？",
+      "description": "调整第二个向量并计算和向量。",
+      "messages": {
+        "label": "向量加法",
+        "intro": "固定$\\boldsymbol a=(2,1)$，调整$\\boldsymbol b$。虚线从原点画出$\\boldsymbol b$，同一向量平移后接在$\\boldsymbol a$的终点，粗箭头给出和向量。",
+        "x": "$b$的横坐标",
+        "y": "$b$的纵坐标",
+        "result": "向量加法逐分量相加；和向量可以用首尾相接的两段位移表示。"
+      },
+      "tags": ["空间几何", "向量"]
+    }
+  }
+}

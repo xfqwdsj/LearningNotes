@@ -1,0 +1,35 @@
+---
+title: 函数项级数
+description: 逐点讨论函数项级数的收敛点、收敛域与和函数。
+---
+
+import FunctionSeriesDemo from "@/demos/function-series-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若级数的每一项都是定义在区间$I$上的函数，
+
+$$
+u_1(x)+u_2(x)+u_3(x)+\cdots+u_n(x)+\cdots,
+$$
+
+则称它为**函数项级数**。对$I$上的每一点$x_0$，代入后得到一个常数项级数$\sum u_n(x_0)$，它可能收敛也可能发散。
+
+若$\sum u_n(x_0)$收敛，则称$x_0$为函数项级数的**收敛点**，所有收敛点构成的集合称为**收敛域**。在收敛域上，级数的和是$x$的函数
+
+$$
+s(x)=\sum_{n=1}^{\infty}u_n(x)=\lim_{n\to\infty}s_n(x),
+$$
+
+称为**和函数**，其中$s_n(x)=\sum_{k=1}^{n}u_k(x)$是**部分和函数**。
+
+函数项级数在每个收敛点上都化归为常数项级数，所以它的收敛域由逐点判断常数项级数得到；和函数则把这些点的和收集成一个函数。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<FunctionSeriesDemo />

@@ -1,0 +1,57 @@
+---
+title: 旋转体的体积
+description: 用圆盘截面和定积分计算旋转体体积。
+---
+
+import SolidDiskDemo from "@/demos/solid-disk-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+由$y=f(x)$、$x$轴及$x=a$、$x=b$围成的图形绕$x$轴旋转，在$x$处截出厚$\mathrm{d}x$的薄圆盘，底面半径为$|f(x)|$，于是
+
+$$
+\mathrm{d}V=\pi f^2(x)\,\mathrm{d}x,\qquad
+V=\pi\int_a^bf^2(x)\,\mathrm{d}x.
+$$
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="旋转体体积：$y=\sqrt{x}$绕$x$轴，$0\le x\le 1$"}
+
+$$
+V=\pi\int_0^1(\sqrt{x})^2\,\mathrm{d}x=\pi\int_0^1x\,\mathrm{d}x=\frac{\pi}{2}.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SolidDiskDemo />
+
+## 练习
+
+::problems{#solid-disk-practice}
+
+1. ::question{#volume-disk}
+
+   $y=x^2$（$0\le x\le 1$）与$x$轴围成的图形绕$x$轴旋转所得旋转体的体积是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{\pi}{5}$
+   - :option[B]{#b} $\dfrac{\pi}{4}$
+   - :option[C]{#c} $\dfrac{\pi}{3}$
+   - :option[D]{#d} $\dfrac{\pi}{2}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   体积微元为$\pi(x^2)^2\,\mathrm{d}x=\pi x^4\,\mathrm{d}x$，积分为$\pi\cdot\frac{1}{5}=\frac{\pi}{5}$。
+   :::

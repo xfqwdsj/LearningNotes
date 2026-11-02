@@ -1,0 +1,26 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "发送数据时，各层怎样封装？",
+      "description": "逐层查看应用报文如何加入传输、网络和链路信息。",
+      "messages": {
+        "label": "网络数据的逐层封装",
+        "intro": "从应用报文开始，逐层向下查看示意性的封装过程；物理层再把帧转换为信号。",
+        "previous": "上一层",
+        "next": "下一层",
+        "progress": "第{step} / {total}层",
+        "application": "应用报文",
+        "transport": "传输层",
+        "network": "网络层",
+        "link": "链路层",
+        "diagram": "当前封装到{layer}",
+        "applicationDescription": "应用层先生成报文。",
+        "transportDescription": "传输层添加端口等信息，形成段或数据报。",
+        "networkDescription": "网络层添加源和目的IP地址，形成数据包。",
+        "linkDescription": "链路层添加本跳的链路信息，形成帧。"
+      },
+      "tags": ["计算机网络", "网络分层"]
+    }
+  }
+}

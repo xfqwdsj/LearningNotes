@@ -1,0 +1,47 @@
+---
+title: 完备事件组
+description: 将样本空间划分为互不重叠且覆盖全部可能的事件。
+---
+
+import EventPartitionDemo from "@/demos/event-partition-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若事件$B_1,B_2,\ldots,B_n$两两互斥，并且$\bigcup_{i=1}^{n}B_i=\Omega$，则称它们构成一个**完备事件组**。当各$B_i$非空时，它们也构成样本空间的一个**划分**。样本空间与事件的记号见[随机事件](/knowledge/maths/probability/random-events/)。
+
+在使用$P(A\mid B_i)$的公式时，还必须要求$P(B_i)>0$；非空事件的概率不一定为正。这里单独说明这一附加条件，避免把集合划分与概率条件混为一谈。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+任意事件$A$可以分解为$AB_i=A\cap B_i$的并：
+
+$$
+A=\bigcup_{i=1}^{n}AB_i.
+$$
+
+这些交事件两两互斥，因此可以分别计算概率后相加。这是[全概率公式](/knowledge/maths/probability/total-probability/)的基础。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择两个事件包含的骰子点数，分别检查是否有重叠和遗漏。
+
+<EventPartitionDemo />
+
+## 练习
+
+::problems{#partition-practice}
+
+1. ::question{#partition}
+
+   对样本空间$\Omega=\{1,2,3,4,5,6\}$，令$A=\{1,3,5\}$、$B=\{2,4,6\}$。这两个事件是否构成完备事件组？
+
+   :::reference
+
+   是。$A\cap B=\varnothing$，且$A\cup B=\Omega$。
+   :::

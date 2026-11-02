@@ -1,0 +1,24 @@
+---
+title: Python内置函数
+description: 了解无需导入即可调用的内置函数，以及函数与对象方法的区别。
+---
+
+import PythonBuiltinsDemo from "@/demos/python-builtins-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+Python的**内置函数**可在通常的执行环境中直接调用，无须先导入模块。例如`len`接收一个支持长度的对象并返回长度；`sorted`、`range`和`zip`分别用于排序、整数序列与按位置配对。
+
+对象方法通过对象访问，例如列表的`append`和`sort`。调用前应确认函数或方法的参数、返回值以及是否修改已有对象；名称是否为内置函数，不能单独决定这些行为。
+
+具体规则见[排序](/knowledge/cs/programming/python/sorting/)、[列表追加](/knowledge/cs/programming/python/list-append/)、[range](/knowledge/cs/programming/python/range/)和[zip](/knowledge/cs/programming/python/zip/)。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变列表长度，查看`len`的返回值。
+
+<PythonBuiltinsDemo />

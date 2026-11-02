@@ -1,0 +1,42 @@
+---
+title: Python排序
+description: 比较sorted创建新列表与列表sort原地排序。
+---
+
+import PythonSortDemo from "@/demos/python-sort-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+`sorted(iterable)`返回新的排序列表，不会原地修改输入；列表的`sort()`原地排序并返回`None`。两者都可按需要传入排序键或反向排序选项，但适用对象不同：`sorted`接受可迭代对象，`sort`是列表方法。
+
+因此`a = a.sort()`会把`None`赋给`a`，而原列表已经被排序。需要保留原列表时可使用`sorted(a)`。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="`sort()`的返回值是`None`"}
+
+```python title="sort-return.py"
+a = [3, 1, 2]
+b = a.sort()
+print(a)  # [1, 2, 3]
+print(b)  # None
+
+c = [3, 1, 2]
+d = sorted(c)
+print(c)  # [3, 1, 2]
+print(d)  # [1, 2, 3]
+```
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择排序方式，比较调用后的原列表和返回值。
+
+<PythonSortDemo />

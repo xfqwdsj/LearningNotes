@@ -1,0 +1,59 @@
+---
+title: 8.3&#32;两个正态总体的假设检验
+description: 两个正态总体均值差与方差比检验的阅读顺序、选型约定和易错点。
+---
+## 阅读入口
+
+- [两个独立正态总体均值差检验](/knowledge/maths/statistics/two-sample-tests/)
+- [配对样本均值检验](/knowledge/maths/statistics/paired-sample-test/)
+- [两个正态总体方差比检验](/knowledge/maths/statistics/variance-ratio-test/)
+- [单个正态总体均值检验](/knowledge/maths/statistics/one-sample-tests/)
+- [假设检验的基本概念](/knowledge/maths/statistics/hypothesis-testing/)
+- [抽样分布](/knowledge/maths/statistics/sampling-distributions/)
+
+## 设定与记号
+
+::knowledge{path="maths/statistics/two-sample-tests" slot="definition"}
+
+本节统一使用$\bar X-\bar Y$的顺序，下面三种情形的拒绝域表都按这个顺序书写；换组时要同步改写整段公式。
+
+## 均值差的检验
+
+::knowledge{path="maths/statistics/two-sample-tests" slot="properties"}
+
+这一段的三种情形合成一张拒绝域表，选型时按“题目给了多少信息”从上往下取第一行适用的，不必三种都算一遍。
+
+## 方差比的F检验
+
+::knowledge{path="maths/statistics/variance-ratio-test" slot="properties"}
+
+方差比检验与8.2的方差检验是一对：单总体用$\chi^2$，两总体用$F$，自由度分别是$n-1$与$(n_1-1,n_2-1)$。
+
+## 学习安排
+
+本节先讨论均值，再讨论方差。均值部分按条件强弱分三层——两个方差都已知、方差未知但假定相等、方差未知且不假定相等（Welch）；随后把三种情形的拒绝域合并成一张表，再讲配对设计如何化为单个总体的差值检验；最后是方差比的$F$检验。
+
+选择哪一种统计量，取决于题目给了多少信息：给了两个$\sigma$就用$Z$；只给样本方差并且明说方差相等，就用合并$t$；只说“方差未知”而不提相等，就用Welch。
+
+## 配对样本检验
+
+::knowledge{path="maths/statistics/paired-sample-test" slot="definition"}
+
+## 课程约定
+
+- 全章固定“第一组减第二组”：分子写$\bar X-\bar Y-\Delta_0$，备择方向也按$\mu_1-\mu_2$描述。
+- 合并方差的自由度记为$n_1+n_2-2$；Welch的自由度记为$\nu$，手工查表时取相邻整数并注明是近似。
+- 配对检验先逐对作差，自由度按对数$n-1$计。
+- 方差比检验默认$r_0=1$；本课程的表只给上侧分位点，左侧临界值用$1/F_\alpha(\nu_2,\nu_1)$换算，两个自由度同时交换。
+
+## 易错点
+
+- 把合并方差算成两个样本方差的算术平均。
+- 把配对检验的自由度写成$n_1+n_2-2$，或把两列数据的方差直接相加当作差值的方差。
+- 交换$F$统计量的分子分母时只改了统计量，没有同步交换自由度与备择方向。
+- 双侧$F$检验为了查表把较大的样本方差放到分子后，仍按$\alpha$而不是$\alpha/2$取临界值。
+- 把“先做$F$检验、再按结果选$t$检验”当成固定流程；$F$检验对非正态敏感，未拒绝也不等于方差相等。
+
+## 复习要点
+
+三种均值差情形的公式只差分母，复习时按“标准误怎么来”记：方差已知直接拼$\sigma_i^2/n_i$；方差相等先按自由度加权合成$S_p^2$，再乘$\sqrt{1/n_1+1/n_2}$；方差不等直接拼$S_i^2/n_i$，自由度另外算出。Welch的自由度不超过$n_1+n_2-2$，两组容量相等且样本方差相等时取等号；自由度变小会让临界值变大，判别更保守。

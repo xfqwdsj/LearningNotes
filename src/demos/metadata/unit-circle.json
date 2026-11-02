@@ -1,0 +1,22 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "角怎样决定正弦与余弦？",
+      "description": "旋转单位圆上的终边，观察余弦、正弦的投影与象限符号。",
+      "messages": {
+        "label": "单位圆与三角函数演示",
+        "intro": "单位圆上终边与$x$轴正方向的夹角为$\\alpha$。点的横坐标是$\\cos\\alpha$，纵坐标是$\\sin\\alpha$。",
+        "angleLabel": "角$\\alpha$",
+        "axis": "坐标轴",
+        "first": "第一象限",
+        "second": "第二象限",
+        "third": "第三象限",
+        "fourth": "第四象限",
+        "diagram": "单位圆上角{angle}度的终边与投影",
+        "result": "当$\\alpha={angle}^\\circ$时，$\\cos\\alpha={cos}$，$\\sin\\alpha={sin}$；终边在{quadrant}，两个投影的符号由象限决定。"
+      },
+      "tags": ["三角函数", "单位圆", "角"]
+    }
+  }
+}

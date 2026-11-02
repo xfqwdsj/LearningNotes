@@ -1,0 +1,77 @@
+---
+title: $p$值
+description: 解释$p$值并计算标准正态检验的尾概率。
+---
+
+import PValueDemo from "@/demos/p-value-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**$p$值**是在$H_0$成立的前提下，出现与观测结果同样极端或更极端结果的概率。“极端”的方向由备择假设与检验统计量事先规定，不能事后挑选。
+
+若检验统计量在$H_0$下服从标准正态分布，观测值为$z$，则
+
+$$
+\text{右侧：}\ p=1-\Phi(z),\qquad
+\text{左侧：}\ p=\Phi(z),\qquad
+\text{双侧：}\ p=2[1-\Phi(|z|)],
+$$
+
+其中$\Phi$是标准正态分布函数。本页用$z_\alpha$表示标准正态的上$\alpha$分位点，即$P\{Z>z_\alpha\}=\alpha$；分位点的完整定义见[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。一般地，$p$值等于“从观测值出发、沿拒绝方向更极端”的那部分概率。若$p\le\alpha$，则拒绝$H_0$；连续分布中边界取不取等号不影响概率。
+
+> [!CAUTION]
+> **$p$值的三个常见误解**
+>
+> $p$值不是“$H_0$为真的概率”，也不是“结论出错的概率”，更不是效应大小的度量。它只回答“如果$H_0$成立，当前数据有多不寻常”。统计显著也不等于差异在实际中足够重要，判断时还要看效应大小与置信区间。
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PValueDemo />
+
+## 练习
+
+::problems{#p-value-practice}
+
+1. ::question{#right-tailed-p}
+
+   标准正态检验统计量的观测值为$z=2.5$，做右侧检验。已知$\Phi(2.5)=0.9938$，$p$值为:blank{#right-p type="number"}。
+
+   :::reference
+   ::correct{blank="right-p" value="0.0062"}
+
+   右侧$p$值为$1-\Phi(2.5)=1-0.9938=0.0062$。
+   :::
+
+2. ::question{#two-tailed-p}
+
+   标准正态检验统计量的观测值为$z=1.5$，做双侧检验。已知$\Phi(1.5)=0.9332$，$p$值为:blank{#two-sided-p type="number"}。
+
+   :::reference
+   ::correct{blank="two-sided-p" value="0.1336"}
+
+   双侧$p$值为$2[1-\Phi(1.5)]=2(1-0.9332)=0.1336$。双侧要把“同样极端”的两个方向都算上，所以乘$2$。
+   :::
+
+3. ::question{#p-value-statements}
+
+   关于$p$值，下列说法正确的是
+
+   :::choices{#choice-p-value mode="multiple"}
+   - :option[A]{#a} $p$值是在$H_0$下出现当前或更极端结果的概率
+   - :option[B]{#b} $p$值越小，$H_0$为真的概率越小
+   - :option[C]{#c} 双侧检验要把两个方向的极端结果都计入$p$值
+   - :option[D]{#d} 统计显著说明差异在实际中一定重要
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   $p$值是给定$H_0$时数据的概率，不是$H_0$的后验概率；双侧检验按两个方向计算。统计显著只说明数据与$H_0$不相容到一定程度，效应是否重要要另外判断。
+   :::

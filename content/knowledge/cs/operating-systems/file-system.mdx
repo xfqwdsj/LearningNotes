@@ -1,0 +1,121 @@
+---
+title: 目录树与路径
+description: 用目录、路径和访问权限定位并访问文件。
+---
+
+import PathResolutionDemo from "@/demos/path-resolution-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### 目录树
+
+文件系统是操作系统中负责管理持久化数据的子系统，它把存储设备上的数据组织成**文件**和**目录**，让程序不必关心数据落在哪个扇区。许多系统将路径组织成以目录为节点的层次结构：
+
+- **根目录**是树的起点。Windows中通常是盘符（如`C:\`），Unix/Linux中是`/`。
+- **目录**是可以包含文件和其他目录的容器。
+- **文件**是存储数据的基本单元。
+- **路径**是定位文件的地址。
+
+```text title="一个目录树"
+C:\ (根)
+├── Windows/
+├── Program Files/
+└── Users/
+    └── Alice/
+        ├── Documents/
+        │   ├── PythonProjects/
+        │   │   ├── ProjectA/
+        │   │   │   └── main.py
+        │   │   └── DataAnalysis/
+        │   │       └── data.csv
+        └── Downloads/
+```
+
+Windows为每个盘符建立一棵独立的树，所以一台机器可以有多个根；Unix只在`/`处有一棵树，其他设备通过挂载接到树上。这个差别决定了路径怎么写，但两种系统里的目录都是树的节点。
+
+### 路径
+
+路径由沿途的目录名和最后的文件名拼成，分为两种：
+
+| 类型 | 起点 | 例子 |
+| :--- | :--- | :--- |
+| 绝对路径 | 根目录 | `C:\Users\Alice\Documents\file.txt` |
+| 相对路径 | 当前工作目录 | `./DataAnalysis/data.csv` |
+
+`.`表示当前目录，`..`表示父目录。分隔符随系统不同：Windows用反斜杠`\`，Unix用斜杠`/`。在Python字符串里写Windows路径时，反斜杠要转义，或者改用原始字符串。
+
+相对路径的起点是进程的当前工作目录，不是脚本文件所在的目录。同一个相对路径，从不同目录启动、或运行中切换了工作目录，就可能指向不同甚至不存在的文件。需要稳定定位时用绝对路径，或先根据脚本位置构造路径。
+
+### 访问权限
+
+名字之外，文件系统还为每个对象记录访问控制信息。Unix风格系统常用所有者、所属组和其他用户的读、写、执行权限位，也可能结合访问控制列表等机制。目录上的这三种权限含义与普通文件不同：
+
+| 权限 | 对文件 | 对目录 |
+| :--- | :--- | :--- |
+| 读 | 读取内容 | 列出目录中的条目 |
+| 写 | 修改内容 | 在目录中增删条目 |
+| 执行 | 作为程序运行 | 进入该目录并访问其下的文件 |
+
+Windows用访问控制列表（ACL）逐条记录允许和拒绝，概念上同样是“谁能对哪个对象做什么”。
+
+打开文件时，模式说明这次要做什么，权限决定进程是否被允许这样做。因此打开失败不一定代表路径写错：文件不存在、路径中某一级目录不可进入、文件没有相应权限，都会让打开操作失败，区别只在错误码和异常类型。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="相对路径随工作目录改变"}
+
+设当前工作目录是`C:\Users\Alice\Documents`。相对路径`PythonProjects\DataAnalysis\data.csv`指向上面的目录树里的`data.csv`，等价的绝对路径是`C:\Users\Alice\Documents\PythonProjects\DataAnalysis\data.csv`。
+
+若进程改用`C:\Users\Alice\Downloads`作为工作目录，同一相对路径会去找`C:\Users\Alice\Downloads\PythonProjects\DataAnalysis\data.csv`，那里没有这个文件，打开时报错。文件本身没动，变的是解析起点。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+切换当前工作目录，比较相对路径和绝对路径的解析结果。
+
+<PathResolutionDemo />
+
+## 练习
+
+::problems{#paths-practice}
+
+1. ::question{#absolute-path}
+
+   在Unix风格路径中，下列哪个是绝对路径？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} `./data.csv`
+   - :option[B]{#b} `../data.csv`
+   - :option[C]{#c} `/home/alice/data.csv`
+   - :option[D]{#d} `data.csv`
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   Unix下以`/`开头的路径从根目录出发，与当前工作目录无关；其余三个都依赖当前工作目录。
+   :::
+
+2. ::question{#directory-permission}
+
+   目录的“执行”权限允许进程做什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 列出目录中的条目
+   - :option[B]{#b} 读取目录下文件的内容
+   - :option[C]{#c} 进入该目录并访问其下的文件
+   - :option[D]{#d} 修改目录下文件的内容
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   列出条目靠目录的读权限，增删条目靠写权限；执行权限允许穿过目录查找条目；访问目标文件还需要相应的文件权限。所以只有执行权限而没有读权限时，知道文件名仍可能打开文件，但无法列出目录。
+   :::

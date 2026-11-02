@@ -1,0 +1,78 @@
+---
+title: 4.1&#32;Python程序设计基础
+description: 按求值顺序、序列行为、输出格式和内置函数四条线整理本节的复习入口、考试约定与易错点。
+---
+
+## 阅读入口
+
+- [运算符优先级](/knowledge/cs/programming/operator-precedence/)
+- [Python切片](/knowledge/cs/programming/python/sequences/)
+- [Python对象可变性](/knowledge/cs/programming/python/mutability/)
+- [Python字符串格式化](/knowledge/cs/programming/python/string-formatting/)
+- [Python内置函数](/knowledge/cs/programming/python/builtins/)
+
+## 求值顺序
+
+::knowledge{path="cs/programming/python/operator-precedence" slot="definition"}
+
+表里只列Python的运算符，本节所有表达式题都按这张表判断。教材的例题常写成数学式子的样子，作答时仍按这里的顺序求值。
+
+## 切片的边界与返回值
+
+::knowledge{path="cs/programming/python/sequences" slot="properties"}
+
+切片和索引的行为差别都在这一段里。本节做题时先看写法中有没有冒号，再判断越界的后果。
+
+## 对象可变性
+
+::knowledge{path="cs/programming/python/mutability" slot="properties"}
+
+判断“修改”是否影响另一个变量时，先确认两个变量是否引用同一个对象，再确认对象是否允许原地改变。
+
+## 内置函数与列表方法
+
+::knowledge{path="cs/programming/python/builtins" slot="definition"}
+
+## 排序与列表追加
+
+::knowledge{path="cs/programming/python/sorting" slot="definition"}
+
+::knowledge{path="cs/programming/python/list-append" slot="definition"}
+
+## 整数序列与配对
+
+::knowledge{path="cs/programming/python/range" slot="definition"}
+
+::knowledge{path="cs/programming/python/zip" slot="definition"}
+
+`sort`、`append`、`extend`三组最容易混，区别都落在“返回新对象、原地修改还是返回`None`”上。
+
+## 学习安排
+
+本节汇总考试中容易混淆、需要记住的Python细节。四块内容分别回答四类问题：
+
+- 表达式先算哪一部分：优先级、结合方向与短路求值；
+- 序列的边界怎么算：切片的缺省值、负索引与越界；
+- 输出长什么样：对齐、补零、精度与类型；
+- 一次调用做了什么：返回新对象、原地修改，还是返回`None`。
+
+四块之间没有推导依赖，可以按自己的薄弱项调整顺序。建议先读知识点里的表格，再合上表手算几个表达式，最后用题集核对。切片和返回值的题最容易在选择题里失分，留到最后复查。
+
+## 课程约定
+
+- 按Python 3的规则作答；`:=`是Python 3.8才加入的写法，旧版本不能使用。
+- 求表达式结果时按Python的实际求值顺序，不按数学书写习惯。例如`-3**2`先算幂再取负。
+- 题目说“切片越界”时按截断或空序列作答；只有单个下标越界才按抛出`IndexError`处理。
+- 本节只讨论Python。C的表达式规则见[4.2 C程序设计基础](/courses/cs/csintro/4.2/)；两种语言的优先级差异见[运算符优先级](/knowledge/cs/programming/operator-precedence/)。
+
+## 易错点
+
+- 幂运算右结合，`2**3**2`不是`(2**3)**2`；一元负号的优先级低于`**`。
+- `not a == b`先比较后取非；`and`先于`or`，不要按从左到右的顺序平均理解。
+- `a = a.sort()`会把`None`赋给`a`；原地排序与返回新列表要分清。
+- `append`加入的是一个元素，`extend`展开的是可迭代对象。
+- 切片得到新列表，`b = a`得到的才是别名。
+
+## 复习要点
+
+做优先级题时先在草稿上补括号，再按括号求值；切片题先判断`step`的正负，再套`start`、`stop`的缺省值。这两步能把大部分“看着会、算错”的题挡下来。

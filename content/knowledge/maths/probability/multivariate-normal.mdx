@@ -1,0 +1,95 @@
+---
+title: 多元正态分布
+description: 用线性组合刻画多元正态，并说明二维条件分布与独立性。
+---
+
+import NormalConditionalDemo from "@/demos/normal-conditional-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+若$\boldsymbol X$的任意线性组合$\sum_i a_iX_i$都是正态变量或常数，则称$\boldsymbol X$服从**多元正态分布**，记作
+
+$$
+\boldsymbol X\sim N_n(\boldsymbol\mu,\Sigma),
+$$
+
+其中$\boldsymbol\mu=(E X_1,\ldots,E X_n)^{\mathsf T}$是均值向量，$\Sigma=\bigl(\operatorname{Cov}(X_i,X_j)\bigr)_{n\times n}$是协方差矩阵。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+对二维非退化情形，设$\sigma_1,\sigma_2>0$、$|\rho|<1$，联合密度为
+
+$$
+\frac{1}{2\pi\sigma_1\sigma_2\sqrt{1-\rho^2}}
+\exp\left(-\frac{1}{2(1-\rho^2)}
+\left[
+\frac{(x-\mu_1)^2}{\sigma_1^2}
+-2\rho\frac{(x-\mu_1)(y-\mu_2)}{\sigma_1\sigma_2}
++\frac{(y-\mu_2)^2}{\sigma_2^2}
+\right]\right).
+$$
+
+此时两个边缘分布都是正态分布，条件分布也是正态分布：
+
+$$
+X\mid Y=y\sim N\left(\mu_1+\rho\frac{\sigma_1}{\sigma_2}(y-\mu_2),\ \sigma_1^2(1-\rho^2)\right).
+$$
+
+条件均值关于$y$是线性的，条件方差与$y$无关，只与$\rho$和$\sigma_1^2$有关。
+
+> [!IMPORTANT]
+> **两条容易混淆的性质**
+>
+> 联合正态向量各分量两两不相关，就相互独立，这是多元正态特有的性质，不能推广到一般的随机向量。反过来，仅知道各分量的边缘分布都是正态，不能推出联合分布是多元正态，因此也不能由相关系数为零推出两个变量独立。
+
+> [!CAUTION]
+> $|\rho|=1$时协方差矩阵退化，$(X,Y)$以概率$1$落在一条直线上，上面的二维密度不存在，条件密度公式也不再适用。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="二维正态的条件分布"}
+
+设$(X,Y)$服从二维正态分布，$\mu_1=\mu_2=0$，$\sigma_1=2$，$\sigma_2=1$，$\rho=0.5$。给定$Y=y$时，
+
+$$
+X\mid Y=y\sim N\left(0.5\times\frac{2}{1}(y-0),\ 2^2(1-0.5^2)\right)=N(y,\ 3).
+$$
+
+条件均值随$y$线性变化，条件方差恒为$3$。$y$每增大$1$，$X$的条件均值也增大$1$，这是$\rho$接近$1$时的正向联动。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+两个分量均为标准正态时，调整相关系数与已知的$Y$值，比较$X$的条件均值和条件方差。
+
+<NormalConditionalDemo />
+
+## 练习
+
+::problems{#multivariate-normal-practice}
+
+1. ::question{#joint-normal}
+
+   设$(X,Y)$服从二维正态分布，且$\sigma_1>0$、$\sigma_2>0$、$|\rho|<1$。下列说法正确的是
+
+   :::choices{#choice-joint-normal mode="single"}
+   - :option[A]{#a} $\rho=0$时$X$与$Y$相互独立
+   - :option[B]{#b} 只要$X$、$Y$各自服从正态分布，$(X,Y)$就服从二维正态分布
+   - :option[C]{#c} $\rho=1$时仍有上述二维密度
+   - :option[D]{#d} 联合正态时，$X$与$Y$不相关不能推出相互独立
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   联合正态向量中两两不相关与相互独立等价，所以$\rho=0$时两个分量独立。边缘分布都是正态不能保证联合正态（选项B错）；$|\rho|=1$时协方差矩阵退化，没有二维密度（选项C错）；联合正态下不相关确实能推出独立（选项D错）。
+   :::

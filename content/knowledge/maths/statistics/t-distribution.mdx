@@ -1,0 +1,47 @@
+---
+title: $t$分布
+description: $t$分布的定义与性质。
+---
+
+import TConstructionDemo from "@/demos/t-construction-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$Z\sim N(0,1)$，$U\sim\chi^2(\nu)$，且$Z$与$U$相互独立，则
+
+$$
+T=\frac{Z}{\sqrt{U/\nu}}\sim t(\nu).
+$$
+
+$t$分布的密度关于零对称，所以$t_{1-\alpha}(\nu)=-t_\alpha(\nu)$；自由度增大时它趋近于标准正态，通常$\nu>30$就可用正态近似。
+
+它的矩要按自由度分别讨论：
+
+- $\nu>1$时$E(T)=0$；
+- $\nu>2$时$D(T)=\dfrac{\nu}{\nu-2}$；
+- $\nu\le1$时期望不存在，$\nu=1$的$t$分布就是柯西分布；
+- $1<\nu\le2$时期望存在但方差不存在。
+
+所以小自由度时不能套用不存在的矩，写$D(T)=\nu/(\nu-2)$之前先确认$\nu>2$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="t分布的矩要按自由度讨论"}
+
+设$T\sim t(5)$，则$\nu=5>2$，故$E(T)=0$，$D(T)=\dfrac{5}{5-2}=\dfrac53$。
+
+若$T\sim t(2)$，$\nu=2$不满足$\nu>2$，方差不存在，只有$E(T)=0$。写$D(T)=\dfrac{2}{0}$这样的式子没有意义：$\nu\le2$时不能用方差描述$T$的离散程度，也不要在此基础上套用正态近似。
+
+若$T\sim t(1)$，它是柯西分布，连期望都不存在；这正是[数学期望](/knowledge/maths/probability/expectation/)中那个“密度关于零对称但期望不存在”的例子。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TConstructionDemo />

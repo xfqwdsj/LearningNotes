@@ -1,0 +1,265 @@
+---
+title: 条件分布
+description: 已知另一个随机变量取值的条件下描述随机变量的分布，给出离散型条件分布律与连续型条件密度，说明支持区域的变化和由条件分布还原联合分布的方法。
+---
+
+import ConditionalDistributionDemo from "@/demos/conditional-distribution-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$(X,Y)$是二维随机变量。已知$Y$的取值后$X$的分布，称为在$Y=y$条件下$X$的**条件分布**。它把参照范围从$(X,Y)$的全部可能取值缩小到$Y=y$这条截面上，思想上与事件的条件概率$P(A\mid B)$相同，只是条件换成了另一个随机变量的取值。
+
+### 离散型
+
+设联合分布律为
+
+$$
+p_{ij}=P\{X=x_i,\;Y=y_j\},\qquad i,j=1,2,\dots,
+$$
+
+记行和$p_{i\cdot}=\sum_j p_{ij}$、列和$p_{\cdot j}=\sum_i p_{ij}$。若$p_{\cdot j}>0$，则对每个$i$，
+
+$$
+P\{X=x_i\mid Y=y_j\}=\frac{p_{ij}}{p_{\cdot j}}.
+$$
+
+固定$y_j$相当于选定联合表的一列，再用这一列的总概率$p_{\cdot j}$归一化。反方向，若$p_{i\cdot}>0$，则
+
+$$
+P\{Y=y_j\mid X=x_i\}=\frac{p_{ij}}{p_{i\cdot}}.
+$$
+
+### 连续型
+
+设联合密度为$f(x,y)$，边缘密度为$f_X$、$f_Y$，它们的求法见[边缘分布](/knowledge/maths/probability/marginal-distribution/)。对满足$f_Y(y)>0$的$y$，定义条件密度与条件分布函数
+
+$$
+f_{X\mid Y}(x\mid y)=\frac{f(x,y)}{f_Y(y)},\qquad
+F_{X\mid Y}(x\mid y)=\int_{-\infty}^{x}f_{X\mid Y}(u\mid y)\,\mathrm du.
+$$
+
+反方向，对满足$f_X(x)>0$的$x$，
+
+$$
+f_{Y\mid X}(y\mid x)=\frac{f(x,y)}{f_X(x)}.
+$$
+
+连续型不能把条件密度解释成除以点概率：$P\{Y=y\}=0$，$P\{X\le x,\;Y=y\}/P\{Y=y\}$没有意义。条件密度是通过密度之比构造的，只需在$f_Y(y)>0$处几乎处处确定，个别点的取值不影响积分结果。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 固定条件后仍是分布
+
+固定$y_j$后，条件分布律非负且总和为$1$：
+
+$$
+\sum_i P\{X=x_i\mid Y=y_j\}
+=\frac{1}{p_{\cdot j}}\sum_i p_{ij}
+=\frac{p_{\cdot j}}{p_{\cdot j}}=1.
+$$
+
+固定$y$（$f_Y(y)>0$）后，条件密度对$x$的积分同样为$1$：
+
+$$
+\int_{-\infty}^{+\infty}f_{X\mid Y}(x\mid y)\,\mathrm dx
+=\frac{1}{f_Y(y)}\int_{-\infty}^{+\infty}f(x,y)\,\mathrm dx
+=\frac{f_Y(y)}{f_Y(y)}=1.
+$$
+
+因此条件密度仍是密度，条件分布律仍是分布律，可以直接用来算条件概率：
+
+$$
+P\{X\in A\mid Y=y\}=\int_A f_{X\mid Y}(x\mid y)\,\mathrm dx.
+$$
+
+### 支持区域随条件改变
+
+固定$y$后，条件密度只在联合密度非零的截面上取正值，其余位置为零。这个截面就是条件分布的**支持集**。
+
+若联合密度的支持集是矩形（例如$a<x<b$，$c<y<d$），那么给定$y$后$x$的范围不随$y$改变。若支持集由不等式给出（例如$0<x<y<1$），给定$y$后$x$的范围会随$y$变化，写条件密度时必须同时写出这个范围。
+
+### 用条件分布还原联合分布
+
+条件密度与边缘密度的乘积就是联合密度：
+
+$$
+f(x,y)=f_{X\mid Y}(x\mid y)f_Y(y)=f_{Y\mid X}(y\mid x)f_X(x).
+$$
+
+也就是说，边缘分布加上条件分布可以唯一确定联合分布；只有边缘分布则不行。把上式对$y$积分，得到密度形式的全概率公式
+
+$$
+f_X(x)=\int_{-\infty}^{+\infty}f_{X\mid Y}(x\mid y)f_Y(y)\,\mathrm dy,
+$$
+
+离散型的对应形式是
+
+$$
+P\{X=x_i\}=\sum_j P\{X=x_i\mid Y=y_j\}P\{Y=y_j\}.
+$$
+
+条件期望（积分绝对收敛时）为
+
+$$
+E(X\mid Y=y)=\int_{-\infty}^{+\infty}x f_{X\mid Y}(x\mid y)\,\mathrm dx.
+$$
+
+它可以先固定条件算出关于$y$的函数，再对条件变量求平均；在混合模型中，这条路径通常比直接求边缘分布更省事。
+
+> [!WARNING]
+> 条件概率的分母是条件事件所在列（或行）的边缘概率，不是$P\{X=x_i\}$。分母用错，各条件概率之和不等于$1$。
+
+> [!CAUTION]
+> 支持区域会随条件改变。联合密度只在$0<x<y<1$上非零时，给定$Y=y$后$x$只能取$0<x<y$，不能仍写成$0<x<1$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="由联合分布律求条件分布律"}
+
+设联合分布律为$P\{X=0,Y=0\}=0.2$，$P\{X=0,Y=1\}=0.3$，$P\{X=1,Y=0\}=0.1$，$P\{X=1,Y=1\}=0.4$。列和分别为$P\{Y=0\}=0.3$、$P\{Y=1\}=0.7$。
+
+在$Y=1$的条件下取第二列，除以列和：
+
+$$
+P\{X=0\mid Y=1\}=\frac{0.3}{0.7}=\frac37,\qquad
+P\{X=1\mid Y=1\}=\frac{0.4}{0.7}=\frac47.
+$$
+
+两者之和为$1$。同理，在$Y=0$的条件下$P\{X=0\mid Y=0\}=\frac{0.2}{0.3}=\frac23$，$P\{X=1\mid Y=0\}=\frac13$。条件分布与边缘分布$P\{X=0\}=0.5$不同，说明两个变量不独立。
+
+:::
+
+:::example{title="三角形区域上的条件密度与条件期望"}
+
+设联合密度为
+
+$$
+f(x,y)=\begin{cases}2,&0<x<y<1,\\0,&\text{其他}.\end{cases}
+$$
+
+关于$Y$的边缘密度为$f_Y(y)=2y$（$0<y<1$）。对$0<y<1$，条件密度为
+
+$$
+f_{X\mid Y}(x\mid y)=\frac{f(x,y)}{f_Y(y)}
+=\begin{cases}\dfrac{1}{y},&0<x<y,\\0,&\text{其他}.\end{cases}
+$$
+
+固定$y$后，这是区间$(0,y)$上的均匀分布，即$X\mid Y=y\sim U[0,y]$。条件期望为
+
+$$
+E(X\mid Y=y)=\int_0^y x\cdot\frac1y\,\mathrm dx=\frac{y}{2}.
+$$
+
+用全概率公式核对边缘密度：
+
+$$
+f_X(x)=\int_x^1 \frac1y\cdot 2y\,\mathrm dy=\int_x^1 2\,\mathrm dy=2(1-x),\qquad 0<x<1,
+$$
+
+与直接对$y$积分得到的边缘密度一致。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+选择条件变量的取值，观察另一个零一变量在该条件下的分布。
+
+<ConditionalDistributionDemo />
+
+## 练习
+
+::problems{#conditional-distribution-practice}
+
+1. ::question{#discrete-conditional}
+
+   设$(X,Y)$的联合分布律为$P\{X=0,Y=0\}=0.1$，$P\{X=0,Y=1\}=0.15$，$P\{X=1,Y=0\}=0.3$，$P\{X=1,Y=1\}=0.45$。
+
+   1. ::part{#x-given-y1}
+
+      $P\{X=0\mid Y=1\}=$ :blank{#x-given-y1-value type="number"}。
+
+      :::reference
+      ::correct{blank="x-given-y1-value" value="0.25"}
+
+      列和$P\{Y=1\}=0.15+0.45=0.6$，所以$P\{X=0\mid Y=1\}=0.15/0.6=0.25$。
+      :::
+
+   2. ::part{#y-given-x1}
+
+      $P\{Y=0\mid X=1\}=$ :blank{#y-given-x1-value type="number"}。
+
+      :::reference
+      ::correct{blank="y-given-x1-value" value="0.4"}
+
+      行和$P\{X=1\}=0.3+0.45=0.75$，所以$P\{Y=0\mid X=1\}=0.3/0.75=0.4$。
+      :::
+
+2. ::question{#triangle-conditional}
+
+   设$f(x,y)=2$（$0<x<y<1$），其他位置$f(x,y)=0$。
+
+   1. ::part{#density-value}
+
+      $f_{X\mid Y}\left(\frac14\mid\frac12\right)=$ :blank{#density-value-input type="number"}。
+
+      :::reference
+      ::correct{blank="density-value-input" value="2"}
+
+      $f_Y\left(\frac12\right)=2\cdot\frac12=1$，所以条件密度在$0<x<\frac12$上等于$\dfrac{2}{1}=2$。
+      :::
+
+   2. ::part{#conditional-law}
+
+      给定$Y=\frac12$后，$X$服从
+
+      :::choices{#conditional-law mode="single"}
+      - :option[A]{#a} $U[0,\frac12]$
+      - :option[B]{#b} $U[0,1]$
+      - :option[C]{#c} $U[\frac12,1]$
+      - :option[D]{#d} 指数分布$E(2)$
+      :::
+
+      :::reference
+      ::correct{option="a"}
+
+      条件密度在$0<x<\frac12$上恒为$2$，恰是长度$\frac12$的区间上的均匀密度。
+      :::
+
+3. ::question{#expected-value}
+
+   设$f(x,y)=2$（$0<x<y<1$），其他位置$f(x,y)=0$。$E\left(X\mid Y=\frac45\right)=$ :blank{#expected-value-input type="number"}。
+
+   :::reference
+   ::correct{blank="expected-value-input" value="0.4"}
+
+   条件期望为$E(X\mid Y=y)=\dfrac{y}{2}$，代入$y=\frac45$得$\dfrac25=0.4$。
+   :::
+
+4. ::question{#properties}
+
+   关于条件分布，下列说法正确的有
+
+   :::choices{#conditional-claims mode="multiple"}
+   - :option[A]{#a} 固定的$y$满足$f_Y(y)>0$时，$f_{X\mid Y}(x\mid y)$对$x$的积分为$1$
+   - :option[B]{#b} 连续型可以直接用$P\{X\le x,\;Y=y\}/P\{Y=y\}$定义条件分布
+   - :option[C]{#c} $f(x,y)=f_{X\mid Y}(x\mid y)f_Y(y)$
+   - :option[D]{#d} 给定$Y=y$后，$X$的取值范围可能随$y$改变
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   ::correct{option="d"}
+
+   条件密度是密度之比，对$x$积分为$1$；它与边缘密度相乘还原联合密度；支持集不是矩形时条件范围随条件改变。连续型的$P\{Y=y\}=0$，B中的比值没有意义。
+   :::

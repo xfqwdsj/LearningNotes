@@ -1,0 +1,20 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "两个事件能覆盖样本空间且互不重叠吗？",
+      "description": "选择两个骰子事件，检查重叠和未覆盖的样本点。",
+      "messages": {
+        "label": "完备事件组检查",
+        "intro": "分别选择事件包含的骰子点数，检查这两个事件是否互斥以及是否覆盖所有结果。",
+        "event": "事件{name}",
+        "visual": "六个样本点中，同时属于两个事件的有{overlap}个，不属于任一事件的有{missing}个。",
+        "status": "同时属于两个事件的点数有{overlap}个，两个事件都不包含的点数有{missing}个。",
+        "valid": "重叠和遗漏均为零，两个事件构成完备事件组。",
+        "invalid": "仍有{overlap}个重叠点和{missing}个遗漏点，不构成完备事件组。",
+        "point": "事件{name}的点数{point}"
+      },
+      "tags": ["概率论", "样本空间划分"]
+    }
+  }
+}

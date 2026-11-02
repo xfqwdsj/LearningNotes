@@ -1,0 +1,217 @@
+---
+title: TCP
+description: 理解TCP的字节流、连接建立、可靠传输与控制机制。
+---
+
+import TcpHandshakeDemo from "@/demos/tcp-handshake-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+TCP是面向连接的传输层协议，向应用提供有序字节流。它通过序列号、确认、重传与校验等机制应对丢失、重复和乱序；连接遇到持续故障时仍可能失败，不能理解为任何网络条件下都保证成功交付。
+
+TCP没有应用消息边界：一次发送的数据可以被多次读取，多次发送的数据也可能被一次读取。应用需要时须自行设计分帧方式。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 首部与连接管理
+
+TCP头部记录通信双方的进程、字节流位置和连接状态。
+
+| 字段 | 作用 |
+| :--- | :--- |
+| 源端口、目的端口 | 标识通信双方的进程 |
+| 序列号 | 对字节流编号，解决乱序和重复问题 |
+| 确认号 | 期望收到的下一个字节的序号，用于实现可靠传输的ACK机制 |
+| 标志位 | SYN发起新连接，ACK表示确认序号有效，FIN释放连接，RST重置连接 |
+| 窗口大小 | 用于流量控制，告诉对方自己还能接收多少数据 |
+
+### 三次握手
+
+TCP建立连接需要三次交互。
+
+:::steps
+
+1. **客户端发送SYN**
+
+   客户端发送SYN包，请求建立连接。
+
+2. **服务端回复SYN + ACK**
+
+   服务端收到后回复SYN+ACK包，表示同意，并确认客户端的请求。
+
+3. **客户端回复ACK**
+
+   客户端收到后回复ACK包，连接建立成功。
+
+:::
+
+三次握手的目的在于同步双方的初始序列号：客户端在SYN中带上自己的初始序号，服务端在SYN+ACK中带上自己的初始序号并确认客户端的序号，客户端最后用ACK确认服务端的序号。经过这三次交互，双方都知道了对方字节流的起点。
+
+### 四次挥手
+
+TCP是全双工的，双方都能独立发送数据。关闭连接时，两个方向可以分别结束。常见的四次挥手依次是主动方的FIN、对方的ACK、对方的FIN、主动方的ACK；如果FIN与ACK合并，实际报文数可以不同。
+
+> [!NOTE]
+> 正常建立时双方交换并确认初始序列号。关闭时两个方向分别结束，确认与FIN是否合并取决于时机。
+
+### 可靠性机制
+
+TCP的可靠传输结合序列号、确认与重传；窗口允许未确认数据在一定范围内连续发送。
+
+- **超时重传**：发送数据后启动定时器，如果超时仍未收到ACK，就重发数据。
+- **滑动窗口**：允许发送方在未收到确认的情况下连续发送多个数据包，提高效率，同时配合接收方通告的窗口大小实现流量控制。
+
+> [!WARNING]
+> 流量控制与拥塞控制不是同一件事。流量控制看接收方还能接收多少数据，防止发送方压垮接收方；拥塞控制看网络还能承载多少数据，防止过多数据注入网络导致整体瘫痪。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="三次握手怎样同步初始序列号"}
+
+客户端在SYN中放入自己的初始序号，服务端在SYN+ACK中放入自己的初始序号，同时确认客户端的序号；客户端再用ACK确认服务端的序号。三步之后，双方都确认了对方的起始位置，之后每个字节都能按序号定位和确认。
+
+:::
+
+:::example{title="滑动窗口为什么能提高吞吐量"}
+
+如果每发一个数据包都停下来等ACK，链路的往返时间会限制吞吐量。滑动窗口允许发送方在窗口范围内连续发送多个数据包，确认到达后再向前滑动，从而可以提高链路利用率；实际吞吐量仍受窗口、往返时间和网络条件等因素影响。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+逐步查看正常情况下的三次握手与双方序列号确认。
+
+<TcpHandshakeDemo />
+
+## 练习
+
+::problems{#tcp-practice}
+
+1. ::question{#connection-oriented}
+
+   TCP是面向连接的协议，这意味着什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 通信前必须先建立连接
+   - :option[B]{#b} 每个数据包独立选择路由
+   - :option[C]{#c} 发送数据后不需要任何确认
+   - :option[D]{#d} 只能传输文本数据
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   TCP在传输数据前要通过三次握手建立连接，之后才在连接上传输字节流。
+   :::
+
+2. ::question{#handshake-purpose}
+
+   三次握手的主要目的是什么？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 同步双方的初始序列号
+   - :option[B]{#b} 为双方分配端口号
+   - :option[C]{#c} 加密传输的数据
+   - :option[D]{#d} 选择数据包经过的路由
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   三次握手让双方交换并确认各自的初始序列号，为后续按字节编号和确认打下基础。
+   :::
+
+3. ::question{#window-field}
+
+   TCP头部的窗口大小字段有什么作用？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 记录已经发送的字节总数
+   - :option[B]{#b} 告诉对方自己还能接收多少数据，用于流量控制
+   - :option[C]{#c} 标识连接的建立与释放
+   - :option[D]{#d} 指示上层使用哪个应用层协议
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   窗口大小通告接收方的剩余接收能力，发送方据此控制未确认数据的数量。
+   :::
+
+4. ::question{#sequence-number}
+
+   TCP的序列号用于解决哪些问题？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} 数据乱序
+   - :option[B]{#b} 数据重复
+   - :option[C]{#c} 路由选择
+   - :option[D]{#d} 拥塞控制
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   序列号给字节流编号，接收方据此重排乱序的数据并识别重复的数据；路由由网络层负责。
+   :::
+
+5. ::question{#four-way}
+
+   TCP常见的四次挥手中，为什么两个方向需要分别结束？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} TCP是全双工的，两个方向需要分别关闭
+   - :option[B]{#b} 每个数据包都要单独确认一次
+   - :option[C]{#c} 连接必须先由服务端关闭
+   - :option[D]{#d} 四次挥手用于同步初始序列号
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   全双工意味着两个方向的数据流独立结束，各方都要发送自己的FIN并等待对方的ACK，但实际报文数可能因确认与FIN合并而不同。
+   :::
+
+6. ::question{#retransmission}
+
+   TCP的超时重传机制在什么情况下触发？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 发送数据后定时器超时，仍未收到ACK
+   - :option[B]{#b} 接收方窗口大小为0
+   - :option[C]{#c} 连接完成三次握手
+   - :option[D]{#d} 应用层主动调用close
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   发送方为已发送的数据启动定时器，超时未收到确认就重发，以弥补丢失的数据或确认。
+   :::
+
+7. ::question{#flow-vs-congestion}
+
+   关于流量控制与拥塞控制，下列哪一项正确？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 流量控制看接收方的接收能力，拥塞控制看网络的承载能力
+   - :option[B]{#b} 两者都只根据接收方窗口大小调整发送速率
+   - :option[C]{#c} 流量控制用于防止网络瘫痪，拥塞控制用于防止接收方过载
+   - :option[D]{#d} 两者都只在UDP中使用
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   流量控制防止发送方压垮接收方，拥塞控制防止过多数据注入网络；两者都作用于TCP的发送速率，但观察的对象不同。

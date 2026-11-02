@@ -1,0 +1,263 @@
+---
+title: 泰勒公式与麦克劳林展开
+description: 用泰勒多项式在展开点处逼近函数，说明佩亚诺与拉格朗日两种余项、常用麦克劳林展开式，以及它们在极限和近似计算中的用法。
+---
+
+import TaylorDemo from "@/demos/taylor-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设函数$f$在点$x_0$的某个邻域内具有直到$n$阶的导数。以$x_0$为展开点，称
+
+$$
+P_n(x)=f(x_0)+f'(x_0)(x-x_0)+\frac{f''(x_0)}{2!}(x-x_0)^2+\cdots+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n
+$$
+
+为$f$在$x_0$处的$n$次**泰勒多项式**，并把
+
+$$
+f(x)=P_n(x)+R_n(x)
+$$
+
+称为$f$在$x_0$处的**泰勒公式**，其中$R_n(x)$是**余项**，表示用多项式代替函数时产生的误差。
+
+泰勒多项式在$x_0$处与原函数有相同的函数值和直到$n$阶的导数值，所以它在展开点附近贴近原函数；离$x_0$越远，误差通常越大。
+
+### 两种余项
+
+**佩亚诺余项**：
+
+$$
+R_n(x)=o\bigl((x-x_0)^n\bigr)\qquad(x\to x_0).
+$$
+
+这里$o$表示高阶无穷小，即$\lim_{x\to x_0}\dfrac{R_n(x)}{(x-x_0)^n}=0$。它只说明误差是比$(x-x_0)^n$高阶的无穷小，适合讨论$x\to x_0$时的极限与无穷小阶。
+
+**拉格朗日余项**：若$f$在$x_0$与$x$之间还有$n+1$阶导数，则对介于$x_0$与$x$之间的某个$\xi$，
+
+$$
+R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_0)^{n+1}.
+$$
+
+它给出了误差的表达式，适合估计近似计算的上界。
+
+> [!NOTE]
+> 两种余项的前提不同：佩亚诺余项只需要$f$在$x_0$处具有$n$阶导数，拉格朗日余项要求$f$在$x_0$与$x$之间具有$n+1$阶导数。拉格朗日余项可由[柯西中值定理](/knowledge/maths/derivatives/cauchy-mean-value/)证明。
+
+### 麦克劳林公式
+
+取展开点$x_0=0$，泰勒公式成为**麦克劳林公式**：
+
+$$
+f(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\cdots+\frac{f^{(n)}(0)}{n!}x^n+R_n(x).
+$$
+
+## 常用展开
+
+::section{#expansions slot="knowledge.properties"}
+
+以下展开式都在$x\to0$时成立，余项写成佩亚诺形式。
+
+| 函数 | 麦克劳林展开式 |
+| :--- | :--- |
+| $e^x$ | $1+x+\dfrac{x^2}{2!}+\dfrac{x^3}{3!}+\cdots+\dfrac{x^n}{n!}+o(x^n)$ |
+| $\sin x$ | $x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}-\cdots+(-1)^{k-1}\dfrac{x^{2k-1}}{(2k-1)!}+o(x^{2k})$ |
+| $\cos x$ | $1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-\cdots+(-1)^{k}\dfrac{x^{2k}}{(2k)!}+o(x^{2k+1})$ |
+| $\ln(1+x)$ | $x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\dfrac{x^4}{4}+\cdots+(-1)^{n-1}\dfrac{x^n}{n}+o(x^n)$ |
+| $(1+x)^\alpha$ | $1+\alpha x+\dfrac{\alpha(\alpha-1)}{2!}x^2+\cdots+\dfrac{\alpha(\alpha-1)\cdots(\alpha-n+1)}{n!}x^n+o(x^n)$ |
+| $\arctan x$ | $x-\dfrac{x^3}{3}+\dfrac{x^5}{5}-\dfrac{x^7}{7}+\cdots+(-1)^{k-1}\dfrac{x^{2k-1}}{2k-1}+o(x^{2k})$ |
+| $\arcsin x$ | $x+\dfrac{1}{2}\cdot\dfrac{x^3}{3}+\dfrac{1\cdot3}{2\cdot4}\cdot\dfrac{x^5}{5}+\dfrac{1\cdot3\cdot5}{2\cdot4\cdot6}\cdot\dfrac{x^7}{7}+\cdots+o(x^{2k})$ |
+
+> [!NOTE]
+> $\sin x$的展开只含奇次幂，$\cos x$的展开只含偶次幂；两者的系数符号交替，第二项分别是$-\dfrac{x^3}{3!}$与$-\dfrac{x^2}{2!}$。
+
+$\arctan x$与$\arcsin x$的展开不由逐阶求导直接得到，而是先展开导函数再逐项积分：
+
+$$
+(\arctan x)'=\frac{1}{1+x^2}=1-x^2+x^4-x^6+\cdots,
+$$
+
+右边是公比为$-x^2$的几何级数；
+
+$$
+(\arcsin x)'=\frac{1}{\sqrt{1-x^2}}=(1-x^2)^{-1/2},
+$$
+
+右边用$\alpha=-\dfrac12$的广义二项式展开。逐项积分后分别得到上表中的两个展开式，积分常数由$x=0$处函数值为$0$确定。
+
+$(1+x)^\alpha$的展开称为广义二项式展开，$\alpha$为任意实数。当$\alpha$是正整数$m$时，$k>m$的各项系数为零，展开式退化为普通的二项式定理。
+
+## 应用
+
+::section{#applications}
+
+:::steps
+
+1. **确定展开点与阶数**
+
+   把极限化成$x\to0$的形式，按分母的最低次幂确定要展开到哪一阶；分子出现同阶项相消时，再往下一阶展开。
+
+2. **代入展开式**
+
+   用已知的麦克劳林展开替换各个函数，余项统一写成$o(x^n)$，只保留到所需阶数。
+
+3. **合并同类项**
+
+   约去公因子，比较剩下的最低次幂，得到极限值或无穷小的阶。
+
+:::
+
+三种典型用法：
+
+- **极限计算**：遇到$\dfrac{0}{0}$型不定式，若洛必达法则需要反复求导，可把分子分母展开成多项式后比较最低次幂，详见[极限的四则运算与比较法则](/knowledge/maths/limits/limit-laws/)。
+- **无穷小阶的比较**：展开式中最低次非零项的幂次就是无穷小的阶；只取最低阶非零项，就得到[等价无穷小](/knowledge/maths/limits/equivalent-infinitesimals/)。
+- **近似计算与误差估计**：用$P_n(x)$作为$f(x)$的近似值，用拉格朗日余项给出误差上界——先取$\bigl|f^{(n+1)}(\xi)\bigr|$在$x_0$与$x$之间的最大值，再乘$\dfrac{|x-x_0|^{n+1}}{(n+1)!}$。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用麦克劳林展开求极限"}
+
+求
+
+$$
+\lim_{x\to0}\frac{\ln(1+x)-x}{x^2}.
+$$
+
+由$\ln(1+x)=x-\dfrac{x^2}{2}+o(x^2)$，得
+
+$$
+\frac{\ln(1+x)-x}{x^2}
+=\frac{-\dfrac{x^2}{2}+o(x^2)}{x^2}
+=-\frac12+o(1),
+$$
+
+所以极限为$-\dfrac12$。
+
+:::
+
+:::example{title="用拉格朗日余项估计误差"}
+
+用$P_2(x)=1+x+\dfrac{x^2}{2}$近似$e^x$。当$|x|\le1$时，拉格朗日余项为
+
+$$
+R_2(x)=\frac{e^{\xi}}{3!}x^3,
+$$
+
+其中$\xi$介于$0$与$x$之间。因为此时$e^{\xi}\le e$、$|x|^3\le1$，所以
+
+$$
+|R_2(x)|\le\frac{e}{6}\approx0.454.
+$$
+
+这就是用二次多项式近似$e^x$在$[-1,1]$上的误差上界；$|x|$越小，误差越小。
+
+:::
+
+:::example{title="复合函数的展开：$e^{-x^2}$"}
+
+在$e^t=1+t+\dfrac{t^2}{2}+o(t^2)$中令$t=-x^2$。当$x\to0$时$t\to0$，于是
+
+$$
+e^{-x^2}=1-x^2+\frac{x^4}{2}+o(x^4).
+$$
+
+把展开式中的变量整体替换，是处理复合函数展开的常用办法；替换后要检查新变量是否仍趋于$0$。
+
+:::
+
+## 练习
+
+::problems{#taylor-check}
+
+1. ::question{#cos-coefficient}
+
+   $\cos x$的麦克劳林展开中，$x^4$项的系数是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{1}{24}$
+   - :option[B]{#b} $-\dfrac{1}{24}$
+   - :option[C]{#c} $\dfrac{1}{12}$
+   - :option[D]{#d} $-\dfrac{1}{12}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\cos x=1-\dfrac{x^2}{2!}+\dfrac{x^4}{4!}-\cdots$，$x^4$项为$\dfrac{x^4}{24}$。
+   :::
+
+2. ::question{#exp-limit}
+
+   $\lim_{x\to0}\dfrac{e^x-1-x}{x^2}=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="0.5"}
+
+   由$e^x=1+x+\dfrac{x^2}{2}+o(x^2)$，分子为$\dfrac{x^2}{2}+o(x^2)$，除以$x^2$后极限为$\dfrac12$。
+   :::
+
+3. ::question{#sin-limit}
+
+   $\lim_{x\to0}\dfrac{\sin x-x}{x^3}=$
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $-\dfrac{1}{6}$
+   - :option[B]{#b} $\dfrac{1}{6}$
+   - :option[C]{#c} $0$
+   - :option[D]{#d} $-\dfrac12$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由$\sin x=x-\dfrac{x^3}{6}+o(x^3)$，分子为$-\dfrac{x^3}{6}+o(x^3)$，除以$x^3$得$-\dfrac16$。若只把$\sin x$展开到$x$，分子会被误算成$0$，说明阶数不足。
+   :::
+
+4. ::question{#binomial}
+
+   $(1+x)^{1/2}$的麦克劳林展开中，$x^2$项的系数是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $-\dfrac18$
+   - :option[B]{#b} $\dfrac18$
+   - :option[C]{#c} $-\dfrac14$
+   - :option[D]{#d} $\dfrac14$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\alpha=\dfrac12$时，$x^2$项的系数为$\dfrac{\alpha(\alpha-1)}{2!}=\dfrac{\dfrac12\cdot\left(-\dfrac12\right)}{2}=-\dfrac18$。
+   :::
+
+5. ::question{#remainder}
+
+   关于泰勒公式的余项，下列叙述正确的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 佩亚诺余项给出误差的具体上界
+   - :option[B]{#b} 拉格朗日余项可用于估计近似误差
+   - :option[C]{#c} 余项在$n$足够大时恒为零
+   - :option[D]{#d} 麦克劳林公式与泰勒公式无关
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   佩亚诺余项只说明误差的阶，给不出上界；拉格朗日余项有具体表达式，可用来估计误差。
+   :::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<TaylorDemo />
+
+> [!NOTE]
+> 观察什么
+>
+> 提高多项式次数，观察它在展开点附近怎样贴合$\sin x$；离开展开点越远，低次多项式偏离得越快。

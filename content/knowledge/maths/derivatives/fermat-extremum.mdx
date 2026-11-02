@@ -1,0 +1,72 @@
+---
+title: 费马引理
+description: 费马引理的条件、结论与证明。
+---
+
+import FermatExtremumDemo from "@/demos/fermat-extremum-demo";
+
+## 定理
+
+::section{#definition slot="knowledge.definition"}
+
+设函数$f$在点$x_0$的某个邻域内有定义。若该邻域内恒有$f(x)\le f(x_0)$，则称$f$在$x_0$处取得**极大值**；若恒有$f(x)\ge f(x_0)$，则称取得**极小值**，两者统称**极值**。
+
+设$f$在$x_0$处取得极值。若$f$在$x_0$处可导，则
+
+$$
+f'(x_0)=0.
+$$
+
+几何上，在曲线光滑的前提下，极值点处的切线是水平的。
+
+> [!WARNING]
+> 费马引理只断言“可导的极值点导数为零”，反过来不成立。$f(x)=x^3$在$x=0$处有$f'(0)=0$，但$x=0$不是极值点：$f$在$\mathbb{R}$上严格递增。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+设$f$在$x_0$处取得极大值，且在$x_0$处可导。当$h>0$且$|h|$充分小时，$f(x_0+h)\le f(x_0)$，分子非正、分母为正，所以
+
+$$
+\frac{f(x_0+h)-f(x_0)}{h}\le 0.
+$$
+
+令$h\to0^+$，得右导数$f'_+(x_0)\le0$。当$h<0$且$|h|$充分小时，仍有$f(x_0+h)\le f(x_0)$，此时分子非正、分母为负，商非负：
+
+$$
+\frac{f(x_0+h)-f(x_0)}{h}\ge 0.
+$$
+
+令$h\to0^-$，得左导数$f'_-(x_0)\ge0$。可导保证左右导数都存在且相等，于是$f'(x_0)=0$。极小值的情形把两个不等号的方向对调，结论相同。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<FermatExtremumDemo />
+
+## 练习
+
+::problems{#fermat-extremum-practice}
+
+1. ::question{#stationary}
+
+   对于$f(x)=x^3$在$x=0$处，下列叙述正确的是哪些？
+
+   :::choices{#choice mode="multiple"}
+   - :option[A]{#a} $f'(0)=0$
+   - :option[B]{#b} $f$在$x=0$处取得极值
+   - :option[C]{#c} $f$在$x=0$处可导
+   - :option[D]{#d} $f$在$x=0$处连续
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   ::correct{option="d"}
+
+   $f'(x)=3x^2$，所以$f'(0)=0$且$f$可导，从而连续。但$f$在$\mathbb{R}$上严格递增，$x=0$不是极值点：导数为零只是极值的必要条件。
+   :::

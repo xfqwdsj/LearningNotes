@@ -1,0 +1,17 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "右尾概率怎样确定上侧分位点？",
+      "description": "对照几个标准正态上侧分位点。",
+      "messages": {
+        "label": "上侧分位点",
+        "intro": "选择标准正态分布右侧尾概率$\\alpha$，分位点显示为近似值。",
+        "graphLabel": "上侧分位点为{z}，曲线右侧阴影面积约为{alpha}。",
+        "choose": "选择右尾概率",
+        "result": "右尾概率约为{alpha}时，上侧分位点约为{z}。"
+      },
+      "tags": ["统计推断", "分位点"]
+    }
+  }
+}

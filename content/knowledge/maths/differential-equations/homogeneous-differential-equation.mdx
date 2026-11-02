@@ -1,0 +1,274 @@
+---
+title: 齐次方程
+description: 用零次齐次函数识别齐次方程，通过换元$u=y/x$化为可分离变量方程，并处理可平移化为齐次的情形。
+---
+
+import HomogeneousOdeDemo from "@/demos/homogeneous-ode-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+一阶微分方程
+
+$$
+y'=f(x,y)
+$$
+
+如果存在函数$\varphi$，使得在$x\ne 0$时
+
+$$
+f(x,y)=\varphi\left(\frac{y}{x}\right),
+$$
+
+则称它为**齐次方程**。写成$\varphi\left(\dfrac{x}{y}\right)$也可以，因为$\dfrac{x}{y}=1\big/\dfrac{y}{x}$，两种写法只差对$\varphi$的重新定义。
+
+等价的判定是：$f$为零次齐次函数，即对任意$\lambda\ne 0$，
+
+$$
+f(\lambda x,\lambda y)=f(x,y).
+$$
+
+实际操作时，检查分子、分母中每一项关于$x$与$y$的总次数是否相同。例如
+
+$$
+y'=\frac{x^2+y^2}{xy}
+$$
+
+中，分子两项都是二次，分母$xy$也是$1+1=2$次；右端可写成
+
+$$
+\frac{x}{y}+\frac{y}{x},
+$$
+
+符合齐次方程的形式。
+
+> [!NOTE]
+> 这里的“齐次”指右端函数$f$是零次齐次的，与线性方程中的“齐次”含义不同。本页讨论的是齐次微分方程$y'=f\left(\dfrac yx\right)$。
+
+分子或分母中出现单独常数项时，方程一般不再是齐次方程，需要先尝试下文的平移变换。
+
+## 换元解法
+
+::section{#method slot="knowledge.properties"}
+
+:::steps
+
+1. **确认形式**
+
+   把方程整理成$y'=\varphi\left(\dfrac{y}{x}\right)$，并确认讨论区间上$x\ne 0$。
+
+2. **换元**
+
+   令$u=\dfrac{y}{x}$，即$y=ux$。
+
+3. **求导**
+
+   由乘积求导法则，
+
+   $$
+   y'=u+x\frac{\mathrm{d}u}{\mathrm{d}x}.
+   $$
+
+4. **代入并整理**
+
+   将$y'$与$\dfrac{y}{x}$分别换成上式与$u$：
+
+   $$
+   u+x\frac{\mathrm{d}u}{\mathrm{d}x}=\varphi(u),
+   \qquad
+   x\frac{\mathrm{d}u}{\mathrm{d}x}=\varphi(u)-u.
+   $$
+
+5. **分离变量并积分**
+
+   当$\varphi(u)-u\ne 0$时，
+
+   $$
+   \frac{\mathrm{d}u}{\varphi(u)-u}=\frac{\mathrm{d}x}{x},
+   $$
+
+   两边积分得到关于$u$与$x$的关系。
+
+6. **还原变量**
+
+   把$u$换回$\dfrac{y}{x}$，整理成显式或隐式解。
+
+:::
+
+换元后的方程关于$u$与$x$可分离，按[可分离变量的微分方程](/knowledge/maths/differential-equations/separable-differential-equation/)的步骤积分即可。
+
+> [!WARNING]
+> 当$\varphi(u_0)-u_0=0$时，$u=u_0$给出直线解$y=u_0x$；第5步除以$\varphi(u)-u$会把它排除在外，最后要单独检查。积分完成后也不能忘记把$u$还原为$\dfrac{y}{x}$。
+
+### 可化为齐次的方程
+
+形如
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{a_1x+b_1y+c_1}{a_2x+b_2y+c_2}
+$$
+
+的方程，在$c_1,c_2$不全为零时，可以通过平移坐标轴消去常数项，化为齐次方程。
+
+先解方程组
+
+$$
+\begin{cases}
+a_1x+b_1y+c_1=0,\\
+a_2x+b_2y+c_2=0,
+\end{cases}
+$$
+
+设交点为$(h,k)$。令
+
+$$
+X=x-h,\qquad Y=y-k,
+$$
+
+则$x=X+h$、$y=Y+k$，代入后常数项抵消，方程变为
+
+$$
+\frac{\mathrm{d}Y}{\mathrm{d}X}
+=\frac{a_1X+b_1Y}{a_2X+b_2Y},
+$$
+
+这是关于$X,Y$的齐次方程。求出解后，再把$X=x-h$、$Y=y-k$代回。
+
+> [!IMPORTANT]
+> 平移法要求两条直线$a_1x+b_1y+c_1=0$与$a_2x+b_2y+c_2=0$相交，即$a_1b_2-a_2b_1\ne 0$。若$a_1b_2-a_2b_1=0$，两直线平行，方程组没有唯一解，平移法不能使用。此时$a_2x+b_2y$与$a_1x+b_1y$只差一个常数倍，令$z=a_1x+b_1y$可把原方程化为关于$z$与$x$的可分离变量方程。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="解$(x^2+y^2)\,\mathrm{d}x-xy\,\mathrm{d}y=0$"}
+先解出导数：
+
+$$
+\frac{\mathrm{d}y}{\mathrm{d}x}
+=\frac{x^2+y^2}{xy}
+=\frac{x}{y}+\frac{y}{x}.
+$$
+
+右端是$\dfrac{y}{x}$的函数，所以方程是齐次的。
+
+**换元。** 令$u=\dfrac{y}{x}$，则$y=ux$，且
+
+$$
+y'=u+x\frac{\mathrm{d}u}{\mathrm{d}x}.
+$$
+
+**代入。** 原方程变为
+
+$$
+u+x\frac{\mathrm{d}u}{\mathrm{d}x}=\frac{1}{u}+u.
+$$
+
+两边消去$u$，得
+
+$$
+x\frac{\mathrm{d}u}{\mathrm{d}x}=\frac{1}{u}.
+$$
+
+**分离并积分。**
+
+$$
+u\,\mathrm{d}u=\frac{\mathrm{d}x}{x},
+\qquad
+\frac{1}{2}u^2=\ln\vert x\vert+C_1.
+$$
+
+两边乘以$2$，记$C=2C_1$，得
+
+$$
+u^2=2\ln\vert x\vert+C.
+$$
+
+**还原变量。** 把$u=\dfrac{y}{x}$代回：
+
+$$
+\left(\frac{y}{x}\right)^2=2\ln\vert x\vert+C,
+\qquad
+y^2=x^2\left(2\ln\vert x\vert+C\right).
+$$
+
+:::
+
+:::example{title="解$y'=\dfrac{x+y}{x}$"}
+右端等于$1+\dfrac{y}{x}$，所以方程是齐次的。令$u=\dfrac{y}{x}$，则$y=ux$，$y'=u+xu'$。代入得
+
+$$
+u+x\frac{\mathrm{d}u}{\mathrm{d}x}=1+u,
+$$
+
+消去$u$后得到
+
+$$
+x\frac{\mathrm{d}u}{\mathrm{d}x}=1.
+$$
+
+分离变量并积分：
+
+$$
+\mathrm{d}u=\frac{\mathrm{d}x}{x},
+\qquad
+u=\ln\vert x\vert+C.
+$$
+
+还原$u=\dfrac{y}{x}$，得通解
+
+$$
+y=x\left(\ln\vert x\vert+C\right),\qquad x\ne 0.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<HomogeneousOdeDemo />
+
+## 练习
+
+::problems{#homogeneous-check}
+
+1. ::question{#recognize}
+
+   下列方程中，是齐次方程的是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $y'=\dfrac{x+y}{x}$
+   - :option[B]{#b} $y'=x+y$
+   - :option[C]{#c} $y'=x^2+y^2$
+   - :option[D]{#d} $y'=xy$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $\dfrac{x+y}{x}=1+\dfrac{y}{x}$，右端只依赖$\dfrac{y}{x}$。其余三个右端都不是零次齐次函数。
+   :::
+
+2. ::question{#linear-constant}
+
+   初值问题$y'=\dfrac{x+y}{x}$，$y(1)=2$。其通解可写成$y=x\left(\ln\vert x\vert+C\right)$，则$C=$ :blank{#constant type="number"}。
+
+   :::reference
+   ::correct{blank="constant" value="2"}
+
+   代入$x=1$、$y=2$：$2=1\cdot(0+C)$，所以$C=2$。
+   :::
+
+3. ::question{#example-constant}
+
+   方程$(x^2+y^2)\,\mathrm{d}x-xy\,\mathrm{d}y=0$的通解为$y^2=x^2\left(2\ln\vert x\vert+C\right)$。若$y(1)=1$，则$C=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   代入$x=1$、$y=1$：$1=1\cdot(0+C)$，所以$C=1$。
+   :::

@@ -1,0 +1,66 @@
+---
+title: 指示变量
+description: 用零一变量表示事件是否发生，并利用期望线性计算事件发生次数。
+---
+
+import IndicatorTossesDemo from "@/demos/indicator-tosses-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+对事件$A$，定义**指示变量**
+
+$$
+I_A=\begin{cases}1,&A\text{ 发生},\\0,&A\text{ 不发生},\end{cases}
+$$
+
+则
+
+$$
+E(I_A)=1\times P(A)+0\times P(\bar A)=P(A).
+$$
+
+指示变量的期望就是事件的概率。若随机变量$N$计数若干事件发生的个数，把它写成$N=\sum_i I_{A_i}$，由期望的线性性质便有
+
+$$
+E(N)=\sum_iE(I_{A_i})=\sum_iP(A_i).
+$$
+
+这个做法通常比求出$N$的完整分布更简单，而且**不要求各事件独立**：线性性质不需要独立性，$P(A_i)$也只要逐个求出即可。
+
+:::example{title="帽子问题"}
+
+$n$个人随机取回各自寄存的帽子，一人一顶。令$I_i$表示第$i$人是否取到自己的帽子，则$I_i$是$A_i=\{\text{第 }i\text{ 人取到自己的帽子}\}$的指示变量。
+
+由对称性，第$i$个人取到自己帽子的概率为$\frac1n$，故$P(A_i)=\frac1n$。取对人数$N=\sum_{i=1}^nI_i$的期望为
+
+$$
+E(N)=\sum_{i=1}^n\frac1n=n\times\frac1n=1.
+$$
+
+无论人数多少，平均恰有一个人取到自己的帽子。注意取对人数并非常数，$N$仍可能取$0$、$2$等其他值；而$A_i$之间并不独立。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+把两次抛硬币的正面次数写成两个指示变量之和。
+
+<IndicatorTossesDemo />
+
+## 练习
+
+::problems{#indicator-practice}
+
+1. ::question{#hat-expectation}
+
+   $n$个人随机取回各自的帽子，记取对自己帽子的人数为$N$，则$E(N)=$ :blank{#hat-value type="number"}。
+
+   :::reference
+   ::correct{blank="hat-value" value="1"}
+
+   把$N$拆成$n$个指示变量之和，每人取对的概率为$\frac1n$，故$E(N)=n\times\frac1n=1$，与人数无关。
+   :::

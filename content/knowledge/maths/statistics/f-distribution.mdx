@@ -1,0 +1,66 @@
+---
+title: $F$分布
+description: $F$分布的定义与性质。
+---
+
+import FRatioDemo from "@/demos/f-ratio-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$U\sim\chi^2(\nu_1)$，$V\sim\chi^2(\nu_2)$，其中$\chi^2(\nu)$表示自由度为$\nu$的[卡方分布](/knowledge/maths/statistics/chi-square-distribution/)，且两者相互独立，则
+
+$$
+F=\frac{U/\nu_1}{V/\nu_2}\sim F(\nu_1,\nu_2).
+$$
+
+$F$分布只在非负半轴取值，一般不对称。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+它有以下两条常用性质：
+
+$$
+\frac1F\sim F(\nu_2,\nu_1),\qquad
+F_\alpha(\nu_1,\nu_2)=\frac{1}{F_{1-\alpha}(\nu_2,\nu_1)}.
+$$
+
+这里$F_\alpha(\nu_1,\nu_2)$表示右侧尾概率为$\alpha$的上侧分位点，一般约定见[上侧分位点](/knowledge/maths/statistics/upper-tail-quantile/)。交换自由度时，原分布的$(1-\alpha)$分位点要对应交换后的$\alpha$分位点。
+
+分子与分母的自由度顺序不能交换：$F(\nu_1,\nu_2)$与$F(\nu_2,\nu_1)$是两个不同的分布。
+
+还有一个与[$t$分布](/knowledge/maths/statistics/t-distribution/)的联系：若$T\sim t(\nu)$，则
+
+$$
+T^2\sim F(1,\nu).
+$$
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<FRatioDemo />
+
+## 练习
+
+::problems{#f-ratio-practice}
+
+1. ::question{#t-square}
+
+   若$T\sim t(10)$，则$T^2$服从
+
+   :::choices{#choice-t-square mode="single"}
+   - :option[A]{#a} $F(1,10)$
+   - :option[B]{#b} $F(10,1)$
+   - :option[C]{#c} $\chi^2(10)$
+   - :option[D]{#d} $t(10)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   $t$分布的变量是标准正态除以卡方的根号，平方后分子为$Z^2\sim\chi^2(1)$，分母为$\chi^2(10)/10$，故$T^2\sim F(1,10)$。自由度顺序是分子的$1$在前。
+   :::

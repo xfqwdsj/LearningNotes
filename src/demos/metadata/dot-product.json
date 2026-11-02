@@ -1,0 +1,18 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "夹角如何影响数量积？",
+      "description": "固定向量长度，观察数量积的符号。",
+      "messages": {
+        "label": "数量积与夹角",
+        "intro": "两个非零向量的长度分别为2和3。调整夹角时，虚线把$\\boldsymbol b$的终点投到$\\boldsymbol a$所在直线上，轴上的加粗线段给出带符号投影。",
+        "angle": "夹角$\\theta$",
+        "perpendicular": "夹角为90°，数量积为0，两个向量垂直。",
+        "acute": "夹角为锐角，数量积为正。",
+        "obtuse": "夹角为钝角，数量积为负。"
+      },
+      "tags": ["向量", "数量积"]
+    }
+  }
+}

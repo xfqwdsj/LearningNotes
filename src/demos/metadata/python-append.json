@@ -1,0 +1,17 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "添加列表时是加入一个元素还是展开？",
+      "description": "比较`append`与`extend`处理同一列表参数的结果。",
+      "messages": {
+        "label": "Python列表的添加方式",
+        "intro": "初始列表为`[1, 2]`，参数为`[3, 4]`。选择方法查看列表内容。",
+        "choose": "选择方法",
+        "appendResult": "`append`将参数整体作为一个元素加入，长度增加一。",
+        "extendResult": "`extend`逐个加入参数中的元素，长度增加二。"
+      },
+      "tags": ["Python", "列表"]
+    }
+  }
+}

@@ -1,0 +1,78 @@
+---
+title: $\Gamma$函数
+description: 用反常积分定义$\Gamma$函数，并说明递推公式和阶乘关系。
+---
+
+import GammaRecurrenceDemo from "@/demos/gamma-recurrence-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+对$s>0$，定义
+
+$$
+\Gamma(s)=\int_0^{+\infty}x^{s-1}e^{-x}\,\mathrm{d}x.
+$$
+
+它把阶乘推广到实数。
+
+主要性质：
+
+1. 递推公式$\Gamma(s+1)=s\Gamma(s)$；
+2. 阶乘关系$\Gamma(n+1)=n!$，$n$为非负整数；
+3. 特殊值$\Gamma(1)=1$，$\Gamma\left(\frac{1}{2}\right)=\sqrt{\pi}$。
+
+:::proof{title="递推公式"}
+
+取$u=x^{s}$，$\mathrm{d}v=e^{-x}\,\mathrm{d}x$，则$\mathrm{d}u=sx^{s-1}\,\mathrm{d}x$，$v=-e^{-x}$。于是
+
+$$
+\Gamma(s+1)=\Bigl[-x^se^{-x}\Bigr]_0^{+\infty}
++s\int_0^{+\infty}x^{s-1}e^{-x}\,\mathrm{d}x.
+$$
+
+$x\to+\infty$时$x^se^{-x}\to 0$；$x\to 0^+$时，因为$s>0$，也有$x^se^{-x}\to 0$。所以边界项为$0$，即$\Gamma(s+1)=s\Gamma(s)$。
+
+:::
+
+> [!NOTE]
+> 定义中的$s>0$不能省。$x\to 0^+$时$x^{s-1}e^{-x}$与$x^{s-1}$同阶，只有$s>0$时瑕点$x=0$处的积分才收敛；$x\to+\infty$时$e^{-x}$的衰减比任何幂都快，那一端对一切$s$都收敛。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用Γ函数：$\displaystyle\int_0^{+\infty}xe^{-x}\,\mathrm{d}x$"}
+
+被积函数就是$x^{2-1}e^{-x}$，所以积分等于$\Gamma(2)=1!=1$。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<GammaRecurrenceDemo />
+
+## 练习
+
+::problems{#gamma-function-practice}
+
+1. ::question{#gamma-value}
+
+   $\Gamma\left(\frac{5}{2}\right)$等于：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $\dfrac{3\sqrt{\pi}}{4}$
+   - :option[B]{#b} $\dfrac{15\sqrt{\pi}}{8}$
+   - :option[C]{#c} $\dfrac{\sqrt{\pi}}{2}$
+   - :option[D]{#d} $\dfrac{3\sqrt{\pi}}{2}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   由递推公式，$\Gamma\left(\frac{5}{2}\right)=\frac{3}{2}\cdot\frac{1}{2}\cdot\Gamma\left(\frac{1}{2}\right)=\frac{3\sqrt{\pi}}{4}$。
+   :::

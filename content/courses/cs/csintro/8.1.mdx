@@ -1,0 +1,83 @@
+---
+title: 8.1&#32;无远弗届的网络
+description: 按教材的五层模型组织本章网络知识点，记录层间分工、术语约定与常见混淆。
+---
+
+## 阅读入口
+
+- [网络分层模型](/knowledge/cs/networks/network-layers/)
+- [IPv4地址与子网](/knowledge/cs/networks/ipv4/)
+- [TCP与UDP的传输形式](/knowledge/cs/networks/tcp-udp/)
+
+## 五层模型
+
+::knowledge{path="cs/networks/network-layers" slot="definition"}
+
+表里把五层的职责、数据单位和典型设备排在一起，正是本节要求整理的那三列。往后读到某一层的协议时，先回到这张表确认自己站在哪一层。
+
+## IPv4地址
+
+::knowledge{path="cs/networks/ipv4" slot="definition"}
+
+::knowledge{path="cs/networks/ipv4" slot="properties"}
+
+## IPv4数据包与路由
+
+::knowledge{path="cs/networks/ipv4-packet" slot="definition"}
+
+::knowledge{path="cs/networks/ip-routing" slot="definition"}
+
+## IPv6地址
+
+::knowledge{path="cs/networks/ipv6-address" slot="definition"}
+
+常见子网题先按前缀划分网络位与主机位；特殊前缀要按具体链路规则判断，不能机械套用普通子网的广播地址或主机数公式。
+
+## 传输层与端口
+
+::knowledge{path="cs/networks/transport-layer" slot="definition"}
+
+## TCP与UDP
+
+::knowledge{path="cs/networks/tcp" slot="definition"}
+
+::knowledge{path="cs/networks/udp" slot="definition"}
+
+::knowledge{path="cs/networks/tcp-udp" slot="definition"}
+
+## 信道复用
+
+::knowledge{path="cs/networks/channel-multiplexing" slot="definition"}
+
+## 网络交换
+
+::knowledge{path="cs/networks/network-switching" slot="definition"}
+
+## 学习安排
+
+教材自底向上展开：先讲物理层怎样传比特，再逐层加上相邻节点寻址、跨网络路由、进程间通信和应用协议。按这个顺序读，每进入一层都能回答“上一层还缺什么”。
+
+建议先把五层各自的负责范围、数据单位和典型设备列成三列，再进入网络层与传输层这两个重点。读[网络分层模型](/knowledge/cs/networks/network-layers/)时先建立整体框架，同时把信道复用和两种交换方式归到“网络核心怎样共享链路”这条线上。读[IPv4地址与子网](/knowledge/cs/networks/ipv4/)时重点练地址计算：由地址和掩码写出网络地址、广播地址和可用主机范围，再对照头部字段理解TTL与协议字段。读[TCP与UDP的传输形式](/knowledge/cs/networks/tcp-udp/)时把头部字段、三次握手和可靠性机制连起来看，不要只背字段名。
+
+## 课程约定
+
+- 采用TCP/IP五层模型：物理层、数据链路层、网络层、传输层、应用层。
+- 数据单位沿用教材说法：比特、帧、数据包（分组）、段或数据报。
+- 私有地址按A、B、C三段记：`10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`。
+- TCP的可靠性按“确认、重传、窗口”三层记；拥塞控制重点理解目的。
+- 应用层协议只要求认出用途，并区分C/S与P2P两种通信模式。
+
+## 易错点
+
+- 网络层负责主机到主机，传输层才负责进程到进程；端口号属于传输层，不属于网络层。
+- MAC地址只在相邻节点之间使用，IP地址负责跨网络寻址；两者不在同一层，也不能互相替代。
+- 分组交换的存储转发会带来排队延迟和丢包，这是换取统计复用和线路利用率的代价，不是实现缺陷。
+- 电路交换的三阶段是建立通路、传输数据、释放通路；它预留的是沿途带宽，和TCP在两端维护的连接状态不是一回事。
+- TTL每经过一个路由器减1，按跳数递减而不是按时间递减。
+- 不要因为UDP头部开销小就认为它总是更快；应用可以按自身需要在UDP上实现可靠传输、拥塞控制或其他机制。
+
+## 复习要点
+
+回忆每一层时按“负责范围、数据单位、典型设备”三列自问，比按协议名背更容易定位遗漏。
+
+TCP提供有序字节流并通过确认和重传应对丢失；UDP保留数据报边界，应用也可以自行实现可靠性；IPv4的地址题先确定掩码位数，再分别把主机号置0和置1。

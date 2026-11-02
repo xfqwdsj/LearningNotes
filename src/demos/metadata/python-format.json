@@ -1,0 +1,17 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "宽度和精度怎样影响浮点输出？",
+      "description": "调整字段宽度与小数精度，查看右对齐后的格式。",
+      "messages": {
+        "label": "Python浮点格式说明符",
+        "intro": "格式化固定值`3.14159`。输出中的点号代表空格，宽度是最小字段宽度。",
+        "width": "最小宽度",
+        "precision": "小数位数",
+        "result": "当前输出长度为{length}；内容超过宽度时不会被截断。"
+      },
+      "tags": ["Python", "格式化"]
+    }
+  }
+}

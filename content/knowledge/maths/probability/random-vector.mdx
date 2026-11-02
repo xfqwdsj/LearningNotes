@@ -1,0 +1,34 @@
+---
+title: 随机向量
+description: 将同一随机试验上的多个随机变量组合为向量。
+---
+
+import RandomVectorMappingDemo from "@/demos/random-vector-mapping-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X_1,\ldots,X_n$是定义在同一概率空间上的随机变量。把它们组合为
+
+$$
+\boldsymbol X=(X_1,\ldots,X_n)^{\mathsf T},
+$$
+
+称为 **$n$维随机向量**。一次试验的结果$\omega$确定向量的每一个分量，得到$\boldsymbol X(\omega)$。当$n=2$时也称二维随机变量。
+
+向量的整体概率规律可由[联合分布函数](/knowledge/maths/probability/joint-distribution-function/)描述；单独研究某个分量时，可求其[边缘分布](/knowledge/maths/probability/marginal-distribution/)。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+掷一枚骰子，令$X$表示点数是否为偶数，$Y$表示点数是否大于$3$，满足条件时相应分量取$1$，否则取$0$。若掷出$4$，则$(X,Y)=(1,1)$；若掷出$3$，则$(X,Y)=(0,0)$。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+改变骰子点数，查看同一个样本点如何同时决定随机向量的两个分量。
+
+<RandomVectorMappingDemo />

@@ -1,0 +1,25 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "三次握手怎样交换初始序列号？",
+      "description": "逐步查看TCP连接建立时的`SYN`与`ACK`。",
+      "messages": {
+        "label": "TCP三次握手",
+        "intro": "按顺序查看客户端与服务端如何交换并确认各自的初始序列号。",
+        "previous": "上一步",
+        "next": "下一步",
+        "progress": "第{step} / {total}步",
+        "diagram": "握手进行到第{step}步",
+        "first": "客户端 → 服务端：`SYN`",
+        "second": "服务端 → 客户端：`SYN` + `ACK`",
+        "third": "客户端 → 服务端：`ACK`",
+        "stage0": "连接尚未建立。",
+        "stage1": "客户端发送`SYN`，携带自己的初始序列号。",
+        "stage2": "服务端发送`SYN`和`ACK`，确认客户端序列号并给出自己的初始序列号。",
+        "stage3": "客户端确认服务端序列号，双方完成正常情况下的握手。"
+      },
+      "tags": ["计算机网络", "TCP"]
+    }
+  }
+}

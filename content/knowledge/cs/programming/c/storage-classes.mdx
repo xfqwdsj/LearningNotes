@@ -1,0 +1,151 @@
+---
+title: C存储类说明符
+description: 区分对象的作用域、存储期和链接，并理解static与extern的作用。
+---
+
+import CStorageDurationDemo from "@/demos/c-storage-duration-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**存储类说明符**`auto`、`register`、`static`、`extern`描述对象的三个不同属性：作用域（名字在哪些代码里可见）、存储期（对象何时创建、何时销毁）、链接（哪些翻译单元能看到这个名字）。
+
+| 存储类 | 用在哪里 | 作用域 | 存储期 | 链接 |
+| :--- | :--- | :--- | :--- | :--- |
+| `auto` | 块内局部变量，可省略 | 块 | 自动 | 无 |
+| `register` | 块内局部变量 | 块 | 自动 | 无 |
+| `static` | 块内局部变量 | 块 | 静态（程序全程） | 无 |
+| `static` | 文件作用域的变量、函数 | 文件 | 静态 | 内部 |
+| `extern` | 变量、函数的声明 | 由声明位置决定 | 对象通常为静态存储期 | 通常为外部，也可能继承已有内部链接 |
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### `static`的两种含义
+
+修饰**局部变量**时，`static`只改变存储期，不改变作用域：变量在程序开始时创建、结束时销毁，但名字仍只在块内可见。它只初始化一次，未显式初始化时被置0（自动变量不会）。适合记录跨调用保留的状态，例如计数器、缓存。
+
+修饰**文件作用域的变量或函数**时，`static`改变链接属性：名字只在本翻译单元（`.c`文件）内可见，其他文件即使写了`extern`声明也链接不到。这用来避免多个文件里出现同名函数或全局变量。
+
+### 声明与定义、`extern`
+
+`extern int counter;`是**声明**：告诉编译器这个名字存在、类型是什么，不分配存储。**定义**才分配存储，写成`int counter = 0;`。一个程序里同一个变量只能有一处定义，但可以有任意多处声明。
+
+```c title="跨文件共享全局变量" showLineNumbers=false
+/* counter.h：声明，可被多个文件包含 */
+extern int counter;
+
+/* counter.c：唯一的定义 */
+int counter = 0;
+```
+
+函数声明默认具有外部链接，`extern`可以省略；文件作用域下不带`extern`的变量声明可能是暂定定义；带初始化器的声明也是定义。
+
+### 组织跨文件的声明
+
+:::steps
+
+1. **在头文件写声明**
+
+   `extern int counter;`与函数原型放在`counter.h`，声明不分配存储、可以被多次包含。
+
+2. **在一个源文件写定义**
+
+   `counter.c`里写`int counter = 0;`，全程序只此一处分配存储。
+
+3. **其他源文件包含头文件**
+
+   使用方`#include "counter.h"`后即可按名字访问，链接阶段把它们连到同一个对象。
+
+:::
+
+### `register`与`auto`
+
+`register`只是建议把变量放在寄存器里，现代编译器自己决定是否采纳。声明为`register`的对象不能使用一元`&`取地址；无论编译器实际是否把它放在寄存器中，这一限制都适用。
+
+`auto`是局部变量默认的存储类，写不写都一样，现在几乎不显式写。它和C++的`auto`类型推导不是一回事。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="`static`局部变量只初始化一次"}
+
+```c title="counter.c"
+#include <stdio.h>
+
+void tick(void) {
+    static int count = 0;   /* 只初始化一次 */
+    count++;
+    printf("count = %d\n", count);
+}
+
+int main(void) {
+    tick();   /* 1 */
+    tick();   /* 2 */
+    tick();   /* 3 */
+    return 0;
+}
+```
+
+去掉`static`后，每次调用都会重新初始化为0，三次输出都是1。这正是“存储期”和“作用域”分开理解的地方：`count`一直存在，但只能在`tick`里按名字访问。
+
+:::
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+反复调用函数，比较自动局部变量与静态局部变量的初始化和保留行为。
+
+<CStorageDurationDemo />
+
+## 练习
+
+::problems{#c-storage-practice}
+
+1. ::question{#static-init-count}
+
+   一个`static`局部变量在程序的一次运行中被初始化:blank{#value type="number"}次。
+
+   :::reference
+   ::correct{blank="value" value="1"}
+
+   静态存储期的对象在程序开始时创建一次，初始化只执行一次，之后跨函数调用保留上一次的值。
+   :::
+
+2. ::question{#static-global}
+
+   `static`修饰文件作用域的全局变量时，作用是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 让该名字只在当前源文件内可见
+   - :option[B]{#b} 让变量在函数返回后销毁
+   - :option[C]{#c} 让变量的值不能被修改
+   - :option[D]{#d} 让变量在所有源文件中都可见
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   文件作用域的`static`给出内部链接，其他翻译单元即使写了`extern`声明也链接不到；它不改变可修改性，也不会让变量提前销毁。
+   :::
+
+3. ::question{#extern-purpose}
+
+   `extern int counter;`这条语句的作用是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 声明`counter`在别处定义，此处不分配存储
+   - :option[B]{#b} 定义`counter`并把它初始化为0
+   - :option[C]{#c} 定义了一个名为`counter`的宏
+   - :option[D]{#d} 把`counter`限制为当前文件可见
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   带`extern`且没有初始化器的是声明；定义要在某个`.c`文件中写`int counter = 0;`，全程序只允许一处。
+   :::

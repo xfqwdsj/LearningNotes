@@ -1,0 +1,197 @@
+---
+title: 格林公式
+description: 格林公式的条件、性质和应用。
+---
+
+import GreenCirculationDemo from "@/demos/green-circulation-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设闭区域$D$由分段光滑的曲线$L$所围成，函数$P(x,y)$、$Q(x,y)$在$D$上具有一阶连续偏导数，则
+
+$$
+\iint\limits_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\mathrm{d}x\,\mathrm{d}y
+=\oint_L P\,\mathrm{d}x+Q\,\mathrm{d}y,
+$$
+
+其中$L$是$D$的**正向边界曲线**。
+
+对复连通区域，格林公式仍然成立，但此时$L$应理解为区域$D$的**全部边界**，且外边界取正向（逆时针），内边界取负向（顺时针）。
+
+使用格林公式前要检查两件事：$P$、$Q$在$D$上（包括$D$的内部）具有一阶连续偏导数；$L$取正向。若$D$内有使$P$或$Q$无定义的奇点，不能直接套公式，要在挖去奇点后的区域上使用，并把新增的边界计入$L$。
+
+
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+下面给出$D$同时为$x$型与$y$型区域时的证明；一般的分段光滑边界区域可以分割成有限个这样的区域，公共边界上的积分因方向相反而抵消。
+
+设
+
+$$
+D=\{(x,y):a\le x\le b,\ y_1(x)\le y\le y_2(x)\}
+$$
+
+也是$y$型区域
+
+$$
+D=\{(x,y):c\le y\le d,\ x_1(y)\le x\le x_2(y)\}.
+$$
+
+先计算含$Q$的项。固定$y$，对$x$积分：
+
+$$
+\iint\limits_D\frac{\partial Q}{\partial x}\,\mathrm{d}x\,\mathrm{d}y
+=\int_c^d\Bigl[Q\bigl(x_2(y),y\bigr)-Q\bigl(x_1(y),y\bigr)\Bigr]\,\mathrm{d}y.
+$$
+
+沿正向边界，右边界$x=x_2(y)$从下往上走，左边界$x=x_1(y)$从上往下走，所以
+
+$$
+\oint_L Q\,\mathrm{d}y
+=\int_c^d Q\bigl(x_2(y),y\bigr)\,\mathrm{d}y
++\int_d^c Q\bigl(x_1(y),y\bigr)\,\mathrm{d}y
+=\int_c^d\Bigl[Q\bigl(x_2(y),y\bigr)-Q\bigl(x_1(y),y\bigr)\Bigr]\,\mathrm{d}y.
+$$
+
+两者相等。再计算含$P$的项。固定$x$，对$y$积分：
+
+$$
+\iint\limits_D-\frac{\partial P}{\partial y}\,\mathrm{d}x\,\mathrm{d}y
+=\int_a^b\Bigl[P\bigl(x,y_1(x)\bigr)-P\bigl(x,y_2(x)\bigr)\Bigr]\,\mathrm{d}x.
+$$
+
+沿正向边界，下边界从$a$到$b$，上边界从$b$到$a$，所以
+
+$$
+\oint_L P\,\mathrm{d}x
+=\int_a^b P\bigl(x,y_1(x)\bigr)\,\mathrm{d}x
++\int_b^a P\bigl(x,y_2(x)\bigr)\,\mathrm{d}x
+=\int_a^b\Bigl[P\bigl(x,y_1(x)\bigr)-P\bigl(x,y_2(x)\bigr)\Bigr]\,\mathrm{d}x.
+$$
+
+两式相加即得
+
+$$
+\iint\limits_D\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\mathrm{d}x\,\mathrm{d}y
+=\oint_L P\,\mathrm{d}x+Q\,\mathrm{d}y.
+$$
+
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 计算平面图形面积
+
+在格林公式中取$P=-y$，$Q=x$，则
+
+$$
+\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}=1-(-1)=2.
+$$
+
+于是
+
+$$
+2\iint\limits_D\mathrm{d}x\,\mathrm{d}y
+=\oint_L x\,\mathrm{d}y-y\,\mathrm{d}x,
+$$
+
+即区域$D$的面积为
+
+$$
+A=\iint\limits_D\mathrm{d}x\,\mathrm{d}y
+=\frac12\oint_L x\,\mathrm{d}y-y\,\mathrm{d}x,
+$$
+
+其中$L$为$D$的正向边界。
+
+取$P=0$、$Q=x$得$A=\oint_L x\,\mathrm{d}y$；取$P=-y$、$Q=0$得$A=-\oint_L y\,\mathrm{d}x$。这两个公式与上面的对称形式等价，选择哪一个取决于边界方程用哪个变量作参数更方便。
+
+边界写成$x=x(y)$时，$\oint_L x\,\mathrm{d}y$往往只需计算一个积分；边界写成$y=y(x)$时，$-\oint_L y\,\mathrm{d}x$可能更省事。方向必须保持正向，否则结果差一个负号。
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="用格林公式计算单位正方形的边界积分"}
+
+设$D=[0,1]\times[0,1]$，$L$为其正向边界。取$P=-y$、$Q=x$，则
+
+$$
+\oint_L x\,\mathrm{d}y-y\,\mathrm{d}x
+=\iint\limits_D 2\,\mathrm{d}x\,\mathrm{d}y
+=2\cdot 1=2.
+$$
+
+这也正好是$D$的面积的两倍。
+
+:::
+
+:::example{title="椭圆的面积"}
+
+椭圆$\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$（$a,b>0$）的正向边界可参数化为
+
+$$
+x=a\cos t,\qquad y=b\sin t,\qquad 0\le t\le 2\pi.
+$$
+
+于是
+
+$$
+x\,\mathrm{d}y-y\,\mathrm{d}x
+=a\cos t\cdot b\cos t\,\mathrm{d}t
+-b\sin t\cdot(-a\sin t)\,\mathrm{d}t
+=ab\,\mathrm{d}t.
+$$
+
+代入面积公式：
+
+$$
+A=\frac12\int_0^{2\pi}ab\,\mathrm{d}t=\pi ab.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<GreenCirculationDemo />
+
+## 练习
+
+::problems{#green-circulation-practice}
+
+1. ::question{#conditions}
+
+   使用格林公式时，下列哪组条件足够？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $P$、$Q$在$D$内连续
+   - :option[B]{#b} $P$、$Q$在$D$上具有一阶连续偏导数，且$L$取正向
+   - :option[C]{#c} $L$取负向，公式右边也取正
+   - :option[D]{#d} $D$必须是单连通区域
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   格林公式要求$P$、$Q$在$D$上有一阶连续偏导数，边界取正向；复连通区域也可以使用，只是要取全部边界。
+   :::
+
+2. ::question{#square}
+
+   设$D=[0,1]\times[0,1]$，$L$为其正向边界，则
+   $\displaystyle\oint_L x\,\mathrm{d}y-y\,\mathrm{d}x=$ :blank{#value type="number"}。
+
+   :::reference
+   ::correct{blank="value" value="2"}
+
+   由格林公式，被积表达式对应$\dfrac{\partial Q}{\partial x}-\dfrac{\partial P}{\partial y}=1-(-1)=2$，而$D$的面积为$1$，所以积分为$2\cdot 1=2$。
+   :::

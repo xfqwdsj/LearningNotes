@@ -1,0 +1,183 @@
+---
+title: 正态总体的抽样分布
+description: 正态总体的抽样分布的定义与性质。
+---
+
+import SamplingMeanDemo from "@/demos/sampling-mean-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+统计量在重复抽样下的概率分布称为抽样分布。对独立正态样本，样本均值、样本方差及其组合有以下精确分布。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 单个正态总体
+
+设$X_1,\ldots,X_n$是来自$N(\mu,\sigma^2)$的简单随机样本（样本与统计量的记号见[简单随机样本](/knowledge/maths/statistics/sample-statistic/)与[统计量](/knowledge/maths/statistics/statistics/)），$n\ge2$，则
+
+$$
+\bar X\sim N\left(\mu,\frac{\sigma^2}{n}\right),\qquad
+\frac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1),
+$$
+
+并且$\bar X$与$S^2$相互独立，于是
+
+$$
+\frac{\bar X-\mu}{S/\sqrt n}\sim t(n-1).
+$$
+
+:::proof
+令$Z_i=\dfrac{X_i-\mu}{\sigma}$，则$Z_1,\ldots,Z_n$相互独立，都服从$N(0,1)$。取一个$n$阶正交矩阵$A$，使其第一行为$\left(\frac1{\sqrt n},\ldots,\frac1{\sqrt n}\right)$，并令$Y=AZ$。
+
+正交变换保持平方和，也把独立标准正态变量变成独立标准正态变量，所以$Y_1,\ldots,Y_n$仍相互独立且都服从$N(0,1)$。其中
+
+$$
+Y_1=\frac1{\sqrt n}\sum_{i=1}^nZ_i=\sqrt n\,\bar Z,
+$$
+
+而平方和满足
+
+$$
+\sum_{i=1}^nY_i^2=\sum_{i=1}^nZ_i^2
+=\sum_{i=1}^n\frac{(X_i-\mu)^2}{\sigma^2}.
+$$
+
+于是
+
+$$
+\sum_{i=2}^nY_i^2=\sum_{i=1}^nZ_i^2-n\bar Z^2
+=\sum_{i=1}^n(Z_i-\bar Z)^2
+=\frac{(n-1)S^2}{\sigma^2}.
+$$
+
+右端是$n-1$个独立标准正态变量的平方和，故服从$\chi^2(n-1)$。又因$Y_1$与$Y_2,\ldots,Y_n$独立，$\bar X$（只由$Y_1$决定）与$S^2$（只由$Y_2,\ldots,Y_n$决定）也相互独立。
+
+最后把$t$分布的定义套用上去。记
+
+$$
+Z=\frac{\bar X-\mu}{\sigma/\sqrt n},\qquad
+U=\frac{(n-1)S^2}{\sigma^2},
+$$
+
+则$Z\sim N(0,1)$，$U\sim\chi^2(n-1)$，且两者独立，而
+
+$$
+\frac{\bar X-\mu}{S/\sqrt n}=\frac{Z}{\sqrt{U/(n-1)}}.
+$$
+
+按$t$分布的定义，这个比值服从$t(n-1)$。
+:::
+
+自由度为$n-1$，是因为$n$个离差$X_i-\bar X$受约束$\sum_i(X_i-\bar X)=0$的限制，只有$n-1$个可以自由变动。若把中心改为**已知**的$\mu$，就没有这个约束，结论变为
+
+$$
+\frac{\sum_{i=1}^n(X_i-\mu)^2}{\sigma^2}\sim\chi^2(n).
+$$
+
+> [!IMPORTANT]
+> **正态性是这些结论的前提**
+>
+> $\bar X\sim N(\mu,\sigma^2/n)$、$(n-1)S^2/\sigma^2\sim\chi^2(n-1)$、$\bar X$与$S^2$独立，都要求总体服从正态分布。它们不是大样本近似：总体非正态时，$\bar X$只在$n$很大时才近似正态，而$S^2$的卡方结论对非正态性较敏感，不能直接沿用。均值与方差的无偏性$E(\bar X)=\mu$、$E(S^2)=\sigma^2$则不需要正态性。
+
+
+### 两个独立正态样本
+
+设$X_1,\ldots,X_{n_1}$来自$N(\mu_1,\sigma_1^2)$，$Y_1,\ldots,Y_{n_2}$来自$N(\mu_2,\sigma_2^2)$，两个样本相互独立。由单个正态总体的结论，两组样本方差各自给出一个卡方变量，二者独立，相除并按自由度归一后得
+
+$$
+\frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}\sim F(n_1-1,n_2-1).
+$$
+
+若进一步假定两个总体的方差相等，记公共方差为$\sigma^2$，则可把两组信息合成**合并方差**
+
+$$
+S_p^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2},
+$$
+
+它是一个以$\sigma^2$为期望的加权平均，权重是各自的自由度。此时
+
+$$
+\frac{\bar X-\bar Y-(\mu_1-\mu_2)}{S_p\sqrt{\dfrac1{n_1}+\dfrac1{n_2}}}\sim t(n_1+n_2-2).
+$$
+
+自由度是两个样本自由度之和$(n_1-1)+(n_2-1)=n_1+n_2-2$。
+
+> [!CAUTION]
+> **合并$t$的适用条件**
+>
+> 上式同时要求：两个样本相互独立、两个总体都服从正态分布、两个总体方差相等。方差不等时不能用$S_p^2$，应改用不假定方差相等的近似方法。非正态总体下的大样本近似也不能当作这里的精确结论。
+
+
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="查表前先确认自由度"}
+
+容量$n=10$的正态样本，$\sigma$未知时用
+
+$$
+\frac{\bar X-\mu}{S/\sqrt{10}}\sim t(9),
+$$
+
+自由度是$n-1=9$而不是$10$；若误用$10$，查出的分位点会偏小，区间偏窄。$n$越大两个自由度的差别越小，但结论本身要求用$n-1$。
+
+两个样本的情形：$n_1=6$、$n_2=11$，方差相等时合并$t$的自由度为$5+10=15$。若只做方差比的检验，则统计量服从$F(5,10)$，两个自由度按“分子在前、分母在后”的顺序写。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<SamplingMeanDemo />
+
+## 练习
+
+::problems{#sampling-mean-practice}
+
+1. ::question{#chi-square-df}
+
+   取容量$n=9$的正态样本，则$\dfrac{(n-1)S^2}{\sigma^2}$服从的卡方分布的自由度为:blank{#df-value type="number"}。
+
+   :::reference
+   ::correct{blank="df-value" value="8"}
+
+   自由度为$n-1=8$。中心用的是样本均值$\bar X$，占用了一个约束$\sum_i(X_i-\bar X)=0$，所以比$n$少$1$。
+   :::
+
+2. ::question{#pooled-df}
+
+   两个独立正态样本的容量分别为$n_1=11$与$n_2=16$，总体方差相等，则合并$t$统计量的自由度为:blank{#pooled-df-value type="number"}。
+
+   :::reference
+   ::correct{blank="pooled-df-value" value="25"}
+
+   自由度为$n_1+n_2-2=11+16-2=25$，也就是$(11-1)+(16-1)$。
+   :::
+
+3. ::question{#true-statements}
+
+   下列叙述正确的是
+
+   :::choices{#choice-properties mode="multiple"}
+   - :option[A]{#a} 卡方分布只在非负半轴取值
+   - :option[B]{#b} $F$分布的密度关于零对称
+   - :option[C]{#c} $t$分布的密度关于零对称
+   - :option[D]{#d} $\dfrac{(n-1)S^2}{\sigma^2}\sim\chi^2(n-1)$要求总体服从正态分布
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="c"}
+
+   ::correct{option="d"}
+
+   卡方与$F$都只在非负半轴取值且不对称，只有$t$分布关于零对称。卡方结论依赖正态总体；方差的无偏性$E(S^2)=\sigma^2$才不需要正态性。
+   :::

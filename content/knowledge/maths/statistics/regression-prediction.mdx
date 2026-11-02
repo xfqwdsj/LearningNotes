@@ -1,0 +1,61 @@
+---
+title: 一元回归中的均值区间与预测区间
+description: 比较给定解释变量处的均值响应与新个体预测。
+---
+
+import RegressionPredictionDemo from "@/demos/regression-prediction-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+在[一元线性回归](/knowledge/maths/statistics/simple-linear-regression/)中，设$n>2$、$L_{xx}=\sum_i(x_i-\bar x)^2>0$，$s^2=SSE/(n-2)$，且误差独立同分布为正态，$s>0$。
+
+在给定的$x_0$处，点预测为
+
+$$
+\hat y_0=\hat\beta_0+\hat\beta_1x_0.
+$$
+
+条件均值$E(Y\mid x_0)$的$1-\alpha$置信区间为
+
+$$
+\hat y_0\pm t_{\alpha/2}(n-2)s\sqrt{\frac1n+\frac{(x_0-\bar x)^2}{L_{xx}}}.
+$$
+
+设新个体$Y_0$与已有观测独立，在$x_0$处服从同一线性模型且误差方差仍为$\sigma^2$，则它的预测区间为
+
+$$
+\hat y_0\pm t_{\alpha/2}(n-2)s\sqrt{1+\frac1n+\frac{(x_0-\bar x)^2}{L_{xx}}}.
+$$
+
+预测区间根号内多出的$1$对应新个体自身的随机波动，所以同一位置上的预测区间总比均值响应区间宽。两种区间都在$x_0$远离$\bar x$时变宽。
+
+若$x_0$超出观测到的$x$范围，公式仍按同一条直线外推，但线性关系在范围外是否成立没有任何数据支持；外推结论要比内插结论弱得多。
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<RegressionPredictionDemo />
+
+## 练习
+
+::problems{#regression-prediction}
+
+1. ::question{#interval-choice}
+
+   在同一个$x_0$处，若置信水平相同，关于条件均值的置信区间与独立新个体的预测区间，下列叙述正确的是
+
+   :::choices{#choice-interval mode="single"}
+   - :option[A]{#a} 两者宽度总是相同
+   - :option[B]{#b} 预测区间更宽
+   - :option[C]{#c} 均值响应区间更宽
+   - :option[D]{#d} 两者宽度大小完全由$R^2$决定
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   预测区间的标准误在根号内多一个$1$，对应新个体自身的随机波动，因此更宽。
+   :::

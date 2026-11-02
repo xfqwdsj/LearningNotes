@@ -1,0 +1,332 @@
+---
+title: 多元复合函数的求导法则
+description: 按中间变量与自变量的结构写出多元复合函数的链式法则，涵盖全导数、混合复合与全微分形式不变性。
+---
+
+import MultivariableChainDemo from "@/demos/multivariable-chain-demo";
+
+## 变量关系与链式法则
+
+多元复合函数的求导依赖中间变量与自变量之间的依赖结构。把$z$写在最上层，中间变量写在中间，自变量写在最下层，就得到一张**变量关系图**。从$z$到某个自变量的每一条路径都贡献一项：路径上各段偏导数相乘，同一个自变量的各条路径相加。
+
+本页假设外层函数在相应点可微，内层函数在相应点可导或具有偏导数。记号约定：$\dfrac{\partial z}{\partial u}=f_u$表示固定$f$的其他自变量、对$u$求偏导；$\dfrac{\mathrm{d}z}{\mathrm{d}t}$表示一元复合函数对$t$的普通导数。
+
+> [!TIP]
+> 写公式前先画变量关系图，并在图上标出每条路径。检查时对每个自变量数一数：从$z$到它有几条路径，公式里就应该有几项；混合复合还要加上显式项。
+
+## 求导定理
+
+::section{#theorem slot="knowledge.definition"}
+
+### 一元函数与多元函数复合
+
+设$u=u(t)$、$v=v(t)$都在点$t$可导，$z=f(u,v)$在对应点$(u(t),v(t))$处可微，则复合函数$z=f[u(t),v(t)]$在点$t$可导，且
+
+$$
+\frac{\mathrm{d}z}{\mathrm{d}t}
+=\frac{\partial z}{\partial u}\frac{\mathrm{d}u}{\mathrm{d}t}
++\frac{\partial z}{\partial v}\frac{\mathrm{d}v}{\mathrm{d}t}.
+$$
+
+这里$z$最终只依赖一个自变量$t$，所以左边用全导数记号$\dfrac{\mathrm{d}z}{\mathrm{d}t}$，而不是偏导数。
+
+### 多元函数与多元函数复合
+
+设$u=u(x,y)$、$v=v(x,y)$都在点$(x,y)$处具有对$x$、$y$的偏导数，$z=f(u,v)$在对应点$(u,v)$处可微，则复合函数$z=f[u(x,y),v(x,y)]$在点$(x,y)$处对$x$、$y$的偏导数存在，且
+
+$$
+\frac{\partial z}{\partial x}
+=\frac{\partial z}{\partial u}\frac{\partial u}{\partial x}
++\frac{\partial z}{\partial v}\frac{\partial v}{\partial x},
+$$
+
+$$
+\frac{\partial z}{\partial y}
+=\frac{\partial z}{\partial u}\frac{\partial u}{\partial y}
++\frac{\partial z}{\partial v}\frac{\partial v}{\partial y}.
+$$
+
+从$z$到$x$有两条路径，即$z\to u\to x$与$z\to v\to x$，两条路径的乘积相加就是第一式；对$y$同理。
+
+### 混合复合
+
+若$z=f(u,v,x)$，其中$u=u(x,y)$、$v=v(x,y)$，则$x$既是中间变量的自变量，又直接出现在$f$的自变量中。此时
+
+$$
+\frac{\partial z}{\partial x}
+=\frac{\partial f}{\partial u}\frac{\partial u}{\partial x}
++\frac{\partial f}{\partial v}\frac{\partial v}{\partial x}
++\frac{\partial f}{\partial x}.
+$$
+
+最后一项$\dfrac{\partial f}{\partial x}$是把$u$、$v$固定，只对$f$的显式自变量$x$求导的结果；前两项来自$x$通过$u$、$v$产生的间接影响。对$y$的偏导数没有显式项，仍按两条路径相加。
+
+> [!WARNING]
+> 同一个$x$在$z=f(u,v,x)$里出现两次：一次是$f$的显式自变量，一次通过$u$、$v$间接出现。本页用$\dfrac{\partial f}{\partial x}$记显式项，用$\dfrac{\partial z}{\partial x}$记复合后的总偏导数。其他资料可能把$\dfrac{\partial f}{\partial x}$定义为总偏导数，阅读时要先确认符号所指。
+
+## 证明
+
+::section{#proof slot="knowledge.proof"}
+
+先证第一种情形，后两种按同样的方法处理。
+
+记$u_0=u(t)$、$v_0=v(t)$，$\Delta u=u(t+\Delta t)-u(t)$，$\Delta v=v(t+\Delta t)-v(t)$，$\rho=\sqrt{(\Delta u)^2+(\Delta v)^2}$。
+
+因为$f$在$(u_0,v_0)$处可微，
+
+$$
+\Delta z=f_u(u_0,v_0)\Delta u+f_v(u_0,v_0)\Delta v+o(\rho)
+\qquad(\rho\to0).
+$$
+
+两边除以$\Delta t\ne0$：
+
+$$
+\frac{\Delta z}{\Delta t}
+=f_u\frac{\Delta u}{\Delta t}+f_v\frac{\Delta v}{\Delta t}
++\frac{o(\rho)}{\Delta t}.
+$$
+
+$u$、$v$在$t$处可导，因此也在$t$处连续，$\Delta t\to0$时$\Delta u\to0$、$\Delta v\to0$，从而$\rho\to0$。又
+
+$$
+\frac{\rho}{|\Delta t|}
+=\sqrt{\left(\frac{\Delta u}{\Delta t}\right)^2
++\left(\frac{\Delta v}{\Delta t}\right)^2}
+$$
+
+有界，因为两个差商分别趋于$u'(t)$与$v'(t)$；而$\dfrac{o(\rho)}{\rho}\to0$，所以
+
+$$
+\frac{o(\rho)}{\Delta t}
+=\frac{o(\rho)}{\rho}\cdot\frac{\rho}{\Delta t}\to0 .
+$$
+
+于是$\dfrac{\Delta z}{\Delta t}$的极限存在，且
+
+$$
+\frac{\mathrm{d}z}{\mathrm{d}t}
+=f_u(u_0,v_0)\,u'(t)+f_v(u_0,v_0)\,v'(t).
+$$
+
+对第二种情形，把$y$看作常数，$u$、$v$就成为$x$的一元函数，套用上面的结论即得$\dfrac{\partial z}{\partial x}$的公式；对$y$同理。
+
+对第三种情形，固定$y$，把$x$看作唯一变量。由$f$可微，
+
+$$
+\Delta z=f_u\Delta u+f_v\Delta v+f_x\Delta x+o(\rho),
+\qquad
+\rho=\sqrt{(\Delta u)^2+(\Delta v)^2+(\Delta x)^2}.
+$$
+
+除以$\Delta x$后，$\dfrac{o(\rho)}{\Delta x}\to0$的理由同上：此时$\dfrac{\rho}{|\Delta x|}$仍有界。于是得到含三项的公式。
+
+:::
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 全导数
+
+::section{#total-derivative}
+
+当复合函数的最终自变量只有一个时，因变量对这个自变量的导数称为**全导数**。上面的第一种情形给出的就是全导数：
+
+$$
+\frac{\mathrm{d}z}{\mathrm{d}t}
+=\frac{\partial z}{\partial u}\frac{\mathrm{d}u}{\mathrm{d}t}
++\frac{\partial z}{\partial v}\frac{\mathrm{d}v}{\mathrm{d}t}.
+$$
+
+它表示$t$变化时，通过所有中间路径传到$z$的总变化率。偏导数只让一个自变量变化，全导数则允许所有中间变量随$t$一起变化。
+
+> [!NOTE]
+> 全导数与全微分是两个概念。全导数是一个数，表示变化率；全微分是增量的线性主部，见[全微分](/knowledge/maths/multivariable-calculus/total-differential/)。
+
+### 全微分形式不变性
+
+::section{#form-invariance}
+
+设$z=f(u,v)$可微。
+
+1. 若$u$、$v$是独立自变量，则
+   $$
+   \mathrm{d}z=\frac{\partial z}{\partial u}\mathrm{d}u+\frac{\partial z}{\partial v}\mathrm{d}v .
+   $$
+2. 若$u=u(x,y)$、$v=v(x,y)$是可微的中间变量，则把$\mathrm{d}u$、$\mathrm{d}v$按全微分展开后，仍有
+   $$
+   \mathrm{d}z=\frac{\partial z}{\partial u}\mathrm{d}u+\frac{\partial z}{\partial v}\mathrm{d}v .
+   $$
+
+第二种情形的验证：由链式法则，
+
+$$
+\frac{\partial z}{\partial x}=f_u u_x+f_v v_x,\qquad
+\frac{\partial z}{\partial y}=f_u u_y+f_v v_y ,
+$$
+
+于是
+
+$$
+\mathrm{d}z
+=\frac{\partial z}{\partial x}\mathrm{d}x+\frac{\partial z}{\partial y}\mathrm{d}y
+=f_u(u_x\mathrm{d}x+u_y\mathrm{d}y)+f_v(v_x\mathrm{d}x+v_y\mathrm{d}y)
+=f_u\,\mathrm{d}u+f_v\,\mathrm{d}v .
+$$
+
+所以无论$u$、$v$是自变量还是中间变量，$z=f(u,v)$的全微分都写成同一个形式，这就是**全微分形式不变性**。第二种情形中的$\mathrm{d}u$、$\mathrm{d}v$是中间变量的微分，不再是自变量的增量。
+
+> [!TIP]
+> 形式不变性把换元与求微分分开：先按$u$、$v$写出$\mathrm{d}z$，再把$\mathrm{d}u$、$\mathrm{d}v$展开成$\mathrm{d}x$、$\mathrm{d}y$的组合。求隐函数的导数和高阶全微分时常用这种写法，但前提仍是$f$可微。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="$z=u^2v$，$u=\sin t$，$v=\cos t$"}
+
+这是最终自变量只有一个的情形：
+
+$$
+\frac{\mathrm{d}z}{\mathrm{d}t}
+=2uv\cdot\cos t+u^2\cdot(-\sin t)
+=2\sin t\cos^2 t-\sin^3 t .
+$$
+
+两条路径$z\to u\to t$与$z\to v\to t$分别贡献一项，不能只对$u$求导。
+
+:::
+
+:::example{title="$z=u^2+v^2$，$u=x+y$，$v=x-y$"}
+
+对$x$有两条路径：
+
+$$
+\frac{\partial z}{\partial x}
+=2u\cdot1+2v\cdot1
+=2(x+y)+2(x-y)=4x .
+$$
+
+对$y$时，$u_y=1$，而$v_y=-1$：
+
+$$
+\frac{\partial z}{\partial y}
+=2u\cdot1+2v\cdot(-1)
+=2(x+y)-2(x-y)=4y .
+$$
+
+直接代入$z=2x^2+2y^2$求偏导，结果相同。
+
+:::
+
+:::example{title="混合复合：$z=uv+x^2$，$u=x+y$，$v=xy$"}
+
+$x$既通过$u$、$v$出现，又作为$f$的显式自变量出现：
+
+$$
+\frac{\partial z}{\partial x}
+=v\cdot1+u\cdot y+2x
+=xy+y(x+y)+2x
+=2xy+y^2+2x .
+$$
+
+对$y$没有显式项：
+
+$$
+\frac{\partial z}{\partial y}
+=v\cdot1+u\cdot x
+=xy+x(x+y)=x^2+2xy .
+$$
+
+把$z=(x+y)xy+x^2=x^2y+xy^2+x^2$直接求偏导，可以核对这两个结果。
+
+:::
+
+:::example{title="用形式不变性求$z=e^u\sin v$的全微分，$u=x+y$，$v=x-y$"}
+
+先按$u$、$v$写出
+
+$$
+\mathrm{d}z=e^u\sin v\,\mathrm{d}u+e^u\cos v\,\mathrm{d}v .
+$$
+
+再代入$\mathrm{d}u=\mathrm{d}x+\mathrm{d}y$、$\mathrm{d}v=\mathrm{d}x-\mathrm{d}y$：
+
+$$
+\begin{aligned}
+\mathrm{d}z
+&=e^u\sin v\,(\mathrm{d}x+\mathrm{d}y)
++e^u\cos v\,(\mathrm{d}x-\mathrm{d}y)\\
+&=e^{x+y}\bigl(\sin(x-y)+\cos(x-y)\bigr)\mathrm{d}x
++e^{x+y}\bigl(\sin(x-y)-\cos(x-y)\bigr)\mathrm{d}y .
+\end{aligned}
+$$
+
+$\mathrm{d}x$与$\mathrm{d}y$的系数就是$\dfrac{\partial z}{\partial x}$与$\dfrac{\partial z}{\partial y}$。若直接对复合后的函数求偏导，结果一致。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<MultivariableChainDemo />
+
+## 练习
+
+::problems{#multivariable-chain-rule-check}
+
+1. ::question{#total-derivative-value}
+
+   $z=u^2v$，$u=\cos t$，$v=\sin t$，则$\left.\dfrac{\mathrm{d}z}{\mathrm{d}t}\right|_{t=0}=$ :blank{#dzdt type="number"}。
+
+   :::reference
+   ::correct{blank="dzdt" value="1"}
+
+   $\dfrac{\mathrm{d}z}{\mathrm{d}t}=2uv(-\sin t)+u^2\cos t$。$t=0$时$u=1$、$v=0$、$\sin0=0$、$\cos0=1$，所以结果为$1$。
+   :::
+
+2. ::question{#partial-value}
+
+   $z=u^2+v^2$，$u=x+y$，$v=x-y$，则$\left.\dfrac{\partial z}{\partial x}\right|_{(1,1)}=$ :blank{#dzdx type="number"}。
+
+   :::reference
+   ::correct{blank="dzdx" value="4"}
+
+   $\dfrac{\partial z}{\partial x}=2u+2v=4x$。代入$x=1$得$4$；也可由$z=2x^2+2y^2$直接求偏导核对。
+   :::
+
+3. ::question{#mixed-formula}
+
+   设$z=f(u,v,x)$，$u=u(x,y)$，$v=v(x,y)$，则$\dfrac{\partial z}{\partial x}$等于
+
+   :::choices{#mixed-choice mode="single"}
+   - :option[A]{#a} $\dfrac{\partial f}{\partial u}\dfrac{\partial u}{\partial x}+\dfrac{\partial f}{\partial v}\dfrac{\partial v}{\partial x}$
+   - :option[B]{#b} $\dfrac{\partial f}{\partial u}\dfrac{\partial u}{\partial x}+\dfrac{\partial f}{\partial v}\dfrac{\partial v}{\partial x}+\dfrac{\partial f}{\partial x}$
+   - :option[C]{#c} $\dfrac{\partial f}{\partial u}\dfrac{\partial u}{\partial x}+\dfrac{\partial f}{\partial v}\dfrac{\partial v}{\partial x}+\dfrac{\partial f}{\partial y}$
+   - :option[D]{#d} 只用$\dfrac{\partial f}{\partial x}$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   两条间接路径各一项，再加上$x$作为显式自变量的直接项。漏掉最后一项是最常见的错误。
+   :::
+
+4. ::question{#invariance}
+
+   关于全微分形式不变性，正确的说法是
+
+   :::choices{#invariance-choice mode="single"}
+   - :option[A]{#a} 只有$u$、$v$是自变量时才成立
+   - :option[B]{#b} 只要$f$可微，无论$u$、$v$是自变量还是中间变量，$\mathrm{d}z$都写成$f_u\,\mathrm{d}u+f_v\,\mathrm{d}v$
+   - :option[C]{#c} 形式不变性说明$\mathrm{d}z$与$\mathrm{d}u$、$\mathrm{d}v$无关
+   - :option[D]{#d} 形式不变性不需要$f$可微
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   两种情形下$\mathrm{d}z$的表达式形式相同，但中间变量情形下的$\mathrm{d}u$、$\mathrm{d}v$本身也要按链式法则展开；这个性质仍以$f$可微为前提。
+   :::

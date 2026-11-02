@@ -1,0 +1,276 @@
+---
+title: 幂指函数
+description: 底数与指数都随自变量变化的函数$u(x)^{v(x)}$，用取对数的转化求导、求极限，并处理$1^\infty$、$\infty^0$、$0^0$型不定式。
+---
+
+import PowerExponentialDemo from "@/demos/power-exponential-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+形如
+
+$$
+y=[u(x)]^{v(x)}
+$$
+
+的函数称为**幂指函数**，其中底数$u(x)$与指数$v(x)$都是自变量$x$的函数。
+
+本页要求$u(x)>0$。这既保证$[u(x)]^{v(x)}$在实数范围内有定义，也保证可以对$u(x)$取对数；讨论$x^x$时，范围就是$x>0$。
+
+幂指函数不是幂函数，也不是指数函数，而是两者的推广：幂函数的底数是变量、指数是常数，指数函数的底数是常数、指数是变量，幂指函数则两者都随$x$变化。它仍然是复合函数，但不能直接套用
+
+$$
+[x^a]'=ax^{a-1},\qquad [a^x]'=a^x\ln a,
+$$
+
+因为这两个公式各自假定底数或指数中有一个是常量。
+
+为书写方便，下文把$u(x)$、$v(x)$简记为$u$、$v$，并默认它们在所讨论的点可导，或在求极限时极限存在。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 求导
+
+求导的核心是**对数求导法**：先用$a=e^{\ln a}$把幂指函数写成以$e$为底的复合函数，再按[链式法则](/knowledge/maths/derivatives/chain-rule/)求导。
+
+设$u>0$且$u$、$v$都可导，则
+
+$$
+\left([u(x)]^{v(x)}\right)'
+=[u(x)]^{v(x)}\left[v'(x)\ln u(x)+\frac{v(x)u'(x)}{u(x)}\right].
+$$
+
+:::steps
+
+1. **改写成指数形式**
+
+   利用恒等式$[u(x)]^{v(x)}=e^{v(x)\ln u(x)}$，把底数化为常数$e$。也可以两边取对数，写成$\ln y=v(x)\ln u(x)$，两种写法等价。
+
+2. **对$x$求导**
+
+   对外层$e^{\,\cdot}$用链式法则，或对$\ln y$用链式法则，再对乘积$v\ln u$用乘积法则。指数部分的导数是$v'\ln u+v\dfrac{u'}{u}$。
+
+3. **乘回原函数**
+
+   取对数的写法最后要乘以$y=[u(x)]^{v(x)}$，才得到上面的公式。直接用指数形式则不必乘，因为$e^{v\ln u}$本身就是原函数。
+
+:::
+
+:::proof
+
+把$y=e^{v(x)\ln u(x)}$看作$y=e^{g(x)}$与$g(x)=v(x)\ln u(x)$的复合。由链式法则，
+
+$$
+y'=e^{g(x)}g'(x)
+=e^{v\ln u}\left(v'\ln u+v\frac{u'}{u}\right).
+$$
+
+再把$e^{v\ln u}$写回$[u(x)]^{v(x)}$，即得求导公式。取对数的写法记录的是同一步骤：
+
+$$
+\frac{y'}{y}
+=\frac{\mathrm{d}}{\mathrm{d}x}\bigl(v(x)\ln u(x)\bigr)
+=v'(x)\ln u(x)+v(x)\frac{u'(x)}{u(x)}.
+$$
+
+:::
+
+> [!TIP]
+> 解题时用第一步的转化或两边取对数，比直接背最终公式更稳：每次只需对$v\ln u$用一次乘积法则和链式法则。最终公式可以用来核对结果。
+
+用公式时注意两项的来源：$v'\ln u$来自指数$v$的变化，$v\dfrac{u'}{u}$来自底数$u$的变化，两项都不能漏。
+
+### 极限
+
+### 确定型
+
+若$\lim\limits_{x\to x_0}u(x)=a>0$、$\lim\limits_{x\to x_0}v(x)=b$都存在，且$a^b$不是不定型，则
+
+$$
+\lim_{x\to x_0}[u(x)]^{v(x)}
+=\left(\lim_{x\to x_0}u(x)\right)^{\lim\limits_{x\to x_0}v(x)}
+=a^b .
+$$
+
+这是因为$u^v=e^{v\ln u}$在$u>0$时关于$(u,v)$连续。这类题不需要变形，直接代入即可。
+
+### 不定型
+
+幂指函数的不定式有三类。它们的共同点是$v\ln u$成为$0\cdot\infty$型：
+
+| 类型 | 特征 | 指数部分$v\ln u$的形式 |
+| --- | --- | --- |
+| $1^\infty$ | $u\to1$，$v\to\infty$ | $v\ln u$为$\infty\cdot0$ |
+| $\infty^0$ | $u\to\infty$，$v\to0$ | $v\ln u$为$0\cdot\infty$ |
+| $0^0$ | $u\to0^+$，$v\to0$ | $v\ln u$为$0\cdot(-\infty)$ |
+
+$0^0$型必须要求$u\to0^+$，否则$\ln u$没有实值，函数在实数范围内无定义。
+
+### 通用方法：先取对数，再取指数
+
+先把幂指函数写成指数形式，利用$e^x$的连续性把极限移到指数上：
+
+$$
+\lim_{x\to x_0}[u(x)]^{v(x)}
+=\lim_{x\to x_0}e^{v(x)\ln u(x)}
+=e^{L},\qquad
+L=\lim_{x\to x_0}v(x)\ln u(x).
+$$
+
+于是问题化为求$L$。把$v\ln u$写成$\dfrac{\ln u}{1/v}$或$\dfrac{v}{1/\ln u}$，就得到$\dfrac{0}{0}$或$\dfrac{\infty}{\infty}$型，可以再用洛必达法则或[等价无穷小](/knowledge/maths/limits/equivalent-infinitesimals/)。求出$L$（包括$L=\pm\infty$）后，原极限为$e^L$。
+
+### $1^\infty$型的快捷公式
+
+若$u(x)\to1$、$v(x)\to\infty$，且$(u(x)-1)v(x)$的极限$L$存在（或为$\pm\infty$），则
+
+$$
+\lim_{x\to x_0}[u(x)]^{v(x)}
+=\lim_{x\to x_0}\bigl[1+(u(x)-1)\bigr]^{v(x)}
+=e^{L},\qquad
+L=\lim_{x\to x_0}(u(x)-1)v(x).
+$$
+
+这是因为$u\to1$时$\ln u=\ln\bigl(1+(u-1)\bigr)\sim u-1$，所以$v\ln u$与$(u-1)v$等价。指数部分因此从$\ln u$简化成一次式，比原式好算。这个公式与[第二个重要极限](/knowledge/maths/limits/important-limits/)同源。
+
+> [!IMPORTANT]
+> 不管是哪一类不定型，先把幂指函数写成$e^{v(x)\ln u(x)}$再处理，都是通用做法。$1^\infty$的快捷公式只是把$\ln u$换成了等价的一阶量$u-1$，不能套用到$\infty^0$或$0^0$型。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="求$y=x^x$的导数（$x>0$）"}
+
+两边取对数：
+
+$$
+\ln y=x\ln x.
+$$
+
+对$x$求导，左边用链式法则：
+
+$$
+\frac{y'}{y}=\ln x+x\cdot\frac{1}{x}=\ln x+1,
+$$
+
+所以
+
+$$
+y'=x^x(\ln x+1).
+$$
+
+:::
+
+:::example{title="$0^0$型：$\lim\limits_{x\to0^+}x^x$"}
+
+先取对数：
+
+$$
+\ln(x^x)=x\ln x=\frac{\ln x}{1/x}.
+$$
+
+$x\to0^+$时分子趋于$-\infty$、分母趋于$+\infty$，用洛必达法则：
+
+$$
+\lim_{x\to0^+}x\ln x
+=\lim_{x\to0^+}\frac{1/x}{-1/x^2}
+=\lim_{x\to0^+}(-x)=0.
+$$
+
+因此
+
+$$
+\lim_{x\to0^+}x^x=e^0=1.
+$$
+
+:::
+
+:::example{title="$1^\infty$型：$\lim\limits_{x\to0}(1+x^2)^{1/x^2}$"}
+
+底数$1+x^2\to1$，指数$\dfrac{1}{x^2}\to\infty$，属于$1^\infty$型。用快捷公式，取$u=1+x^2$、$v=\dfrac{1}{x^2}$：
+
+$$
+(u-1)v=x^2\cdot\frac{1}{x^2}=1,
+$$
+
+所以极限为$e^1=e$。
+
+:::
+
+:::example{title="$\infty^0$型：$\lim\limits_{x\to\infty}x^{1/x}$"}
+
+取对数：
+
+$$
+\ln\left(x^{1/x}\right)=\frac{\ln x}{x}\to0\quad(x\to\infty),
+$$
+
+所以
+
+$$
+\lim_{x\to\infty}x^{1/x}=e^0=1.
+$$
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<PowerExponentialDemo />
+
+## 练习
+
+::problems{#power-exponential-practice}
+
+1. ::question{#derivative-at-one}
+
+   函数$y=x^x$（$x>0$）在$x=1$处的导数是:blank{#derivative-value type="number"}。
+
+   :::reference
+   ::correct{blank="derivative-value" value="1"}
+
+   由$y'=x^x(\ln x+1)$，代入$x=1$得$1\cdot(0+1)=1$。
+   :::
+
+2. ::question{#indeterminate-types}
+
+   下列极限类型中，属于幂指函数不定型的是哪些？
+
+   :::choices{#type-choice mode="multiple"}
+   - :option[A]{#a} $1^\infty$型
+   - :option[B]{#b} $0^0$型
+   - :option[C]{#c} $\infty^0$型
+   - :option[D]{#d} $2^3$型
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="c"}
+
+   $2^3$中底数与指数都趋于确定的常数，可以直接代入得$8$，不是不定型。
+   :::
+
+3. ::question{#zero-zero-limit}
+
+   $\lim\limits_{x\to0^+}x^x$等于
+
+   :::choices{#limit-choice mode="single"}
+   - :option[A]{#a} $0$
+   - :option[B]{#b} $1$
+   - :option[C]{#c} $e$
+   - :option[D]{#d} 不存在
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   取对数后$x\ln x\to0$，所以原极限为$e^0=1$。
+   :::

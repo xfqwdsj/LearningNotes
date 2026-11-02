@@ -1,0 +1,12 @@
+allowBuilds:
+  "@parcel/watcher": true
+  "@swc/core": true
+  esbuild: true
+  unrs-resolver: true
+  workerd: true
+# The direct dependency and math parser/renderer dependencies share this version.
+# CSS, fonts and the official copy-tex extension all come from that same package.
+overrides:
+  katex: "catalog:"
+catalog:
+  katex: 0.19.1

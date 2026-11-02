@@ -1,0 +1,21 @@
+{
+  "subject": "cs",
+  "locales": {
+    "zh-CN": {
+      "title": "`range`会产生哪些整数？",
+      "description": "改变起点、终点和步长，查看半开区间产生的整数。",
+      "messages": {
+        "label": "Python `range`的整数序列",
+        "intro": "选择起点、终点和非零步长。终点不包含在结果中；方向不一致时结果为空。",
+        "start": "起点`start`",
+        "stop": "终点`stop`",
+        "step": "选择步长`step`",
+        "none": "空序列",
+        "diagram": "当前结果：`{values}`",
+        "result": "`range({start}, {stop}, {step})`包含{count}个整数。",
+        "empty": "`range({start}, {stop}, {step})`为空。"
+      },
+      "tags": ["Python", "`range`"]
+    }
+  }
+}

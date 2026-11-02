@@ -1,0 +1,21 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "残差图能提示什么问题？",
+      "description": "比较两组固定残差的形状。",
+      "messages": {
+        "label": "回归残差的图形检查",
+        "intro": "两组数据都是人工构造的示例，横轴为解释变量，纵轴为残差；虚线表示零。切换示例，比较点是否呈明显弯曲。",
+        "choose": "选择残差示例",
+        "curved": "弯曲模式",
+        "alternating": "交错模式",
+        "curvedResult": "残差在两端为正、中间为负，提示线性均值关系可能遗漏了弯曲结构。",
+        "alternatingResult": "这组点没有同样的弯曲形状，但仅凭少量点不能证明模型条件成立。",
+        "curvedGraph": "残差在两端为正、中间为负。",
+        "alternatingGraph": "残差呈正负交错的固定示例。"
+      },
+      "tags": ["线性回归", "残差"]
+    }
+  }
+}

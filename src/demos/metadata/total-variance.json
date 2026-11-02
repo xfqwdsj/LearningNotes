@@ -1,0 +1,19 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "总方差中的组内与组间部分各占多少？",
+      "description": "调整两组的比例和成功率，将二元变量的总方差拆成两部分。",
+      "messages": {
+        "label": "全方差公式的分解",
+        "intro": "$Y$表示组别，$X$是零一变量。两种深浅的长度分别表示组内方差的加权平均和组间均值的方差。",
+        "weight": "第一组的比例",
+        "first": "第一组中$X=1$的概率",
+        "second": "第二组中$X=1$的概率",
+        "diagram": "组内部分为{within}，组间部分为{between}",
+        "result": "组内部分{within}，组间部分{between}，总方差{total}。"
+      },
+      "tags": ["概率论", "条件方差"]
+    }
+  }
+}

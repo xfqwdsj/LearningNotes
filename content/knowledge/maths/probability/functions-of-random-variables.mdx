@@ -1,0 +1,314 @@
+---
+title: 随机变量函数的分布
+description: 已知随机变量$X$的分布，求$Y=g(X)$的分布：分布函数法、离散型变换、单调与非单调变换的密度公式。
+---
+
+import RandomTransformDemo from "@/demos/random-transform-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+设$X$是概率空间$(\Omega,P)$上的随机变量，$g$是定义在$X$取值范围内的实值函数。对每个样本点$\omega$，令
+
+$$
+Y(\omega)=g\bigl(X(\omega)\bigr),
+$$
+
+则$Y$仍是同一个样本空间上的随机变量，称它为$X$的**函数**，记作$Y=g(X)$。
+
+已知$X$的分布而求$Y$的分布，就是求$Y$的分布函数
+
+$$
+F_Y(y)=P\{Y\le y\}=P\{g(X)\le y\},\qquad -\infty<y<+\infty,
+$$
+
+或求出与分布函数等价的信息：离散情形写出$Y$的分布律，连续情形写出$Y$的密度$f_Y$。以下把$X$的分布函数与密度分别记为$F_X$、$f_X$，把$Y$的对应量记为$F_Y$、$f_Y$。
+
+> [!NOTE]
+> **记号约定**
+>
+> $\{g(X)\le y\}$指使$g\bigl(X(\omega)\bigr)\le y$成立的样本点全体。对每个$y$，它都必须是事件，$F_Y(y)$才有定义；实际遇到的初等函数都满足这一点。$F_Y$的自变量是实数$y$，$Y$本身是随机变量，两者不要混写。
+
+## 分布函数法
+
+::section{#properties slot="knowledge.properties"}
+
+分布函数法直接按定义计算$P\{g(X)\le y\}$，不要求$g$单调，对离散型和连续型都适用；下面两个密度公式也都能由它推出。
+
+:::steps
+
+1. **确定$Y$的取值范围**
+
+   由$X$的取值范围和$g$的对应关系，先写出$Y$可能取到哪些值。范围之外$F_Y$分别取$0$或$1$，密度取$0$。
+
+2. **写出$F_Y(y)=P\{g(X)\le y\}$**
+
+   这一步只是套定义，先把分布函数写出来，再处理后一个不等号。
+
+3. **把不等式化成关于$X$的事件**
+
+   $\{g(X)\le y\}$等价于$X$落在某个集合上。对连续型，这个集合通常是若干区间；用$F_X$或对$f_X$积分即可算出概率。
+
+4. **需要密度时再求导**
+
+   在$F_Y$可导的点取$f_Y(y)=F_Y'(y)$，并补上取值范围外的零值。
+
+:::
+
+> [!TIP]
+> **先求范围，再算概率**
+>
+> 先确定$Y$的取值范围，既能避免漏写分段，也是检验答案的重要手段：范围之外$F_Y$应为常数，$f_Y$应为$0$。计算结束前可以顺手核对一次。
+
+## 离散型随机变量函数的分布
+
+::section{#discrete-transform}
+
+设$X$是离散型随机变量，取值为$x_1,x_2,\dots$，分布律为$p_k=P\{X=x_k\}$。把每个取值代入$g$，得到$Y=g(X)$的分布律
+
+$$
+P\{Y=y\}=\sum_{k:\,g(x_k)=y}P\{X=x_k\}.
+$$
+
+同一个$y$可能由多个$x_k$得到，这些概率必须**合并**，不能当作不同的取值分列。反向看，$Y$的每个取值对应$X$的一个或多个原像，求和只对满足$g(x_k)=y$的下标进行。
+
+## 单调变换的密度公式
+
+::section{#monotone-density}
+
+设$X$是连续型随机变量，密度为$f_X$，取值落在区间$I$内。若$g$在$I$上严格单调、可微，且存在可微的反函数$x=h(y)$，则$Y=g(X)$也是连续型随机变量，在变换后的取值范围内
+
+$$
+f_Y(y)=f_X\bigl(h(y)\bigr)\,\bigl|h'(y)\bigr|.
+$$
+
+**绝对值不能省略**。$g$严格递增时$h'(y)>0$，严格递减时$h'(y)<0$，而密度必须非负；取绝对值后两种情形使用同一个式子。
+
+:::proof
+设$g$在$I$上严格递增，则反函数$h$也递增，且
+
+$$
+F_Y(y)=P\{g(X)\le y\}=P\{X\le h(y)\}=F_X\bigl(h(y)\bigr).
+$$
+
+两边对$y$求导，由链式法则得
+
+$$
+f_Y(y)=F_X'\bigl(h(y)\bigr)\,h'(y)=f_X\bigl(h(y)\bigr)\,h'(y).
+$$
+
+若$g$严格递减，则$\{g(X)\le y\}=\{X\ge h(y)\}$，于是
+
+$$
+F_Y(y)=1-F_X\bigl(h(y)\bigr),
+\qquad
+f_Y(y)=-f_X\bigl(h(y)\bigr)\,h'(y)=f_X\bigl(h(y)\bigr)\,\bigl|h'(y)\bigr|.
+$$
+
+递增情形中$h'(y)>0$，同样可写成带绝对值的式子。求导在$F_X$可导的点进行；改变密度在有限个点的取值不影响分布。
+:::
+
+**线性变换**：对$Y=aX+b$，$a\ne 0$，反函数$h(y)=\dfrac{y-b}{a}$，$h'(y)=\dfrac1a$，于是
+
+$$
+f_Y(y)=\frac{1}{|a|}\,f_X\!\left(\frac{y-b}{a}\right).
+$$
+
+若$X\sim N(\mu,\sigma^2)$，则$aX+b\sim N(a\mu+b,a^2\sigma^2)$。$a=0$时$Y\equiv b$是常数，$F_Y$在$b$处由$0$跳到$1$，$Y$没有密度。
+
+## 非单调变换与分支求和
+
+::section{#branch-sum}
+
+若$g$在整个取值范围内不单调，但可以分成若干段，使每段上$g$严格单调且可微，反函数分别为$x_i(y)$，则同一$y$处各分支的贡献相加：
+
+$$
+f_Y(y)=\sum_i f_X\bigl(x_i(y)\bigr)\left|\frac{\mathrm dx_i}{\mathrm dy}\right|.
+$$
+
+这里的分支只计入落在$X$支持集内的那些，支持集指$f_X>0$的取值集合；某个分支在$y$处没有实数值时，它对$f_Y(y)$没有贡献。
+
+> [!WARNING]
+> 分支求和只适用于每段上严格单调的情形。若变换把一段正概率区域整体映到同一个常数，该常数处会有概率质量，$F_Y$在该点跳跃，此时不能只用一个连续密度描述$Y$，要回到分布函数法处理。
+
+对$g(x)=x^2$，当$y>0$时两支为$x_1(y)=\sqrt y$、$x_2(y)=-\sqrt y$，且
+
+$$
+\left|\frac{\mathrm dx_1}{\mathrm dy}\right|=\left|\frac{\mathrm dx_2}{\mathrm dy}\right|=\frac{1}{2\sqrt y},
+$$
+
+所以
+
+$$
+f_Y(y)=\frac{f_X(\sqrt y)+f_X(-\sqrt y)}{2\sqrt y},\qquad y>0,
+$$
+
+而$y\le 0$时$f_Y(y)=0$。这个结果也可以先写$F_Y(y)=P\{-\sqrt y\le X\le\sqrt y\}$，再对$y$求导得到。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="离散型变换：$Y=X^2$的概率合并"}
+
+设$X$取$-1,0,1$，概率分别为$\dfrac14,\dfrac12,\dfrac14$。令$Y=X^2$。
+
+取值$-1$与$1$都映到$1$，$0$映到$0$。按取值合并概率：
+
+$$
+P\{Y=0\}=P\{X=0\}=\frac12,
+\qquad
+P\{Y=1\}=P\{X=-1\}+P\{X=1\}=\frac14+\frac14=\frac12.
+$$
+
+若把$-1$与$1$各自单列，会得到$Y$取三个值、概率之和不等于$1$的错误结果。
+
+:::
+
+:::example{title="$X\sim U[-1,1]$时$Y=X^2$的分布"}
+
+$X$的密度为$f_X(x)=\dfrac12$（$-1<x<1$），其余位置为$0$。由$Y=X^2$知$Y$只在$[0,1]$上取值。
+
+先求分布函数。当$0\le y<1$时，
+
+$$
+F_Y(y)=P\{X^2\le y\}=P\{-\sqrt y\le X\le\sqrt y\}
+=\int_{-\sqrt y}^{\sqrt y}\frac12\,\mathrm dx=\sqrt y.
+$$
+
+结合取值范围得
+
+$$
+F_Y(y)=\begin{cases}
+0,&y<0,\\
+\sqrt y,&0\le y<1,\\
+1,&y\ge 1.
+\end{cases}
+$$
+
+对$y$求导，并补上范围外的零值：
+
+$$
+f_Y(y)=\begin{cases}
+\dfrac{1}{2\sqrt y},&0<y<1,\\
+0,&\text{其他}.
+\end{cases}
+$$
+
+用分支公式核对：$f_X(\sqrt y)=f_X(-\sqrt y)=\dfrac12$，于是$f_Y(y)=\dfrac{1/2+1/2}{2\sqrt y}=\dfrac{1}{2\sqrt y}$，与求导结果一致。
+
+:::
+
+> [!NOTE]
+> **检查什么**
+>
+> 密度非负、在全域上积分为$1$、取值范围与$F_Y$的分段一致，这三条可以独立验证结果。本例中$\int_0^1\dfrac{1}{2\sqrt y}\,\mathrm dy=\sqrt y\,\Big|_0^1=1$。
+
+> [!TIP]
+> **不必先求分布**
+>
+> 计算$E[g(X)]$时通常可以直接由$X$的分布求，不必先求出$g(X)$的分布。求$g(X)$的分布主要用在需要$P\{Y\le y\}$、$Y$的密度或分位数的问题上。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+将离散随机变量平方，比较多个原取值映射到同一结果时的概率合并。
+
+<RandomTransformDemo />
+
+## 练习
+
+::problems{#function-distribution-practice}
+
+1. ::question{#discrete-square}
+
+   设$X$的分布律为$P\{X=-1\}=\dfrac14$，$P\{X=0\}=\dfrac12$，$P\{X=1\}=\dfrac14$，令$Y=X^2$。
+
+   1. ::part{#discrete-zero}
+
+      $P\{Y=0\}=$ :blank{#discrete-zero-value type="number"}。
+
+      :::reference
+      ::correct{blank="discrete-zero-value" value="0.5"}
+
+      只有$X=0$满足$X^2=0$，所以$P\{Y=0\}=P\{X=0\}=\dfrac12$。
+      :::
+
+   2. ::part{#discrete-one}
+
+      $P\{Y=1\}=$ :blank{#discrete-one-value type="number"}。
+
+      :::reference
+      ::correct{blank="discrete-one-value" value="0.5"}
+
+      $X=1$与$X=-1$都映到$1$，概率合并：$\dfrac14+\dfrac14=\dfrac12$。
+      :::
+
+2. ::question{#linear-uniform}
+
+   设$X\sim U(0,1)$，$Y=2X+1$。在$1<y<3$内$f_Y(y)=$ :blank{#linear-density type="number"}。
+
+   :::reference
+   ::correct{blank="linear-density" value="0.5"}
+
+   由线性变换公式，$f_Y(y)=\dfrac12 f_X\!\left(\dfrac{y-1}{2}\right)$。当$1<y<3$时$\dfrac{y-1}{2}\in(0,1)$，$f_X=1$，故$f_Y(y)=\dfrac12$。
+   :::
+
+3. ::question{#square-uniform}
+
+   设$X\sim U[-1,1]$，$Y=X^2$。下列叙述正确的有
+
+   :::choices{#choice-square mode="multiple"}
+   - :option[A]{#a} $Y$的取值落在$[0,1]$内
+   - :option[B]{#b} 当$0<y<1$时$f_Y(y)=\dfrac{1}{2\sqrt y}$
+   - :option[C]{#c} $Y$服从$[0,1]$上的均匀分布
+   - :option[D]{#d} 当$0<y<1$时$F_Y(y)=y$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   $X^2\in[0,1]$；密度为$\dfrac{1}{2\sqrt y}$而非常数，所以$Y$不是均匀分布；分布函数为$\sqrt y$而不是$y$。
+   :::
+
+4. ::question{#branch-method}
+
+   设$X$为连续型随机变量，$Y=X^2$。关于求$Y$的密度，下列说法正确的有
+
+   :::choices{#choice-branch mode="multiple"}
+   - :option[A]{#a} 可以用分布函数法：先写$F_Y(y)=P\{-\sqrt y\le X\le\sqrt y\}$，再对$y$求导
+   - :option[B]{#b} $x^2$在$x<0$与$x>0$上各有一个可微反函数，$y>0$时把两支的贡献相加
+   - :option[C]{#c} 分支求和时，落在$X$支持集之外的分支也要计入
+   - :option[D]{#d} 若$f_X$关于原点对称，则$y>0$时$f_Y(y)=\dfrac{f_X(\sqrt y)}{\sqrt y}$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   ::correct{option="b"}
+
+   ::correct{option="d"}
+
+   只有落在支持集内的分支才有贡献。$f_X$关于原点对称时$f_X(\sqrt y)=f_X(-\sqrt y)$，代入分支公式得$\dfrac{2f_X(\sqrt y)}{2\sqrt y}=\dfrac{f_X(\sqrt y)}{\sqrt y}$。
+   :::
+
+5. ::question{#normal-linear}
+
+   设$X\sim N(\mu,\sigma^2)$，$\sigma>0$，令$Y=3X-1$，则$Y$服从
+
+   :::choices{#choice-normal mode="single"}
+   - :option[A]{#a} $N(3\mu-1,9\sigma^2)$
+   - :option[B]{#b} $N(3\mu-1,3\sigma^2)$
+   - :option[C]{#c} $N(3\mu,9\sigma^2)$
+   - :option[D]{#d} $N(3\mu-1,\sigma^2)$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   线性变换把均值变为$a\mu+b=3\mu-1$，方差变为$a^2\sigma^2=9\sigma^2$。标准化时除的是标准差，不是方差。
+   :::

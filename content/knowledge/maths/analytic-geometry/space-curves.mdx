@@ -1,0 +1,244 @@
+---
+title: 空间曲线及其方程
+description: 用两曲面的交线或参数方程表示空间曲线，并由投影柱面求出它在坐标面上的投影曲线。
+---
+
+import CurveProjectionDemo from "@/demos/curve-projection-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+### 一般方程
+
+空间曲线$C$通常看作两个曲面$S_1$与$S_2$的交线。设两曲面的方程分别为$F(x,y,z)=0$与$G(x,y,z)=0$，则
+
+$$
+\begin{cases}
+F(x,y,z)=0,\\
+G(x,y,z)=0
+\end{cases}
+$$
+
+称为曲线$C$的**一般方程**。点$(x,y,z)$在$C$上，当且仅当它同时满足这两个方程，即同时位于两个曲面上。
+
+两个曲面不能重合，否则交集是曲面而不是曲线。一般方程也不唯一：过曲线$C$的任意两个曲面都可以组成$C$的一般方程，取不同的曲面会得到不同的写法。
+
+{/* more */}
+
+### 参数方程
+
+把曲线上点的坐标写成同一个参数$t$的函数：
+
+$$
+\begin{cases}
+x=x(t),\\
+y=y(t),\\
+z=z(t),
+\end{cases}
+\quad t\in[\alpha,\beta].
+$$
+
+$t$通常代表时间或角度，$t$取遍$[\alpha,\beta]$时点$(x(t),y(t),z(t))$描出整条曲线。参数方程给出了点的运动顺序，一般方程只给出点必须同时满足的条件。
+
+两种方程描述同一条曲线。常见的曲线可以互化：从参数方程消去$t$可得一般方程；从一般方程解出$x,y,z$关于某个参数的表达式，可得参数方程。参数方程不唯一，同一曲线可以用不同的参数写出，参数区间的取法也会影响曲线被描出的次数。
+
+## 性质
+
+::section{#properties slot="knowledge.properties"}
+
+### 投影柱面与投影曲线
+
+::section{#projection}
+
+设空间曲线$C$的一般方程为
+
+$$
+\begin{cases}
+F(x,y,z)=0,\\
+G(x,y,z)=0 .
+\end{cases}
+$$
+
+从方程组中消去$z$，得到只含$x,y$的方程
+
+$$
+H(x,y)=0 .
+$$
+
+$C$上每一点的坐标都满足$H(x,y)=0$，而$H(x,y)=0$在空间中表示一个母线平行于$z$轴的柱面，$C$整个落在这个柱面上。这个柱面称为$C$关于$Oxy$面的**投影柱面**。
+
+投影柱面与$Oxy$面的交线就是$C$在$Oxy$面上的**投影曲线**，其方程为
+
+$$
+\begin{cases}
+H(x,y)=0,\\
+z=0 .
+\end{cases}
+$$
+
+投影曲线只含$x,y$两个变量，是一条平面曲线。同理，消去$y$得到关于$Oxz$面的投影柱面，再与$y=0$联立得到$Oxz$面上的投影曲线；消去$x$则对应$Oyz$面。
+
+> [!WARNING]
+> 消元得到的$H(x,y)=0$是投影柱面，不是投影曲线。投影曲线还要与坐标面方程$z=0$联立。反过来，柱面上的点也不一定都在$C$上：消元只保留了必要条件，个别点上可能解不出对应的$z$，需要回代检验。
+
+求投影曲线的步骤：
+
+:::steps
+
+1. **写出曲线的方程**
+
+   一般方程或参数方程都可以；用参数方程时，后面消去的是参数$t$。
+
+2. **消去一个变量**
+
+   求$Oxy$面上的投影时消去$z$：把两个方程联立消去$z$，得到只含$x,y$的方程$H(x,y)=0$。
+
+3. **与投影面联立**
+
+   把$H(x,y)=0$与$z=0$写在一起，才是投影曲线的方程。
+
+4. **回代检验范围**
+
+   把结果代回原方程，确认哪些部分真正属于$C$，并注明$x,y$的取值范围。
+
+:::
+
+这与曲面的截痕法方向相反：截痕法用平面去截已知曲面，投影则把空间曲线压到一个坐标面上。两种手段常常一起用，先用截痕判断曲线的大致形状，再用投影写出它在坐标面上的方程。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+:::example{title="螺旋线"}
+
+一个点在圆柱面$x^2+y^2=a^2$上匀速旋转，同时沿$z$轴方向匀速上升，其轨迹的参数方程为
+
+$$
+\begin{cases}
+x=a\cos\theta,\\
+y=a\sin\theta,\\
+z=b\theta,
+\end{cases}
+\quad \theta\in\mathbb{R},
+$$
+
+其中$a>0$是圆柱的半径，$b$决定上升的快慢。$\theta$增加$2\pi$时点回到同一方位，$z$增加$2\pi b$，这就是旋转一周上升的高度，螺距为$2\pi\vert b\vert$。$b>0$时向上盘旋，$b<0$时向下，$b=0$时退化为圆$x^2+y^2=a^2$、$z=0$。
+
+螺旋线在$Oxy$面上的投影柱面就是圆柱面$x^2+y^2=a^2$，投影曲线是圆$x^2+y^2=a^2$、$z=0$；在$Oxz$面上的投影是正弦型曲线$x=a\cos(z/b)$（$b\ne 0$）。
+
+:::
+
+:::example{title="平面斜截圆柱面所得的曲线"}
+
+研究由方程组
+
+$$
+\begin{cases}
+x^2+y^2=1,\\
+z=x+y
+\end{cases}
+$$
+
+定义的曲线$C$。第一个方程是母线平行于$z$轴的圆柱面，第二个方程是平面，$C$是平面与圆柱面的交线。
+
+求它关于$Oxy$面的投影：两个方程中已经不含需要消去的变量，投影柱面就是圆柱面$x^2+y^2=1$，投影曲线为
+
+$$
+\begin{cases}
+x^2+y^2=1,\\
+z=0,
+\end{cases}
+$$
+
+即$Oxy$面上的单位圆。
+
+曲线本身不是这个圆。把$C$参数化可以看清这一点：
+
+$$
+x=\cos t,\quad y=\sin t,\quad z=\cos t+\sin t .
+$$
+
+$t$从$0$到$2\pi$时曲线闭合，而$z=\cos t+\sin t$在$\pm\sqrt2$之间变化，点一边绕圆一周一边上下移动，所以曲线是平面$z=x+y$上的一条闭合曲线。
+
+用截痕法看：用$z=z_0$去截，交点要同时满足$x+y=z_0$与$x^2+y^2=1$，只有$\vert z_0\vert\le\sqrt2$时才有交点，$z_0$变化时交点沿圆移动。平面与圆柱的轴斜交，截口被拉长，所以这条曲线是椭圆，而不是圆。
+
+:::
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CurveProjectionDemo />
+
+## 练习
+
+::problems{#space-curves-check}
+
+1. ::question{#projection-cylinder}
+
+   曲线$C$：$x^2+y^2=1$与$z=x+y$的交线，关于$Oxy$面的投影柱面方程是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $x^2+y^2=1$
+   - :option[B]{#b} $z=x+y$
+   - :option[C]{#c} $x^2+y^2=1$且$z=0$
+   - :option[D]{#d} $x^2+y^2+z^2=1$
+   :::
+
+   :::reference
+   ::correct{option="a"}
+
+   消去$z$后得到$x^2+y^2=1$，这是母线平行$z$轴的柱面，包含整条曲线。
+   :::
+
+2. ::question{#projection-curve}
+
+   同一曲线在$Oxy$面上的投影曲线方程是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $x^2+y^2=1$
+   - :option[B]{#b} $z=x+y$
+   - :option[C]{#c} $x^2+y^2=1$且$z=0$
+   - :option[D]{#d} $x^2+y^2=1$且$y=0$
+   :::
+
+   :::reference
+   ::correct{option="c"}
+
+   投影曲线是投影柱面与$Oxy$面的交线，必须同时写出$x^2+y^2=1$和$z=0$。
+   :::
+
+3. ::question{#helix-pitch}
+
+   螺旋线$x=2\cos\theta$、$y=2\sin\theta$、$z=3\theta$旋转一周上升的高度是：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $3$
+   - :option[B]{#b} $6$
+   - :option[C]{#c} $3\pi$
+   - :option[D]{#d} $6\pi$
+   :::
+
+   :::reference
+   ::correct{option="d"}
+
+   $\theta$增加$2\pi$时$z$增加$3\cdot 2\pi=6\pi$，这就是旋转一周上升的高度。
+   :::
+
+4. ::question{#eliminate-variable}
+
+   要求曲线关于$Oxz$面的投影柱面，应从一般方程中消去哪个变量？
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} $x$
+   - :option[B]{#b} $y$
+   - :option[C]{#c} $z$
+   - :option[D]{#d} 参数$t$
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   关于$Oxz$面的投影柱面只含$x,z$，所以消去$y$；随后与$y=0$联立得到投影曲线。
+   :::

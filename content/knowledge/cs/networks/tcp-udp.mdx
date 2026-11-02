@@ -1,0 +1,29 @@
+---
+title: TCP与UDP的传输形式
+description: 比较TCP字节流和UDP数据报的边界与交付语义。
+---
+
+import TransportBoundariesDemo from "@/demos/transport-boundaries-demo";
+
+## 对比
+
+::section{#definition slot="knowledge.definition"}
+
+[TCP](/knowledge/cs/networks/tcp/)提供面向连接的有序字节流；[UDP](/knowledge/cs/networks/udp/)提供无连接的数据报。两者都使用端口，区别在于传输形式和协议提供的服务。
+
+| 特性 | TCP | UDP |
+| :--- | :--- | :--- |
+| 数据形式 | 字节流，不保留应用发送边界 | 数据报，保留消息边界 |
+| 交付 | 尝试可靠、按序交付；连接可能失败 | 不保证到达、顺序或不重复 |
+| 连接 | 通常先建立连接 | 不需要建立传输层连接 |
+| 首部 | 最小20字节 | 固定8字节 |
+
+应用可在UDP之上实现可靠性或拥塞控制。性能取决于网络、实现和应用需求，不能简单断言一种协议总是更快。
+
+## 交互探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+比较同样的两次发送在字节流和数据报接收中的边界。TCP一侧只展示一种可能的读取分段。
+
+<TransportBoundariesDemo />

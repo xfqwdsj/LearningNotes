@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "$\\Gamma$函数如何连接阶乘？",
+      "description": "查看递推公式在非负整数上的结果。",
+      "messages": {
+        "label": "Γ函数与阶乘",
+        "intro": "从$\\Gamma(1)=1$出发，反复使用$\\Gamma(s+1)=s\\Gamma(s)$。纵轴采用对数刻度，避免快速增长的阶乘把前几项压缩在底部。",
+        "n": "非负整数$n$",
+        "result": "$\\Gamma(n+1)=n!$；当前$n={n}$，结果为{value}。"
+      },
+      "tags": ["积分", "$\\Gamma$函数"]
+    }
+  }
+}

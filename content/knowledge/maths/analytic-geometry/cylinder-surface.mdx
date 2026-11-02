@@ -1,0 +1,59 @@
+---
+title: 柱面
+description: 柱面的定义、方程与几何特征。
+---
+
+import CylinderSurfaceDemo from "@/demos/cylinder-surface-demo";
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+一条动直线$l$沿定曲线$C$移动，并且始终平行于一条定直线，这样生成的曲面称为**柱面**。定曲线$C$称为准线，动直线$l$称为母线。母线只决定延展方向，柱面的形状由准线决定。
+
+由方程判断柱面：
+
+- 方程中不含$z$，形如$f(x,y)=0$：截面$z=z_0$上的截痕都是同一条曲线，曲面由平行于$z$轴的直线组成，是母线平行于$z$轴的柱面，准线在$Oxy$面内。
+- 方程中不含$x$，形如$f(y,z)=0$：母线平行于$x$轴，准线在$Oyz$面内。
+- 方程中不含$y$，形如$f(x,z)=0$：母线平行于$y$轴，准线在$Oxz$面内。
+
+> [!WARNING]
+> $f(x,y)=0$在$Oxy$面上是一条曲线，在空间中却是一个柱面。不要把它当成平面曲线；再补上$z=0$，才把它压回坐标面。
+
+常见的柱面：
+
+- $x^2+y^2=R^2$：圆柱面，准线是$Oxy$面上的圆，母线平行$z$轴。
+- $y^2=2px$：抛物柱面，准线是$Oxy$面内的抛物线。
+- $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$：椭圆柱面。
+- $\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=1$：双曲柱面。
+
+当这样的柱面由空间曲线消去$z$得到时，称为该曲线关于$Oxy$面的投影柱面，具体用法见[空间曲线及其方程](/knowledge/maths/analytic-geometry/space-curves/)。
+
+
+
+## 探索
+
+::section{#exploration slot="knowledge.exploration"}
+
+<CylinderSurfaceDemo />
+
+## 练习
+
+::problems{#cylinder-surface-practice}
+
+1. ::question{#cylinder-axis}
+
+   $x^2+z^2=4$在空间中表示：
+
+   :::choices{#choice mode="single"}
+   - :option[A]{#a} 准线在$Oxy$面内、母线平行$z$轴的圆柱面
+   - :option[B]{#b} 准线在$Oxz$面内、母线平行$y$轴的圆柱面
+   - :option[C]{#c} 准线在$Oyz$面内、母线平行$x$轴的圆柱面
+   - :option[D]{#d} $Oxz$面内的一个圆
+   :::
+
+   :::reference
+   ::correct{option="b"}
+
+   方程缺$y$，所以柱面沿$y$轴方向延伸，准线是$Oxz$面内的圆$x^2+z^2=4$。
+   :::

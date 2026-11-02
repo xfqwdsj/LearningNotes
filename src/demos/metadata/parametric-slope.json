@@ -1,0 +1,16 @@
+{
+  "subject": "maths",
+  "locales": {
+    "zh-CN": {
+      "title": "参数变化率如何得到曲线斜率？",
+      "description": "比较参数方程中x、y的变化率。",
+      "messages": {
+        "label": "参数方程求导",
+        "intro": "取$x=t^2$、$y=t^3$，选择$t>0$，使$\\mathrm dx/\\mathrm dt$不为零。曲线上的实心点标出当前参数对应的位置，切线的斜率是$\\mathrm dy/\\mathrm dt$与$\\mathrm dx/\\mathrm dt$之比。",
+        "parameter": "参数$t$",
+        "result": "$\\mathrm dy/\\mathrm dx=(\\mathrm dy/\\mathrm dt)/(\\mathrm dx/\\mathrm dt)$，当前约为{slope}。"
+      },
+      "tags": ["导数", "参数方程"]
+    }
+  }
+}
