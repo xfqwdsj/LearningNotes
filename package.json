@@ -39,7 +39,7 @@
     "flexsearch": "^0.8.212",
     "hast-util-from-html": "^2.0.3",
     "hast-util-to-html": "^9.0.5",
-    "hast-util-to-jsx-runtime": "^2.3.6",
+    "hast-util-to-jsx-runtime": "^2.3.7",
     "intl-messageformat": "^12.1.4",
     "katex": "catalog:",
     "lucide-react": "^1.62.0",
