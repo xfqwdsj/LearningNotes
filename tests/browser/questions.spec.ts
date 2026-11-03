@@ -545,6 +545,40 @@ test("an omitted original number keeps the stem on the marker line", async ({
   await expect(part.locator(":scope > .question-share-float")).toHaveCount(1);
 });
 
+test("leading page annotations stay outside stems and question slices keep their separator", async ({
+  page,
+}) => {
+  await page.goto(
+    "/private/tasks/maths/higher-mathematics/assignment/fixture-pages/",
+  );
+  const set = page.locator('[data-problem-set="page-set"]');
+  const questions = set.locator(".question-list");
+  await expect(questions).toHaveCount(1);
+  await expect(
+    set.locator('.question-list > [data-question-target="page-set/q1"]'),
+  ).toHaveCount(1);
+
+  const first = page.locator('[data-question-target="page-set/q1"]');
+  await expect(first.locator(":scope > .source-page")).toHaveText("第42页");
+  await expect(first.locator(".question-stem .source-page")).toHaveCount(0);
+  const inclusion = first.locator(
+    ":scope > .question-stem > .content-inclusion",
+  );
+  await expect(inclusion).toHaveCount(1);
+  await expect(inclusion.locator(":scope > :first-child")).toHaveCSS(
+    "margin-top",
+    "0px",
+  );
+  await expect(inclusion.locator(":scope > :last-child")).toHaveCSS(
+    "margin-bottom",
+    "0px",
+  );
+
+  const third = page.locator('[data-question-target="page-set/q3"]');
+  await expect(third.locator(":scope > .source-page")).toHaveText("第44页");
+  await expect(third).toHaveCSS("border-top-width", "1px");
+});
+
 test("page annotations share the question width, avoid text and flow inline on narrow screens", async ({
   page,
 }) => {
@@ -570,6 +604,8 @@ test("page annotations share the question width, avoid text and flow inline on n
     element.innerHTML = source;
   }, html);
   await expect(stem.locator(".source-page")).toHaveCount(2);
+  await expect(stem.locator(".source-page").first()).toHaveText("第42页");
+  await expect(stem.locator(".source-page").nth(1)).toHaveText("第43页");
   const aligned = await stem.evaluate((element) => {
     const stemRight = element.getBoundingClientRect().right;
     const toolbar = element

@@ -45,6 +45,11 @@ export const isDirective = (node: RootContent): node is Directive =>
   node.type === "containerDirective" ||
   node.type === "leafDirective" ||
   node.type === "textDirective";
+export function requirePageNumber(node: Directive): string {
+  const number = node.attributes?.["number"]?.trim();
+  if (!number) throw new Error("Page marker requires a page number");
+  return number;
+}
 const rect = z
   .object({
     src: z
@@ -237,18 +242,18 @@ export const remarkDirectivePresentation: Plugin<[], Root> = () => (tree) => {
           properties["data-learning-demo"] = a["name"];
           break;
         }
-        case "page":
-          if (!a["number"]?.trim())
-            throw new Error("Page marker requires a page number");
+        case "page": {
+          const page = requirePageNumber(node);
           tag = "span";
           properties.className = ["source-page"];
           children = [
             {
               type: "text",
-              value: t("learning.page", { page: a["number"] ?? "" }),
+              value: t("learning.page", { page }),
             },
           ];
           break;
+        }
         case "image-region":
           tag = "figure";
           properties["data-learning-image-region"] = JSON.stringify(

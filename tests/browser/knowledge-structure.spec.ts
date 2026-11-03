@@ -136,7 +136,7 @@ test("language and calculus explorations respond through native controls", async
 }) => {
   await page.goto("/knowledge/cs/data-representation/fixture-twos-complement/");
   let demo = page.locator(".interactive-demo");
-  await demo.getByRole("button", { name: "切换第 7 位", exact: true }).click();
+  await demo.getByRole("button", { name: "切换第7位", exact: true }).click();
   await expect(demo.locator(".demo-conclusion")).toContainText("-115");
   for (const theme of ["深色", "浅色"]) {
     await page.getByRole("button", { name: "切换主题" }).click();
@@ -144,7 +144,7 @@ test("language and calculus explorations respond through native controls", async
     await page.waitForTimeout(350);
     for (const position of [7, 0]) {
       const button = demo.getByRole("button", {
-        name: `切换第 ${position} 位`,
+        name: `切换第${position}位`,
         exact: true,
       });
       const colors = await button.evaluate((element) => ({

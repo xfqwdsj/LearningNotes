@@ -320,6 +320,11 @@ function Question({
           {shareActions}
         </div>
       ) : null}
+      {question.leadingPage ? (
+        <span className="source-page">
+          {t("learning.page", { page: question.leadingPage })}
+        </span>
+      ) : null}
       <QuestionStem question={question} />
       {question.inputs
         .filter((input) => input.type === "single" || input.type === "multiple")

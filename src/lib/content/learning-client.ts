@@ -11,6 +11,7 @@ function clientQuestion(question: QuestionData): ClientQuestionData {
     target: question.target,
     anchor: question.anchor,
     ...(question.number ? { number: question.number } : {}),
+    ...(question.leadingPage ? { leadingPage: question.leadingPage } : {}),
     html: question.html,
     inputs: question.inputs,
     answers: question.answers.map((answer) => ({
