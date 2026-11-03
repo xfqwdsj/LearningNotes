@@ -43,7 +43,7 @@
     "intl-messageformat": "^12.1.4",
     "katex": "catalog:",
     "lucide-react": "^1.62.0",
-    "mdast-util-directive": "^3.1.1",
+    "mdast-util-directive": "^3.2.0",
     "mdast-util-from-markdown": "^2.1.0",
     "mdast-util-gfm": "^3.1.0",
     "mdast-util-math": "^3.0.0",
