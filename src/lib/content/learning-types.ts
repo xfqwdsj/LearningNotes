@@ -43,6 +43,7 @@ export interface QuestionData {
   target: string;
   anchor: string;
   number?: string;
+  leadingPage?: string;
   html: string;
   markdown: string;
   text: string;
@@ -85,6 +86,7 @@ export interface ClientQuestionData {
   target: string;
   anchor: string;
   number?: string;
+  leadingPage?: string;
   html: string;
   inputs: ResponseInput[];
   answers: ClientAuthoredAnswer[];

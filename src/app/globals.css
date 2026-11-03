@@ -2147,9 +2147,11 @@
   background: none;
   pointer-events: none;
 }
+.content-inclusion > :first-child,
 .content-inclusion > :first-child > :first-child {
   margin-top: 0;
 }
+.content-inclusion > :last-child,
 .content-inclusion > :last-child > :last-child {
   margin-bottom: 0;
 }
