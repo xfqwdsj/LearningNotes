@@ -63,7 +63,7 @@ for (const agent of agents) {
         const hint = trigger.locator("kbd");
         await expect(hint).toHaveAttribute(
           "aria-label",
-          `快捷键 ${agent.label}+K`,
+          `快捷键${agent.label}+K`,
         );
         if (agent.modifier === "Meta")
           await expect(hint.locator("svg.lucide-command")).toBeVisible();
@@ -72,7 +72,7 @@ for (const agent of agents) {
           page.locator('section[aria-live="polite"]'),
         ).toHaveAttribute(
           "aria-label",
-          `通知，快捷键 ${agent.modifier === "Meta" ? "Option" : "Alt"}+T`,
+          `通知，快捷键${agent.modifier === "Meta" ? "Option" : "Alt"}+T`,
         );
         // The other platform's modifier is not an alternative registration.
         await page.dispatchEvent("body", "keydown", {
@@ -85,7 +85,7 @@ for (const agent of agents) {
         await page.keyboard.press(`${agent.modifier}+k`);
         const dialog = page.getByRole("dialog");
         await expect(dialog).toBeVisible();
-        await expect(dialog.locator('kbd[aria-label="快捷键 Esc"]')).toHaveText(
+        await expect(dialog.locator('kbd[aria-label="快捷键Esc"]')).toHaveText(
           "Esc",
         );
         // Auto-repeat and input composition cannot toggle the dialog.

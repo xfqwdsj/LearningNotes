@@ -345,7 +345,7 @@ test("discussion links prefill context without visiting providers", async ({
     .locator(".article-header")
     .getByRole("button", { name: "讨论", exact: true })
     .click();
-  await page.getByRole("menuitem", { name: "在 Claude 中讨论" }).click();
+  await page.getByRole("menuitem", { name: "在Claude中讨论" }).click();
   await expect(page.locator("html")).toHaveAttribute(
     "data-discussion",
     /^https:\/\/claude.ai\/new\?q=/,
@@ -357,7 +357,7 @@ test("discussion links prefill context without visiting providers", async ({
     .getByRole("button", { name: "讨论", exact: true })
     .click();
   await expect(
-    page.getByRole("menuitem", { name: "在 Grok 中讨论" }),
+    page.getByRole("menuitem", { name: "在Grok中讨论" }),
   ).toBeVisible();
 });
 

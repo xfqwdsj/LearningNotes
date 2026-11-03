@@ -335,7 +335,7 @@ test("document and on-page navigation share the same current-item styling", asyn
     .poll(() => right.evaluate(appearance))
     .toEqual(await left.evaluate(appearance));
   expect((await left.evaluate(appearance)).border).toBe("0px");
-  await expect(page.locator(".reading-progress")).toContainText(/已读 \d+%/);
+  await expect(page.locator(".reading-progress")).toContainText(/已读\d+%/);
   await expect(page.locator(".reading-progress > span")).toHaveCount(0);
 });
 

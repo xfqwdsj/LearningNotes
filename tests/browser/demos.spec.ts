@@ -38,20 +38,20 @@ test("new interactive demos answer their stated question", async ({ page }) => {
   await page.goto("/knowledge/maths/integrals/definite-integral/");
   const riemann = page.locator(".interactive-demo");
   await expect(riemann).toBeVisible();
-  await expect(riemann.getByText("4 个矩形")).toBeVisible();
+  await expect(riemann.getByText("4个矩形")).toBeVisible();
   await riemann.getByRole("slider").first().focus();
   await page.keyboard.press("ArrowRight");
-  await expect(riemann.getByText("5 个矩形")).toBeVisible();
+  await expect(riemann.getByText("5个矩形")).toBeVisible();
   await expect(riemann.locator(".demo-conclusion")).not.toContainText(
     "conclusion",
   );
 
   await page.goto("/knowledge/maths/derivatives/taylor-formula/");
   const taylor = page.locator(".interactive-demo");
-  await expect(taylor.getByText("3 次").first()).toBeVisible();
+  await expect(taylor.getByText("3次").first()).toBeVisible();
   await taylor.getByRole("slider").first().focus();
   await page.keyboard.press("ArrowRight");
-  await expect(taylor.getByText("5 次").first()).toBeVisible();
+  await expect(taylor.getByText("5次").first()).toBeVisible();
   await expect(taylor.locator(".demo-conclusion")).not.toContainText(
     "conclusion",
   );
@@ -295,7 +295,7 @@ test("new Python and probability demos expose their object relations", async ({
   const indicatorGraph = indicator.locator("svg[role='img']");
   await expect(indicatorGraph).toBeVisible();
   const indicatorBefore = await indicatorGraph.getAttribute("aria-label");
-  await indicator.getByRole("button", { name: "第 1 次结果" }).click();
+  await indicator.getByRole("button", { name: "第1次结果" }).click();
   await expect(indicatorGraph).not.toHaveAttribute(
     "aria-label",
     indicatorBefore ?? "",

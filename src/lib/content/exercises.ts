@@ -7,11 +7,12 @@ import type { MarkdownFragment } from "@/lib/markdown/types";
 import { plainValue } from "@/lib/markdown/types";
 import { createHash } from "node:crypto";
 import type { Root, RootContent, List, ListItem } from "mdast";
-import type { ContainerDirective } from "mdast-util-directive";
+import type { ContainerDirective, LeafDirective } from "mdast-util-directive";
 import { visit } from "unist-util-visit";
 import {
   isDirective,
   imageRegion,
+  requirePageNumber,
   type Directive,
 } from "./directive-presentation";
 import { sourceSections } from "./source-sections";
@@ -375,7 +376,7 @@ export async function compileExercises(
       discussionTree: { type: "root", children: [] },
       markdownTree: setExport.tree,
     };
-    let page: RootContent | undefined;
+    let page: LeafDirective | undefined;
     for (const [childIndex, child] of node.children.entries()) {
       if (child.type === "heading") {
         const heading = {
@@ -410,15 +411,16 @@ export async function compileExercises(
       if (!set.questions.length) set.ordered = child.ordered ?? false;
       if (Boolean(child.ordered) !== set.ordered)
         throw new Error(`Mixed list styles in problem set ${id}`);
-      const block: { type: "questions"; ids: string[] } = {
-        type: "questions",
-        ids: [],
-      };
-      set.blocks.push(block);
+      const previous = set.blocks.at(-1);
+      const block: { type: "questions"; ids: string[] } =
+        previous?.type === "questions"
+          ? previous
+          : { type: "questions", ids: [] };
+      if (previous?.type !== "questions") set.blocks.push(block);
       for (const item of child.children) {
         const q = await question(item, id);
         if (page) {
-          q.html = (await render(fragment([page]))) + q.html;
+          q.leadingPage = requirePageNumber(page);
           const pageExport = exported([page]);
           q.markdownTree.children.unshift(...pageExport.tree.children);
           q.discussionTree.children.unshift(...pageExport.tree.children);

@@ -48,7 +48,7 @@ test("one dev origin serves both zones and private assets", async ({
     "Cursor",
   ]) {
     await expect(
-      page.getByRole("menuitem", { name: `在 ${product} 中讨论`, exact: true }),
+      page.getByRole("menuitem", { name: `在${product}中讨论`, exact: true }),
     ).toBeVisible();
   }
   await expect(page.getByRole("menu")).not.toContainText("预填");

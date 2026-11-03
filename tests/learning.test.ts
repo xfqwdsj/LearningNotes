@@ -137,10 +137,18 @@ describe("problem semantics", () => {
 `;
     const { tree, sets } = await compile(source);
     const [first, second] = sets[0]!.questions;
-    expect(first!.html).toContain('class="source-page">第42页');
+    expect(first!.leadingPage).toBe("42");
     expect(first!.html).toContain('class="source-page">第43页');
+    expect(first!.html).not.toContain("第42页");
     expect(first!.html).not.toContain("第44页");
-    expect(second!.html).toContain('class="source-page">第44页');
+    expect(second!.leadingPage).toBe("44");
+    expect(second!.html).not.toContain('class="source-page"');
+    expect(sets[0]!.blocks).toEqual([
+      {
+        type: "questions",
+        ids: ["one", "two"],
+      },
+    ]);
     expect(first!.markdown).toContain("第42页");
     expect(first!.discussion.markdown).toContain("第42页");
     expect(exportMarkdown(tree)).toContain("第43页");
@@ -282,7 +290,8 @@ describe("problem semantics", () => {
     );
     expect(first.discussion.markdown).not.toContain("An explanation");
     expect(first.discussion.markdown).toContain("Written personal work");
-    expect(parent.html).toContain("42");
+    expect(parent.leadingPage).toBe("42");
+    expect(parent.html).not.toContain("42");
     expect(parent.parts[1]?.inputs[0]?.options[0]?.html).toContain("katex");
   });
   it("associates external reference keys and exports complete authored answers", async () => {

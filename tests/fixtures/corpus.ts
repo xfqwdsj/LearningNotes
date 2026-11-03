@@ -446,6 +446,14 @@ function privateDocuments(): FixtureDocument[] {
       ),
     },
     {
+      path: `${assignmentPath}/fixture-pages`,
+      title: "分页题面示例",
+      body: privateQuestionBody(
+        "page-set",
+        `::page{number="42"}\n\n1. ::question{#q1 number="1"}\n\n   ::include{src="/knowledge/maths/limits/continuity/" section="definition"}\n\n::page{number="43"}\n\n2. ::question{#q2 number="2"}\n\n   第二题。\n\n::page{number="44"}\n\n3. ::question{#q3 number="3"}\n\n   第三题。\n`,
+      ),
+    },
+    {
       path: "tasks/circuits/digital-analog-circuits/assignment/fixture-nested",
       title: "分层题目示例",
       body: privateQuestionBody(
