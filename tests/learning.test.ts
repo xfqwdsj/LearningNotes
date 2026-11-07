@@ -26,11 +26,11 @@ const fixture = `### A source
 
 1. ::question{#q1 number="11"}
 
-   A parent problem.
+   A parent problem with :choice-slot{}.
 
    1. ::part{#p1}
 
-      Value: :blank{#n type="number"} and :blank{#word type="text"}.
+      Value: :blank{#n type="number" placeholder="输入数值"} and :blank{#word type="text"}.
 
       :::reference
       ::correct{blank="n" value="0.5" tolerance="0.01"}
@@ -90,9 +90,17 @@ describe("problem semantics", () => {
     const part = parent.parts[0]!;
     const view = clientProblemSet(set);
 
+    expect(part.inputs[0]?.placeholder).toBe("输入数值");
+    expect(parent.markdown).toContain(
+      "A parent problem with \\_\\_\\_\\_\\_\\_.",
+    );
+    expect(parent.markdown).not.toContain("choice-slot");
     expect(set.markdown).toContain("Written personal work");
     expect(set.discussion.markdown).toContain("Value");
     expect(part.markdown).toContain("Written personal work");
+    expect(part.markdown).toContain("（#n，输入数值）");
+    expect(part.markdown).toContain("（#word）");
+    expect(part.html).toContain("（#n，输入数值）");
     expect(JSON.stringify(set)).toContain("An explanation");
 
     expect(view).not.toHaveProperty("markdown");
@@ -113,6 +121,13 @@ describe("problem semantics", () => {
     expect(questionDiscussion(parent).references).toContain("An explanation");
     expect(problemSetDiscussion(set).source).toContain("Value");
     expect(problemSetDiscussion(set).references).toContain("An explanation");
+  });
+  it("serializes choice slots as escaped text without rewriting code fences", () => {
+    const markdown = exportMarkdown(
+      parseContent("A:choice-slot{}B\n\n```text\ncode______text\n```\n", true),
+    );
+    expect(markdown).toContain("A\\_\\_\\_\\_\\_\\_B");
+    expect(markdown).toContain("code______text");
   });
   it("keeps between-question and within-question page boundaries in HTML, discussion and Markdown", async () => {
     const source = `## 题集

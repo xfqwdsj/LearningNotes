@@ -13,6 +13,9 @@ type FixtureDocument = {
 
 type FixtureSuite = "vitest" | "browser" | "dev";
 
+export const fixtureBlankPlaceholder =
+  "填写英文单词，并完整保留题目要求的拼写、大小写、空格、标点和格式信息，不要添加额外内容";
+
 const demoPages = [
   [
     "knowledge/cs/computer-architecture/fixture-function-call-stack",
@@ -392,7 +395,7 @@ $$
 
    1. ::part{#continuity}
 
-      单选题：选择正确结论。
+      单选题：:choice-slot{}选择正确结论。
 
       :::choices{#single mode="single"}
       * :option[A]{#yes} 选项一。
@@ -523,7 +526,7 @@ function privateDocuments(): FixtureDocument[] {
       title: "填空交互示例",
       body: privateQuestionBody(
         "set-2",
-        `1. ::question{#q1}\n\n   这是第一题。\n\n2. ::question{#q2 number="2"}\n\n   请填写一个单词：:blank{#word type="text"}。\n`,
+        `1. ::question{#q1}\n\n   这是第一题。\n\n2. ::question{#q2 number="2"}\n\n   请填写一个单词：:blank{#word type="text" placeholder="${fixtureBlankPlaceholder}"}。\n`,
       ),
     },
     {

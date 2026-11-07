@@ -21,6 +21,7 @@ export interface AnswerRule {
 export interface ResponseInput {
   id: string;
   type: "text" | "number" | "single" | "multiple";
+  placeholder?: string;
   options: {
     id: string;
     label: MarkdownValue;

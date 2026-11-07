@@ -25,6 +25,7 @@ import {
 } from "./presentation-blocks";
 import { requireDisclosureIcon } from "./disclosure-icons";
 import { defaultLocale } from "@/i18n/config";
+import { formatBlankReference } from "./blank-presentation";
 const t = createUiTranslator();
 /** The localized source sentence wraps a Markdown title without allowing a nested link. */
 export function sourceHintChildren(title: string): PhrasingContent[] {
@@ -104,7 +105,9 @@ export const remarkDirectivePresentation: Plugin<[], Root> = () => (tree) => {
       }
       if (
         node.type === "textDirective" &&
-        !["option", "blank", ...presentationNames].includes(node.name)
+        !["option", "blank", "choice-slot", ...presentationNames].includes(
+          node.name,
+        )
       ) {
         const value = stringifyContent({
           type: "root",
@@ -283,7 +286,29 @@ export const remarkDirectivePresentation: Plugin<[], Root> = () => (tree) => {
           tag = "span";
           properties.className = ["question-blank-placeholder"];
           properties["data-learning-blank"] = a["id"];
-          children = [{ type: "text", value: t("learning.blankPlaceholder") }];
+          children = [
+            {
+              type: "text",
+              value: formatBlankReference(
+                t("learning.blankPlaceholder"),
+                a["id"] ?? "",
+                a["placeholder"],
+                {
+                  withHint: (values) =>
+                    t("learning.blankWithIdAndHint", values),
+                  withoutHint: (values) => t("learning.blankWithId", values),
+                },
+              ),
+            },
+          ];
+          break;
+        case "choice-slot":
+          tag = "span";
+          properties.className = ["question-choice-slot"];
+          properties.role = "img";
+          properties["aria-label"] = t("learning.choiceSlot");
+          properties["data-learning-choice-slot"] = "true";
+          children = [];
           break;
         default:
           throw new Error(`Unknown content directive: ${node.name}`);

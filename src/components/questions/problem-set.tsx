@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useRef,
   type CSSProperties,
 } from "react";
 import { useTranslations } from "next-intl";
@@ -34,7 +35,8 @@ import { Checkbox } from "../ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Textarea } from "../ui/textarea";
 import { useAnswerDrafts } from "./use-answer-drafts";
-import { copyBlankSelection } from "./blank-copy";
+import { copyBlankSelection, syncChoiceSlotSelection } from "./blank-copy";
+import { formatBlankReference } from "@/lib/content/blank-presentation";
 
 type DraftState = ReturnType<typeof useAnswerDrafts>;
 const Answers = createContext<DraftState | null>(null);
@@ -83,19 +85,32 @@ function Blank({
   const t = useTranslations();
   const { drafts, ready, answer } = useAnswers();
   const value = drafts[question.target]?.answers[input.id];
+  const hintId = useId();
+  const blankIndex =
+    question.inputs
+      .filter((item) => item.type === "text" || item.type === "number")
+      .findIndex((item) => item.id === input.id) + 1;
   return (
     <span className="question-inline-answer">
       <Input
-        aria-label={t("learning.inputLabel", {
+        aria-label={t("learning.blankInputLabel", {
           number: question.number ?? question.id,
-          input: input.id,
+          index: blankIndex,
         })}
+        aria-describedby={input.placeholder ? hintId : undefined}
         className="question-inline-input"
+        data-input-id={input.id}
         disabled={!ready}
         inputMode={input.type === "number" ? "decimal" : "text"}
+        placeholder={input.placeholder}
         value={typeof value === "string" ? value : ""}
         onChange={(event) => answer(question, input.id, event.target.value)}
       />
+      {input.placeholder ? (
+        <span id={hintId} className="sr-only">
+          {input.placeholder}
+        </span>
+      ) : null}
       <AnswerFeedback question={question} input={input} inline />
     </span>
   );
@@ -426,6 +441,7 @@ export function ProblemSet({
 }) {
   const t = useTranslations();
   const placeholder = t("learning.blankPlaceholder");
+  const root = useRef<HTMLElement>(null);
   const state = useAnswerDrafts(context.storageKey, set.questions);
   const isDefaultSet = set.id === DEFAULT_PROBLEM_SET_ID;
   const blocks = isDefaultSet
@@ -436,11 +452,24 @@ export function ProblemSet({
     : set.blocks;
   useEffect(() => {
     /* Listen on the document because copying can start outside the selected question. */
+    const formatBlank = (id: string | null, hint: string | null) =>
+      id
+        ? formatBlankReference(placeholder, id, hint, {
+            withHint: (values) => t("learning.blankWithIdAndHint", values),
+            withoutHint: (values) => t("learning.blankWithId", values),
+          })
+        : placeholder;
     const copy = (event: ClipboardEvent) =>
-      copyBlankSelection(event, placeholder);
+      copyBlankSelection(event, formatBlank);
+    const select = () => syncChoiceSlotSelection(root.current);
     document.addEventListener("copy", copy);
-    return () => document.removeEventListener("copy", copy);
-  }, [placeholder]);
+    document.addEventListener("selectionchange", select);
+    select();
+    return () => {
+      document.removeEventListener("copy", copy);
+      document.removeEventListener("selectionchange", select);
+    };
+  }, [placeholder, t]);
   if (isDefaultSet && (!defaultBlockId || blocks.length !== 1))
     throw new Error(`Missing default question block: ${defaultBlockId ?? ""}`);
   if (!isDefaultSet && defaultBlockId)
@@ -461,6 +490,7 @@ export function ProblemSet({
   return (
     <Answers value={state}>
       <section
+        ref={root}
         className="problem-set"
         id={isDefaultSet || set.heading?.id === set.id ? undefined : set.id}
         data-problem-set={isDefaultSet ? undefined : set.id}

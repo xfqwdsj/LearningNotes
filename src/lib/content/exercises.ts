@@ -297,9 +297,11 @@ export async function compileExercises(
           if (node.name === "blank") {
             if (a["type"] && a["type"] !== "text" && a["type"] !== "number")
               throw new Error(`Invalid blank type: ${target}`);
+            const placeholder = a["placeholder"]?.trim();
             register({
               id: requireId(a["id"], "blank"),
               type: a["type"] === "number" ? "number" : "text",
+              ...(placeholder ? { placeholder } : {}),
               options: [],
             });
           }

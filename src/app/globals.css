@@ -2538,16 +2538,32 @@ ul.question-list {
 .question-inline-answer {
   display: inline-grid;
   grid-template-columns: minmax(0, 1fr);
-  width: 12ch;
+  min-width: 0;
   max-width: 100%;
   row-gap: var(--space-1);
   vertical-align: baseline;
 }
+.question-choice-slot {
+  display: inline-block;
+  inline-size: 3.5ch;
+  block-size: 1.2em;
+  margin-inline: 0.15em;
+  border-radius: var(--radius-sm);
+  background: var(--muted);
+  cursor: text;
+  vertical-align: middle;
+  user-select: text;
+}
+.question-choice-slot[data-selected="true"] {
+  background: color-mix(in srgb, var(--foreground) 18%, transparent);
+}
 .question-inline-input {
   display: inline-block;
-  width: 100%;
+  width: auto;
+  min-width: 12ch;
   max-width: 100%;
   height: var(--space-8);
+  field-sizing: content;
   font-family: var(--font-sans), sans-serif;
 }
 .question-free-answer {

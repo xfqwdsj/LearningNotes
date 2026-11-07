@@ -2,6 +2,7 @@ import { test, expect, type Locator, type Page } from "@playwright/test";
 import { contentAction, openDiscussion } from "./actions";
 import { parseContent } from "@/lib/content/syntax";
 import { renderSource } from "@/lib/content/source-render";
+import { fixtureBlankPlaceholder } from "../fixtures/corpus";
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://fixture.invalid/**", (route) =>
@@ -63,6 +64,69 @@ test("standard single/multiple controls stay aligned and retain checked drafts",
   await page.goto(path);
   await page.evaluate(() => document.fonts.ready);
   const single = page.locator(target("continuity"));
+  const slot = single.locator(".question-choice-slot");
+  await expect(slot).toHaveCount(1);
+  await expect(slot).toHaveAttribute("aria-label", "选择题答案位置");
+  expect(await slot.evaluate((element) => element.childNodes.length)).toBe(0);
+  expect(
+    await slot.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return {
+        background: style.backgroundColor,
+        display: style.display,
+        height: box.height,
+        userSelect: style.userSelect,
+        width: box.width,
+      };
+    }),
+  ).toMatchObject({
+    background: "rgb(245, 245, 245)",
+    display: "inline-block",
+    userSelect: "text",
+  });
+  const slotBox = (await slot.boundingBox())!;
+  expect(slotBox.width).toBeGreaterThan(16);
+  expect(slotBox.height).toBeGreaterThan(16);
+  const verticalOffset = await slot.evaluate((element) => {
+    // A zero-width box ending at the baseline measures the current font's x-height.
+    const reference = document.createElement("span");
+    reference.style.cssText =
+      "display:inline-block;inline-size:0;block-size:1ex;vertical-align:baseline";
+    element.before(reference);
+    const center = ({ top, height }: DOMRect) => top + height / 2;
+    try {
+      return (
+        center(element.getBoundingClientRect()) -
+        center(reference.getBoundingClientRect())
+      );
+    } finally {
+      reference.remove();
+    }
+  });
+  expect(Math.abs(verticalOffset)).toBeLessThan(0.5);
+  const copiedSlot = await single
+    .locator(".question-stem > p")
+    .evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      const selection = window.getSelection()!;
+      selection.removeAllRanges();
+      selection.addRange(range);
+      const data = new DataTransfer();
+      const event = new ClipboardEvent("copy", {
+        clipboardData: data,
+        bubbles: true,
+        cancelable: true,
+      });
+      element.dispatchEvent(event);
+      return data.getData("text/plain");
+    });
+  expect(copiedSlot).toContain("______");
+  await expect(slot).toHaveAttribute("data-selected");
+  expect(
+    await slot.evaluate((element) => getComputedStyle(element).backgroundColor),
+  ).not.toBe("rgb(245, 245, 245)");
   const radio = single.getByRole("radio").first();
   await expect(radio).toBeEnabled();
   await radio.scrollIntoViewIfNeeded();
@@ -128,16 +192,37 @@ test("standard single/multiple controls stay aligned and retain checked drafts",
 test("fill-in blanks keep focus while typing and copy as underscores", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1000, height: 800 });
   await page.goto(
     "/private/tasks/maths/higher-mathematics/assignment/fixture-input/",
   );
   const question = page.locator('[data-question-target="set-2/q2"]');
   const input = question.locator("input.question-inline-input").first();
+  const answer = question.locator(".question-inline-answer").first();
   await expect(input).toBeEnabled();
+  await expect(input).toHaveAttribute("placeholder", fixtureBlankPlaceholder);
+  await expect(input).toHaveAccessibleName("题2 · 第1空");
+  await expect(input).toHaveAccessibleDescription(fixtureBlankPlaceholder);
+  const describedBy = await input.getAttribute("aria-describedby");
+  expect(describedBy).toBeTruthy();
+  const hint = page.locator(`[id="${describedBy}"]`);
+  await expect(hint).toHaveText(fixtureBlankPlaceholder);
+  expect((await hint.boundingBox())!.width).toBeLessThanOrEqual(1);
+  expect((await answer.boundingBox())!.height).toBeLessThanOrEqual(40);
+  expect((await input.boundingBox())!.width).toBeGreaterThan(300);
+  await page.setViewportSize({ width: 320, height: 800 });
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    ),
+  ).toBeLessThanOrEqual(0);
   await input.click();
   await page.keyboard.type("abc");
   await expect(input).toHaveValue("abc");
   await expect(input).toBeFocused();
+  expect((await hint.boundingBox())!.width).toBeLessThanOrEqual(1);
 
   const copy = (element: Element) => {
     const range = document.createRange();
@@ -155,11 +240,14 @@ test("fill-in blanks keep focus while typing and copy as underscores", async ({
     return {
       prevented: event.defaultPrevented,
       text: data.getData("text/plain"),
+      html: data.getData("text/html"),
     };
   };
   const copied = await question.locator(".question-stem > p").evaluate(copy);
   expect(copied.prevented).toBe(true);
-  expect(copied.text).toContain("______");
+  const copiedBlank = `______（#word，${fixtureBlankPlaceholder}）`;
+  expect(copied.text).toContain(copiedBlank);
+  expect(copied.html).toContain(copiedBlank);
   expect(copied.text).not.toContain("abc");
 
   await page.goto(
