@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkDirective from "remark-directive";
 import remarkStringify from "remark-stringify";
+import type { Options as RemarkStringifyOptions } from "remark-stringify";
 import type { Root } from "mdast";
 import { remarkBracketMath } from "./bracket-math";
 
@@ -20,9 +21,13 @@ export function contentParser(mdx = false) {
 export function parseContent(source: string, mdx = false): Root {
   return contentParser(mdx).parse(source);
 }
-export function stringifyContent(tree: Root, mdx = false): string {
+export function stringifyContent(
+  tree: Root,
+  mdx = false,
+  options?: Readonly<RemarkStringifyOptions>,
+): string {
   const printer = unified()
-    .use(remarkStringify)
+    .use(remarkStringify, options)
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkBracketMath)

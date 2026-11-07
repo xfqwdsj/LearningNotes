@@ -1,5 +1,5 @@
 import { captionSettings } from "./image-captions";
-import type { Root, RootContent } from "mdast";
+import type { Blockquote, Root, RootContent, Text } from "mdast";
 import { toString } from "mdast-util-to-string";
 import {
   isDirective,
@@ -16,11 +16,42 @@ import { stringifyContent, parseContent } from "./syntax";
 import { createUiTranslator } from "@/i18n/translate";
 import { demoCatalog, type DemoName } from "@/demos/catalog";
 import type { MarkdownFragment } from "@/lib/markdown/types";
+import { formatBlankReference } from "./blank-presentation";
+declare module "mdast" {
+  interface Data {
+    markdownLiteral?: string;
+  }
+}
 const t = createUiTranslator();
 const paragraph = (value: string): RootContent => ({
   type: "paragraph",
   children: [{ type: "text", value }],
 });
+const githubAlertMarker =
+  /^(\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)])(?=\s|$)/i;
+const markdownLiteral = (value: string, markdown = value): Text => ({
+  type: "text",
+  value,
+  data: { markdownLiteral: markdown },
+});
+function tagGithubAlert(blockquote: Blockquote) {
+  const first = blockquote.children[0];
+  if (first?.type !== "paragraph") return;
+  const text = first.children[0];
+  if (text?.type !== "text") return;
+  const match = githubAlertMarker.exec(text.value);
+  if (!match) return;
+  const marker = match[1]!;
+  const rest = text.value.slice(marker.length);
+  blockquote.children[0] = {
+    ...first,
+    children: [
+      markdownLiteral(marker),
+      ...(rest ? [{ ...text, value: rest }] : []),
+      ...first.children.slice(1),
+    ],
+  };
+}
 export function exportContent(tree: Root): Root {
   tree = attachProblemSets(structuredClone(tree));
   const definitions = new Map<string, string>();
@@ -106,7 +137,9 @@ export function exportContent(tree: Root): Root {
       if (isDirective(node)) {
         if (
           node.type === "textDirective" &&
-          !["option", "blank", ...presentationNames].includes(node.name)
+          !["option", "blank", "choice-slot", ...presentationNames].includes(
+            node.name,
+          )
         )
           return [
             {
@@ -170,9 +203,24 @@ export function exportContent(tree: Root): Root {
             return [
               {
                 type: "text",
-                value: t("learning.blankExport", { id: a["id"] ?? "" }),
+                value: formatBlankReference(
+                  t("learning.blankPlaceholder"),
+                  a["id"] ?? "",
+                  a["placeholder"],
+                  {
+                    withHint: (values) =>
+                      t("learning.blankWithIdAndHint", values),
+                    withoutHint: (values) => t("learning.blankWithId", values),
+                  },
+                ),
               },
             ];
+          case "choice-slot": {
+            const placeholder = t("learning.blankPlaceholder");
+            return [
+              markdownLiteral(placeholder, placeholder.replaceAll("_", "\\_")),
+            ];
+          }
           case "option":
             return [
               ...(node.children.length
@@ -317,6 +365,7 @@ export function exportContent(tree: Root): Root {
         }
       }
       const copy = structuredClone(node);
+      if (copy.type === "blockquote") tagGithubAlert(copy);
       if (copy.type === "list" && copy.ordered) copy.start = 1;
       if ("children" in copy)
         copy.children = convert(
@@ -328,12 +377,21 @@ export function exportContent(tree: Root): Root {
   return { type: "root", children: convert(tree.children) };
 }
 export function stringifyExportedTree(tree: Root): string {
-  // Markdown export preserves GitHub alert source. remark-stringify escapes
-  // a leading `[`, so restore alert markers after serialization.
-  return stringifyContent(tree).replace(
-    /\\(\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)])/g,
-    "$1",
-  );
+  return stringifyContent(tree, false, {
+    handlers: {
+      text(node, parent, state, info) {
+        const markdown = node.data?.["markdownLiteral"];
+        if (typeof markdown === "string") return markdown;
+        const siblings = parent ? parent.children : [];
+        const index = state.indexStack.at(-1) ?? 0;
+        return state.safe(node.value, {
+          ...info,
+          afterNode: siblings[index + 1],
+          beforeNode: siblings[index - 1],
+        });
+      },
+    },
+  });
 }
 export function createExportFragment(tree: Root): MarkdownFragment {
   const exported = exportContent(tree);

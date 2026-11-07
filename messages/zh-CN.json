@@ -284,7 +284,9 @@
   "learning": {
     "page": "第{page}页",
     "blankPlaceholder": "______",
-    "blankExport": "______（{id}）",
+    "blankWithId": "{marker}（#{id}）",
+    "blankWithIdAndHint": "{marker}（#{id}，{hint}）",
+    "choiceSlot": "选择题答案位置",
     "originalNumber": "原题号：{number}",
     "correctExport": "答案：{answer}",
     "answerSeparator": "、",
@@ -295,6 +297,7 @@
     "tryAnswer": "试做答案",
     "freeAnswer": "在这里记录你的思路或答案…",
     "inputLabel": "题{number} · {input}",
+    "blankInputLabel": "题{number} · 第{index}空",
     "check": "检查答案",
     "checkPart": "检查本小题",
     "checkSet": "检查本题集",

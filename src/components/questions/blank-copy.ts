@@ -101,17 +101,53 @@ function replaceFormulas(container: Element) {
   }
 }
 
-function replaceBlanks(container: Element, placeholder: string) {
-  for (const answer of container.querySelectorAll(".question-inline-answer"))
-    answer.replaceWith(document.createTextNode(placeholder));
+type BlankFormatter = (id: string | null, hint: string | null) => string;
+
+function replaceBlanks(container: Element, formatBlank: BlankFormatter) {
+  for (const slot of container.querySelectorAll(".question-choice-slot"))
+    slot.replaceWith(document.createTextNode(formatBlank(null, null)));
+  for (const answer of container.querySelectorAll(".question-inline-answer")) {
+    const input = answer.querySelector(".question-inline-input");
+    answer.replaceWith(
+      document.createTextNode(
+        formatBlank(
+          input?.getAttribute("data-input-id") ?? null,
+          input?.getAttribute("placeholder") ?? null,
+        ),
+      ),
+    );
+  }
   /* A selection may start or end in the middle of a blank, cloning only its input. */
   for (const input of container.querySelectorAll(".question-inline-input"))
-    input.replaceWith(document.createTextNode(placeholder));
+    input.replaceWith(
+      document.createTextNode(
+        formatBlank(
+          input.getAttribute("data-input-id"),
+          input.getAttribute("placeholder"),
+        ),
+      ),
+    );
+}
+
+export function syncChoiceSlotSelection(root: ParentNode | null) {
+  if (!root) return;
+  const selection = window.getSelection();
+  const ranges =
+    selection && !selection.isCollapsed
+      ? Array.from({ length: selection.rangeCount }, (_, index) =>
+          selection.getRangeAt(index),
+        )
+      : [];
+  for (const slot of root.querySelectorAll(".question-choice-slot")) {
+    if (ranges.some((range) => range.intersectsNode(slot)))
+      slot.setAttribute("data-selected", "true");
+    else slot.removeAttribute("data-selected");
+  }
 }
 
 export function blankClipboardPayload(
   selection: Selection,
-  placeholder: string,
+  formatBlank: BlankFormatter,
 ): { text: string; html: string | null } | null {
   if (selection.isCollapsed || selection.rangeCount === 0) return null;
   const range = selection.getRangeAt(0).cloneRange();
@@ -123,10 +159,12 @@ export function blankClipboardPayload(
   const container = document.createElement("div");
   container.append(range.cloneContents());
   if (
-    !container.querySelector(".question-inline-answer, .question-inline-input")
+    !container.querySelector(
+      ".question-inline-answer, .question-inline-input, .question-choice-slot",
+    )
   )
     return null;
-  replaceBlanks(container, placeholder);
+  replaceBlanks(container, formatBlank);
   /* The site drops rich HTML when formulas are copied, so keep math selections plain as well. */
   const math = Boolean(container.querySelector(".katex"));
   replaceFormulas(container);
@@ -136,8 +174,11 @@ export function blankClipboardPayload(
   };
 }
 
-/* Replaces fill-in blanks with their underscore placeholder in copied text only. */
-export function copyBlankSelection(event: ClipboardEvent, placeholder: string) {
+/* Replaces interactive blanks with their text representation in copied content. */
+export function copyBlankSelection(
+  event: ClipboardEvent,
+  formatBlank: BlankFormatter,
+) {
   if (!event.clipboardData) return false;
   const selection = window.getSelection();
   if (!selection || selection.isCollapsed || selection.rangeCount === 0)
@@ -145,7 +186,7 @@ export function copyBlankSelection(event: ClipboardEvent, placeholder: string) {
   /* Copying inside an input or textarea keeps the typed value. */
   if (insideField(selection.anchorNode) || insideField(selection.focusNode))
     return false;
-  const payload = blankClipboardPayload(selection, placeholder);
+  const payload = blankClipboardPayload(selection, formatBlank);
   if (!payload) return false;
   event.clipboardData.setData("text/plain", payload.text);
   if (payload.html) event.clipboardData.setData("text/html", payload.html);
