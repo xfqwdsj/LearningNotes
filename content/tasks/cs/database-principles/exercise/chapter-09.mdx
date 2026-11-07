@@ -1,0 +1,498 @@
+---
+title: 第9章&#32;数据库安全与备份还原教材习题
+description: 第9章《数据库安全与备份还原》的教材习题与参考答案。
+order: 9
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-09}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   在数据库中，使用:choice-slot{}语句为用户授权。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} REVOKE
+   - :option[B]{#b} GRANT
+   - :option[C]{#c} INSERT
+   - :option[D]{#d} CREATE
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="b"}
+
+   `GRANT`把权限授予用户或角色，`REVOKE`回收权限；`INSERT`和`CREATE`不是授权命令。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   下列有关MySQL角色的说法，错误的是:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 角色是权限的集合
+   - :option[B]{#b} 可以为一个用户授予多个角色
+   - :option[C]{#c} MySQL角色授予用户后立即生效
+   - :option[D]{#d} 删除角色可回收用户的角色
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="c"}
+
+   角色是一组权限的命名集合，一个用户可以拥有多个角色。角色被授予用户后不会自动成为当前会话的启用角色，通常还需设置默认角色或执行`SET ROLE`；删除角色则会使该角色带来的权限失效。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   MySQL日志文件的各种类型中，用于记录数据操作信息的是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 慢日志
+   - :option[B]{#b} 索引日志
+   - :option[C]{#c} 权限日志
+   - :option[D]{#d} 二进制日志
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="d"}
+
+   二进制日志记录数据修改和结构变更等可重放事件，常用于复制和时间点恢复；慢日志记录慢查询，错误日志记录诊断信息，并不存在通用的“权限日志”。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   按备份时服务器是否在线进行划分，数据库备份不包括:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 热备份
+   - :option[B]{#b} 冰备份
+   - :option[C]{#c} 冷备份
+   - :option[D]{#d} 温备份
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="b"}
+
+   按服务器是否在线或允许读写，备份分为热备份、冷备份和温备份；“冰备份”不是标准分类。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   使用MySQL时，想要实时记录数据库中所有修改、插入和删除操作，需要启用:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 二进制日志
+   - :option[B]{#b} 通用日志
+   - :option[C]{#c} 错误日志
+   - :option[D]{#d} 慢查询日志
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="a"}
+
+   二进制日志记录数据库结构和数据修改，可按事务重放；通用日志可记录语句但并非专用恢复日志，错误日志和慢查询日志服务于诊断。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   :choice-slot{}备份是在某一次完整备份的基础上，只备份其后数据的变化。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 比较
+   - :option[B]{#b} 区别
+   - :option[C]{#c} 增量
+   - :option[D]{#d} 二次
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="c"}
+
+   增量备份保存自上次备份以来发生变化的数据，可与完整备份和日志组成恢复链。题目按教材定义选“增量”。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   使用SQL定义事务的命令中，不包括:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} BEGIN TRANSACTION
+   - :option[B]{#b} COMMIT
+   - :option[C]{#c} ROLLBACK
+   - :option[D]{#d} END TRANSACTION
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="d"}
+
+   事务控制常包括开启事务、提交和回滚；`END TRANSACTION`不是SQL标准或MySQL的事务控制命令。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   数据库管理系统通常提供授权功能来控制不同用户访问数据的权限，这主要是为了实现数据库的:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} 可靠性
+   - :option[B]{#b} 一致性
+   - :option[C]{#c} 完整性
+   - :option[D]{#d} 安全性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="d"}
+
+   授权限制谁可以访问哪些对象并执行哪些操作，属于数据库安全性；完整性关注数据正确性，一致性关注状态约束，可靠性更侧重系统持续服务。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   事务的隔离性是指:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 事务中包括的所有操作要么都做，要么都不做
+   - :option[B]{#b} 事务一旦提交，对数据库的改变是永久的
+   - :option[C]{#c} 一个事务内部的操作及使用的数据对并发的其他事务是隔离的
+   - :option[D]{#d} 事务必须是使数据库从一个一致性状态变到另一个一致性状态
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="c"}
+
+   隔离性要求一个事务的中间状态和未提交修改不被其他并发事务任意观察；原子性描述全做或全不做，持久性描述提交结果长期保留。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    事务的持久性是指:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 事务中包括的所有操作要么都做，要么都不做
+    - :option[B]{#b} 事务一旦提交，对数据库的改变是永久的
+    - :option[C]{#c} 一个事务内部的操作及使用的数据对并发的其他事务是隔离的
+    - :option[D]{#d} 事务必须是使数据库从一个一致性状态变到另一个一致性状态
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="b"}
+
+    持久性表示事务成功提交后，其结果即使发生系统故障也应通过日志和恢复机制保留下来；事务提交后不应被随意回退。
+
+    :::
+
+11. ::question{#choice-11 number="11"}
+
+    若系统在运行过程中，由于某种硬件故障，使存储在外存上的数据部分损失或全部损失，这种情况称为:choice-slot{}。
+
+    :::choices{#options-choice-11 mode="single"}
+
+    - :option[A]{#a} 事务故障
+    - :option[B]{#b} 系统故障
+    - :option[C]{#c} 介质故障
+    - :option[D]{#d} 运行故障
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-11" option="c"}
+
+    外存数据部分或全部损坏属于介质故障，需要装载备份并用日志重做；事务故障和系统故障通常不直接意味着磁盘介质永久损坏。
+
+    :::
+
+12. ::question{#choice-12 number="12"}
+
+    日志文件是数据库重要的文件类型，其用于记录:choice-slot{}。
+
+    :::choices{#options-choice-12 mode="single"}
+
+    - :option[A]{#a} 程序运行过程
+    - :option[B]{#b} 数据查询操作
+    - :option[C]{#c} 对数据的所有更新操作
+    - :option[D]{#d} 程序执行的结果
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-12" option="c"}
+
+    日志记录事务对数据的更新和事务状态，支持UNDO和REDO；普通查询通常不写入恢复日志，程序运行过程和结果也不是其主要记录对象。
+
+    :::
+
+13. ::question{#choice-13 number="13"}
+
+    在数据系统中，对存取权限的定义称为:choice-slot{}。
+
+    :::choices{#options-choice-13 mode="single"}
+
+    - :option[A]{#a} 命令
+    - :option[B]{#b} 授权
+    - :option[C]{#c} 定义
+    - :option[D]{#d} 审计
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-13" option="b"}
+
+    授权是DBMS把对象权限授予用户或角色的过程；审计记录操作，权限定义本身不能等同于审计。
+
+    :::
+
+14. ::question{#choice-14 number="14"}
+
+    :choice-slot{}是DBMS的基本单位，它是用户定义的一组逻辑一致的程序序列。
+
+    :::choices{#options-choice-14 mode="single"}
+
+    - :option[A]{#a} 程序
+    - :option[B]{#b} 命令
+    - :option[C]{#c} 事务
+    - :option[D]{#d} 文件
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-14" option="c"}
+
+    事务是DBMS执行的基本逻辑工作单位，由一组具有原子性的操作序列组成；程序、命令和文件都不是事务定义。
+
+    :::
+
+15. ::question{#choice-15 number="15"}
+
+    安全性控制的防范对象是:choice-slot{}。
+
+    :::choices{#options-choice-15 mode="single"}
+
+    - :option[A]{#a} 合法用户
+    - :option[B]{#b} 不合语义的数据
+    - :option[C]{#c} 非法操作
+    - :option[D]{#d} 不正确的数据
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-15" option="c"}
+
+    安全性控制防止未授权用户和非法操作访问数据；不正确的数据更主要由完整性约束处理。
+
+    :::
+
+### 二、填空题
+
+
+16. ::question{#fill-1 number="1"}
+
+    既能实现安全保护，还能有利于实现逻辑独立性的对象是:blank{#blank-fill-1-1 type="text" placeholder="填写数据对象"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="视图"}
+
+    视图可以只暴露允许用户访问的列和行，从而限制敏感数据；同时它把应用与基表逻辑结构部分隔开，有助于逻辑独立性。
+
+    :::
+
+17. ::question{#fill-2 number="2"}
+
+    存取控制机制主要包括:blank{#blank-fill-2-1 type="text" placeholder="填写控制机制"}和:blank{#blank-fill-2-2 type="text" placeholder="填写控制机制"}两部分。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="授权"}
+
+    ::correct{blank="blank-fill-2-2" value="权限检查"}
+
+    存取控制包括定义谁拥有什么权限的授权，以及访问时检查权限是否满足的权限检查。
+
+    :::
+
+18. ::question{#fill-3 number="3"}
+
+    权限控制方法分为自主权限控制和强制权限控制，数据库都支持的是:blank{#blank-fill-3-1 type="text" placeholder="填写控制类型"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="自主权限控制"}
+
+    自主存取控制由对象所有者按主体授予权限，关系数据库普遍支持；强制存取控制依赖安全标签，并非所有数据库都提供。
+
+    :::
+
+19. ::question{#fill-4 number="4"}
+
+    MySQL权限管理的级别包括:blank{#blank-fill-4-1 type="text" placeholder="填写权限级别"}、:blank{#blank-fill-4-2 type="text" placeholder="填写权限级别"}、:blank{#blank-fill-4-3 type="text" placeholder="填写权限级别"}、:blank{#blank-fill-4-4 type="text" placeholder="填写权限级别"}和:blank{#blank-fill-4-5 type="text" placeholder="填写权限级别"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="服务器"}
+
+    ::correct{blank="blank-fill-4-2" value="数据库"}
+
+    ::correct{blank="blank-fill-4-3" value="数据表"}
+
+    ::correct{blank="blank-fill-4-4" value="列"}
+
+    ::correct{blank="blank-fill-4-5" value="存储过程"}
+
+    MySQL权限可以作用于服务器全局、数据库、表、列和存储过程/例程等级别，范围越大，授权影响面越大。
+
+    :::
+
+20. ::question{#fill-5 number="5"}
+
+    为本地用户`user1`授予全局`SELECT`和`UPDATE`权限的语句为:blank{#blank-fill-5-1 type="text" placeholder="输入SQL语句"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="GRANT SELECT, UPDATE ON *.* TO user1@'localhost'" ignore-case="true"}
+
+    全局SELECT和UPDATE权限使用`*.*`作为作用范围，本地用户写成`user1@'localhost'`；使用最小权限原则时不应授予其他权限。
+
+    :::
+
+21. ::question{#fill-6 number="6"}
+
+    事务在执行时，遵循“要么不做，要么全做”的原则，这属于事务的:blank{#blank-fill-6-1 type="text" placeholder="填写事务性质"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-6-1" value="原子性"}
+
+    “要么不做，要么全做”描述事务的原子性：中间某一步失败时，系统需要撤销已完成的部分。
+
+    :::
+
+22. ::question{#fill-7 number="7"}
+
+    生成冗余数据最常用的技术是:blank{#blank-fill-7-1 type="text" placeholder="填写恢复对象"}文件和数据转储（数据备份）。
+
+    :::reference
+
+    ::correct{blank="blank-fill-7-1" value="登记日志"}
+
+    恢复依赖冗余，最常用的两类技术是登记日志文件和数据转储（备份）；二者分别记录变化和保存某个时刻的副本。
+
+    :::
+
+23. ::question{#fill-8 number="8"}
+
+    利用日志中记录的事务可以完成的两个操作是:blank{#blank-fill-8-1 type="text" placeholder="填写日志操作"}和:blank{#blank-fill-8-2 type="text" placeholder="填写日志操作"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-8-1" value="REDO"}
+
+    ::correct{blank="blank-fill-8-2" value="UNDO"}
+
+    日志用于重做已提交事务（REDO）和撤销未提交事务（UNDO），从而恢复一致状态。
+
+    :::
+
+### 三、简答题
+
+
+24. ::question{#short-1 number="1"}
+
+    简述数据库安全控制的基本方法。
+
+    :::reference
+
+    （1）用户标识和鉴定：记录合法用户的标识，由系统核实用户身份后才提供系统使用权。
+    （2）用户存取权限控制：确保只有获得合法授权的用户才能访问数据库，并阻止未授权人员访问数据。
+    （3）定义视图：视图机制把要保密的数据对无权存取这些数据的用户隐藏起来，从而自动地对数据提供一定程度的安全保护。
+    （4）数据加密：为了防止数据窃取问题，人们可对数据进行加密。
+    （5）审计：把用户对数据库的所有操作自动记录下来，存放在审计日志中。
+
+    :::
+
+25. ::question{#short-2 number="2"}
+
+    简述系统权限与对象权限的区别。
+
+    :::reference
+
+    系统权限表示用户对数据库模式的操作权限，即创建数据库或者创建数据库中的其他内容所需要的权限类型。系统权限针对的主要是数据库结构。
+    对象权限是授予数据库用户对特定数据库中的表、视图和存储过程等对象的操作权限，它决定了能对表、视图等数据库对象执行哪些操作，相当于数据库操纵语言的语句权限。对象权限针对的是用户数据。
+
+    :::
+
+26. ::question{#short-3 number="3"}
+
+    什么是事务，有哪四个性质？
+
+    :::reference
+
+    事务是数据库系统中执行的一个工作单位，它是由用户定义的一组操作序列。事务具有原子性、一致性、隔离性和持久性四个性质。
+
+    :::
+
+27. ::question{#short-4 number="4"}
+
+    MySQL开启二进制日志有哪些好处？
+
+    :::reference
+
+    MySQL二进制日志文件记录所有用户对数据库的操作（除SELECT语句之外）。当数据库发生意外时，通过此文件可以查看一定时间段内用户所做的操作，结合数据库备份技术即可实现数据库还原。因此，在数据库发生故障时，利用二进制日志能够最大可能地更新数据库。
+
+    :::
+
+28. ::question{#short-5 number="5"}
+
+    为什么要进行数据库备份与数据库还原？
+
+    :::reference
+
+    数据永久丢失是数据库用户不能接受的，数据库管理系统应采取措施防范数据永久丢失。数据库备份就是将数据库中的数据以及保证数据库系统正常运行的有关信息保存起来，以备数据库恢复时使用。系统发生介质故障，数据库遭到破坏，可以将后备副本重新装入，再利用事务日志重做最后一次备份之后提交的所有事务，将数据库恢复到故障前的一致性状态。
+
+    :::

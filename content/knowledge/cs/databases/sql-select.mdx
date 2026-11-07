@@ -1,0 +1,93 @@
+---
+title: SQL单表查询
+description: 解释SELECT的基本结构、条件筛选、模糊查询、空值、排序、限行与三值逻辑。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+查询的本质是依据条件判断数据源中的元组是否满足要求，再从满足条件的元组中选择列并进行计算。
+
+### SELECT的基本结构
+
+```sql
+SELECT [DISTINCT] <列或表达式>
+FROM <表>
+WHERE <行筛选条件>
+GROUP BY <分组列>
+HAVING <组筛选条件>
+ORDER BY <排序列>
+LIMIT <起始位置>, <行数>;
+```
+
+`SELECT`和`FROM`是最基本的子句，其余子句按需求加入。查询列可以使用别名，结果中的计算列通常应给出有意义的别名。
+
+```sql
+SELECT sname AS 姓名,
+       EXTRACT(YEAR FROM CURRENT_DATE)
+         - EXTRACT(YEAR FROM sbirth) AS 年龄
+FROM student;
+```
+
+## 查询规则
+
+::section{#query-rules slot="knowledge.properties"}
+
+### 条件筛选
+
+精确比较可以使用`=、<>、!=、<、<=、>、>=`，组合条件使用`NOT、AND、OR`，优先级通常为`NOT`、`AND`、`OR`。括号可以改变组合顺序。
+
+范围和集合条件为：
+
+```sql
+SELECT tno, tname
+FROM teacher
+WHERE sal BETWEEN 5000 AND 6500;
+
+SELECT tno, yn
+FROM tc
+WHERE cno IN ('150001', '150003', '150012');
+```
+
+`BETWEEN`是闭区间，`IN`等价于多个等值条件的`OR`。
+
+模糊查询使用`LIKE`：
+
+- `%`表示零个或多个字符。
+- `_`表示恰好一个字符。
+
+```sql
+SELECT tno, tname
+FROM teacher
+WHERE tname LIKE '_凤%';
+```
+
+### 空值与三值逻辑
+
+`NULL`表示未知、不确定或没有数据，不等于零或空字符串。判断空值必须使用：
+
+```sql
+SELECT *
+FROM sc
+WHERE score IS NULL;
+
+SELECT *
+FROM sc
+WHERE score IS NOT NULL;
+```
+
+比较表达式的结果可以是真、假或未知。`NULL`参与普通比较时，结果通常为未知，不能在`WHERE`中通过真值检查。因此，“成绩等于85”的行数与“成绩不等于85”的行数不一定等于总行数，未参加考试的成绩会落在两者之外。
+
+### 排序与限行
+
+`ORDER BY`的`ASC`表示升序且为默认值，`DESC`表示降序。多个排序字段按声明顺序依次生效：
+
+```sql
+SELECT tno, sal + COALESCE(comm, 0) AS 总收入
+FROM teacher
+ORDER BY 总收入 DESC, sal DESC;
+```
+
+MySQL使用`LIMIT offset, count`截取结果。`LIMIT 3, 2`表示跳过前3行后取2行。偏移从0开始。只取前若干行时，应同时声明稳定的排序规则，否则同一批结果中的边界行可能不确定。
+

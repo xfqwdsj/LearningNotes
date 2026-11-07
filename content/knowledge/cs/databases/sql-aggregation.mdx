@@ -1,0 +1,76 @@
+---
+title: SQL聚合与分组查询
+description: 使用聚合函数、GROUP BY和HAVING按组统计，并区分记录筛选与分组筛选。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+聚合查询把多行数据归纳为一个结果行。分组后，查询对象从单个元组变成组。
+
+### 聚合函数
+
+常用聚合函数包括：
+
+- `COUNT(*)`：统计结果行数。
+- `COUNT(column)`：统计该列非空值的个数。
+- `SUM(column)`、`AVG(column)`：求数值列的总和与平均值。
+- `MAX(column)`、`MIN(column)`：求一列的最大值与最小值。
+
+`COUNT(*)`与`COUNT(column)`的语义不同。若某列存在空值，`COUNT(column)`只统计非空值；`COUNT(DISTINCT column)`还会先消除重复值。
+
+```sql
+SELECT COUNT(DISTINCT mno) AS 有学生的专业数
+FROM student;
+```
+
+## 分组与结果规则
+
+::section{#grouping-rules slot="knowledge.properties"}
+
+### GROUP BY
+
+`GROUP BY`按一列或多列把行分组，每组中的分组列取值相同。多个分组列先从大组细分到小组：
+
+```sql
+SELECT dno, mno, ssex, COUNT(*) AS 人数
+FROM student
+GROUP BY dno, mno, ssex;
+```
+
+分组后，`SELECT`中可以出现常数、聚合函数，以及与`GROUP BY`对应的分组列。未聚合的普通列通常必须出现在分组条件中，否则它在组内可能不唯一。
+
+使用表达式分组时，`GROUP BY`中应写源列表达式，而不是依赖查询别名：
+
+```sql
+SELECT LEFT(sno, 2) AS 年级, COUNT(*) AS 人数
+FROM student
+GROUP BY LEFT(sno, 2);
+```
+
+### HAVING
+
+`WHERE`在分组前筛选原始行，`HAVING`在分组后筛选组：
+
+```sql
+SELECT sno, COUNT(*) AS 及格课程数,
+       AVG(score) AS 平均分
+FROM sc
+WHERE score >= 60
+GROUP BY sno
+HAVING COUNT(*) > 2;
+```
+
+`HAVING`中的聚合函数不必与`SELECT`中的聚合函数相同。分组列条件通常写在`WHERE`中可以减少参与分组的行；当逻辑允许时，也可以写在`HAVING`中，但两种写法的执行语义和应用场景并不完全相同。
+
+## 常见错误
+
+::section{#pitfalls}
+
+- 在`SELECT`中写出既未聚合、又未分组的普通列。
+- 在`GROUP BY`中直接使用`SELECT`中定义的别名。
+- 在`WHERE`中使用聚合函数，过滤聚合结果应使用`HAVING`。
+- 把`COUNT(*)`与非空计数混用，导致统计对象不同。
+- 忽略`SUM`、`AVG`面对空值和空集时的结果。
+

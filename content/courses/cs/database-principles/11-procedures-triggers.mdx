@@ -1,0 +1,39 @@
+---
+title: 第11章&#32;存储过程与触发器
+description: 使用变量、流程控制、存储过程、存储函数和触发器扩展数据库服务端逻辑。
+order: 11
+---
+
+## 学习路线
+
+先学习MySQL语句块、局部变量、会话变量、系统变量以及分支和循环，理解`DELIMITER`为什么用于定义包含多条语句的例程。
+
+存储过程通过`CALL`执行，可用`IN`、`OUT`、`INOUT`参数完成业务操作；存储函数在表达式中调用，必须返回单个值。
+
+触发器由数据事件自动激活，重点掌握`BEFORE`、`AFTER`、行级执行以及`NEW`、`OLD`引用。复杂校验失败时可用`SIGNAL`抛出异常。
+
+## 复习要点
+
+- 会话变量用`@`，系统变量用`@@`，局部变量用`DECLARE`。
+- MySQL存储过程可用多个输出参数，存储函数必须有`RETURN`。
+- 触发器不是可由用户直接`CALL`的存储过程。
+- 触发器适合复杂约束、审计与同步，也必须避免隐藏过重业务逻辑。
+
+## 核心内容
+
+### 存储过程与存储函数
+
+::knowledge{path="cs/databases/stored-routines"}
+
+### 数据库触发器
+
+::knowledge{path="cs/databases/triggers"}
+
+## 知识页面
+
+- [存储过程与存储函数](/knowledge/cs/databases/stored-routines/)
+- [数据库触发器](/knowledge/cs/databases/triggers/)
+
+## 教材习题
+
+[第11章教材习题](/tasks/cs/database-principles/exercise/chapter-11/)

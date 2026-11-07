@@ -1,0 +1,380 @@
+---
+title: 第4章&#32;数据定义与操纵教材习题
+description: 第4章《数据定义与操纵》的教材习题与参考答案。
+order: 4
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-04}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   SQL集数据查询、数据操纵、数据定义和数据控制功能于一体，语句`ALTER TABLE`实现下列哪类功能:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 数据查询
+   - :option[B]{#b} 数据操纵
+   - :option[C]{#c} 数据定义
+   - :option[D]{#d} 数据控制
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="c"}
+
+   `ALTER TABLE`用于增加、删除或修改表结构及约束，属于数据定义语言；它不负责查询、增删改数据或用户授权。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   下列SQL语句中，:choice-slot{}不是数据操纵语句。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} INSERT
+   - :option[B]{#b} CREATE
+   - :option[C]{#c} DELETE
+   - :option[D]{#d} UPDATE
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="b"}
+
+   `INSERT`、`DELETE`和`UPDATE`改变表中的数据，属于DML；`CREATE`用于创建数据库对象，属于DDL。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   若用如下SQL语句创建表`c`：
+
+   ```sql
+   CREATE TABLE c (
+     cno CHAR(6) NOT NULL,
+     cname VARCHAR(30) NOT NULL,
+     credit INT
+   );
+   ```
+
+   现向c表插入如下行时，哪一行可以被插入:choice-slot{}？
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} `('c25001', '数据库', '3')`
+   - :option[B]{#b} `('250143', '计算机网络', NULL)`
+   - :option[C]{#c} `(NULL, '统计学', 4)`
+   - :option[D]{#d} `('252345', NULL, 5)`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="b"}
+
+   表`c`要求`cno`和`cname`非空，`credit`可为空。B的字符长度和非空条件都满足，并为可空整数列提供`NULL`；C的`cno`为空，D的`cname`为空，A把字符`'3'`作为整数值，至少依赖隐式类型转换，不是题目要求的稳妥写法。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   在SQL中，修改数据表结构应使用的命令是:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} ALTER
+   - :option[B]{#b} CREATE
+   - :option[C]{#c} CHANGE
+   - :option[D]{#d} DELETE
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="a"}
+
+   `ALTER`用于修改表结构；`CREATE`创建新对象，`CHANGE`不是MySQL中修改表结构的主要命令，`DELETE`删除行。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   关于`INSERT INTO`的用法，下面说法中正确的是:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 一个`INSERT`可以对应多个`VALUES`
+   - :option[B]{#b} `INSERT`语句可以直接向多个表中同时添加数据
+   - :option[C]{#c} `VALUES`中值的顺序可以跟定义表的顺序不一致
+   - :option[D]{#d} `INSERT`添加数据时只要类型正确就一定可以添加成功
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="a"}
+
+   MySQL支持`INSERT ... VALUES (...), (...)`一次插入多行，所以A成立。一条`INSERT`只能指定一个目标表，`VALUES`要与目标列清单对应，类型正确也不能绕开主键、唯一性、外键和`CHECK`约束。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   关于`DELETE`的用法，说法错误的是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 可以一次性删除整个表的数据
+   - :option[B]{#b} 可能有些数据行无法删除
+   - :option[C]{#c} 可以删除指定的数据列
+   - :option[D]{#d} 可以删除指定的一条数据化
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="c"}
+
+   `DELETE`删除的是行，不是列；删除列应使用`ALTER TABLE ... DROP COLUMN`。`DELETE FROM t`可以删除全表数据，受限行和外键约束影响时，某些行可能无法删除。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   关于`CHECK`约束，下列说法中不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="multiple"}
+
+   - :option[A]{#a} 一个表中可以定义多个`CHECK`约束
+   - :option[B]{#b} `CHECK`约束创建时不检查表中已有数据
+   - :option[C]{#c} 在多个字段上定义的`CHECK`约束必须为表约束
+   - :option[D]{#d} 当执行`INSERT`、`UPDATE`和`DELETE`时，`CHECK`约束会验证数据
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="b"}
+
+   ::correct{input="options-choice-7" option="d"}
+
+   `CHECK`用于限制行值，插入或更新时应检查约束；`DELETE`只移除整行，不会用删除后的列值重新验证`CHECK`，所以D不正确。按教材MySQL语境，创建约束时也不把“检查已有数据”作为`CHECK`的验证动作，因此答案为B、D。A成立，C也符合多列`CHECK`应声明为表约束的规则。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   关系数据库中的`PRIMARY KEY`和`UNIQUE`约束的区别，下面说法不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} 一个表中只能有一个primary  key，但可以有多个unique
+   - :option[B]{#b} `PRIMARY KEY`和`UNIQUE`中的字段均不能为`NULL`
+   - :option[C]{#c} `PRIMARY KEY`的任何一个列都不能为`NULL`，但`UNIQUE`可以
+   - :option[D]{#d} Primary  key和unique中都不能出现重复值
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="b"}
+
+   主键不允许`NULL`且整个表只能有一个主键；`UNIQUE`可取`NULL`，并且一个表可以定义多个唯一约束。因此“主键和唯一约束的字段均不能为`NULL`”错误。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   关于使用`DROP TABLE`删除数据表的说法，下面不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 表被删除后其中的列定义被删除了
+   - :option[B]{#b} 表被删除后其中的数据记录被删除了
+   - :option[C]{#c} 删除表一定能成功
+   - :option[D]{#d} 表被删除后其中的约束被删除了
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="c"}
+
+   `DROP TABLE`会删除表的定义、数据及相关约束，但若其他表的外键仍引用该表，删除可能被参照完整性拒绝，因此并非一定能成功。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    SQL语言具有:choice-slot{}的功能。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 关系规范化、数据操纵、数据控制
+    - :option[B]{#b} 数据定义、数据操纵、数据控制
+    - :option[C]{#c} 数据定义、关系规范化、数据控制
+    - :option[D]{#d} 数据定义、关系规范化、数据操纵
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="b"}
+
+    SQL主要提供数据定义、数据操作和数据控制功能；规范化是数据库设计理论，不属于SQL语言本身的功能分类。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    如果关系$R_2$的外键$X$参照关系$R_1$的主键，则$X$的每个非空值必须来自$R_1$的主键值，否则应设为:blank{#blank-fill-1-1 type="text" placeholder="填写缺失值"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="NULL" ignore-case="true"}
+
+    参照完整性允许外键取被参照主键中存在的值，或者用`NULL`表示引用暂时未知；非空外键不能指向不存在的主键。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    三种完整性约束中，能影响`DROP TABLE`操作的是:blank{#blank-fill-2-1 type="text" placeholder="填写规则名称"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="参照完整性"}
+
+    主表被其他表外键引用时，直接删除主表会破坏引用关系，因此影响`DROP TABLE`能否执行的是参照完整性。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    数据库文件最基本的两种类型是:blank{#blank-fill-3-1 type="text" placeholder="填写文件类型"}和:blank{#blank-fill-3-2 type="text" placeholder="填写文件类型"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="数据文件"}
+
+    ::correct{blank="blank-fill-3-2" value="事务日志文件"}
+
+    数据库最基本的存储对象是数据文件，事务日志文件另外记录事务修改和恢复信息；二者职责不同。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    设置关系$R_2$的外键$X$与关系$R_1$的主键$X$的参照关系，使用的命令语句是:blank{#blank-fill-4-1 type="text" placeholder="填写SQL子句"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="FOREIGN KEY (X) REFERENCES R1(X)"}
+
+    ::correct{blank="blank-fill-4-1" value="FOREIGN KEY(X) REFERENCES R1(X)"}
+
+    完整的外键表约束写作`FOREIGN KEY (X) REFERENCES R1(X)`，其中前半部分声明本表外键列，后半部分声明被参照表和主键列。
+
+    :::
+
+### 三、简答题
+
+
+15. ::question{#short-1 number="1"}
+
+    结合DDL和DML简述参照完整性规则的影响。
+
+    :::reference
+
+    `DROP TABLE`会删除表及其数据，因此受到参照完整性约束：主表记录仍被从表外键引用时，不能直接删除主表。
+    DML中的`INSERT`和`UPDATE`必须保证外键值要么为`NULL`，要么能在被参照主键中找到；`DELETE`和主表主键更新还要根据`ON DELETE`、`ON UPDATE`动作决定拒绝、级联或置空。
+
+    :::
+
+16. ::question{#short-2 number="2"}
+
+    简述外键中`ON DELETE`的不同设置及意义。
+
+    :::reference
+
+    `ON DELETE`常见设置有：
+
+    - `NO ACTION`或`RESTRICT`：主表记录仍被从表引用时拒绝删除。
+    - `CASCADE`：删除主表记录时，同步删除从表中的对应记录。
+    - `SET NULL`：删除主表记录时，把从表外键值设为`NULL`。
+
+    :::
+
+17. ::question{#short-3 number="3"}
+
+    设有学生关系表$S(\mathrm{sno},\mathrm{sname},\mathrm{ssex},\mathrm{sage})$，分别对应学号、姓名、性别、年龄四项信息；数据类型依次为定长字符7位、变长字符20位、定长字符2位和短整型。根据以下问题写出对应的SQL语句。
+
+    1. ::part{#p1}
+
+       创建该表，要求`sno`为主键，学号首字符必须是大写`S`，年龄大于15岁。
+
+       :::reference
+
+       ```sql
+       CREATE TABLE s (
+         sno CHAR(7) PRIMARY KEY
+           CHECK (ASCII(LEFT(sno, 1)) = ASCII('S')),
+         sname VARCHAR(20),
+         ssex CHAR(2),
+         sage SMALLINT CHECK (sage > 15)
+       );
+       ```
+
+       :::
+
+    2. ::part{#p2}
+
+       向关系表`s`中增加一名新同学，学号为`S250110`，姓名为“王小利”，性别为“男”，年龄为20岁。
+
+       :::reference
+
+       ```sql
+       INSERT INTO s (sno, sname, ssex, sage)
+       VALUES ('S250110', '王小利', '男', 20);
+       ```
+
+       :::
+
+    3. ::part{#p3}
+
+       从学生关系表`s`中删除所有姓“陈”的同学。
+
+       :::reference
+
+       ```sql
+       DELETE FROM s
+       WHERE LEFT(sname, 1) = '陈';
+       ```
+
+       :::
+
+    4. ::part{#p4}
+
+       将所有学生年龄增加1岁。
+
+       :::reference
+
+       ```sql
+       UPDATE s
+       SET sage = sage + 1;
+       ```
+
+       :::

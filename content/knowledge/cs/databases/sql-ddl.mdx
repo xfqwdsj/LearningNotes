@@ -1,0 +1,89 @@
+---
+title: SQL与数据定义
+description: 说明SQL的功能划分、数据库和数据表定义、常用数据类型及完整性约束。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+SQL是关系数据库的标准操作语言，集成数据定义、查询、操纵和控制功能。不同DBMS对SQL标准的支持范围不同，本页以MySQL常用语法为示例。
+
+## SQL的功能分类
+
+| 类别 | 典型语句 | 作用 |
+| --- | --- | --- |
+| 数据定义语言（DDL） | `CREATE`、`ALTER`、`DROP` | 定义数据库及其对象 |
+| 数据查询语言（DQL） | `SELECT` | 读取并计算查询结果 |
+| 数据操纵语言（DML） | `INSERT`、`UPDATE`、`DELETE` | 改变表中数据 |
+| 数据控制语言（DCL） | `GRANT`、`REVOKE` | 授权与回收权限 |
+
+SQL使用分号结束语句；关键字通常不区分大小写，字符和日期时间常量使用单引号。字符数据本身是否区分大小写由字符集、排序规则和比较规则决定。
+
+## 数据库与数据表
+
+::section{#objects}
+
+创建数据库时可以指定默认字符集和校对规则：
+
+```sql
+CREATE DATABASE teach
+DEFAULT CHARACTER SET utf8mb4
+DEFAULT COLLATE utf8mb4_0900_ai_ci;
+```
+
+创建表需要给出表名、列名、数据类型及可选约束：
+
+```sql
+CREATE TABLE student (
+  sno CHAR(9) PRIMARY KEY,
+  sname VARCHAR(20) NOT NULL,
+  ssex CHAR(2) DEFAULT '男',
+  sbirth DATE,
+  mno CHAR(4)
+);
+```
+
+常用数据类型包括定长字符`CHAR`、变长字符`VARCHAR`、整数、浮点数、精确数值`DECIMAL`、日期时间和文本。`CHAR(n)`会用空格补足长度，`VARCHAR(n)`按实际内容保存；`INT(n)`中的`n`在MySQL中通常表示显示宽度，不决定实际存储范围。
+
+修改表可以使用`ALTER TABLE`：
+
+```sql
+ALTER TABLE student
+  ADD phone VARCHAR(20),
+  MODIFY COLUMN sname VARCHAR(30);
+```
+
+删除表会同时移除表结构、数据、约束和索引：
+
+```sql
+DROP TABLE student;
+```
+
+## 完整性约束
+
+::section{#constraints}
+
+常见约束包括：
+
+- `NOT NULL`：字段不能取空值。
+- `PRIMARY KEY`：主键，不能为空且不能重复。
+- `UNIQUE`：值唯一，但允许空值。
+- `FOREIGN KEY`：外键必须引用被参照表中的已有主键值，或取空值。
+- `CHECK`：限定字段或字段组合应满足的条件。
+
+约束可以写在列定义后，也可以写成表级约束。复合主键、多字段外键以及涉及多列的`CHECK`通常必须使用表级约束。
+
+```sql
+CREATE TABLE sc (
+  sno CHAR(9),
+  tcno CHAR(10),
+  score SMALLINT CHECK (score BETWEEN 0 AND 100),
+  CONSTRAINT pk_sc PRIMARY KEY (sno, tcno),
+  CONSTRAINT fk_sc_student FOREIGN KEY (sno)
+    REFERENCES student (sno)
+);
+```
+
+MySQL中列级外键支持有限，实际设计通常统一使用具名的表级外键约束，以便后续修改或删除。
+

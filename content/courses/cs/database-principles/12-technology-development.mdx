@@ -1,0 +1,34 @@
+---
+title: 第12章&#32;数据库技术发展
+description: 比较SQL、NoSQL、NewSQL，并理解分布式数据库与数据平台的适用边界。
+order: 12
+---
+
+## 学习路线
+
+本章把前述关系数据库知识放到更大的技术生态中。选择数据库时，需要同时考虑数据结构是否稳定、是否需要跨多行强事务、访问规模、可用性和运维成本。
+
+分布式数据库主要处理单机容量、吞吐、可用性和跨地域部署问题，同时引入分区、复制、分布式事务和一致性取舍。
+
+数据仓库与数据湖服务于分析型场景，不能简单替代在线事务数据库。数据库、仓库和湖通常共同组成分层数据平台。
+
+## 复习要点
+
+- SQL数据库强调关系模型、查询表达与事务语义。
+- NoSQL包括多种非关系模型，灵活性、扩展性或特定访问模式各有取舍。
+- NewSQL尝试保留关系事务并提升分布式扩展能力。
+- “最终一致”不是所有NoSQL的固定属性，“强事务”也需要结合具体部署验证。
+
+## 核心内容
+
+### SQL、NoSQL、NewSQL与分布式数据库
+
+::knowledge{path="cs/databases/database-technology-landscape"}
+
+## 知识页面
+
+- [SQL、NoSQL、NewSQL与分布式数据库](/knowledge/cs/databases/database-technology-landscape/)
+
+## 教材习题
+
+[第12章教材习题](/tasks/cs/database-principles/exercise/chapter-12/)

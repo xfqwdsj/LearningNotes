@@ -1,0 +1,49 @@
+---
+title: 第3章&#32;关系模型
+description: 从关系结构和完整性出发，使用关系代数表达查询，并把E-R模型转换为关系模式。
+order: 3
+---
+
+## 学习路线
+
+先理解域、笛卡尔积、关系和关系模式的区别，再用候选键、主键、主属性和非主属性描述关系结构。
+
+关系完整性分为实体完整性、参照完整性和用户自定义完整性。外键不仅约束字段取值，还决定主表更新、删除时从表应采取的动作。
+
+关系代数部分先掌握并、交、差和笛卡尔积，再学习选择、投影、连接与除法。最后按强实体、弱实体和不同映射基数把E-R图转换为关系模式。
+
+## 复习要点
+
+- 关系的列同质、行无序、元组不重复且属性值原子。
+- $1:n$联系键取多端实体主键，$m:n$联系键取全部参与实体主键的组合。
+- 自然连接自动按同名同域属性匹配并消除重复列。
+- 除法适合“选修了全部课程”一类包含全部条件的查询。
+
+## 核心内容
+
+### 关系模型与关系性质
+
+::knowledge{path="cs/databases/relational-model"}
+
+### 关系的三类完整性
+
+::knowledge{path="cs/databases/relational-integrity"}
+
+### 关系代数
+
+::knowledge{path="cs/databases/relational-algebra"}
+
+### E-R模型到关系模式的转换
+
+::knowledge{path="cs/databases/er-to-relational"}
+
+## 知识页面
+
+- [关系模型与关系性质](/knowledge/cs/databases/relational-model/)
+- [关系的三类完整性](/knowledge/cs/databases/relational-integrity/)
+- [关系代数](/knowledge/cs/databases/relational-algebra/)
+- [E-R模型到关系模式的转换](/knowledge/cs/databases/er-to-relational/)
+
+## 教材习题
+
+[第3章教材习题](/tasks/cs/database-principles/exercise/chapter-03/)

@@ -1,0 +1,79 @@
+---
+title: 数据库视图
+description: 定义由查询导出的虚表，说明视图的作用、查询展开和可更新条件。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**视图**是由一个或多个基本表、视图通过查询导出的虚表。数据库通常只保存视图定义，查询视图时再根据定义取得当前数据。
+
+## 创建视图示例
+
+::section{#examples slot="knowledge.examples"}
+
+```sql
+CREATE VIEW viewstufemal (sno, sname, ssex)
+AS
+SELECT sno, sname, ssex
+FROM student
+WHERE ssex = '女'
+WITH CHECK OPTION;
+```
+
+## 视图定义规则
+
+视图列名可以显式指定。列名省略时，由查询结果的列名决定；使用表达式或聚合函数的列最好显式设置别名。
+
+`WITH CHECK OPTION`限制通过视图执行写入或更新时，修改后的记录必须满足视图定义中的筛选条件。
+
+## 性质与作用
+
+::section{#properties slot="knowledge.properties"}
+
+- 把复杂查询封装为可复用的数据入口。
+- 让不同用户以不同视角访问同一批基础数据。
+- 通过隐藏列或行缩小可见范围，并配合视图授权保护敏感数据。
+- 在模式调整时通过修改视图定义维持应用接口，提供一定程度的逻辑独立性。
+- 把分散在多张表中的数据组合成便于查询的逻辑结构。
+
+视图提供的是逻辑访问层，一般不会因此在数据库中保存一份完整副本，所以视图本身通常不直接加快基础查询速度。
+
+## 查询视图
+
+::section{#expansion}
+
+查询视图时，DBMS可以把视图定义与父查询合并，形成对基础表的查询。例如：
+
+```sql
+SELECT *
+FROM viewstufemal
+WHERE sno = '2415310102';
+```
+
+逻辑上等价于在基础表上同时应用视图定义条件和父查询条件。实际展开和优化由DBMS完成，不能假设数据库一定先完整生成视图结果再筛选。
+
+## 视图更新
+
+::section{#updates}
+
+通过简单视图执行`INSERT`、`UPDATE`、`DELETE`时，DBMS必须把操作唯一地映射为基础表操作。若这种映射不明确，视图通常不可更新。
+
+典型不可更新情形包括：
+
+- 查询列包含聚合函数或计算结果。
+- 定义中使用`DISTINCT`、`GROUP BY`、`HAVING`或集合运算。
+- 需要更新的列来自子查询或其他不可更新视图。
+- 一行视图数据无法唯一对应基础表中的一行。
+
+即使视图可更新，使用`WITH CHECK OPTION`后也不能通过它写入不满足视图条件的记录。实际设计主要通过视图读取、整理和授权，不能把视图当作绕过表约束的写入入口。
+
+修改视图可使用`CREATE OR REPLACE VIEW`或`ALTER VIEW`；删除视图使用：
+
+```sql
+DROP VIEW viewstufemal;
+```
+
+若其他视图依赖它，部分DBMS要求使用级联删除或先处理依赖对象。
+

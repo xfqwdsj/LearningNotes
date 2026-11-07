@@ -1,0 +1,43 @@
+---
+title: SQL CASE表达式
+description: 使用简单CASE和搜索CASE把条件判断转换为查询结果中的分类值。
+---
+
+`CASE`是SQL中的条件表达式，按分支顺序计算并返回第一个满足条件的结果。它可以用于选择列表、排序和其他允许表达式的子句。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+简单`CASE`对同一表达式逐一进行等值匹配；搜索`CASE`允许每个分支使用不同的布尔条件。`ELSE`处理所有未匹配情况，省略时默认产生`NULL`。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+```sql
+SELECT tcno, cno, tno,
+  CASE yn
+    WHEN '1' THEN '开课成功'
+    WHEN '0' THEN '开课失败'
+    ELSE '未知状态'
+  END AS 开课结果
+FROM tc;
+```
+
+```sql
+SELECT sno, tcno,
+  CASE
+    WHEN score IS NULL THEN '未考试'
+    WHEN score < 60 THEN '不及格'
+    WHEN score < 70 THEN '及格'
+    WHEN score < 80 THEN '中等'
+    WHEN score < 90 THEN '良好'
+    ELSE '优秀'
+  END AS 成绩等级
+FROM sc;
+```
+
+## 分支规则
+
+分支按声明顺序匹配。统计分类结果时，应明确`NULL`被归入哪个分类，而不是依赖隐式空值传播。

@@ -1,0 +1,35 @@
+---
+title: SQL集合查询
+description: 使用并、交、差组合列数和类型兼容的查询结果，并区分去重与保留重复。
+---
+
+集合查询把多个查询结果按集合运算组合成一个结果。参与运算的查询必须具有相同列数，对应列的数据类型应兼容。
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+- `UNION`合并两个结果并消除重复行。
+- `UNION ALL`合并两个结果并保留重复行。
+- `INTERSECT`返回两个结果的交集。
+- `EXCEPT`返回第一个结果中存在而第二个结果中不存在的行。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+下面的查询合并选修两门课程的学生学号，并消除重复：
+
+```sql
+SELECT sno
+FROM sc JOIN tc ON sc.tcno = tc.tcno
+WHERE tc.cno = '150001'
+UNION
+SELECT sno
+FROM sc JOIN tc ON sc.tcno = tc.tcno
+WHERE tc.cno = '150003';
+```
+
+## 去重与重复
+
+若需要保留两个查询结果中本来存在的重复行，应使用`UNION ALL`。是否去重会改变结果行数和执行成本。

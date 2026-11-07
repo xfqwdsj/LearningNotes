@@ -1,0 +1,64 @@
+---
+title: 第5章&#32;数据查询
+description: 从单表筛选到聚合、连接、子查询和集合运算，建立SELECT查询结构。
+order: 5
+---
+
+## 学习路线
+
+先掌握`SELECT ... FROM ... WHERE ...`的基础结构，再学习排序、限行、内置函数、`LIKE`和空值判断。`NULL`参与普通比较会产生未知结果，是三值逻辑的重点。
+
+聚合查询按“先筛选行、再分组、最后筛选组”的顺序理解。多表查询则需要明确笛卡尔积、内连接、外连接和自连接的保留范围。
+
+子查询部分区分非相关与相关两种执行方式，掌握`ANY`、`ALL`、`EXISTS`和双重`NOT EXISTS`。最后学习子查询在`SELECT`、`FROM`、`HAVING`和DML中的位置。
+
+## 复习要点
+
+- `COUNT(*)`统计行数，`COUNT(column)`忽略空值。
+- `WHERE`在分组前筛选行，`HAVING`在分组后筛选组。
+- 外连接用于保留未匹配记录，常见于“所有学生”一类统计。
+- 相关子查询依赖父查询当前行，可能对外层每一行重新执行。
+
+## 核心内容
+
+### SQL单表查询
+
+::knowledge{path="cs/databases/sql-select"}
+
+### SQL聚合与分组查询
+
+::knowledge{path="cs/databases/sql-aggregation"}
+
+### SQL多表连接查询
+
+::knowledge{path="cs/databases/sql-joins"}
+
+### SQL子查询与相关子查询
+
+::knowledge{path="cs/databases/sql-subqueries"}
+
+### SQL集合查询
+
+::knowledge{path="cs/databases/sql-set-operations"}
+
+### SQL CASE表达式
+
+::knowledge{path="cs/databases/sql-case-expression"}
+
+### 由查询结果创建表
+
+::knowledge{path="cs/databases/sql-create-table-as"}
+
+## 知识页面
+
+- [SQL单表查询](/knowledge/cs/databases/sql-select/)
+- [SQL聚合与分组查询](/knowledge/cs/databases/sql-aggregation/)
+- [SQL多表连接查询](/knowledge/cs/databases/sql-joins/)
+- [SQL子查询与相关子查询](/knowledge/cs/databases/sql-subqueries/)
+- [SQL集合查询](/knowledge/cs/databases/sql-set-operations/)
+- [SQL CASE表达式](/knowledge/cs/databases/sql-case-expression/)
+- [由查询结果创建表](/knowledge/cs/databases/sql-create-table-as/)
+
+## 教材习题
+
+[第5章教材习题](/tasks/cs/database-principles/exercise/chapter-05/)

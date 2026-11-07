@@ -1,0 +1,414 @@
+---
+title: 第8章&#32;数据库设计教材习题
+description: 第8章《数据库设计》的教材习题与参考答案。
+order: 8
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-08}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   :choice-slot{}表达了数据和处理过程的关系。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 数据字典
+   - :option[B]{#b} 数据流图
+   - :option[C]{#c} 逻辑设计
+   - :option[D]{#d} 概念设计
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="b"}
+
+   数据流图描述数据在系统中的来源、处理、存储和流向，重点表达数据处理过程；数据字典解释数据项，E-R图描述概念结构。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   规范化理论是数据库:choice-slot{}阶段的指南和工具。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 需求分析
+   - :option[B]{#b} 概念设计
+   - :option[C]{#c} 逻辑设计
+   - :option[D]{#d} 物理设计
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="c"}
+
+   规范化把概念模型转换为关系模式并检查函数依赖和范式，属于逻辑结构设计阶段。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   下列因素中，:choice-slot{}不是决定存储结构的主要因素。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 实施难度
+   - :option[B]{#b} 存取时间
+   - :option[C]{#c} 存储空间
+   - :option[D]{#d} 维护代价
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="a"}
+
+   物理存储结构主要按存取时间、存储空间和维护代价权衡；实施难度重要，但不是决定存储结构的主要性能因素。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   建立实际数据库结构是:choice-slot{}阶段的任务。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 逻辑设计
+   - :option[B]{#b} 物理设计
+   - :option[C]{#c} 数据库实施
+   - :option[D]{#d} 运行和维护
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="c"}
+
+   建立实际数据库结构、加载数据和调试应用属于数据库实施阶段；逻辑设计和物理设计完成方案，运行维护发生在系统投入使用后。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   数据库设计人员和用户之间沟通信息的桥梁是:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 程序流程图
+   - :option[B]{#b} 实体联系图
+   - :option[C]{#c} 模块结构图
+   - :option[D]{#d} 数据结构图
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="b"}
+
+   E-R图以业务实体、属性和联系表达用户需求，是设计人员与用户共同确认概念模型的桥梁。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   概念结构设计的主要目标是产生数据库的概念结构，该结构主要反映:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 应用程序员的编程需求
+   - :option[B]{#b} DBA的管理信息需求
+   - :option[C]{#c} 数据库系统的维护需求
+   - :option[D]{#d} 企业组织的信息需求
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="d"}
+
+   概念结构设计面向企业组织的信息需求，不绑定具体DBMS或程序实现；编程、维护和DBA管理需求主要在其他阶段或后续实现中处理。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   设计子模式属于数据库设计的:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 需求分析
+   - :option[B]{#b} 概念设计
+   - :option[C]{#c} 逻辑设计
+   - :option[D]{#d} 物理设计
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="c"}
+
+   子模式是对外模式的细化与设计，属于把全局逻辑结构映射到不同用户视图的逻辑设计阶段。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   需求分析阶段设计数据流图（DFD）通常采用:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} 面向对象的方法
+   - :option[B]{#b} 回溯的方法
+   - :option[C]{#c} 自底向上的方法
+   - :option[D]{#d} 自顶向下的方法
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="d"}
+
+   需求分析使用结构化分析，数据流图通常从系统总体功能和外部输入输出出发，自顶向下逐层分解。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   数据库设计进入数据库实施阶段，下列各项中不属于实施阶段的工作是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 建立库结构
+   - :option[B]{#b} 扩充功能
+   - :option[C]{#c} 加载数据
+   - :option[D]{#d} 系统调试
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="b"}
+
+   实施阶段包括建立数据库结构、加载数据和系统调试；扩充业务功能属于运行维护或后续开发，不是数据库实施的核心工作。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    下列活动不属于需求分析阶段工作的是:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 分析用户活动
+    - :option[B]{#b} 建立E-R图
+    - :option[C]{#c} 建立数据字典
+    - :option[D]{#d} 建立数据流图
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="b"}
+
+    E-R图属于概念结构设计产物；需求分析阶段通常产出数据流图、数据字典和需求说明，不建立最终E-R图。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    将E-R图向关系模型进行转换是:blank{#blank-fill-1-1 type="text" placeholder="填写设计阶段"}阶段的任务。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="逻辑设计"}
+
+    将E-R图转换为关系模式、检查键和范式，属于逻辑结构设计阶段。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    数据库的物理结构设计主要包括:blank{#blank-fill-2-1 type="text" placeholder="填写设计内容"}和:blank{#blank-fill-2-2 type="text" placeholder="填写设计内容"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="存储结构"}
+
+    ::correct{blank="blank-fill-2-2" value="存取方法"}
+
+    物理结构设计主要确定数据在介质上的存储结构以及访问这些数据的存取方法。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    重新组织和构造数据库是:blank{#blank-fill-3-1 type="text" placeholder="填写阶段名称"}阶段的任务。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="运行与维护"}
+
+    数据库投入运行后仍需监测性能、备份恢复、重组重构和调整结构，这些属于运行与维护阶段。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    “为哪些表，在哪些字段上，建立什么样的索引”这一设计内容应该属于数据库设计中的:blank{#blank-fill-4-1 type="text" placeholder="填写设计阶段"}设计阶段。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="物理结构"}
+
+    选择为哪些表、哪些字段建立何种索引，属于物理结构设计中的存取路径设计。
+
+    :::
+
+15. ::question{#fill-5 number="5"}
+
+    数据流图（DFD）是用于描述结构化方法中:blank{#blank-fill-5-1 type="text" placeholder="填写阶段名称"}阶段的工具。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="需求分析"}
+
+    数据流图用于描述业务活动中数据和处理过程的关系，是需求分析阶段的结构化工具。
+
+    :::
+
+16. ::question{#fill-6 number="6"}
+
+    在数据库实施阶段包括两项重要的工作，一项是数据的:blank{#blank-fill-6-1 type="text" placeholder="填写实施步骤"}，另一项是应用程序的编码和调试。
+
+    :::reference
+
+    ::correct{blank="blank-fill-6-1" value="载入"}
+
+    数据库实施阶段既要建立实际结构并载入数据，也要完成应用程序编码、调试和试运行。
+
+    :::
+
+### 三、简答题
+
+
+17. ::question{#short-1 number="1"}
+
+    数据库设计分为几个阶段？
+
+    :::reference
+
+    系统需求分析阶段；概念结构设计阶段；逻辑结构设计阶段；物理结构设计阶段；数据库实施阶段；数据库运行与维护阶段
+
+    :::
+
+18. ::question{#short-2 number="2"}
+
+    在数据库设计中，需求分析阶段的任务是什么？
+
+    :::reference
+
+    调查用户活动，描述业务；转换业务需求，确定系统边界；分析并描述需求数据；编写需求分析说明书
+
+    :::
+
+19. ::question{#short-3 number="3"}
+
+    简述数据库物理结构设计的任务。
+
+    :::reference
+
+    （1）确定物理结构，在关系数据库中主要指存取方法和存储结构。
+    （2）评价物理结构，评价的重点是时间和空间效率。
+
+    :::
+
+20. ::question{#short-4 number="4"}
+
+    试述数据库实施阶段的工作要点。
+
+    :::reference
+
+    建立实际数据库结构：数据定义语言（DDL）可以定义数据库结构。
+    装入数据：分别装入测试数据进行系统测试，测试通过后装入正式数据以便系统试运行。
+    数据库试运行：按照系统支持的各种应用分别试验应用程序在数据库上的操作情况。
+    整理文档：将发现的问题和解决方法记录下来，将它们整理存档作为资料。
+
+    :::
+
+21. ::question{#short-5 number="5"}
+
+    一个图书管理系统中有如下信息。
+    图书：书号、书名、数量、位置
+    借书人：借书证号、姓名、单位
+    出版社：出版社名、邮编、地址、电话、E-mail
+    其中约定：
+    任何人可以借多种书，任何一种书可以被多个人借，借书和还书时，要登记相应的借书日期和还书日期；一个出版社可以出版多种书籍，同一本书仅为一个出版社所出版，出版社名具有唯一性。
+    根据以上情况，完成如下设计。
+
+    1. ::part{#p1}
+
+       设计该系统的E-R图。
+
+       :::reference
+
+       可建立“出版社”“图书”“借书人”三个实体，以及“出版”和“借阅”两个联系：
+
+       ```mermaid
+       flowchart LR
+         publisher[出版社] -->|1| publish{出版}
+         publish -->|N| book[图书]
+         borrower[借书人] -->|1| borrow{借阅}
+         borrow -->|N| book
+         borrow --- borrowdate[借书日期]
+         borrow --- returndate[还书日期]
+       ```
+
+       一种更清晰的实现是把一次借阅表示为弱实体“借阅记录”，由借阅编号标识，再分别与借书人、图书建立二元联系。
+
+       :::
+
+    2. ::part{#p2}
+
+       将E-R图转换为关系模式。
+
+       :::reference
+
+       可转换为以下关系模式：
+
+       - `Publisher(publishername, postcode, address, phone, email)`
+       - `Book(bookid, bookname, quantity, location, publishername)`
+       - `Borrower(cardid, name, department)`
+       - `Loan(loanid, cardid, bookid, borrowdate, returndate)`
+
+       `Publisher`以出版社名为主键；`Book.publishername`参照出版社；`Loan.cardid`和`Loan.bookid`分别参照借书人和图书。`Loan`单独保存借书日期和还书日期，避免把重复借阅历史塞进图书或借书人关系。
+
+       :::
+
+    3. ::part{#p3}
+
+       基于具体DBMS设计各数据表结构及索引。
+
+       :::reference
+
+       可优先建立以下索引：
+
+       - `Book(publishername)`：查询某出版社出版的图书。
+       - `Book(bookname)`：按书名检索。
+       - `Loan(cardid, returndate)`：查询某借书人的未归还记录。
+       - `Loan(bookid, returndate)`：查询某图书当前是否借出及借阅历史。
+
+       借阅表数据持续增长，应按实际查询频率保留索引；索引过多会增加插入和更新成本。`borrowdate`是否需要索引，取决于按日期统计借阅量的需求。
+
+       :::

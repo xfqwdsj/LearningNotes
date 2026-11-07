@@ -1,0 +1,455 @@
+---
+title: 第7章&#32;关系规范化教材习题
+description: 第7章《关系规范化》的教材习题与参考答案。
+order: 7
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-07}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   关系规范化中的删除操作异常是指:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 不该删除的数据被删除
+   - :option[B]{#b} 不该插入的数据被插入
+   - :option[C]{#c} 应该删除的数据未被删除
+   - :option[D]{#d} 应该插入的数据未被插入
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="a"}
+
+   删除异常不是“删除语句执行失败”，而是删除某个事实时连带丢失仍在使用的其他信息。例如删除学生记录时把只应属于系或课程的信息也删掉，就是不希望被删除的数据受到影响。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   关系规范化中的插入操作异常是指:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 不该删除的数据被删除
+   - :option[B]{#b} 不该插入的数据被插入
+   - :option[C]{#c} 应该删除的数据未被删除
+   - :option[D]{#d} 应该插入的数据未被插入
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="d"}
+
+   插入异常是某项独立事实由于关系模式组织不当而无法单独插入。例如新系尚未有学生时无法把系信息插入含有学号主键的关系中。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   规范化理论是关系数据库进行逻辑设计的理论依据。根据这一理论，关系数据库中的每个属性都必须是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 互不相关的
+   - :option[B]{#b} 不可分解的
+   - :option[C]{#c} 长度可变的
+   - :option[D]{#d} 互相关联的
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="b"}
+
+   关系规范化首先要求每个属性值不可再分，也就是满足$1\mathrm{NF}$；“互不相关”或“长度可变”都不是关系属性的必要条件。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   关系数据库规范化是为解决关系数据库中:choice-slot{}问题而引入的。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 插入、删除、更新异常和数据冗余
+   - :option[B]{#b} 提高查询速度
+   - :option[C]{#c} 减少数据操作的复杂性
+   - :option[D]{#d} 保证数据的安全性和完整性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="a"}
+
+   规范化通过拆解不良关系，减少插入、删除、更新异常和冗余。提高查询速度、保证安全性等通常不是规范化本身的主要目标。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   当关系模式$R(A,B)$已属于$3\mathrm{NF}$，下列说法中:choice-slot{}是正确的。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 一定消除了插入和删除异常
+   - :option[B]{#b} 仍存在一定的插入和删除异常
+   - :option[C]{#c} 一定属于$\mathrm{BCNF}$
+   - :option[D]{#d} 一定消除了插入和删除异常，且一定属于$\mathrm{BCNF}$
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="b"}
+
+   $3\mathrm{NF}$只消除了非主属性对候选键的部分依赖和传递依赖，不能消除所有插入、删除异常，也不保证一定是$\mathrm{BCNF}$。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   当属性$B$函数依赖于属性$A$时，属性$A$与$B$的联系是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 1对多
+   - :option[B]{#b} 多对1
+   - :option[C]{#c} 多对多
+   - :option[D]{#d} 以上都不是
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="b"}
+
+   $A\to B$表示一个$A$值只对应一个$B$值，而多个不同的$A$值可以对应同一个$B$；从$A$到$B$的方向看，这是多对一联系。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   在关系模式$R$中，函数依赖$X\to Y$的语义是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 在$R$的某一关系中，若两个元组的$X$值相等，则$Y$值也相等
+   - :option[B]{#b} 在$R$的每一关系中，若两个元组的$X$值相等，则$Y$值也相等
+   - :option[C]{#c} 在$R$的某一关系中，$Y$值应与$X$值相等
+   - :option[D]{#d} 在$R$的每一关系中，$Y$值应与$X$值相等
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="b"}
+
+   函数依赖是模式约束，必须在关系的每一个合法实例中都成立：任意两个元组只要$X$值相等，$Y$值就必然相等。只在某一个实例中偶然成立不够。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   关系模式$R$中的属性全部是主属性，则$R$的最高范式至少是:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} $2\mathrm{NF}$
+   - :option[B]{#b} $3\mathrm{NF}$
+   - :option[C]{#c} $\mathrm{BCNF}$
+   - :option[D]{#d} $4\mathrm{NF}$
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="b"}
+
+   若所有属性都是主属性，非主属性集合为空；$2\mathrm{NF}$和$3\mathrm{NF}$中针对非主属性的问题都不会出现，因此至少达到$3\mathrm{NF}$，但不一定达到$\mathrm{BCNF}$。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   消除了部分函数依赖和传递函数依赖的$1\mathrm{NF}$关系模式，必定是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} $1\mathrm{NF}$
+   - :option[B]{#b} $2\mathrm{NF}$
+   - :option[C]{#c} $3\mathrm{NF}$
+   - :option[D]{#d} $4\mathrm{NF}$
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="c"}
+
+   $1\mathrm{NF}$关系消除了非主属性对候选键的部分依赖后达到$2\mathrm{NF}$，再消除非主属性对候选键的传递依赖后达到$3\mathrm{NF}$。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    向高一级范式转换时，根据规则消除了不合理依赖后，关系模式的分解结果:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 一定惟一的
+    - :option[B]{#b} 不是惟一的
+    - :option[C]{#c} 必须是无损
+    - :option[D]{#d} 必须保持函数依赖
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="b"}
+
+    满足同一范式目标的关系分解通常不唯一；应选择无损连接并尽可能保持函数依赖的方案，而不是把“不唯一”误认为无需满足分解准则。
+
+    :::
+
+11. ::question{#choice-11 number="11"}
+
+    将$1\mathrm{NF}$规范为$2\mathrm{NF}$，应:choice-slot{}。
+
+    :::choices{#options-choice-11 mode="single"}
+
+    - :option[A]{#a} 消除了非主属性对键的部分函数依赖
+    - :option[B]{#b} 消除了非主属性对键的传递函数依赖
+    - :option[C]{#c} 消除了主属性对键的部分函数依赖和传递函数依赖
+    - :option[D]{#d} 使每一个非主属性都不传递函数依赖于主键
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-11" option="a"}
+
+    从$1\mathrm{NF}$提升到$2\mathrm{NF}$的核心是消除非主属性对候选键的部分函数依赖；消除传递依赖是进一步提升到$3\mathrm{NF}$的任务。
+
+    :::
+
+12. ::question{#choice-12 number="12"}
+
+    关于关系规范化的描述中，下面最恰当的是:choice-slot{}。
+
+    :::choices{#options-choice-12 mode="single"}
+
+    - :option[A]{#a} 关系的范式越高越好
+    - :option[B]{#b} 应该通过规范化消除所有异常及冗余
+    - :option[C]{#c} 对于经常进行信息混合查询的数据库，范式级别不宜太高
+    - :option[D]{#d} 综合衡量下，大部分数据库最高范式达到$2\mathrm{NF}$即可满足大部分需求
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-12" option="c"}
+
+    规范化需要平衡异常、冗余和连接查询成本。经常进行宽表或混合查询的系统可能有意保留少量冗余，因此不能简单认为范式越高越好，也不能一概只做到$2\mathrm{NF}$。
+
+    :::
+
+### 二、填空题
+
+
+13. ::question{#fill-1 number="1"}
+
+    在关系模式$R$中，能函数决定$R$中所有属性的属性组，称为关系模式$R$的:blank{#blank-fill-1-1 type="text" placeholder="填写关系键"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="超键"}
+
+    凡能够函数决定关系模式全部属性的属性组都称为超键；候选键还必须满足最小性。
+
+    :::
+
+14. ::question{#fill-2 number="2"}
+
+    设有关系模式$R(A,B,C,D)$，函数依赖$F=\{AB\to C,D\to B\}$，则$F$在模式$ACD$上的投影:blank{#blank-fill-2-1 type="text" placeholder="如A->B"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="AD->C"}
+
+    ::correct{blank="blank-fill-2-1" value="AD -> C"}
+
+    在$ACD$上，$AD$可先决定$B$，再由$AB\to C$得到$C$，因此投影中的非平凡依赖为$AD\to C$（也可写作A D->C）。
+
+    :::
+
+15. ::question{#fill-3 number="3"}
+
+    设有关系模式$R(A,B,C,D)$，函数依赖$F=\{A\to B,B\to C\}$，则所有左部是属性$B$的函数依赖分别是:blank{#blank-fill-3-1 type="text" placeholder="如A->B"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="B->C"}
+
+    ::correct{blank="blank-fill-3-1" value="B -> C"}
+
+    对所有左部为$B$的函数依赖取闭包，可以得到$B\to C$；原有依赖中没有由$B$直接决定其他属性的规则。
+
+    :::
+
+16. ::question{#fill-4 number="4"}
+
+    在关系模式的分解中，数据等价用:blank{#blank-fill-4-1 type="text" placeholder="填写分解性质"}衡量，函数依赖等价用:blank{#blank-fill-4-2 type="text" placeholder="填写依赖性质"}衡量。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="无损连接分解"}
+
+    ::correct{blank="blank-fill-4-2" value="保持依赖"}
+
+    数据能否由分解后的子关系无损恢复，用无损连接分解衡量；原有函数依赖能否由各子模式的投影推出，用保持依赖衡量。
+
+    :::
+
+17. ::question{#fill-5 number="5"}
+
+    设有关系模式$R(A,B,C,D)$，函数依赖$F=\{A\to B,B\to C,A\to D,D\to C\}$，$p=\{AB,AC,BD\}$是$R$上的一个分解，则分解$p$中所丢失的函数依赖分别是:blank{#blank-fill-5-1 type="text" placeholder="如A->B,C->D"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="B->C,A->D,D->C"}
+
+    ::correct{blank="blank-fill-5-1" value="B->C, A->D, D->C"}
+
+    在分解$\{AB,AC,BD\}$中，各子关系的闭包不能分别推出$B\to C$、$A\to D$和$D\to C$，因此丢失的是这三条依赖。
+
+    :::
+
+### 三、简答题
+
+
+18. ::question{#short-1 number="1"}
+
+    给出$2\mathrm{NF}$和$3\mathrm{NF}$的形式化定义，并说明它们之间的区别和联系。
+
+    :::reference
+
+    如果关系模式$R\in1\mathrm{NF}$，且每个非主属性都完全函数依赖于$R$的主键，则称$R$属于第二范式（Second Normal Form），简称$2\mathrm{NF}$，记作$R\in2\mathrm{NF}$。
+    如果关系模式$R\in2\mathrm{NF}$，且每个非主属性都不传递函数依赖于$R$的主键，则称$R$属于第三范式（Third Normal Form），简称$3\mathrm{NF}$，记作$R\in3\mathrm{NF}$。
+    $3\mathrm{NF}$是在$2\mathrm{NF}$基础上进一步消除了非主属性对主键的传递函数依赖，而$2\mathrm{NF}$中还存在非主属性对主键的传递函数依赖。
+
+    :::
+
+19. ::question{#short-2 number="2"}
+
+    为什么要关系模式分解？模式分解要遵守什么准则？
+
+    :::reference
+
+    当关系的范式级别不够高时，对存在明显的插入异常、更新异常和删除异常，并且数据冗余度高，为了解决这些问题，需要进行模式分解，通过模式分解提升关系的范式级别，从而解决存在的问题。
+    模式分解首先要遵守数据等价原则，即分解必须是无损连接分解；同时分解还应该尽量保持函数依赖，以减少各种异常。
+
+    :::
+
+20. ::question{#short-3 number="3"}
+
+    设有关系模式$R(A,B,C,D)$，函数依赖$F=\{A\to C,C\to A,B\to AC,D\to AC,BD\to A\}$。
+
+    1. ::part{#p1}
+
+       求出$R$的所有候选键。
+
+       :::reference
+
+       解：属性分类：
+       L类：$BD$
+       N类：
+       LR类：$AC$
+       因为$(BD)^+=BDAC=U$，所以$R$有唯一候选键$BD$。
+
+       :::
+
+    2. ::part{#p2}
+
+       根据函数依赖关系，确定关系模式$R$属于第几范式。
+
+       :::reference
+
+       解：因为$BD$为主键，存在$B\to AC$，即存在非主属性$AC$对主键的部分函数依赖，所以$R$不属于$2\mathrm{NF}$，只满足$1\mathrm{NF}$。
+
+       :::
+
+    3. ::part{#p4}
+
+       将$R$分解为$3\mathrm{NF}$。并说明有无保持无损连接性和函数依赖性。
+
+       :::reference
+
+       解：先将$R$分解为满足$2\mathrm{NF}$的关系集合，根据主键$BD$的子集及函数依赖分解为：
+       $R_1(BAC)$、$R_2(DAC)$、$R_3(BDA)$。因为$R_1\cap(R_2\cup R_3)\to R_1$，且$R_2\cap R_3\to R_2$，所以整体分解是无损的，且保持了函数依赖。
+       其中$R_1$存在着非主属性$C$对主键$B$的传递函数依赖，不满足$3\mathrm{NF}$。$R_2$也存在着非主属性$C$对主键$D$的传递函数依赖，不满足$3\mathrm{NF}$。
+       对$R_1$进行模式分解得到$R_4(BA)$、$R_5(AC)$。因为$R_4\cap R_5\to R_5$，所以分解是无损的，且保持了函数依赖。
+       对$R_2$进行模式分解得到$R_6(DA)$、$R_7(AC)$。因为$R_6\cap R_7\to R_7$，所以分解是无损的，且保持了函数依赖。
+       最后对$R_3,R_4,R_5,R_6,R_7$进行合并整理得到最终分解结果：
+       $R_1(BDA)$、$R_2(BA)$、$R_3(DA)$、$R_4(AC)$。分解结果是无损连接分解，且保持了函数依赖。
+
+       :::
+
+21. ::question{#short-4 number="4"}
+
+    设有关系模式$R(A,B,C,D,E,F)$，函数依赖集$F=\{A\to BC,BC\to A,B\to C,D\to EF,E\to C\}$。试问：关系模式$R$是否为$3\mathrm{NF}$，并证明结论。
+
+    :::reference
+
+    解：
+    首先求$R$的候选键：
+    L类属性：$D$。
+    N类属性：无。
+    LR类属性：$A,B,C,E$。
+    且$D^+=\{D,E,F\}\neq R$，所以$R$无唯一候选键。
+    下面分别从LR类选取一个属性与$D$组合求闭包，有：
+    $(DA)^+=\{A,B,C,D,E,F\}=R$
+    $(DB)^+=\{A,B,C,D,E,F\}=R$
+    $(DC)^+=\{C,D,E,F\}$
+    $(DE)^+=\{C,D,E,F\}$
+    在余下的LR属性$CE$中取两个属性与$D$合并求属性闭包，得：
+    $(DCE)^+=\{C,D,E,F\}$
+    所以$(DA)$和$(DB)$都为$R$的候选键。
+    $R$的非主属性为$CEF$，因为$F$中存在非主属性对主键的部分函数依赖$B\to C$，所以$R$不满足$2\mathrm{NF}$。
+
+    :::
+
+22. ::question{#short-5 number="5"}
+
+    关系模式$R(A,B,C,D,E,F)$，其函数依赖集$F=\{AB\to E,AC\to F,AD\to B,B\to C,C\to D\}$。求该关系模式的所有候选键。
+
+    :::reference
+
+    解：先对属性分类。
+
+    L类：$A$。$A$只出现在函数依赖的左部，因此任一候选键都必须包含$A$。
+
+    R类：$E,F$。$E$和$F$只出现在右部，因此它们不能作为候选键的属性。
+
+    LR类：$B,C,D$，需要与$A$组合后通过属性闭包判断。
+
+    $A$只决定自身，所以$A$不是候选键。分别考察$A$与一个LR属性的组合：
+
+    - $(AB)^+=\{A,B,C,D,E,F\}$。其中依次使用$AB\to E$、$B\to C$、$C\to D$、$AC\to F$，所以$AB$是候选键。
+    - $(AC)^+=\{A,C,D,F\}$，不能决定$B$和$E$，所以$AC$不是候选键。
+    - $(AD)^+=\{A,B,C,D,E,F\}$。其中依次使用$AD\to B$、$B\to C$、$C\to D$、$AB\to E$、$AC\to F$，所以$AD$是候选键。
+
+    包含$AB$的其他属性组合都是$AB$的超集，包含$AD$的其他属性组合都是$AD$的超集，都不满足最小性。因此$R$的全部候选键是$AB$和$AD$。
+
+    :::

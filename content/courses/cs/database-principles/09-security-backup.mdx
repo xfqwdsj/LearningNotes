@@ -1,0 +1,44 @@
+---
+title: 第9章&#32;数据库安全与备份还原
+description: 管理用户与权限，使用事务和日志保障一致性，并制定备份与恢复策略。
+order: 9
+---
+
+## 学习路线
+
+安全控制从用户身份鉴别开始，再通过授权规则限制对象和操作。视图、加密和审计分别从可见范围、内容保护和事后追踪角度补充保护。
+
+MySQL中要能创建用户、授予与回收权限、创建角色并激活角色。授权范围应遵循最小权限原则。
+
+备份恢复部分以ACID和日志为基础，区分事务故障、系统故障和介质故障。恢复策略始终围绕“后备副本 + 日志 + 已提交/未提交事务处理”展开。
+
+## 复习要点
+
+- 系统权限作用于数据库结构，对象权限作用于表、视图、字段和例程。
+- UNDO撤销未完成事务，REDO重做已提交事务。
+- 差异备份依赖上一次完整备份，增量备份依赖上一次完整或增量备份。
+- 逻辑备份可通过`mysql`客户端还原到目标数据库。
+
+## 核心内容
+
+### 数据库安全与权限管理
+
+::knowledge{path="cs/databases/database-security"}
+
+### 事务与数据库恢复
+
+::knowledge{path="cs/databases/transactions-recovery"}
+
+### 数据库备份
+
+::knowledge{path="cs/databases/database-backup"}
+
+## 知识页面
+
+- [数据库安全与权限管理](/knowledge/cs/databases/database-security/)
+- [事务与数据库恢复](/knowledge/cs/databases/transactions-recovery/)
+- [数据库备份](/knowledge/cs/databases/database-backup/)
+
+## 教材习题
+
+[第9章教材习题](/tasks/cs/database-principles/exercise/chapter-09/)
