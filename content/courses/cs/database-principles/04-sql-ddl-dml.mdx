@@ -1,0 +1,39 @@
+---
+title: 第4章&#32;数据定义与操纵
+description: 使用SQL定义数据库和表、声明完整性约束，并通过INSERT、UPDATE、DELETE维护数据。
+order: 4
+---
+
+## 学习路线
+
+本章把第三章的关系模式落实到MySQL。先区分SQL的DDL、DQL、DML和DCL，再学习数据库、基本表、数据类型以及列级和表级约束。
+
+创建表时同时设计数据类型、空值规则、主键、唯一约束、外键和检查条件。修改约束通常采用“先删除旧约束，再添加新约束”，避免直接修改约束定义。
+
+数据操纵部分按插入、更新、删除的顺序学习，并逐项对应实体完整性、参照完整性和用户自定义完整性。外键动作必须和业务规则一致。
+
+## 复习要点
+
+- `DROP TABLE`会删除结构、数据、约束和相关索引。
+- 外键值必须引用已有主键值或为空。
+- `ON DELETE`与`ON UPDATE`都应明确选择拒绝、级联或置空。
+- 缺少`WHERE`的`UPDATE`、`DELETE`会作用于全部行。
+
+## 核心内容
+
+### SQL与数据定义
+
+::knowledge{path="cs/databases/sql-ddl"}
+
+### SQL数据操纵与约束
+
+::knowledge{path="cs/databases/sql-dml"}
+
+## 知识页面
+
+- [SQL与数据定义](/knowledge/cs/databases/sql-ddl/)
+- [SQL数据操纵与约束](/knowledge/cs/databases/sql-dml/)
+
+## 教材习题
+
+[第4章教材习题](/tasks/cs/database-principles/exercise/chapter-04/)

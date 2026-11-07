@@ -1,0 +1,77 @@
+---
+title: 数据库触发器
+description: 定义由数据事件驱动的触发器，使用触发时机、行级执行和NEW/OLD数据维护复杂业务规则。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+触发器绑定在表或视图上，由`INSERT`、`UPDATE`、`DELETE`等事件触发。它适合在无论调用来源如何都必须执行时维护规则、审计或同步。
+
+### 触发器的组成
+
+触发器定义需要说明：
+
+- 触发时机：`BEFORE`、`AFTER`，部分DBMS还支持视图上的`INSTEAD OF`。
+- 触发事件：`INSERT`、`UPDATE`或`DELETE`。
+- 触发对象：表或视图。
+- 触发级别：行级或语句级。
+- 执行条件与触发器体。
+
+MySQL只支持`BEFORE`和`AFTER`的行级触发器，不支持`INSTEAD OF`或语句级触发器。通常一个触发器只关联一个事件。
+
+## NEW与OLD
+
+::section{#row-values}
+
+行级触发器中可以使用：
+
+- `NEW.column`：插入或更新后的值。
+- `OLD.column`：更新或删除前的值。
+
+插入时没有旧行；删除时没有新行；更新时可以同时使用`NEW`和`OLD`。`OLD`通常只读，`BEFORE`触发器可以修改`NEW`值，从而改变即将写入的数据。
+
+```sql
+DELIMITER $$
+CREATE TRIGGER trig_course_insert
+BEFORE INSERT ON course
+FOR EACH ROW
+BEGIN
+  IF NEW.chour IS NULL OR NEW.chour < 30 THEN
+    SET NEW.chour = 30;
+  END IF;
+END$$
+DELIMITER ;
+```
+
+## 校验与取消操作
+
+::section{#validation}
+
+触发器可以先计算条件，不满足时抛出异常以取消当前DML：
+
+```sql
+DELIMITER $$
+CREATE TRIGGER trig_salary_update
+BEFORE UPDATE ON teacher
+FOR EACH ROW
+BEGIN
+  IF NEW.sal < OLD.sal THEN
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = '工资不能降低';
+  END IF;
+END$$
+DELIMITER ;
+```
+
+触发器可以调用存储过程、把变化写入审计表或维护汇总值。它也能校验跨表规则，但不应当把大量隐藏业务逻辑塞入触发器；隐式执行会提高调试和追踪成本。
+
+查看触发器可以使用`SHOW CREATE TRIGGER`或查询`INFORMATION_SCHEMA.TRIGGERS`，删除使用：
+
+```sql
+DROP TRIGGER IF EXISTS trig_course_insert;
+```
+
+触发器由数据库自动激活，用户不能像调用存储过程一样直接`CALL`触发器。触发器执行失败会终止触发它的语句，事务是否整体回滚仍取决于事务状态和DBMS的错误处理。
+

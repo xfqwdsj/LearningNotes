@@ -1,0 +1,76 @@
+---
+title: SQL多表连接查询
+description: 比较交叉连接、内连接、外连接与自连接，并说明连接条件和结果保留范围。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+连接查询把多个表中的相关行组合起来。连接条件与筛选用条件应分开思考：前者确定行如何配对，后者确定哪些已配对结果需要保留。
+
+### 交叉连接
+
+交叉连接返回两个表的笛卡尔积：
+
+```sql
+SELECT *
+FROM teacher
+CROSS JOIN tc;
+```
+
+结果行数为两个表行数的乘积。只按`FROM`同时列出多个表而不写有效连接条件时，也容易得到笛卡尔积。
+
+### 内连接
+
+内连接只保留满足连接条件的组合：
+
+```sql
+SELECT s.sno, s.sname, sc.tcno, sc.score
+FROM student AS s
+JOIN sc ON s.sno = sc.sno;
+```
+
+等值连接使用`=`比较两边的连接字段；非等值连接可以使用范围、不等式等条件。连接条件还可同时使用多个字段：
+
+```sql
+SELECT x.tno
+FROM tc AS x
+JOIN tc AS y
+  ON x.cno = y.cno
+ AND x.tchour = y.tchour
+WHERE y.tno = '15-011';
+```
+
+自然连接是等值连接的特例：两边具有同名且同域的属性，按这些属性相等匹配，并消除重复列。
+
+### 外连接
+
+外连接在保留匹配结果的同时，保留一侧或两侧未匹配的行：
+
+- `LEFT JOIN`保留左表全部行。
+- `RIGHT JOIN`保留右表全部行。
+- `FULL OUTER JOIN`保留双方未匹配行，具体支持情况取决于DBMS。
+
+```sql
+SELECT s.sno, s.sname, COUNT(sc.tcno) AS 选课数
+FROM student AS s
+LEFT JOIN sc ON s.sno = sc.sno
+GROUP BY s.sno, s.sname;
+```
+
+需要统计“全部学生”时，必须使用外连接或在子查询中先做完整聚合。普通内连接会直接丢弃没有选课记录的学生。
+
+### 自连接
+
+同一个表可以赋予不同别名后连接。自连接适合比较同一实体集合中的不同行：
+
+```sql
+SELECT t1.tno, t1.tname, t1.sal
+FROM teacher AS t1
+JOIN teacher AS t2 ON t1.sal > t2.sal
+WHERE t2.tname = '王刚';
+```
+
+自连接中的别名不是复制数据，而是让同一条查询以两个角色引用同一张表。连接字段不一定是主外键，条件是业务关系的体现。
+

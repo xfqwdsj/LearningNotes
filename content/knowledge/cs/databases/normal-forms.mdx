@@ -1,0 +1,85 @@
+---
+title: 关系范式与规范化
+description: 从插入删除异常出发，说明$1\mathrm{NF}$、$2\mathrm{NF}$、$3\mathrm{NF}$和$\mathrm{BCNF}$的条件、转换方向与适用取舍。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**关系规范化**是依据函数依赖和范式条件评价、分解关系模式，以减少数据冗余及插入、删除和更新异常的过程。规范化不是无条件拆分越多越好，还需要权衡连接成本、查询模式与完整性维护。
+
+## 范式条件
+
+::section{#normal-form-rules slot="knowledge.properties"}
+
+### 第一范式
+
+若关系的所有属性都取不可再分的原子值，则关系满足第一范式（$1\mathrm{NF}$）。
+
+关系模型通常要求至少达到$1\mathrm{NF}$。一行中保存逗号分隔的多个电话号码、嵌套列表或多个课程号，会违反原子性。多值信息应拆成独立关系。
+
+### 第二范式
+
+在满足$1\mathrm{NF}$的基础上，若每个非主属性都完全函数依赖于每个候选键，则关系满足第二范式（$2\mathrm{NF}$）。
+
+$2\mathrm{NF}$消除非主属性对候选键的部分依赖。若关系的主键只有一个属性，则不存在复合键真子集，通常自动满足$2\mathrm{NF}$。
+
+### 第三范式
+
+在满足$2\mathrm{NF}$的基础上，若每个非主属性都不传递函数依赖于任一候选键，则关系满足第三范式（$3\mathrm{NF}$）。
+
+$3\mathrm{NF}$消除了非主属性对候选键的部分依赖和传递依赖，能解决大多数常见异常，通常是事务型数据库设计常用的最低目标。
+
+### $\mathrm{BCNF}$
+
+若关系满足$1\mathrm{NF}$，并且每个非平凡函数依赖$X\to Y$的决定因子$X$都是超键，则关系满足Boyce-Codd范式（$\mathrm{BCNF}$）。
+
+$\mathrm{BCNF}$进一步约束主属性之间的依赖。它要求每个能够决定其他属性的属性组都必须能够决定整个关系，因此比$3\mathrm{NF}$更严格。
+
+```mermaid
+flowchart LR
+  one[1NF原子属性] --> two[2NF无部分依赖]
+  two --> three[3NF无传递依赖]
+  three --> bcnf[BCNF所有决定因子为超键]
+```
+
+若关系属于$\mathrm{BCNF}$，则它必然属于$3\mathrm{NF}$；反之不一定成立。更高的$4\mathrm{NF}$、$5\mathrm{NF}$分别处理多值依赖和连接依赖，应根据数据语义与系统需求选择是否继续分解。
+
+## 例子
+
+::section{#examples slot="knowledge.examples"}
+
+### 不规范关系的异常
+
+把学生、系、课程和成绩放在同一个关系中，可能反复保存同一个系的主任。典型问题包括：
+
+- **数据冗余**：同一事实在多个元组中重复。
+- **插入异常**：无法单独插入尚无学生的系或尚无选课记录的学生。
+- **删除异常**：删除某类中的最后一条记录时，连带丢失另一类事实。
+- **更新异常**：修改一个事实时必须更新多处，遗漏后产生矛盾。
+
+### 从部分依赖到传递依赖
+
+关系$SCD(\mathrm{sno},\mathrm{cno},\mathrm{sname},\mathrm{dept},\mathrm{score})$中，姓名和系只依赖学号，不依赖课程号，因此存在非主属性对复合候选键的部分依赖。可以分解为：
+
+$$
+S(\mathrm{sno},\mathrm{sname},\mathrm{dept}),
+\quad SC(\mathrm{sno},\mathrm{cno},\mathrm{score}).
+$$
+
+若$S(\mathrm{sno},\mathrm{sname},\mathrm{dept})$中系名又决定系主任，则原关系$S(\mathrm{sno},\mathrm{sname},\mathrm{dept},\mathrm{manager})$存在从学号到系主任的传递依赖。继续分解为：
+
+$$
+S(\mathrm{sno},\mathrm{sname},\mathrm{dept}),
+\quad D(\mathrm{dept},\mathrm{manager}).
+$$
+
+## 规范化的取舍
+
+::section{#tradeoffs}
+
+规范化通过拆分关系减少异常，但会增加连接查询。以事务处理为主的数据库通常至少达到$3\mathrm{NF}$；数据仓库或频繁进行固定宽表查询的系统可能策略性保留受控冗余。
+
+保留冗余必须有单一维护来源和明确的一致性策略。范式等级不是越高越自动合理，最终模式需要同时满足业务语义、更新一致性和查询性能。
+

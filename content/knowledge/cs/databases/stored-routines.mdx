@@ -1,0 +1,97 @@
+---
+title: 存储过程与存储函数
+description: 在MySQL中编写语句块、变量与流程控制，并比较存储过程和用户自定义函数。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+**存储过程**是保存在数据库服务器中、通过名称调用并可包含多条SQL语句和流程控制的过程对象。**存储函数**同样保存于服务器中，但主要在表达式中调用，并返回一个值。二者统称存储例程，用于扩展标准SQL的过程化表达能力。
+
+## 语句块与定界符
+
+语句块由`BEGIN ... END`包围。MySQL客户端默认把分号作为语句结束符，因此创建包含多条语句的过程时需要暂时修改定界符：
+
+```sql
+DELIMITER $$
+CREATE PROCEDURE count_students(
+  IN p_mno CHAR(4),
+  OUT p_count INT
+)
+BEGIN
+  SELECT COUNT(*) INTO p_count
+  FROM student
+  WHERE mno = p_mno;
+END$$
+DELIMITER ;
+```
+
+调用过程：
+
+```sql
+CALL count_students('1531', @count);
+SELECT @count;
+```
+
+## 变量与流程控制
+
+::section{#programming}
+
+- 会话变量以`@name`表示，无需提前声明，持续到当前连接结束。
+- 局部变量用`DECLARE name type [DEFAULT value]`声明，只存在于当前语句块。
+- 系统变量用`@@`引用，分为全局和会话作用域。
+
+```sql
+DECLARE i INT DEFAULT 0;
+DECLARE total INT DEFAULT 0;
+
+WHILE i < 100 DO
+  SET i = i + 1;
+  SET total = total + i;
+END WHILE;
+```
+
+MySQL常用流程结构包括：
+
+- `IF ... THEN ... ELSEIF ... ELSE ... END IF`
+- `CASE ... WHEN ... END CASE`
+- `WHILE`
+- `REPEAT ... UNTIL`
+- `LOOP`配合`LEAVE label`
+
+局部变量名不应使用`@`前缀，局部变量声明必须出现在语句块变量区，不能与可执行语句任意穿插。
+
+## 存储过程与函数
+
+::section{#routine-comparison}
+
+**存储过程**通过`CALL`执行，参数可以使用`IN`、`OUT`或`INOUT`，主要用于完成业务操作，可以通过多个`OUT`参数带回结果。
+
+**存储函数**在表达式中调用，参数通常只有输入参数，必须通过`RETURN`返回一个值，并能在查询表达式中使用。
+
+```sql
+DELIMITER $$
+
+CREATE FUNCTION course_count()
+RETURNS INT
+READS SQL DATA
+BEGIN
+  DECLARE result INT;
+  SELECT COUNT(*) INTO result FROM course;
+  RETURN result;
+END$$
+
+DELIMITER ;
+```
+
+MySQL可以用`SHOW CREATE PROCEDURE`或`SHOW CREATE FUNCTION`查看定义，用`SHOW PROCEDURE STATUS`或`SHOW FUNCTION STATUS`查看状态，并用`DROP PROCEDURE`、`DROP FUNCTION`删除。
+
+## 权限与执行者
+
+::section{#security}
+
+`SQL SECURITY DEFINER`让过程以定义者权限执行，`SQL SECURITY INVOKER`让过程以调用者权限执行。选择前者的用意可以是让调用者通过受控过程操作数据，而不直接获得底层表的权限；但定义者权限必须经过最小化审查，防止过程成为越权入口。
+
+存储过程封装业务操作和复杂DML，存储函数适合计算单个返回值。过程、函数和触发器都是数据库对象，发布和升级时需要与表结构一起纳入版本管理。
+

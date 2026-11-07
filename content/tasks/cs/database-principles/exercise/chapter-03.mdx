@@ -1,0 +1,544 @@
+---
+title: 第3章&#32;关系模型教材习题
+description: 第3章《关系模型》的教材习题与参考答案。
+order: 3
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-03}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   关系代数运算是以:choice-slot{}为基础的运算。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 关系运算
+   - :option[B]{#b} 谓词运算
+   - :option[C]{#c} 集合运算
+   - :option[D]{#d} 代数运算
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="c"}
+
+   关系代数中的并、差、交和笛卡儿积都建立在集合运算基础上，选择和投影等专门运算也在关系这一集合结构上操作。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   一个关系只有一个:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 超键
+   - :option[B]{#b} 外键
+   - :option[C]{#c} 候选键
+   - :option[D]{#d} 主键
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="d"}
+
+   一个关系可以没有外键，也可以有多个候选键和多个超键，但只能指定一个主键；主键可以由一个或多个属性组成。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   在关系模型中，以下有关关系键的描述正确的是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 可以由任意多个属性组成
+   - :option[B]{#b} 至多由一个属性组成
+   - :option[C]{#c} 由一个或多个属性组成，其值能唯一标识关系中的一个元组
+   - :option[D]{#d} 以上都不对
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="c"}
+
+   候选键由一个或多个属性组成，其值能够唯一区分关系中的元组，并满足最小性。任意多个属性未必唯一，单属性也未必足够。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   同一个关系模型的任两个元组值:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 不能完全相同
+   - :option[B]{#b} 可以完全相同
+   - :option[C]{#c} 必须完全相同
+   - :option[D]{#d} 以上都不对
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="a"}
+
+   关系是元组的集合，集合不能包含完全相同的重复元素，因此同一关系中的任意两个元组不能完全相同。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   关系模式的任何属性:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 不可再分
+   - :option[B]{#b} 可再分
+   - :option[C]{#c} 命名在关系模式中可以不唯一
+   - :option[D]{#d} 以上都不对
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="a"}
+
+   关系模型要求属性值是原子的、不可再分的，属性名在同一关系中也必须唯一。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   设有关系$R$和$S$，关系代数表达式$R-(R-S)$表示的是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} $R\cap S$
+   - :option[B]{#b} $R\cup S$
+   - :option[C]{#c} $R-S$
+   - :option[D]{#d} $R\times S$
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="a"}
+
+   由集合恒等式可知$R-(R-S)=R\cap S$：先取仍属于$S$的$R$元组，再与$R$作差，得到的正是两者共有元组。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   关系运算中花费时间可能最长的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 选取
+   - :option[B]{#b} 投影
+   - :option[C]{#c} 除
+   - :option[D]{#d} 笛卡儿积
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="d"}
+
+   笛卡儿积要把两个关系的元组两两组合，结果规模通常是两边元组数的乘积，往往产生最多的数据量，因此时间开销可能最大。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   E-R图向关系模型转换时，一个$1:n$联系转换为关系模式时，该关系模式的键是:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} $1$端实体的主键
+   - :option[B]{#b} $N$端实体的主键
+   - :option[C]{#c} $1$端实体主键与$N$端实体主键组合
+   - :option[D]{#d} 重新选取其他属性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="b"}
+
+   $1:n$联系把$1$端实体的主键放入$n$端实体的关系中作为外键；该关系的键仍然是$N$端实体自身的主键。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   将一个非多值联系的对多关系转换为一个独立模式时，应取:choice-slot{}为主键。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 一个实体型的主键
+   - :option[B]{#b} 多端实体型的主键
+   - :option[C]{#c} 两个实体型的主键属性组合
+   - :option[D]{#d} 联系型的全部属性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="c"}
+
+   $m:n$联系必须转换为独立关系，其主键由两端实体的主键组合而成，否则无法唯一区分同一实体对不同实体的多次联系。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    在E-R模型中，如果有$3$个不同的实体集、$3$个$m:n$联系，根据E-R模型转换为关系模型的规则，至少转换:choice-slot{}个关系模式。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 4
+    - :option[B]{#b} 5
+    - :option[C]{#c} 6
+    - :option[D]{#d} 7
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="c"}
+
+    $3$个实体集各转换为一个关系模式，$3$个$m:n$联系各转换为一个独立关系模式，因此至少得到$6$个关系模式。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    如果关系$R_2$的外键$X$参照关系$R_1$的主键，则$X$的每个非空值必须等于$R_1$中的某个主键值，或者取空值。这属于关系的:blank{#blank-fill-1-1 type="text" placeholder="填写规则名称"}规则。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="参照完整性"}
+
+    外键的非空值必须指向被参照关系中的有效主键值，或者取空值，这正是参照完整性的规则。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    关系中的属性都是原子的，不可再分的，符合这一要求的关系称为:blank{#blank-fill-2-1 type="text" placeholder="填写关系类型"}关系。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="规范化"}
+
+    关系中的每个属性都不可再分，是规范化关系最低的$1\mathrm{NF}$要求。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    实体完整性规则是对:blank{#blank-fill-3-1 type="text" placeholder="填写约束对象"}的约束，参照完整性规则是对:blank{#blank-fill-3-2 type="text" placeholder="填写约束对象"}的约束。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="实体"}
+
+    ::correct{blank="blank-fill-3-2" value="实体间联系"}
+
+    实体完整性约束主键，参照完整性约束关系之间的外键联系。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    关系进行并、差和交运算时，要求两个关系必须是:blank{#blank-fill-4-1 type="text" placeholder="填写相容条件"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="相容的"}
+
+    并、差和交要求参与运算的关系具有相同的度，并且对应属性来自相同或相容的域。
+
+    :::
+
+15. ::question{#fill-5 number="5"}
+
+    等式$R\bowtie S=R\times S$成立的条件是$R$与$S$:blank{#blank-fill-5-1 type="text" placeholder="填写条件"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="没有共同属性"}
+
+    自然连接先按同名属性匹配再消除重复列；若$R$与$S$没有共同属性，就没有连接条件可匹配，自然连接退化为笛卡儿积。
+
+    :::
+
+16. ::question{#fill-6 number="6"}
+
+    在关系数据库中，把数据表示成二维表，每一个二维表也称为:blank{#blank-fill-6-1 type="text" placeholder="填写对象名称"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-6-1" value="关系"}
+
+    关系模型用二维表表示实体集合，一个二维表对应一个关系。
+
+    :::
+
+17. ::question{#fill-7 number="7"}
+
+    在实体的所有属性类型中，向关系模式转换时，必须需要特别处理的是:blank{#blank-fill-7-1 type="text" placeholder="填写属性类型"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-7-1" value="多值属性"}
+
+    多值属性会违反$1\mathrm{NF}$的原子性，需要拆分到独立关系或采用其他建模方式，因此转换时必须特别处理。
+
+    :::
+
+18. ::question{#fill-8 number="8"}
+
+    E-R图中联系转换为关系时，最重要的是确定关系的:blank{#blank-fill-8-1 type="text" placeholder="填写键名称"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-8-1" value="主键"}
+
+    联系转成关系后，需要确定哪些属性组合能够唯一标识一个联系元组；这决定了该关系的主键及后续外键设计。
+
+    :::
+
+### 三、简答题
+
+
+19. ::question{#short-1 number="1"}
+
+    简述参照完整性规则的含义与意义。
+
+    :::reference
+
+    参照完整性的含义是如果关系$R_2$的外键$X$与关系$R_1$的主键相符，则$X$的每个值或者等于$R_1$中主键的某一个值或者取空值。
+    参照完整性用于维护不同关系之间的引用约束，避免从表出现无法对应到主表有效主键的外键值。
+
+    :::
+
+20. ::question{#short-2 number="2"}
+
+    简述关系的性质。
+
+    :::reference
+
+    （1）列是同质的，即每一列中的分量必须来自同一个域，必须是同一类型的数据。
+    （2）不同的属性可来自同一个域，但不同的属性必须有不同的名字。
+    （3）列的顺序可以任意交换，对关系无任何影响。
+    （4）关系中元组的顺序（即行序）可任意，对关系无任何影响。因为关系是以元组为元素的集合，而集合中的元素是无序的。
+    （5）关系中不允许出现相同的元组。因为数学上集合中没有相同的元素，而关系是元组的集合，所以作为集合元素的元组应该是唯一的。
+    （6）关系中每一分量必须是不可分的数据项，或者说所有属性值都是原子的，即是一个确定的值，而不是值的集合。
+
+    :::
+
+21. ::question{#short-3 number="3"}
+
+    解释关系、关系模型、关系模式、关系数据库模式及关系数据库这五个概念及其关系。
+
+    :::reference
+
+    关系来源于实体，是同类数据记录的集合。
+    关系模型是采用关系来表达数据的一种逻辑数据模型，即使用关系来表达实体数据及联系数据。
+    关系模式是关系的描述，表达关系的结构。
+    关系数据库模式是用若干个关系模式描述的数据库的结构，相当于空的关系数据库。
+    关系数据库则是关系的结合，相当于有了数据的非空的关系数据库。
+
+    :::
+
+22. ::question{#short-4 number="4"}
+
+    以3.3.1节所示的关系模式为例，用关系代数表达式表示以下各种查询要求。
+
+    1. ::part{#p1}
+
+       查询年龄大于18岁的男同学的学号、姓名、学院。
+
+    2. ::part{#p2}
+
+       查询“陈明”老师所讲授课程的课程号、课程名、课时。
+
+    3. ::part{#p3}
+
+       查询至少选修“刘大伟”老师所授全部课程的学生姓名。
+
+    4. ::part{#p4}
+
+       查询“李雅思”同学未选修的课程号和课程名。
+
+    5. ::part{#p5}
+
+       查询选修了课程号为C01或C02的学生的学号和姓名。
+
+    6. ::part{#p6}
+
+       查询选修了课程号为C01和C02的学生的学号和姓名。
+
+    :::reference
+
+    以下使用`Student`、`Teacher`、`Course`、`TC`和`SC`表示题设关系；各查询都可以用连接、子查询或除法表达，下列是一组关系代数解。
+
+    1. 年龄按出生日期计算：
+
+       $$
+       \pi_{sno,sname,sdept}
+       \left(
+       \sigma_{ssex='男'\land
+       \operatorname{YEAR}(\mathrm{CURRENT\_DATE})-
+       \operatorname{YEAR}(sbirth)>18}
+       (Student)
+       \right)
+       $$
+
+    2. 先连接教师、任课关系和课程，再筛选教师姓名：
+
+       $$
+       \pi_{cno,cname,chour}
+       \left(
+       \sigma_{tname='陈明'}(Teacher\bowtie TC\bowtie Course)
+       \right)
+       $$
+
+    3. “全部课程”用除法表达：
+
+       $$
+       \pi_{sname}
+       \left(
+       Student\bowtie
+       \left(
+       \pi_{sno,cno}(SC)
+       \div
+       \pi_{cno}
+       \left(
+       TC\bowtie\sigma_{tname='刘大伟'}(Teacher)
+       \right)
+       \right)
+       \right)
+       $$
+
+    4. 先求李雅思已选课程，再从全部课程中做差：
+
+       $$
+       \pi_{cno,cname}(Course)-
+       \pi_{cno,cname}
+       \left(
+       Course\bowtie SC\bowtie
+       \sigma_{sname='李雅思'}(Student)
+       \right)
+       $$
+
+    5. 条件中的两个课程号用析取连接：
+
+       $$
+       \pi_{sno,sname}
+       \left(
+       Student\bowtie SC\bowtie
+       \sigma_{cno='C01'\lor cno='C02'}(Course)
+       \right)
+       $$
+
+    6. 分别求选过C01和C02的学生集合，再取交集：
+
+       $$
+       \pi_{sno,sname}
+       \left(
+       Student\bowtie
+       \sigma_{cno='C01'}(SC)
+       \right)
+       \cap
+       \pi_{sno,sname}
+       \left(
+       Student\bowtie
+       \sigma_{cno='C02'}(SC)
+       \right)
+       $$
+
+    :::
+
+23. ::question{#short-5 number="5"}
+
+    请将第2章课后习题第4题所设计的E-R图转换为关系模式。
+
+    :::reference
+
+    一种可行的关系模式如下；弱实体“治疗记录”用于区分同一病人在不同科室、不同时间的治疗：
+
+    - `Department(deptname, address, phone)`
+    - `Doctor(doctorid, name, sex, phone, title, deptname)`
+    - `Ward(wardno, bedno, deptname)`
+    - `Patient(patientid, name, sex, birthdate, wardno, bedno)`
+    - `Treatment(patientid, visitno, deptname, doctorid, diagnosis)`
+
+    `Treatment`的主键为`(patientid, visitno)`，`deptname`和`doctorid`分别参照科室和医生，从而保证每次治疗只对应一个科室和一名主管医生。因为原题E-R图并非唯一，具体属性名可以调整。
+
+    :::
+
+24. ::question{#short-6 number="6"}
+
+    请将第2章课后习题第6题所设计的E-R图转换为关系模式。
+
+    :::reference
+
+    在商品可从多个供应商采购、顾客可重复购买多种商品的模型中，需要把供应关系和一次购买拆开：
+
+    - `Supplier(supplierid, name, phone, address)`
+    - `Product(productid, name, model, stockqty, saleprice)`
+    - `Supply(supplierid, productid, purchaseprice)`
+    - `Customer(customerid, name, phone, address)`
+    - `Purchase(customerid, purchaseno, purchasedate)`
+    - `PurchaseLine(customerid, purchaseno, productid, quantity, unitprice)`
+
+    `Supply`用供应商与商品的主键组合区分每个供应商的进货价格；`Purchase`表示一次购买，`PurchaseLine`保存该次购买中的商品、数量和成交价，因此可以记录同一顾客重复购买同一商品的情况。
+
+    :::
+
+25. ::question{#short-7 number="7"}
+
+    请将第2章课后习题第7题所设计的E-R图转换为关系模式。
+
+    :::reference
+
+    可将考试时间、考试地点和监考安排分别建模，避免把所有业务约束都塞进实体：
+
+    - `Course(courseid, coursename)`
+    - `CourseOffering(offeringid, courseid, semester)`
+    - `Student(studentid, name)`
+    - `Enrollment(studentid, offeringid)`
+    - `ExamSession(sessionid, examdate, starttime, endtime)`
+    - `Classroom(roomid, capacity)`
+    - `ExamRoom(sessionid, roomid, courseid)`
+    - `ExamAssignment(studentid, sessionid, roomid, offeringid)`
+    - `Invigilator(teacherid, sessionid, roomid, role)`
+
+    每门课程统一映射到一个`ExamSession`；`ExamRoom`表示某个时段的具体考场，`ExamAssignment`记录学生在该考场参加的课程，`Invigilator`保存主监考和普通监考角色。
+
+    下列约束需要由应用逻辑、事务或触发器保证：
+
+    - 学生同一时段不能参加多场考试。
+    - 教师同一时段不能监考多个考场。
+    - 同一教室同一时段只能安排一个考场。
+    - 考场人数不超过教室容量。
+    - 同一课程的所有开课班使用同一考试时段。
+
+    :::

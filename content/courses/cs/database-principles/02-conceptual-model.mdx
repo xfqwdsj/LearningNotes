@@ -1,0 +1,49 @@
+---
+title: 第2章&#32;概念模型
+description: 使用实体、属性、联系和弱实体设计E-R模型，并完成局部视图集成。
+order: 2
+---
+
+## 学习路线
+
+本章从业务对象识别开始。先判断一个对象应作为实体还是属性，再通过候选键与主键解决实体标识问题。
+
+联系不只描述“两者有关”，还要确定映射基数、联系属性和联系键。多值属性、多值联系和三元联系都可以通过弱实体获得更清晰的标识结构。
+
+完成局部E-R图后，按忠实性、简单性和少冗余原则合并。合并时重点处理属性冲突、命名冲突和结构冲突，再优化不必要的冗余。
+
+## 复习要点
+
+- 联系属性只记录联系本身产生的信息。
+- $m:n$联系键通常由双方实体主键组成，多值联系还需要区分每次发生的属性。
+- 弱实体的全局标识由强实体主键与部分键共同完成。
+- E-R图是数据库结构，不是系统功能结构图或业务流程图。
+
+## 核心内容
+
+### E-R模型的实体、属性与键
+
+::knowledge{path="cs/databases/er-model-elements"}
+
+### E-R模型中的联系
+
+::knowledge{path="cs/databases/er-relationships"}
+
+### 弱实体与部分键
+
+::knowledge{path="cs/databases/weak-entities"}
+
+### E-R建模与局部视图集成
+
+::knowledge{path="cs/databases/er-modeling"}
+
+## 知识页面
+
+- [E-R模型的实体、属性与键](/knowledge/cs/databases/er-model-elements/)
+- [E-R模型中的联系](/knowledge/cs/databases/er-relationships/)
+- [弱实体与部分键](/knowledge/cs/databases/weak-entities/)
+- [E-R建模与局部视图集成](/knowledge/cs/databases/er-modeling/)
+
+## 教材习题
+
+[第2章教材习题](/tasks/cs/database-principles/exercise/chapter-02/)

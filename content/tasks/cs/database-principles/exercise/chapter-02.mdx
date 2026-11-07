@@ -1,0 +1,479 @@
+---
+title: 第2章&#32;概念模型教材习题
+description: 第2章《概念模型》的教材习题与参考答案。
+order: 2
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-02}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   E-R图的基本成分不包含:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 实体
+   - :option[B]{#b} 属性
+   - :option[C]{#c} 元组
+   - :option[D]{#d} 联系
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="c"}
+
+   E-R图用矩形表示实体、椭圆表示属性、菱形表示联系；元组是关系模型中的记录概念，不是E-R图的基本成分。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   当局部E-R图合并成全局E-R图时可能出现冲突，不属于合并冲突的是:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 属性冲突
+   - :option[B]{#b} 语法冲突
+   - :option[C]{#c} 结构冲突
+   - :option[D]{#d} 命名冲突
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="b"}
+
+   局部E-R图合并常见属性冲突、命名冲突和结构冲突。“语法冲突”不是教材规定的合并冲突类型。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   数据库设计人员和用户之间沟通信息的桥梁是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 程序流程图
+   - :option[B]{#b} 实体联系图
+   - :option[C]{#c} 模块结构图
+   - :option[D]{#d} 数据结构图
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="b"}
+
+   实体联系图使用实体、属性和联系表达业务语义，便于数据库设计人员与用户共同确认需求，因此是双方沟通的桥梁。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   概念结构设计的主要目标是产生数据库的概念模型结构，该结构主要反映:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 应用程序员的编程需求
+   - :option[B]{#b} DBA的管理信息需求
+   - :option[C]{#c} 数据库系统的维护需求
+   - :option[D]{#d} 企业组织的信息需求
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="d"}
+
+   概念结构设计从业务角度描述企业组织的数据和信息需求，不绑定具体DBMS，也不以程序实现或维护操作作为核心目标。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   在数据库的概念设计中，最常用的数据模型是:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 形象模型
+   - :option[B]{#b} 物理模型
+   - :option[C]{#c} 逻辑模型
+   - :option[D]{#d} 实体联系模型
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="d"}
+
+   概念设计最常用实体联系模型；物理模型描述存储，逻辑模型描述计算机可实现的数据结构，形象模型不是数据模型层次中的标准分类。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   实体的属性多种类型，在建模时不需要特别关注的属性是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 复合属性
+   - :option[B]{#b} 简单属性
+   - :option[C]{#c} 派生属性
+   - :option[D]{#d} 多值属性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="b"}
+
+   简单属性本身只有一个原子值，建模时无需额外拆解；复合属性、派生属性和多值属性通常需要特殊处理。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   局部E-R图进行集成得到整体E-R图后需要进行优化，优化的主要目的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 消除冲突
+   - :option[B]{#b} 消除多值
+   - :option[C]{#c} 消除冗余
+   - :option[D]{#d} 美化E-R图
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="c"}
+
+   冲突应在合并过程中先识别和解决；集成后进行优化主要是消除重复实体、重复联系或可由其他联系推导出的冗余。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   在进行E-R图设计时，最重要的原则是:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} 忠实性
+   - :option[B]{#b} 简单性
+   - :option[C]{#c} 少冗余
+   - :option[D]{#d} 美观性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="a"}
+
+   E-R图首先要忠实反映业务对象和联系，其次才是简化、减少冗余和保持版面清晰。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   对于超市管理系统中的购物小票，在概念模型建模时，最好的处理方式是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 建模为强实体
+   - :option[B]{#b} 建模为联系
+   - :option[C]{#c} 建模为弱实体
+   - :option[D]{#d} 建模为多值属性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="c"}
+
+   购物小票通常依赖一次购买活动存在，离开购买关系就没有独立身份，适合建模为弱实体；“多值属性”无法表达小票包含的多项商品。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    在对学生成绩管理进行数据库概念模型建模时，下面信息最好建模为实体的是:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 课程类型
+    - :option[B]{#b} 课程名
+    - :option[C]{#c} 上课学期
+    - :option[D]{#d} 成绩
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="d"}
+
+    课程类型、课程名和上课学期更适合作为属性或分类；成绩需要与学生、课程及考试事件发生联系，并可能具有多次考试等语义，因此更适合作为可参与联系的实体。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    概念模型属于:blank{#blank-fill-1-1 type="text" placeholder="填写世界"}世界的模型。最常用的概念模型是E-R模型，其中E称为:blank{#blank-fill-1-2 type="text" placeholder="填写英文缩写含义"}，R称为:blank{#blank-fill-1-3 type="text" placeholder="填写英文缩写含义"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="信息"}
+
+    ::correct{blank="blank-fill-1-2" value="实体"}
+
+    ::correct{blank="blank-fill-1-3" value="联系"}
+
+    概念模型属于信息世界；E-R中的E表示实体（Entity），R表示联系（Relationship）。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    E-R模型中最基本的三个元素是:blank{#blank-fill-2-1 type="text" placeholder="填写模型元素"}、:blank{#blank-fill-2-2 type="text" placeholder="填写模型元素"}和:blank{#blank-fill-2-3 type="text" placeholder="填写模型元素"}，其中用菱形表示的是:blank{#blank-fill-2-4 type="text" placeholder="填写图形对应成分"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="属性"}
+
+    ::correct{blank="blank-fill-2-2" value="实体"}
+
+    ::correct{blank="blank-fill-2-3" value="联系"}
+
+    ::correct{blank="blank-fill-2-4" value="联系"}
+
+    E-R模型的基本元素是实体、属性和联系；矩形表示实体，椭圆表示属性，菱形表示联系。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    E-R建模时，数据抽象一般有两种方法，分别是:blank{#blank-fill-3-1 type="text" placeholder="填写抽象方法"}和:blank{#blank-fill-3-2 type="text" placeholder="填写抽象方法"}，其中用来抽象实体的是:blank{#blank-fill-3-3 type="text" placeholder="填写抽象方法"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="分类"}
+
+    ::correct{blank="blank-fill-3-2" value="聚集"}
+
+    ::correct{blank="blank-fill-3-3" value="分类"}
+
+    教材采用分类与聚集说明E-R建模中的数据抽象；分类把具有共同特征的个体归为实体或实体集，聚集把对象及其关系组合为更高层对象。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    局部E-R图集成时，有两种方法，分别是:blank{#blank-fill-4-1 type="text" placeholder="填写集成方法"}和:blank{#blank-fill-4-2 type="text" placeholder="填写集成方法"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="二元集成法"}
+
+    ::correct{blank="blank-fill-4-2" value="多元集成法"}
+
+    局部E-R图可以逐张与当前总图合并，即二元集成；也可以同时综合多个局部图，即多元集成。
+
+    :::
+
+15. ::question{#fill-5 number="5"}
+
+    局部E-R图合并时可能出现三种冲突：:blank{#blank-fill-5-1 type="text" placeholder="填写类型名称"}、:blank{#blank-fill-5-2 type="text" placeholder="填写类型名称"}和:blank{#blank-fill-5-3 type="text" placeholder="填写类型名称"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="属性冲突"}
+
+    ::correct{blank="blank-fill-5-2" value="命名冲突"}
+
+    ::correct{blank="blank-fill-5-3" value="结构冲突"}
+
+    合并冲突分为属性冲突、命名冲突和结构冲突；这三类分别涉及取值或域、同名异义，以及实体粒度或联系表达方式。
+
+    :::
+
+### 三、简答题
+
+
+16. ::question{#short-1 number="1"}
+
+    简述实体、属性划分的原则。
+
+    :::reference
+
+    实体与属性之间没有明确的划分界限，一般常用两个原则：
+    （1）作为属性，不能再具有要描述的性质，即属性不可分。
+    （2）属性不能和其他实体相联系。
+
+    :::
+
+17. ::question{#short-2 number="2"}
+
+    简述弱实体的概念与使用。
+
+    :::reference
+
+    属性不足以形成主键，必须依赖于其他实体（强实体）的存在而存在的实体一般称之为弱实体。弱实体特别适合建模那些票据类数据。
+    弱实体主要使用于下列情况：多值属性建模为弱实体、多值联系建模为弱实体、使用弱实体表达三元联系、使用弱实体表达实体与联系的联系
+
+    :::
+
+18. ::question{#short-3 number="3"}
+
+    简述多值联系的含义与辨别的必要性。
+
+    :::reference
+
+    多值联系是指在同一个给定的联系集中，相关联的同样两个实体之间可能存在多个联系。
+    因为多值联系中无法通过两个实体的主键来区别每一次联系，因此需要特别标识每次联系，才能记录对应的联系信息。
+
+    :::
+
+19. ::question{#short-4 number="4"}
+
+    经过需求分析可知，某医院病房管理系统中需要管理以下信息。
+    科室：科室名、科室地址、科室电话、科室医生姓名
+    病房：病房号、床位号、所属科室
+    医生：工作证号、姓名、性别、联系电话、职称、所属科室名
+    病人：病历号、姓名、性别、出生日期、诊断记录、主管医生、病房号
+    其中，一个科室有多个病房、多名医生，一个病房只属于一个科室，一个医生只属于一个科室，但可负责多个病人的诊治，一个病人被多个科室治疗，但每次治疗的科室及主管医生只有一个。
+    根据以上需求分析的情况，设计该系统中的E-R图。
+
+    :::reference
+
+    一种可行的E-R模型如下：
+
+    - 实体“科室”属性为科室名、地址、电话。
+    - 实体“病房”属性为病房号、床位号，病房与科室为多对一联系。
+    - 实体“医生”属性为工作证号、姓名、性别、电话、职称，医生与科室为多对一联系。
+    - 实体“病人”属性为病历号、姓名、性别、出生日期。
+    - 弱实体“治疗记录”依赖病人存在，属性包含就诊序号、诊断记录；它分别与病人、科室、医生建立二元联系。
+
+    “治疗记录”表示病人某次在科室接受某位主管医生诊治的事件。这样同一病人可以有多次、多个科室的治疗记录，而每一次记录只对应一个科室和一名主管医生。原题E-R图并非唯一，但必须保留这层事件语义。
+
+    :::
+
+20. ::question{#short-5 number="5"}
+
+    某企业的供应商、商品、仓库之间存在多对多的三元联系集“入库”，如图2-20所示。请将该三元联系转化为二元联系表达的E-R图。
+    图2-20&#32;入库联系
+
+    ```mermaid
+    flowchart TB
+    supplier[供应商] --- inbound{入库}
+    product[商品] --- inbound
+    warehouse[仓库] --- inbound
+    inbound --- inventory([库存量])
+    inbound --- supply([供应量])
+    ```
+
+    :::reference
+
+    可把三元联系“入库”转换为依赖业务单据存在的弱实体“入库记录”，再分别与供应商、商品、仓库建立二元联系：
+
+    ```mermaid
+    flowchart LR
+      supplier[供应商] --> inbound[[入库记录]]
+      product[商品] --> inbound
+      warehouse[仓库] --> inbound
+      inbound --- inventory[库存量]
+      inbound --- supply[供应量]
+    ```
+
+    原来的三元联系不再直接连接三个实体。每一次入库由一条“入库记录”区分，库存量和供应量成为该记录的属性；入库记录的部分键可由供应商、商品、仓库和入库时间共同组成。
+
+    :::
+
+21. ::question{#short-6 number="6"}
+
+    假定一个销售公司的业务涉及如下基本信息：
+    商品：商品编号、商品名称、型号、供货商、进货单价、库存数量、销售单价
+    供货商：供货商编号、供货商名称、联系电话、通信地址
+    客户：客户编号、客户名称、联系电话、通信地址
+    假设每种商品可从多个供货商采购，每个供货商可供应多种商品；每个供货商的每种商品可销售给多个客户，每个客户可购买多个供货商提供的多种商品，客户购买时一次可以购买多种商品，也可能会重复购买某种商品。
+    请根据对销售公司业务的理解进行数据库E-R图设计。
+
+    :::reference
+
+    一种可行的概念模型如下：
+
+    - 实体“供应商”：供应商编号、名称、联系电话、通信地址。
+    - 实体“商品”：商品编号、名称、型号、库存数量、销售单价。
+    - 实体“客户”：客户编号、名称、联系电话、通信地址。
+    - 联系“供应”：连接供应商与商品，为多对多，并保存进货单价。
+    - 弱实体“购买单”：依赖客户存在，保存购买单号、购买日期。
+    - 联系“购买明细”：连接购买单与商品，保存数量、成交单价。
+
+    “供应”和“购买”是不同业务：商品可以从多个供应商采购，但客户的购买单不必记录商品由哪个供应商供货。使用“购买单—购买明细”还能表达一次购买多种商品，并允许同一客户重复购买同一商品。题目没有要求职工参与，因此无需增加职工实体。
+
+    :::
+
+22. ::question{#short-7 number="7"}
+
+    大学期末考试安排系统，供学生和教师查询考试信息。要求如下：
+
+    1. ::part{#p1}
+
+       一门课程的所有开课班应安排在相同时间进行考试，不同课程的开课班可以安排在相同或不同的时间进行考试。
+
+    2. ::part{#p2}
+
+       一个开课班的学生可能安排在多个考场参加考试，一个考场也可以包含同一门课程的多个开课班的学生，但不允许将选修不同课程的学生安排在同一考场考试。
+
+    3. ::part{#p3}
+
+       一个考场根据参加考试的学生人数安排2至4名监考老师，其中指定一名老师为主监考老师。
+
+    4. ::part{#p4}
+
+       一个学生选修的多门课程不能安排在同一时间进行考试。
+
+    5. ::part{#p5}
+
+       一个老师不能安排在同一时间参加多个考场的监考。
+
+    6. ::part{#p6}
+
+       一个教室在同一时间不能安排多场考试。
+
+    7. ::part{#p7}
+
+       安排在同一考场参加考试的学生人数不能超过该教室的考试容量（假设一个教室的考试容量不会超过其上课容量的一半）。
+       请你在对教务处进行调研的基础上进行数据库设计，设计该考试安排的E-R图。
+
+    :::reference
+
+    一种可行的E-R设计如下：
+
+    - 实体“课程”“开课班”“学生”“教师”“考试时段”“教室”。
+    - 课程与开课班为一对多联系；学生与开课班通过“选课”形成多对多联系。
+    - 课程与考试时段为多对一联系，用来保证同一课程的所有开课班在同一时段考试。
+    - 弱实体“考场”由考试时段和教室共同标识，并保存容量和实际考生人数。
+    - 学生与考场通过“参加考试”联系，记录学生在哪个考场参加哪门课的考试。
+    - 教师与考场通过“监考”联系，联系属性包含主监考或普通监考角色。
+
+    以下内容属于完整性约束或排考业务规则，可由应用逻辑、事务或触发器保证：
+
+    - 学生同一时段不能参加多门课程考试。
+    - 教师同一时段不能监考多个考场。
+    - 一个教室同一时段只能安排一个考场。
+    - 考场人数不超过教室容量。
+    - 同一课程的所有开课班必须使用同一考试时段。
+
+    E-R图主要表达实体、联系和基数；将这些规则全部伪装成实体属性会掩盖真正的约束。
+
+    :::

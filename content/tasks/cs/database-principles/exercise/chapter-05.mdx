@@ -1,0 +1,583 @@
+---
+title: 第5章&#32;数据查询教材习题
+description: 第5章《数据查询》的教材习题与参考答案。
+order: 5
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-05}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   SQL语言中，实现数据检索的语句是:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} SELECT
+   - :option[B]{#b} INSERT
+   - :option[C]{#c} UPDATE
+   - :option[D]{#d} DELETE
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="a"}
+
+   `SELECT`执行数据检索；`INSERT`增加数据，`UPDATE`修改数据，`DELETE`删除数据。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   SQL语句中用户实现关系代数中的除法主要依靠的关键字是:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} DISTINCT
+   - :option[B]{#b} UNION
+   - :option[C]{#c} EXISTS
+   - :option[D]{#d} HAVING
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="c"}
+
+   关系代数除法表达“包含另一关系的全部值”，SQL中常用`NOT EXISTS`的双重否定实现：不存在一个应满足而当前行不满足的项。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   当FROM子句中出现多个基本表或视图时，系统将执行:choice-slot{}操作。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 并
+   - :option[B]{#b} 等值连接
+   - :option[C]{#c} 自然连接
+   - :option[D]{#d} 笛卡儿积
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="d"}
+
+   `FROM`列出多个表或视图但没有连接或筛选条件时，逻辑上先形成各表元组的全部组合，即笛卡儿积；等值连接和自然连接还需要相应连接条件。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   SQL中，下列涉及空值的操作，不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} `WHERE score IS NULL`
+   - :option[B]{#b} `WHERE score IS NOT NULL`
+   - :option[C]{#c} `WHERE score = NULL`
+   - :option[D]{#d} `WHERE NOT score IS NULL`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="c"}
+
+   `NULL`表示未知，不是普通值；与`NULL`比较应使用`IS NULL`或`IS NOT NULL`。`score = NULL`的结果为未知，不会可靠筛出空值。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   要查询`book`表中所有书名中包含“计算机”的书籍情况，`WHERE`子句可用:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} `WHERE book_name LIKE '%计算机*'`
+   - :option[B]{#b} `WHERE book_name LIKE '%计算机%'`
+   - :option[C]{#c} `WHERE book_name LIKE '*计算机*'`
+   - :option[D]{#d} `WHERE book_name = '%计算机%'`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="b"}
+
+   SQL的`LIKE`用`%`表示任意长度字符序列，用`_`表示单个字符。包含“计算机”应写成`LIKE '%计算机%'`，星号不是这里所需的通配符。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   假定学生关系$S(\mathrm{sno},\mathrm{sname},\mathrm{ssex})$，课程关系$C(\mathrm{cno},\mathrm{cname},\mathrm{teacher})$，学生选课关系$\mathrm{SC}(\mathrm{sno},\mathrm{cno},\mathrm{score})$。要查找选修“大数据”课程的女生姓名，将涉及关系:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} $S$
+   - :option[B]{#b} $\mathrm{SC},C$
+   - :option[C]{#c} $S,\mathrm{SC}$
+   - :option[D]{#d} $S,C,\mathrm{SC}$
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="d"}
+
+   课程名在`C`，女生姓名在`S`，而两表通过`SC`关联；筛选条件需要`C`，输出姓名需要`S`，连接路径需要`SC`，所以三张表都涉及。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   SQL语句中，与`X BETWEEN 10 AND 20`等效的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} `X IN (10,20)`
+   - :option[B]{#b} `X < 10 OR X > 20`
+   - :option[C]{#c} `X >= 10 AND X <= 20`
+   - :option[D]{#d} `X > 10 AND X < 20`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="c"}
+
+   `BETWEEN a AND b`包含端点，因此`X BETWEEN 10 AND 20`等价于$X\ge 10\land X\le 20$。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   `SELECT`语句中用于对查询结果进行排序的是:choice-slot{}子句。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} `GROUP BY`
+   - :option[B]{#b} `WHERE`
+   - :option[C]{#c} `ORDER BY`
+   - :option[D]{#d} `HAVING`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="c"}
+
+   `ORDER BY`负责对最终结果排序；`GROUP BY`分组，`WHERE`筛选行，`HAVING`筛选组。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   分组聚合查询中，`SELECT`子句中不能出现的内容是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} `GROUP BY`中的分组字段
+   - :option[B]{#b} 加了聚合函数的任意字段
+   - :option[C]{#c} `HAVING`中未出现的聚合函数
+   - :option[D]{#d} 未加聚合函数的非分组字段
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="d"}
+
+   分组后，未包含在`GROUP BY`中且没有聚合函数的普通列在一组内可能有多个值，不能直接作为单值结果；分组列和聚合结果可以出现。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    关于子查询的使用，下面说法错误的是:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="multiple"}
+
+    - :option[A]{#a} `SELECT`语句中的非相关子查询都可以转换为多表连接查询
+    - :option[B]{#b} 多表连接查询也都可以转换为子查询
+    - :option[C]{#c} 相关子查询任何时候都无法独立执行
+    - :option[D]{#d} 单值子查询如果得到NULL，则父查询中无法使用比较运算符
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="a"}
+
+    ::correct{input="options-choice-10" option="b"}
+
+    A把“许多非相关子查询可改写为连接”夸大成“都可以”，B也把连接与子查询的双向转换说成普遍成立，因此A、B错误。相关子查询依赖外层当前行，通常不能脱离外层查询单独执行；单值子查询返回`NULL`时仍是合法比较表达式，只是比较结果按三值逻辑可能为未知。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    在查询语句中，对查询结果进行去重的关键字是:blank{#blank-fill-1-1 type="text" placeholder="填写关键字"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="DISTINCT"}
+
+    `DISTINCT`作用在`SELECT`结果上，去除完全相同的重复行；它不会改变底层表中的数据。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    在使用`LIKE`进行模糊查询时需要使用通配符，:blank{#blank-fill-2-1 type="text" placeholder="填写符号"}符号表示必须有且仅有一个字符，:blank{#blank-fill-2-2 type="text" placeholder="填写符号"}符号表示可以有$0$到$N$个字符。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="_"}
+
+    ::correct{blank="blank-fill-2-2" value="%"}
+
+    在`LIKE`模式中，`_`匹配恰好一个字符，`%`匹配零个或多个字符；二者可以与普通字符组合使用。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    数据表之间的连接查询默认查询类型是:blank{#blank-fill-3-1 type="text" placeholder="填写连接类型"}，连接是通过表的字段值来体现的，这种字段称为:blank{#blank-fill-3-2 type="text" placeholder="填写字段类型"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="内连接"}
+
+    ::correct{blank="blank-fill-3-2" value="连接字段"}
+
+    只写连接条件时通常得到内连接；连接字段是两张表中用于表达对应关系的列，例如学号或课程号。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    非相关子查询会执行:blank{#blank-fill-4-1 type="text" placeholder="填写次数"}次，而相关子查询的执行次数是由父查询表的:blank{#blank-fill-4-2 type="text" placeholder="填写依据"}决定的。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="1"}
+
+    ::correct{blank="blank-fill-4-2" value="记录数"}
+
+    非相关子查询不依赖外层行，通常只计算一次；相关子查询依赖外层查询的当前行，典型情况下要随外层记录数重复执行。
+
+    :::
+
+15. ::question{#fill-5 number="5"}
+
+    在某课程成绩（score）录入完毕后，如果查询该课程的选课人数，则使用的聚合函数正确写法是:blank{#blank-fill-5-1 type="text" placeholder="填写SQL函数"}，如果查询参加考试的人数，则使用的聚合函数正确写法是:blank{#blank-fill-5-2 type="text" placeholder="填写SQL函数"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="COUNT(*)" ignore-case="true"}
+
+    ::correct{blank="blank-fill-5-2" value="COUNT(score)" ignore-case="true"}
+
+    `COUNT(*)`统计所有选课记录，包括成绩为空的行；`COUNT(score)`忽略空值，所以统计实际参加考试的人数。
+
+    :::
+
+16. ::question{#fill-6 number="6"}
+
+    多值子查询中`ANY`和`ALL`谓词与比较运算符的组合中，根本无法实现的组合是:blank{#blank-fill-6-1 type="text" placeholder="填写比较运算"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-6-1" value="= ALL"}
+
+    教材给出的ANY/ALL谓词关系表把`= ALL`列为无对应实用比较关系的组合，因此本题按教材语境填`= ALL`。需要注意，SQL语法本身允许该表达式，它表示标量与子查询中的所有值都相等；题目所问的是教材表中的谓词用法。
+
+    :::
+
+### 三、简答题
+
+
+17. ::question{#short-1 number="1"}
+
+    简述NULL的含义及其在WHERE子句中与比较运算符组合使用结果。
+
+    :::reference
+
+    `NULL`不是具体值，表示未知或不确定。`NULL`与任何值进行普通比较，结果都是`NULL`。
+
+    :::
+
+18. ::question{#short-2 number="2"}
+
+    简述外连接与内连接的区别，并总结什么情况下应该使用外连接。
+
+    :::reference
+
+    内连接结果仅仅包含符合连接条件的结果；而外连接则是在内连接的基础上再加上指定数据表中不符合连接条件的记录信息。
+    在多表连接查询中如果需要对某个表中的所有数据进行统计或处理，即字面含义表达查询所有、查询全部或查询每一个的需求时，一般使用外连接。
+
+    :::
+
+19. ::question{#short-3 number="3"}
+
+    结合一个相关子查询实例，简述相关子查询的执行流程。
+
+    :::reference
+
+    结合下面的相关子查询：
+
+    ```sql
+    SELECT t1.tno, t1.tname, t1.sal
+    FROM teacher AS t1
+    WHERE t1.sal > (
+      SELECT AVG(t2.sal)
+      FROM teacher AS t2
+      WHERE t2.dno = t1.dno
+    );
+    ```
+
+    （1）读取`teacher`表并以别名`t1`逐行处理记录。
+    （2）对于`t1`中的每一行，取得`sal`和`dno`值。
+    （3）把`t1.dno`传入子查询并执行，得到一个平均值。
+    （4）将子查询得到的平均值与`t1.sal`比较。条件为真时保留该行，否则丢弃。
+    （5）重复上述过程，直到处理完`t1`中的所有记录。
+
+    :::
+
+20. ::question{#short-4 number="4"}
+
+    结合一个带WHERE和HAVING子句的分组聚合查询，简述该类语句的执行流程。
+
+    :::reference
+
+    结合下面的分组聚合查询：
+
+    ```sql
+    SELECT sno
+    FROM sc
+    WHERE score >= 90
+    GROUP BY sno
+    HAVING COUNT(*) >= 3;
+    ```
+
+    （1）读取`sc`表，并用`WHERE`筛选行。
+    （2）按`sno`对筛选后的行分组。
+    （3）用`COUNT(*)`统计每组行数。
+    （4）用`HAVING COUNT(*) >= 3`筛选分组。
+
+    :::
+
+21. ::question{#short-5 number="5"}
+
+    假设有以下三个数据表，各表中字段名及含义如下：
+    $\mathrm{Book}(\mathrm{bno},\mathrm{btype},\mathrm{bname},\mathrm{bauth},\mathrm{bprice},\mathrm{pname},\mathrm{bdate})$
+    图书（书号，类型，书名，作者，单价，出版社，出版日期）
+    $\mathrm{Student}(\mathrm{sno},\mathrm{sname},\mathrm{ssex},\mathrm{mno},\mathrm{days})$
+    学生（学号，姓名，性别，专业号，最大借阅天数）
+    $\mathrm{Borrow}(\mathrm{id},\mathrm{sno},\mathrm{bno},\mathrm{bdate},\mathrm{rdate})$
+    借阅（借阅id，学号，书号，借阅日期，归还日期）
+    用SQL实现下述功能。
+
+    1. ::part{#p1}
+
+       查询在“清华大学出版社”出版、书名为“数据库原理”图书的作者名；
+
+       :::reference
+
+       ```sql
+       SELECT bauth
+       FROM book
+       WHERE pname = '清华大学出版社'
+         AND bname = '数据库原理';
+       ```
+
+       :::
+
+    2. ::part{#p2}
+
+       查询最近三年出版的跟“数据库”有关的图书名称、作者及出版日期；
+
+       :::reference
+
+       ```sql
+       SELECT bname, bauth, bdate
+       FROM book
+       WHERE bname LIKE '%数据库%'
+         AND YEAR(CURRENT_DATE) - YEAR(bdate) < 3;
+       ```
+
+       :::
+
+    3. ::part{#p3}
+
+       查询“哈尔滨工业大学出版社”出版的各类图书的平均价格及最新出版日期；
+
+       :::reference
+
+       ```sql
+       SELECT btype,
+              AVG(bprice) AS 平均价格,
+              MAX(bdate) AS 最新出版日期
+       FROM book
+       WHERE pname = '哈尔滨工业大学出版社'
+       GROUP BY btype;
+       ```
+
+       :::
+
+    4. ::part{#p4}
+
+       查找书名为“高等数学”且价格比“人民邮电出版社”出版同名图书价格低的出版社名称、价格及出版日期；
+
+       :::reference
+
+       ```sql
+       SELECT pname, bprice, bdate
+       FROM book
+       WHERE bname = '高等数学'
+         AND bprice < (
+           SELECT MIN(bprice)
+           FROM book
+           WHERE bname = '高等数学'
+             AND pname = '人民邮电出版社'
+         );
+       ```
+
+       :::
+
+    5. ::part{#p5}
+
+       查找书名为“大数据”且价格高于同名图书平均价格的图书编号、出版社及出版日期；
+
+       :::reference
+
+       ```sql
+       SELECT bno, pname, bdate
+       FROM book
+       WHERE bname = '大数据'
+         AND bprice > (
+           SELECT AVG(bprice)
+           FROM book
+           WHERE bname = '大数据'
+         );
+       ```
+
+       :::
+
+    6. ::part{#p6}
+
+       查询跟“张明明”同学专业情况相同的同学姓名及专业号，如果张明明没有专业，则显示所有没有专业的同学
+
+       :::reference
+
+       ```sql
+       SELECT sname, mno
+       FROM student
+       WHERE COALESCE(mno, '') = (
+         SELECT COALESCE(mno, '')
+         FROM student
+         WHERE sname = '张明明'
+       );
+       ```
+
+       :::
+
+    7. ::part{#p7}
+
+       查询至少借阅了张明明同学所借阅的全部图书的学生姓名；
+
+       :::reference
+
+       ```sql
+       SELECT s1.sname
+       FROM student AS s1
+       WHERE NOT EXISTS (
+         SELECT *
+         FROM borrow AS b1
+         JOIN student AS s2 ON b1.sno = s2.sno
+         WHERE s2.sname = '张明明'
+           AND NOT EXISTS (
+             SELECT *
+             FROM borrow AS b2
+             WHERE b2.sno = s1.sno
+               AND b2.bno = b1.bno
+           )
+       );
+       ```
+
+       :::
+
+    8. ::part{#p8}
+
+       查询已经超期未归还的借阅信息；
+
+       :::reference
+
+       ```sql
+       SELECT *
+       FROM borrow
+       WHERE rdate IS NULL
+         AND CURRENT_DATE > DATE_ADD(
+           bdate,
+           INTERVAL (
+             SELECT days
+             FROM student
+             WHERE sno = borrow.sno
+           ) DAY
+         );
+       ```
+
+       :::
+
+    9. ::part{#p9}
+
+       查询每一个同学的借阅统计信息，包括借阅次数，最新借阅日期；
+
+       :::reference
+
+       ```sql
+       SELECT sno,
+              COUNT(*) AS 借阅次数,
+              MAX(bdate) AS 最新借阅日期
+       FROM borrow
+       GROUP BY sno;
+       ```
+
+       :::
+
+    10. ::part{#p10}
+
+       查询目前被借阅次数最多的图书名。
+
+       :::reference
+
+       ```sql
+       SELECT bname
+       FROM book
+       WHERE bno IN (
+         SELECT bno
+         FROM borrow
+         GROUP BY bno
+         HAVING COUNT(*) >= ALL (
+           SELECT COUNT(*)
+           FROM borrow
+           GROUP BY bno
+         )
+       );
+       ```
+
+       :::

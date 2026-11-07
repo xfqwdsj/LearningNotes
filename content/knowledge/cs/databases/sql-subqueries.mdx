@@ -1,0 +1,111 @@
+---
+title: SQL子查询与相关子查询
+description: 区分单值、多值、普通和相关子查询，使用ANY、ALL、EXISTS表达集合与全称条件。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+子查询是嵌套在另一条SQL语句中的查询。父查询如何使用子查询结果，决定比较运算符、集合谓词和是否需要重复执行子查询。
+
+### 普通子查询
+
+能独立执行的子查询称为普通子查询，也称非相关子查询。常见执行顺序是先求子查询结果，再把结果交给父查询使用。
+
+子查询返回单个值时，可以使用普通比较运算符：
+
+```sql
+SELECT tno, tname
+FROM teacher
+WHERE prof = (
+  SELECT prof
+  FROM teacher
+  WHERE tname = '王刚'
+);
+```
+
+子查询返回一列多行时，应使用`IN`、`ANY`、`ALL`或`EXISTS`，不能直接使用`=`。返回多列时，可以把多个列作为整体与子查询结果比较。
+
+### ANY与ALL
+
+对于集合$S$：
+
+- `x > ANY S`表示$x$大于$S$中至少一个值，等价于大于最小值。
+- `x > ALL S`表示$x$大于$S$中所有值，等价于大于最大值。
+- `x = ANY S`等价于`x IN S`。
+- `x <> ALL S`等价于`x NOT IN S`。
+
+```sql
+SELECT tname, sal
+FROM teacher
+WHERE sal > ALL (
+  SELECT sal
+  FROM teacher
+  WHERE dno = '15'
+)
+AND dno <> '15';
+```
+
+`= ALL`要求一个值等于集合中的每个不同值，实际通常不合理。出现空集或空值时，还应结合三值逻辑检查谓词结果。
+
+### 相关子查询
+
+子查询引用父查询表中的列时，通常不能脱离父查询独立执行，这种查询称为相关子查询。父查询每考察一行，子查询都使用该行的相关值重新计算。
+
+```sql
+SELECT tname, sal
+FROM teacher AS t1
+WHERE sal > (
+  SELECT AVG(sal)
+  FROM teacher AS t2
+  WHERE t2.dno = t1.dno
+);
+```
+
+`EXISTS`只判断子查询是否产生至少一行，不关心`SELECT`选出的列值。因此通常写`SELECT *`：
+
+```sql
+SELECT tname
+FROM teacher AS t
+WHERE EXISTS (
+  SELECT *
+  FROM tc
+  WHERE tc.tno = t.tno
+    AND tc.cno = '160001'
+);
+```
+
+### 表达全称条件
+
+SQL没有直接的全称量词。可以用双重`NOT EXISTS`表达“不存在某个反例”：
+
+```sql
+SELECT sname
+FROM student AS s
+WHERE NOT EXISTS (
+  SELECT *
+  FROM course AS c
+  WHERE NOT EXISTS (
+    SELECT *
+    FROM sc
+    JOIN tc ON sc.tcno = tc.tcno
+    WHERE sc.sno = s.sno
+      AND tc.cno = c.cno
+  )
+);
+```
+
+外层的含义是：找不到一门该学生没有选修的课程，因此学生选修了全部课程。
+
+### 子查询的位置
+
+子查询可以出现在：
+
+- `WHERE`：作为筛选条件中的一个值或集合。
+- `SELECT`：作为单个表达式参与计算。
+- `FROM`：作为派生表，必须命名别名。
+- `HAVING`：为组筛选提供值，引用父查询分组列时要遵循分组规则。
+
+`INSERT`可以使用子查询批量提供行；`UPDATE`可以在`SET`或`WHERE`中使用子查询；`DELETE`通常只在`WHERE`中使用子查询。MySQL对更新目标表时直接读取自身的某些子查询有限制，应先确认目标版本的语法。
+

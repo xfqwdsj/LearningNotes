@@ -1,0 +1,263 @@
+---
+title: 第10章&#32;数据库并发控制教材习题
+description: 第10章《数据库并发控制》的教材习题与参考答案。
+order: 10
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-10}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   数据库的并发操作，会导致各种数据不一致问题出现，这些问题不包括:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 丢失更新
+   - :option[B]{#b} 脏读
+   - :option[C]{#c} 不可重复读
+   - :option[D]{#d} 死锁
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="d"}
+
+   丢失更新、脏读和不可重复读都是并发事务读写交错造成的数据一致性或隔离性问题；死锁是两个或多个事务互相等待对方锁的资源，不属于这类数据不一致现象本身。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   对并发操作若不加以控制，可能会带来数据库的:choice-slot{}问题。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 不安全
+   - :option[B]{#b} 死锁
+   - :option[C]{#c} 死机
+   - :option[D]{#d} 不一致
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="d"}
+
+   如果并发操作没有正确控制，事务可能读取中间数据、覆盖他人结果或重复读取得到不同值，核心后果是数据库状态与关系数据不一致。死锁是控制机制自身可能出现的等待问题，但题干问的是一般并发异常。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   关系数据库中并发控制的基本单位是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 事务
+   - :option[B]{#b} 进程
+   - :option[C]{#c} 程序
+   - :option[D]{#d} 脚本
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="a"}
+
+   并发控制以事务为基本单位，按事务的提交、回滚和隔离要求协调它们对共享数据的访问。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   解决并发操作带来的数据不一致性总是普遍采用:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 封锁
+   - :option[B]{#b} 恢复
+   - :option[C]{#c} 存取控制
+   - :option[D]{#d} 协商
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="a"}
+
+   锁通过限制共享对象的并发访问来保证隔离性和可串行性；恢复处理故障，存取控制管理权限，协商不是数据库并发控制机制。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   若事务T对数据R已经加排它锁，则其他事务对数据R:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 可以加共享锁不能加排它锁
+   - :option[B]{#b} 不能加共享锁可以加排它锁
+   - :option[C]{#c} 可以加共享锁也可以加排它锁
+   - :option[D]{#d} 不能加任何锁
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="d"}
+
+   排它锁与任何其他锁都不兼容：其他事务在锁释放前既不能获得共享锁，也不能获得排它锁。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   事务的隔离级别中，:choice-slot{}可以解决幻象读问题。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} READ UNCOMMITTED
+   - :option[B]{#b} READ COMMITTED
+   - :option[C]{#c} REPEATABLE READ
+   - :option[D]{#d} SERIALIZABLE
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="d"}
+
+   按SQL标准的隔离级别表，只有`SERIALIZABLE`完全避免幻读；具体DBMS可能用间隙锁或MVCC在较低名义级别上提供更强效果。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   关于“死锁”，下列说法中正确的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 死锁是操作系统中的问题，数据库操作中不存在
+   - :option[B]{#b} 在数据库操作中防止死锁的方法是禁止两个用户同时操作数据库
+   - :option[C]{#c} 当两个用户竞争相同资源时不会发生死锁
+   - :option[D]{#d} 只有出现并发操作时，才有可能出现死锁
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="d"}
+
+   数据库也会发生死锁，不能靠禁止两个用户完全并发来根本解决；竞争资源时需要同时满足死锁条件才可能死锁。死锁只会在多个事务或进程并发持有并等待资源时出现，因此D正确。
+
+   :::
+
+### 二、填空题
+
+
+8. ::question{#fill-1 number="1"}
+
+   MySQL默认的事务隔离级别是:blank{#blank-fill-1-1 type="text" placeholder="填写隔离级别"}。
+
+   :::reference
+
+   ::correct{blank="blank-fill-1-1" value="REPEATABLE READ"}
+
+   InnoDB的默认隔离级别是`REPEATABLE READ`；它通过一致性读和多版本机制支持可重复读，具体锁行为还要结合语句和版本理解。
+
+   :::
+
+9. ::question{#fill-2 number="2"}
+
+   MySQL提供了两种粒度的封锁：:blank{#blank-fill-2-1 type="text" placeholder="填写封锁粒度"}和:blank{#blank-fill-2-2 type="text" placeholder="填写封锁粒度"}。
+
+   :::reference
+
+   ::correct{blank="blank-fill-2-1" value="表级锁"}
+
+   ::correct{blank="blank-fill-2-2" value="行级锁"}
+
+   MySQL的InnoDB支持表级锁和行级锁；行级锁冲突更小，但管理开销更大，也可能产生死锁。
+
+   :::
+
+10. ::question{#fill-3 number="3"}
+
+    在事务等待图中，如果两个事务形成一个循环，那么就会出现:blank{#blank-fill-3-1 type="text" placeholder="填写异常现象"}现象。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="死锁"}
+
+    事务依赖或等待图中形成环，说明每个事务都在等待环中另一个事务持有的资源，这就是死锁。
+
+    :::
+
+11. ::question{#fill-4 number="4"}
+
+    解决活锁，主要采用:blank{#blank-fill-4-1 type="text" placeholder="填写调度原则"}原则。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="先来先服务"}
+
+    避免活锁需要让等待者有机会获得资源，常用先来先服务或公平排队策略，防止后来事务持续抢占。
+
+    :::
+
+### 三、简答题
+
+
+12. ::question{#short-1 number="1"}
+
+    简述事务并发操作可能导致的问题，分别描述产生的原因。
+
+    :::reference
+
+    （1）丢失更新：当两个事务对同一数据进行并发执行修改操作时，事务T1把事务T2的修改结果覆盖掉了。
+    （2）脏读：事务T1更新了某数据，事务T2读取了更新后的数据，然而事务T1撤销操作，将数据恢复原值。
+    （3）不可重复读：事务T1连续两次读取同一数据，首次读取了数据，事务T2更新了数据，当事务T1再读取数据时，两次读取值不一致。
+    （4）幻象读：事务T1用相同的条件连续查询记录时，由于其他事务对数据记录进行了删除或添加，导致事务T1查询到的记录数量忽多忽少。
+
+    :::
+
+13. ::question{#short-2 number="2"}
+
+    说明死锁产生的原因及解除方法。
+
+    :::reference
+
+    死锁产生的原因是事务封锁了其它事务请求的资源，同时又继续请求被其他事务锁定的资源。
+    死锁解除方法有两种：一次加锁法，即事务开始前一次性锁定所有使用的资源，全部锁成功才开始执行事务；顺序加锁法，预先对所有可加锁的数据对象规定一个加锁顺序，每个事务都需要按此顺序加锁，在释放时，按逆序进行。
+
+    :::
+
+14. ::question{#short-3 number="3"}
+
+    简述三级封锁协议的含义及它们分别可以避免什么问题。
+
+    :::reference
+
+    一级封锁协议的内容是：事务T在修改数据对象之前必须对其加X锁，直到事务结束。一级封锁协议避免了丢失更新问题。
+    在一级封锁协议的基础上，另外加上事务T在读取数据R之前必须先对其加S锁，读完后释放S锁。二级封锁协议避免了丢失更新与脏读问题。
+    在一级封锁协议的基础上，另外加上事务T在读取数据R之前必须先对其加S锁，读完后并不释放S锁，而直到事务T结束才释放。三级封锁协议避免了丢失更新、脏读及不可重复读问题。
+
+    :::
+
+15. ::question{#short-4 number="4"}
+
+    简述四级隔离级别分别可以避免什么问题。
+
+    :::reference
+
+    READ UNCOMMITTED避免了丢失更新；READ COMMITTED隔离级别避免了丢失更新与脏读；REPEATABLE READ隔离级别避免了丢失更新、脏读与不可重复读；SERIALIZABLE则避免了所有的并发问题，包括幻象读。
+
+    :::

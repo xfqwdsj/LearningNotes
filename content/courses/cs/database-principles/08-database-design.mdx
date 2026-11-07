@@ -1,0 +1,49 @@
+---
+title: 第8章&#32;数据库设计
+description: 按需求、概念、逻辑、物理、实施和维护阶段完成数据库系统设计。
+order: 8
+---
+
+## 学习路线
+
+先明确需求分析是设计的起点。数据流图描述处理和数据流，数据字典定义数据项、结构、存储与处理过程，两者共同表达功能与信息需求。
+
+概念设计产生E-R图，逻辑设计把E-R图转换为关系模式并依据规范化理论优化，物理设计确定存储结构、存取方法、索引和系统配置。
+
+实施阶段建立实际结构、装入数据、调试程序并进行试运行；运行维护阶段持续备份恢复、维护安全和完整性、监测性能和重组重构。
+
+## 复习要点
+
+- 需求分析决定“系统要做什么”，概念设计解决“如何抽象业务结构”。
+- 规范化是逻辑设计的重要工具，但不是数据库设计的最终目的。
+- 物理设计的核心评价指标是时间、空间和维护开销。
+- 重组改变物理存储，重构调整模式或内模式。
+
+## 核心内容
+
+### 数据库设计过程
+
+::knowledge{path="cs/databases/database-design-process"}
+
+### E-R建模与局部视图集成
+
+::knowledge{path="cs/databases/er-modeling"}
+
+### E-R模型到关系模式的转换
+
+::knowledge{path="cs/databases/er-to-relational"}
+
+### 关系范式与规范化
+
+::knowledge{path="cs/databases/normal-forms"}
+
+## 知识页面
+
+- [数据库设计过程](/knowledge/cs/databases/database-design-process/)
+- [E-R建模与局部视图集成](/knowledge/cs/databases/er-modeling/)
+- [E-R模型到关系模式的转换](/knowledge/cs/databases/er-to-relational/)
+- [关系范式与规范化](/knowledge/cs/databases/normal-forms/)
+
+## 教材习题
+
+[第8章教材习题](/tasks/cs/database-principles/exercise/chapter-08/)

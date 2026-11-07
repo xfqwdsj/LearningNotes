@@ -1,0 +1,79 @@
+---
+title: SQL数据操纵与约束
+description: 使用INSERT、UPDATE、DELETE修改关系数据，并分析三类完整性对数据变化的影响。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+数据操纵语言改变表中的元组。每条写入语句都必须满足当前表上的完整性约束，否则整个操作失败。
+
+## 插入数据
+
+不指定列名时，`VALUES`必须按照表定义中的列顺序给出全部列值：
+
+```sql
+INSERT INTO major
+VALUES ('1541', '信息管理', 4);
+```
+
+指定列名时，可以省略允许为空或有默认值的列：
+
+```sql
+INSERT INTO student (sno, sname, ssex, sbirth)
+VALUES ('2415410101', '李爱学', '男', '2006-11-25');
+```
+
+插入时必须检查主键非空且唯一、外键值存在、非空字段有值以及`CHECK`条件成立。
+
+## 修改数据
+
+::section{#update}
+
+```sql
+UPDATE course
+SET chour = 54
+WHERE cno = '150002';
+```
+
+缺少`WHERE`时，`SET`会作用于表中所有行。更新主键需要同时满足唯一性和非空性；更新外键时，新值必须能参照到主表中的键值。
+
+更新被参照表的主键还会影响从表。外键可以声明`ON UPDATE`动作：
+
+- `RESTRICT`或`NO ACTION`：存在引用时拒绝更新。
+- `CASCADE`：同步修改从表中的外键值。
+- `SET NULL`：把从表外键改为空值。
+
+## 删除数据
+
+::section{#delete}
+
+```sql
+DELETE FROM course
+WHERE cname = '统计学';
+```
+
+缺少`WHERE`时删除全部行，但表结构仍保留。删除操作主要受参照完整性制约；当被删除主表记录仍被从表引用时，可以拒绝删除、级联删除或把外键设为空。
+
+```sql
+ALTER TABLE tc
+ADD CONSTRAINT fk_tc_tno
+FOREIGN KEY (tno) REFERENCES teacher (tno)
+ON DELETE SET NULL;
+```
+
+真实业务中通常需要保留历史记录。可以在业务层用状态字段标记作废，或把记录移入历史表，而不是直接删除。
+
+## 约束如何影响DML
+
+::section{#effects}
+
+| 操作 | 实体完整性 | 参照完整性 | 用户自定义完整性 |
+| --- | --- | --- | --- |
+| `INSERT` | 检查 | 检查 | 检查 |
+| `UPDATE` | 检查 | 检查 | 检查 |
+| `DELETE` | 不直接检查 | 可能检查 | 不直接检查 |
+
+约束失败时，数据库拒绝该次修改并保持原状态。外键动作需要从业务角度选择，不能把所有删除都设置为级联，以免误删相关数据。
+

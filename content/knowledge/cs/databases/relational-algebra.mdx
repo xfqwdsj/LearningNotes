@@ -1,0 +1,77 @@
+---
+title: 关系代数
+description: 使用集合运算、选择、投影、连接和除法表达关系查询。
+---
+
+## 定义
+
+::section{#definition slot="knowledge.definition"}
+
+关系代数的运算对象和运算结果都是关系。它强调查询要得到什么结果，而不规定具体执行步骤。
+
+## 集合运算
+
+并、交、差要求参与运算的关系相容：度相同，且对应属性来自相同的域。
+
+设$R$和$S$相容：
+
+$$
+R\cup S=\{t\mid t\in R\lor t\in S\}
+$$
+
+$$
+R\cap S=\{t\mid t\in R\land t\in S\}
+$$
+
+$$
+R-S=\{t\mid t\in R\land t\notin S\}
+$$
+
+广义笛卡尔积$R\times S$把$R$的每个元组与$S$的每个元组连接。若$R$有$m$个元组、$n$个属性，$S$有$p$个元组、$q$个属性，则结果有$mp$个元组和$n+q$个属性。
+
+## 选择与投影
+
+::section{#operations}
+
+选择按行筛选：
+
+$$
+\sigma_F(R)=\{t\mid t\in R\land F(t)\}.
+$$
+
+投影按列筛选：
+
+$$
+\Pi_A(R)=\{t[A]\mid t\in R\}.
+$$
+
+投影后必须消除重复元组。选择与投影可以组合，例如查询讲授某门课程的教师号：
+
+$$
+\Pi_{\mathrm{tno}}
+\left(
+\sigma_{\mathrm{cno}='160001'}(\mathrm{TC})
+\right).
+$$
+
+## 连接与除法
+
+::section{#join-division}
+
+一般连接先取笛卡尔积，再保留满足比较条件的元组：
+
+$$
+R\bowtie_{X\theta Y}S
+=\sigma_{X\theta Y}(R\times S).
+$$
+
+等值连接使用`=`作为比较条件。自然连接要求两个关系具有同名、同域属性，按这些属性相等匹配，并在结果中消除重复列。
+
+除法适合表达“包含全部”的查询。若$R(X,Y)$、$S(Y,Z)$，则$R\div S$返回那些在$R$中与$S$的每个$Y$值都有关联的$X$值。
+
+设$T=\Pi_X(R)$，$W=T\times\Pi_Y(S)-R$，$V=\Pi_X(W)$，则
+
+$$
+R\div S=T-V.
+$$
+

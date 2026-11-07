@@ -1,0 +1,37 @@
+---
+title: 第6章&#32;视图与索引
+description: 使用视图封装查询与权限范围，并通过索引优化记录访问。
+order: 6
+---
+
+## 学习路线
+
+视图是查询定义的虚表，可以从基础表或其他视图导出。学习时重点理解视图如何简化查询、限制可见数据、提供逻辑独立性，以及什么时候无法唯一映射为对基础表的更新。
+
+索引从记录组织与$B^+$树开始，再区分聚集索引和非聚集索引。复合索引的字段顺序影响匹配方式，索引越多并不意味着查询越快。
+
+## 复习要点
+
+- 视图通常保存定义，不保存一份独立的完整数据副本。
+- 含聚合、分组、去重、集合运算的视图通常不可更新。
+- 主键索引通常由DBMS自动建立，InnoDB的表数据按聚簇索引组织。
+- 索引提高读取效率，但会占用空间并增加写入维护成本。
+
+## 核心内容
+
+### 数据库视图
+
+::knowledge{path="cs/databases/database-views"}
+
+### 数据库索引
+
+::knowledge{path="cs/databases/database-indexes"}
+
+## 知识页面
+
+- [数据库视图](/knowledge/cs/databases/database-views/)
+- [数据库索引](/knowledge/cs/databases/database-indexes/)
+
+## 教材习题
+
+[第6章教材习题](/tasks/cs/database-principles/exercise/chapter-06/)

@@ -1,0 +1,388 @@
+---
+title: 第11章&#32;存储过程与触发器教材习题
+description: 第11章《存储过程与触发器》的教材习题与参考答案。
+order: 11
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-11}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   MySQL中用户会话变量名的前面应加的字符是:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} `@`
+   - :option[B]{#b} `@@`
+   - :option[C]{#c} `#`
+   - :option[D]{#d} `*`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="a"}
+
+   MySQL会话变量以单个`@`开头；系统变量以`@@`开头。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   在MySQL编程中，可用于跳出循环的语句是:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} `BREAK`
+   - :option[B]{#b} `CONTINUE`
+   - :option[C]{#c} `EXIT`
+   - :option[D]{#d} `LEAVE`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="d"}
+
+   MySQL的循环控制使用`LEAVE`跳出当前循环或代码块，`ITERATE`进入下一轮；`BREAK`和`EXIT`不是这里对应的MySQL语法。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   以下说法中正确的是:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 存储过程是所在数据库中的一个对象
+   - :option[B]{#b} 存储过程必须至少有一个参数
+   - :option[C]{#c} 调用有参函数时，实参的个数可根据实际需要进行个数调整
+   - :option[D]{#d} 要删除函数可以使用`DROP FUNCTION`语句
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="a"}
+
+   存储过程依附于数据库并作为数据库对象保存，因此A成立。存储过程参数可以为零个，函数调用时实参数量必须与形参匹配；`DROP FUNCTION`本身也是删除函数的合法命令，所以本题按教材答案选A。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   下面有关触发器的叙述错误的是:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 触发器是一种特殊的存储过程
+   - :option[B]{#b} 触发器可以引用所在数据库以外的对象
+   - :option[C]{#c} 一个表上可以定义多个触发器
+   - :option[D]{#d} 触发器创建之后不能修改
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="b"}
+
+   触发器由DML事件自动激活，通常不能像普通过程一样独立执行；它依附于表，并在同一数据库中引用相关对象。创建后不能直接修改定义，需要删除后重建，因此B是错误叙述。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   创建存储过程应使用的语句是:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} `CREATE PROCEDURE`
+   - :option[B]{#b} `DROP PROCEDURE`
+   - :option[C]{#c} `CREATE FUNCTION`
+   - :option[D]{#d} `DROP FUNCTION`
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="a"}
+
+   `CREATE PROCEDURE`创建存储过程；`CREATE FUNCTION`创建存储函数，两个`DROP`语句用于删除对象。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   下列关于触发器的描述正确的是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 触发器被触发的时刻可以指定为BEFORE或者AFTER
+   - :option[B]{#b} 利用触发器可以维护数据的完整性
+   - :option[C]{#c} 删除一个表的同时也会删除该表上所有的触发器
+   - :option[D]{#d} 以上都正确
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="d"}
+
+   MySQL触发器可指定`BEFORE`或`AFTER`，能在写入前后校验或补充数据；删除表时其触发器也会随表对象一起删除，因此前三项均正确。
+
+   :::
+
+7. ::question{#choice-7 number="7"}
+
+   下列关于存储过程的优点描述中，不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-7 mode="single"}
+
+   - :option[A]{#a} 有利于减少网络流量
+   - :option[B]{#b} 可以作为安全机制使用
+   - :option[C]{#c} 可以保证数据的完整性
+   - :option[D]{#d} 预编译之后，执行速度快
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-7" option="c"}
+
+   存储过程可以减少网络往返、封装权限并在服务端执行，但仅靠存储过程不能自动保证所有数据完整性；完整性还需要约束和业务检查共同保证。
+
+   :::
+
+8. ::question{#choice-8 number="8"}
+
+   在关系数据库中，当数据表被修改时，系统会自动执行的数据库对象是:choice-slot{}。
+
+   :::choices{#options-choice-8 mode="single"}
+
+   - :option[A]{#a} 存储过程
+   - :option[B]{#b} 触发器
+   - :option[C]{#c} 视图
+   - :option[D]{#d} 其他数据库对象
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-8" option="b"}
+
+   触发器由表上的插入、更新或删除事件自动激活；存储过程通常要显式调用，视图和被选中的其他对象不会因此自动执行。
+
+   :::
+
+9. ::question{#choice-9 number="9"}
+
+   下面关于触发器的描述，错误的是:choice-slot{}。
+
+   :::choices{#options-choice-9 mode="single"}
+
+   - :option[A]{#a} 触发器是一种特殊的存储过程，用户可以直接调用
+   - :option[B]{#b} 触发器在执行时会有跟触发器表结构相同的临时对象存在
+   - :option[C]{#c} 触发器可以用来定义比CHECK约束更复杂的规则
+   - :option[D]{#d} 删除触发器可以使用DROP TRIGGER命令
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-9" option="a"}
+
+   触发器不是用户可以像存储过程那样直接`CALL`的对象，它只能在对应表的DML事件发生时由DBMS自动触发。两阶段临时行对象、复杂规则和`DROP TRIGGER`的说法都成立。
+
+   :::
+
+10. ::question{#choice-10 number="10"}
+
+    下面关于触发器功能的描述，错误的是:choice-slot{}。
+
+    :::choices{#options-choice-10 mode="single"}
+
+    - :option[A]{#a} 可以强化约束
+    - :option[B]{#b} 能够级联运行
+    - :option[C]{#c} 能够提高安全性
+    - :option[D]{#d} 可以调用存储过程
+
+    :::
+
+    :::reference
+
+    ::correct{input="options-choice-10" option="c"}
+
+    触发器可强化约束、通过调用其他过程级联操作，也能调用存储过程；但“提高安全性”不是触发器的基本功能，权限控制仍应由用户、角色和授权机制完成。
+
+    :::
+
+### 二、填空题
+
+
+11. ::question{#fill-1 number="1"}
+
+    将存储过程`myproc`删除的语句是:blank{#blank-fill-1-1 type="text" placeholder="输入SQL语句"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-1-1" value="DROP PROCEDURE myproc" ignore-case="true"}
+
+    删除存储过程使用`DROP PROCEDURE myproc`；删除存储函数则应使用`DROP FUNCTION`。
+
+    :::
+
+12. ::question{#fill-2 number="2"}
+
+    将函数值从函数体中返回的语句是:blank{#blank-fill-2-1 type="text" placeholder="填写关键字"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-2-1" value="RETURN" ignore-case="true"}
+
+    存储函数必须在函数体中使用`RETURN`返回一个标量值；存储过程通过`OUT`或`INOUT`参数向调用者传回结果。
+
+    :::
+
+13. ::question{#fill-3 number="3"}
+
+    从触发时间上看触发器分为:blank{#blank-fill-3-1 type="text" placeholder="填写触发时机"}和:blank{#blank-fill-3-2 type="text" placeholder="填写触发时机"}两类。
+
+    :::reference
+
+    ::correct{blank="blank-fill-3-1" value="BEFORE" ignore-case="true"}
+
+    ::correct{blank="blank-fill-3-2" value="AFTER" ignore-case="true"}
+
+    按触发时机，触发器分为`BEFORE`和`AFTER`：前者在DML修改行之前执行，后者在修改之后执行。
+
+    :::
+
+14. ::question{#fill-4 number="4"}
+
+    语句块定义的关键词分别是:blank{#blank-fill-4-1 type="text" placeholder="填写关键字"}和:blank{#blank-fill-4-2 type="text" placeholder="填写关键字"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="BEGIN" ignore-case="true"}
+
+    ::correct{blank="blank-fill-4-2" value="END" ignore-case="true"}
+
+    MySQL语句块以`BEGIN`开始、以`END`结束；包含多条语句的例程通常还需要通过`DELIMITER`帮助客户端正确解析。
+
+    :::
+
+15. ::question{#fill-5 number="5"}
+
+    MySQL中触发器工作时，有两个特别重要的临时对象用于获取触发事件影响的记录，这两个对象分别是:blank{#blank-fill-5-1 type="text" placeholder="填写对象名称"}和:blank{#blank-fill-5-2 type="text" placeholder="填写对象名称"}。
+
+    :::reference
+
+    ::correct{blank="blank-fill-5-1" value="NEW" ignore-case="true"}
+
+    ::correct{blank="blank-fill-5-2" value="OLD" ignore-case="true"}
+
+    触发器中`NEW`引用插入后或更新后的行，`OLD`引用更新前或删除前的行；具体可使用哪个对象取决于触发事件。
+
+    :::
+
+### 三、简答题
+
+
+16. ::question{#short-1 number="1"}
+
+    存储过程有哪些优点？
+
+    :::reference
+
+    （1）封装业务操作。复杂操作可以封装在存储过程中，对用户隐藏内部实现。
+    （2）促进模块化设计。复杂的数据处理可以分解为多个存储过程，并通过相互调用完成业务。
+    （3）提高执行效率。存储过程在创建时完成编译、分析和优化，后续调用可以直接复用执行计划。
+    （4）减少网络流量并简化客户端编程。调用一条存储过程语句即可替代发送大量代码和原始数据。
+    （5）提供安全边界。通过封装DML隐藏数据库结构，避免只依靠直接授予用户数据对象权限。
+
+    :::
+
+17. ::question{#short-2 number="2"}
+
+    简述存储过程和存储函数的区别。
+
+    :::reference
+
+    （1）存储过程参数可以有`IN`、`OUT`、`INOUT`三种类型；存储函数参数只有`IN`类型。
+    （2）存储过程通过`CALL`作为独立语句执行；存储函数在表达式中调用。
+    （3）存储过程通过`OUT`参数带回多个值；存储函数必须使用`RETURN`返回且只返回一个值。
+    （4）存储过程可以调用存储函数。存储函数不能调用存储过程。
+    （5）存储过程主要用于执行并完成某个功能操作。存储函数主要用于计算并返回一个函数值。
+
+    :::
+
+18. ::question{#short-3 number="3"}
+
+    什么是触发器？触发器的作用有哪些？
+
+    :::reference
+
+    触发器是用户定义在关系表上的一类由事件（主要是DML）驱动的存储过程，由服务器自动激活，它的优点是不管什么原因造成的数据变化都能自动响应。触发器作用主要有：
+    （1）数据操作的安全性检查，防止某些操作。
+    （2）数据库的自定义审计，将特别关注的信息额外记录起来。
+    （3）数据的备份和同步，通过触发器实现信息的转移备份或信息同步。
+    （4）实现复杂的数据库完整性约束，触发器可以实现统计类完整性约束和基于数据新旧值的完整性约束。
+    （5）自动计算数据值，可以按照业务规则自动更新数据或自动统计并更新数据。
+
+    :::
+
+19. ::question{#short-4 number="4"}
+
+    在MySQL中创建一个存储过程，用于将指定的开课班编号给指定班级号的所有同学都选修该开课班课程。
+
+    :::reference
+
+    ```sql
+    DELIMITER $$
+
+    CREATE PROCEDURE add_course_to_class(
+      IN p_tcno CHAR(10),
+      IN p_clno CHAR(8)
+    )
+    BEGIN
+      INSERT INTO sc (sno, tcno)
+      SELECT sno, p_tcno
+      FROM student
+      WHERE clno = p_clno;
+    END$$
+
+    DELIMITER ;
+    ```
+
+    :::
+
+20. ::question{#short-5 number="5"}
+
+    在MySQL中创建触发器trig_tecsal_update，用于在修改教师工资sal时，限定工资只能增长不能降低，否则取消修改。
+
+    :::reference
+
+    ```sql
+    DELIMITER $$
+
+    CREATE TRIGGER trig_tecsal_update
+    BEFORE UPDATE ON teacher
+    FOR EACH ROW
+    BEGIN
+      IF NEW.sal < OLD.sal THEN
+        SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = '工资只能增长，不能降低';
+      END IF;
+    END$$
+
+    DELIMITER ;
+    ```
+
+    :::

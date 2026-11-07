@@ -1,0 +1,254 @@
+---
+title: 第6章&#32;视图与索引教材习题
+description: 第6章《视图与索引》的教材习题与参考答案。
+order: 6
+---
+
+## 教材习题
+
+::section{#problems slot="task.problems"}
+
+::problems{#chapter-06}
+
+### 一、选择题
+
+
+1. ::question{#choice-1 number="1"}
+
+   以下关于视图的描述中，不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-1 mode="single"}
+
+   - :option[A]{#a} 视图是外模式
+   - :option[B]{#b} 使用视图可以加快查询语句的执行速度
+   - :option[C]{#c} 视图是虚表
+   - :option[D]{#d} 使用视图可以加快查询语句的编写
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-1" option="b"}
+
+   普通视图是存储查询定义的虚表，不会预先物化全部结果，因此不能笼统地说使用视图会加快查询执行。它可以简化查询编写、限制可见列和提供逻辑独立性。
+
+   :::
+
+2. ::question{#choice-2 number="2"}
+
+   关于索引作用的描述，不正确的是:choice-slot{}。
+
+   :::choices{#options-choice-2 mode="single"}
+
+   - :option[A]{#a} 索引可以加快数据查询速度
+   - :option[B]{#b} 索引可以加快数据更新速度
+   - :option[C]{#c} 索引可以加快表之间的链接
+   - :option[D]{#d} 索引可以保证数据的唯一性
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-2" option="b"}
+
+   索引需要通过额外结构定位记录，能加快符合条件的查询，但插入、删除和更新索引列时需要维护索引，通常会降低更新速度。唯一索引还可以约束唯一性。
+
+   :::
+
+3. ::question{#choice-3 number="3"}
+
+   视图优点不包括:choice-slot{}。
+
+   :::choices{#options-choice-3 mode="single"}
+
+   - :option[A]{#a} 简化用户查询操作
+   - :option[B]{#b} 重新定制数据
+   - :option[C]{#c} 提高数据查询速度
+   - :option[D]{#d} 合并分割数据
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-3" option="c"}
+
+   视图的主要价值是简化查询、定制可见数据和合并或分割数据视图；普通视图不存储结果，也不能一般性保证查询加速。
+
+   :::
+
+4. ::question{#choice-4 number="4"}
+
+   在关系数据库系统中，为了简化用户的查询操作，而又不增加数据的存储空间，常用的方法是创建:choice-slot{}。
+
+   :::choices{#options-choice-4 mode="single"}
+
+   - :option[A]{#a} 视图
+   - :option[B]{#b} 游标
+   - :option[C]{#c} 另一个表
+   - :option[D]{#d} 索引
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-4" option="a"}
+
+   视图是保存查询定义的虚表，不需要复制一份数据，又能让用户直接查询简化后的结构；创建索引会增加存储，游标不是简化查询的数据对象。
+
+   :::
+
+5. ::question{#choice-5 number="5"}
+
+   索引项的顺序与表中记录的物理顺序一致的索引，称之为:choice-slot{}。
+
+   :::choices{#options-choice-5 mode="single"}
+
+   - :option[A]{#a} 复合索引
+   - :option[B]{#b} 唯一性索引
+   - :option[C]{#c} 聚集索引
+   - :option[D]{#d} 非聚集索引
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-5" option="c"}
+
+   聚集索引决定数据记录的物理组织顺序，索引项顺序与记录物理顺序一致；非聚集索引的索引项顺序通常不同于数据行物理顺序。
+
+   :::
+
+6. ::question{#choice-6 number="6"}
+
+   下面关于索引的说法中正确的是:choice-slot{}。
+
+   :::choices{#options-choice-6 mode="single"}
+
+   - :option[A]{#a} 索引依附于表，因此索引数据也存储在表中
+   - :option[B]{#b} 索引只要创建了，就必然有用
+   - :option[C]{#c} 索引创建后，用户无法验证索引是否有效
+   - :option[D]{#d} 索引尽管删除，不会影响到所依附的表
+
+   :::
+
+   :::reference
+
+   ::correct{input="options-choice-6" option="d"}
+
+   索引是依附于表的独立对象，删除索引不会删除表本身。索引是否有效取决于查询条件和数据分布，创建后可以使用执行计划等方式验证；删除索引可能影响查询性能，但不会删除表数据。
+
+   :::
+
+### 二、填空题
+
+
+7. ::question{#fill-1 number="1"}
+
+   按照索引记录的存放位置，索引可分为:blank{#blank-fill-1-1 type="text" placeholder="填写索引类型"}和:blank{#blank-fill-1-2 type="text" placeholder="填写索引类型"}。
+
+   :::reference
+
+   ::correct{blank="blank-fill-1-1" value="聚集索引"}
+
+   ::correct{blank="blank-fill-1-2" value="非聚集索引"}
+
+   按索引项与数据记录的存放关系，聚集索引使记录按索引键组织，非聚集索引则把索引项与数据行分开组织。
+
+   :::
+
+8. ::question{#fill-2 number="2"}
+
+   视图是虚表，其数据不进行存储，只在数据库中存储其:blank{#blank-fill-2-1 type="text" placeholder="填写存储内容"}。
+
+   :::reference
+
+   ::correct{blank="blank-fill-2-1" value="定义"}
+
+   视图是虚表，数据库中保存的是视图定义及其依赖信息，而不是把查询结果另存一份。
+
+   :::
+
+9. ::question{#fill-3 number="3"}
+
+   创建视图时，若想限制对视图的更新，则需要在创建语句中加上:blank{#blank-fill-3-1 type="text" placeholder="填写SQL选项"}。
+
+   :::reference
+
+   ::correct{blank="blank-fill-3-1" value="With check option"}
+
+   `WITH CHECK OPTION`要求通过视图修改后的行仍满足视图定义中的条件，从而限制越界更新。
+
+   :::
+
+10. ::question{#fill-4 number="4"}
+
+    创建索引时，默认创建的索引属于:blank{#blank-fill-4-1 type="text" placeholder="填写数据结构"}结构。
+
+    :::reference
+
+    ::correct{blank="blank-fill-4-1" value="B+树"}
+
+    MySQL的InnoDB默认使用B+树组织索引，叶子节点按顺序连接，适合范围查询和排序。
+
+    :::
+
+### 三、简答题
+
+
+11. ::question{#short-1 number="1"}
+
+    在对数据库进行操作的过程中，设置视图机制有什么优点？
+
+    :::reference
+
+    （1）简化用户的操作。对于复杂的操作，用户可以通过创建视图化繁为简。
+    （2）使用户能以多种角度看待同一数据库模式。可以为用户建立自己的视图，从而看到一个不同的简化数据库。
+    （3）提供了一定程度的逻辑独立性。当数据库模式结构进行调整时，只需要调整视图定义中的内容即可，不需要修改程序代码，从而提供了逻辑独立性。
+    （4）能够对数据库中的机密数据提供一定程度的安全保护。一是通过视图进行数据的筛选，将机密数据排除在视图之外；二是为用户授权时可以直接授予视图上的权限，而不授予数据表上的权限，从而避免权限的无意泄露和传递。
+    （5）适当地利用视图可以更清晰地表达查询。通过视图可以层层分解复杂的查询并简化逻辑，从而使查询实现表达的更加清晰。
+    （6）视图可用于数据集成。在分布式数据库环境下，视图也可以用于数据集成。
+
+    :::
+
+12. ::question{#short-2 number="2"}
+
+    简要总结对视图进行数据更新的制约因素。
+
+    :::reference
+
+    以下情况下不能对进行更新。
+    （1）视图字段列表或查询语句中包含聚合函数。
+    （2）视图字段列表或查询语句是通过表达式或计算得到的。
+    （3）视图定义语句中包含DISTINCT关键字或GROUP BY、ORDER BY、HAVING子句。
+    （4）视图定义的查询语句中使用了集合查询UNION或UNION ALL。
+    （5）视图的列来自于查询语句中子查询的列。
+    （6）视图依赖于其他不可更新视图建立。
+    （7）带有with check option的视图的更新数据不符合视图中where条件。
+
+    :::
+
+13. ::question{#short-3 number="3"}
+
+    简要总结创建索引的原则。
+
+    :::reference
+
+    （1）经常用于查询且更新较少的表才适合创建索引。
+    （2）数据量越大的表越适合创建索引。
+    （3）每次查询的数据比例越小，越适合创建索引。
+    （4）在取值重复率较大的字段上不要创建默认的B树索引。
+    （5）要为经常需要排序、分组和连接查询的字段建立索引。
+    （6）索引创建后，要时常对索引进行监控，以便删除那些系统不会使用的索引。
+
+    :::
+
+14. ::question{#short-4 number="4"}
+
+    简要对比聚集索引与唯一性索引的异同点。
+
+    :::reference
+
+    聚集索引是根据索引数据及记录的存放形式划分的，一般情况下，没有聚集索引的表是堆文件，创建了聚集索引后，则数据记录就按照$B^+$树进行组织存储，记录直接存储在叶子节点上，进而完成了索引与记录存储的统一。一般DBMS都对主键自动创建聚集索引，因此，聚集索引一般只是少是唯一性索引。
+    如果聚集索引因主键而创建，其索引字段不能为`NULL`，也不能重复；唯一索引要求字段值不重复，但可以为`NULL`。
+
+    :::

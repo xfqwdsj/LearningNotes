@@ -1,0 +1,55 @@
+---
+title: 第1章&#32;数据库系统概述
+description: 建立数据、数据库、DBMS、数据库系统、三级模式和数据模型的整体框架。
+order: 1
+---
+
+## 学习路线
+
+先从“数据需要语义才能表达信息”出发，区分DB与DBMS，再把它们放回包含应用、硬件、操作系统和用户的数据库系统中理解。
+
+三级模式描述数据库内部结构。外模式面向应用，模式描述全局逻辑结构，内模式描述物理存储；两层映像分别支撑逻辑独立性和物理独立性。
+
+最后梳理概念模型、逻辑模型和物理模型的抽象层次，并掌握数据结构、数据操作和完整性约束三个模型要素。
+
+## 复习要点
+
+- 数据库系统不等于数据库，DBMS是数据库系统的核心软件。
+- 一个数据库只有一个模式和一个内模式，可以有多个外模式。
+- 逻辑独立性调整外模式/模式映像，物理独立性调整模式/内模式映像。
+- 数据模型用于设计，数据模式是建模后得到的具体结构。
+- MySQL、PostgreSQL、Oracle等DBMS采用不同实现，应根据事务、规模、许可和运维要求选型。
+
+## 核心内容
+
+### 数据与数据库
+
+::knowledge{path="cs/databases/data-and-database"}
+
+### 数据库管理系统
+
+::knowledge{path="cs/databases/database-management-system"}
+
+### 数据库系统
+
+::knowledge{path="cs/databases/database-system"}
+
+### 数据库三级模式与数据独立性
+
+::knowledge{path="cs/databases/three-level-schema"}
+
+### 数据模型及其层次
+
+::knowledge{path="cs/databases/data-models"}
+
+## 知识页面
+
+- [数据与数据库](/knowledge/cs/databases/data-and-database/)
+- [数据库管理系统](/knowledge/cs/databases/database-management-system/)
+- [数据库系统](/knowledge/cs/databases/database-system/)
+- [数据库三级模式与数据独立性](/knowledge/cs/databases/three-level-schema/)
+- [数据模型及其层次](/knowledge/cs/databases/data-models/)
+
+## 教材习题
+
+[第1章教材习题](/tasks/cs/database-principles/exercise/chapter-01/)

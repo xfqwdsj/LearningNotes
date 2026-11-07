@@ -1,0 +1,45 @@
+---
+title: 第7章&#32;关系规范化
+description: 从数据异常和函数依赖出发，判断候选键与范式，并评价模式分解。
+order: 7
+---
+
+## 学习路线
+
+先用“学生—系—课程—成绩”关系识别数据冗余、插入异常、删除异常和更新异常，再引入函数依赖解释异常来源。
+
+候选键问题优先通过属性闭包解决。判断属性在依赖中的出现类别可以减少组合数量，但仍要用闭包验证完整属性和最小性。
+
+范式部分依次比较$1\mathrm{NF}$、$2\mathrm{NF}$、$3\mathrm{NF}$和$\mathrm{BCNF}$。模式分解后必须同时判断无损连接和函数依赖保持，不能只看子模式分别属于什么范式。
+
+## 复习要点
+
+- $2\mathrm{NF}$消除非主属性对候选键的部分依赖。
+- $3\mathrm{NF}$消除非主属性对候选键的传递依赖。
+- $\mathrm{BCNF}$要求每个非平凡函数依赖的决定因子都是超键。
+- 无损连接保证连接后能恢复原关系，保持依赖保证各子模式能体现原约束。
+- 二元分解先检查公共属性；三个及以上子模式使用通用表格法，并反复应用函数依赖直到表格稳定。
+
+## 核心内容
+
+### 函数依赖与属性闭包
+
+::knowledge{path="cs/databases/functional-dependencies"}
+
+### 关系范式与规范化
+
+::knowledge{path="cs/databases/normal-forms"}
+
+### 关系模式分解：无损连接与保持依赖
+
+::knowledge{path="cs/databases/schema-decomposition"}
+
+## 知识页面
+
+- [函数依赖与属性闭包](/knowledge/cs/databases/functional-dependencies/)
+- [关系范式与规范化](/knowledge/cs/databases/normal-forms/)
+- [关系模式分解：无损连接与保持依赖](/knowledge/cs/databases/schema-decomposition/)
+
+## 教材习题
+
+[第7章教材习题](/tasks/cs/database-principles/exercise/chapter-07/)
