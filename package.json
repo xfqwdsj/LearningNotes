@@ -38,7 +38,7 @@
     "clipboard-copy": "^4.0.1",
     "clsx": "^2.1.1",
     "flexsearch": "^0.8.212",
-    "hast-util-from-html": "^2.0.3",
+    "hast-util-from-html": "^2.1.0",
     "hast-util-to-html": "^9.0.6",
     "hast-util-to-jsx-runtime": "^2.3.7",
     "intl-messageformat": "^12.1.4",
