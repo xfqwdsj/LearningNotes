@@ -19,8 +19,17 @@ import {
 } from "./render";
 import type { MarkdownFragment, MarkdownOptions, MarkdownValue } from "./types";
 const formatters: Formatters = {
-  getNumberFormat: (locales, options) =>
-    new Intl.NumberFormat(locales, options),
+  getNumberFormat: (locales, options) => {
+    const trailingZeroDisplay = options?.trailingZeroDisplay;
+    if (trailingZeroDisplay === "stripToMinimum")
+      throw new RangeError(
+        "Intl.NumberFormat does not support trailingZeroDisplay: stripToMinimum",
+      );
+    return new Intl.NumberFormat(locales, {
+      ...options,
+      trailingZeroDisplay,
+    });
+  },
   getDateTimeFormat: (locales, options) =>
     new Intl.DateTimeFormat(locales, { ...options, timeZone }),
   getPluralRules: (locales, options) => new Intl.PluralRules(locales, options),
