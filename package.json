@@ -43,7 +43,7 @@
     "hast-util-to-jsx-runtime": "^2.3.7",
     "intl-messageformat": "^12.2.0",
     "katex": "catalog:",
-    "lucide-react": "^1.77.0",
+    "lucide-react": "^1.78.0",
     "mdast-util-directive": "^3.2.0",
     "mdast-util-from-markdown": "^2.1.0",
     "mdast-util-gfm": "^3.1.0",
